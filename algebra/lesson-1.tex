@@ -1,0 +1,236 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\begin{document}
+
+    \title{Задача 1}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Найдите все максимальные линейно независимые подсистемы следующей системы векторов
+    \[
+        a_1 = \begin{pmatrix}
+                  2 \\ 1 \\ -3 \\ 1
+        \end{pmatrix}, \;
+        a_2 = \begin{pmatrix}
+                  2 \\ 2 \\ -6 \\ 2
+        \end{pmatrix}, \;
+        a_3 = \begin{pmatrix}
+                  6 \\ 3 \\ -9 \\ 3
+        \end{pmatrix}, \;
+        a_4 = \begin{pmatrix}
+                  1 \\ 1 \\ 1 \\ 1
+        \end{pmatrix}, \;
+    \]
+
+    \subsection*{Решение:}
+    Для краткости соберем векторы в матрицу и будем выполнять линейные преобразования над столбцами:
+    \[
+        \begin{array}{c}
+            \text{исходные векторы} \\
+            \begin{pmatrix}
+                2  & 2  & 6  & 1 \\
+                1  & 2  & 3  & 1 \\
+                -3 & -6 & -9 & 1 \\
+                1  & 2  & 3  & 1
+            \end{pmatrix}
+        \end{array}
+        \rightarrow
+        \begin{array}{c}
+            a_3 \leftarrow \left ( a_3 - a_1 - a_2 \right ) \frac{1}{2} \\
+            \begin{pmatrix}
+                2  & 2  & 1 & 1 \\
+                1  & 2  & 0 & 1 \\
+                -3 & -6 & 0 & 1 \\
+                1  & 2  & 0 & 1
+            \end{pmatrix}
+        \end{array}
+        \rightarrow
+        \begin{array}{c}
+            a_2 \leftarrow \left ( a_2 - 2 a_1 \right ) \left ( - \frac{1}{2} \right ) \\
+            \begin{pmatrix}
+                2  & 1 & 1 & 1 \\
+                1  & 0 & 0 & 1 \\
+                -3 & 0 & 0 & 1 \\
+                1  & 0 & 0 & 1
+            \end{pmatrix}
+        \end{array}
+    \]
+
+    \subsection*{Ответ:}
+    $a_1, a_2, a_4$ и $a_1, a_3, a_4$.
+
+    \subsection*{Пункт б}
+    Найдите какую-нибудь ФСР следующей ОСЛУ:
+    \[
+        \begin{pmatrix}
+            2 & -1 & 3 & -2 & 4 \\
+            4 & -2 & 5 & 1  & 7 \\
+            2 & -1 & 1 & 8  & 2
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\
+            x_2 \\
+            x_3 \\
+            x_4 \\
+            x_5
+        \end{pmatrix}
+        = 0
+    \]
+
+    \subsection*{Решение:}
+    Линейными преобразованиями над строками приводим матрицу системы в верхне-треугольному виду:
+    \[
+        \begin{pmatrix}
+            2 & -1 & 3 & -2 & 4 \\
+            4 & -2 & 5 & 1  & 7 \\
+            2 & -1 & 1 & 8  & 2
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            2 & -1 & 3  & -2 & 4  \\
+            0 & 0  & -6 & 5  & -1 \\
+            0 & 0  & -2 & 10 & -2
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            2 & -1 & 3  & -2 & 4  \\
+            0 & 0  & -6 & 5  & -1 \\
+            0 & 0  & 10 & 0  & 0
+        \end{pmatrix}
+    \]
+    Пусть переменные $x_1$ и $x_4$ являются свободными, а $x_2$, $x_3$, $x_5$ зависимыми, причём из последней строки следует, что $x_3 = 0$. Векторы $v_1$ и $v_2$, образующие ФСР, имеют
+    вид:
+    \[
+        v_1 =
+        \begin{pmatrix}
+            1 \\
+            2 \\
+            0 \\
+            0 \\
+            0
+        \end{pmatrix}
+        , \;
+        v_2 =
+        \begin{pmatrix}
+            0  \\
+            18 \\
+            0  \\
+            1  \\
+            5
+        \end{pmatrix}
+    \]
+
+    \subsection*{Ответ:}
+    $\left ( 1, 2, 0, 0, 0 \right )^T$, $\left ( 0, 18, 0, 1, 5 \right )^T$.
+
+    \section*{Пункт в}
+    Найдите ранг матрицы при различных значениях параметра $\lambda$:
+    \[
+        \begin{pmatrix}
+            1 & \lambda & -1      & 2 \\
+            2 & -1      & \lambda & 5 \\
+            1 & 10      & -6      & 1
+        \end{pmatrix}
+    \]
+
+    \subsection*{Решение:}
+    Преобразуем матрицу вычитанием первого столбца из всех остальных
+    \[
+        \begin{pmatrix}
+            1 & \lambda - 10 & 5            & 1 \\
+            2 & -21          & \lambda + 12 & 3 \\
+            1 & 0            & 0            & 0
+        \end{pmatrix}
+    \]
+    и вычитанием четвертого столбца из второго и третьего
+    \[
+        \begin{pmatrix}
+            1 & \lambda - 3 & 0           & 1 \\
+            2 & 0           & \lambda - 3 & 3 \\
+            1 & 0           & 0           & 0
+        \end{pmatrix}
+    \]
+
+    \subsection*{Ответ:}
+    Если $\lambda = 3$, то ранг равен 2, если $\lambda \neq 3$, то ранг равен 3.
+
+
+    \section*{Пункт г}
+    Составьте какую-нибудь ОСЛУ, для которой множество решений представляется в виде линейной оболочки следующих векторов:
+    \[
+        a_1 = \begin{pmatrix}
+                  1 \\ 1 \\ 1 \\ 1
+        \end{pmatrix}, \;
+        a_2 = \begin{pmatrix}
+                  1 \\ 1 \\ 1 \\ 3
+        \end{pmatrix}, \;
+        a_3 = \begin{pmatrix}
+                  3 \\ -5 \\ 7 \\ 2
+        \end{pmatrix}, \;
+        a_4 = \begin{pmatrix}
+                  1 \\ -7 \\ 5 \\ -2
+        \end{pmatrix}, \;
+    \]
+
+    \subsection*{Решение:}
+    Каждая строка $\left ( x_1, x_2, x_3, x_4 \right )$ матрицы искомой ОСЛУ должна удовлетворять равенству:
+    \[
+        \left ( x_1, x_2, x_3, x_4 \right )
+        \begin{pmatrix}
+            1 & 1 & 3  & 1  \\
+            1 & 1 & -5 & -7 \\
+            1 & 1 & 7  & 5  \\
+            1 & 3 & 2  & -2
+        \end{pmatrix}
+        = 0
+    \]
+
+    Преобразуем матрицу в левой части линейными операциями над столбцами:
+    \[
+        \begin{pmatrix}
+            1 & 1 & 3  & 1  \\
+            1 & 1 & -5 & -7 \\
+            1 & 1 & 7  & 5  \\
+            1 & 3 & 2  & -2
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 0  & 0  \\
+            1 & 0 & -8 & -8 \\
+            1 & 0 & 4  & 4  \\
+            1 & 2 & -1 & -3
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 0  & 0  \\
+            1 & 0 & -8 & 0  \\
+            1 & 0 & 4  & 0  \\
+            1 & 2 & -1 & -2
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 0  & 0 \\
+            1 & 0 & -8 & 0 \\
+            1 & 0 & 4  & 0 \\
+            1 & 2 & -1 & 0
+        \end{pmatrix}
+    \]
+    Пусть $x_3$ --- свободная переменная, $x_1$, $x_2$, $x_3$ --- зависимые. Из последней строки следует, что $x_4 = 0$, поэтому строки матрицы искомой ОСЛУ необходимо формировать
+    по правилу:
+    \[
+        \left ( x_1, x_2, x_3, x_4 \right ) = \left ( - 3 c, c, 2 c, 0 \right ) ,
+    \]
+    где $c$ --- произвольная постоянная.
+
+    \subsection*{Ответ:}
+    Строки матрицы ОСЛУ имеют вид: $\left ( -3 c, c, 2 c, 0 \right )$.
+\end{document}
+
