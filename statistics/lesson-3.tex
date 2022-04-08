@@ -1,0 +1,88 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №3}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 3.2}
+    Рассмотрим модель сдвига распределения Лапласа: плотность распределения элементов выборки есть $f_\theta(x) = \frac{1}{2} e^{-\modulus{x - \theta}}$, где параметр $\theta$ ---
+    неизвестное действительное число. Вычислить относительную асимптотическую эффективность $e_{MED,\overline{X}}$. Какая из оценок точнее в этой модели?
+
+    \subsection*{Решение:}
+    Асимптотическая дисперсия $\sigma_{MED}^2$ медианной оценки определяется теоремой:
+    \[
+        \sigma_{MED}^2
+        = \frac{1}{n} \frac{1}{4 f_\theta^2(x_\frac{1}{2})}
+        = \frac{1}{n} \frac{1}{4 f_\theta^2(\theta)}
+        = \frac{1}{n} \frac{1}{4 \left ( \frac{1}{2} \right )^2}
+        = \frac{1}{n} ,
+    \]
+    поскольку медиана совпадает с $\theta$.
+
+    Дисперсия среднего $\sigma_{\overline{X}}^2$:
+    \[
+        \sigma_{\overline{X}}^2
+        = \frac{1}{n^2} \sum_{i=1}^n 2
+        = \frac{1}{n^2} n 2
+        = \frac{2}{n} ,
+    \]
+    поскольку дисперсия случайной величины с плотностью вероятности $f_\theta(x)$ равна 2.
+
+    Асимптотическая эффективность:
+    \[
+        e_{MED,\overline{X}}
+        = \frac{\sigma_{MED}^2}{\sigma_{\overline{X}}^2}
+        = \frac{\frac{1}{n}}{\frac{2}{n}}
+        = \frac{1}{2}.
+    \]
+    Отсюда следует, что оценка $\overline{X}$ точнее медианной оценки.
+
+    \subsection*{Ответ:}
+    $e_{MED,\overline{X}} = \frac{1}{2}$, выборочное среднее точнее медианной оценки.
+
+    \section*{Задача 3.6}
+    В нормальной модели $\mathcal{N} \left ( \theta, 1 \right )$, найти ОМП и вычислить информацию Фишера.
+
+    \subsection*{Решение:}
+    Пусть $\xi_1$, \dots, $\xi_n$ --- выборка из распределения $\mathcal{N} \left ( \theta, 1 \right )$, тогда плотность вероятности выборки:
+    \[
+        f(x_1, \dots, x_n)
+        = \frac{1}{\left ( 2 \pi \right )^\frac{n}{2}} e^{-\frac{1}{2} \sum_{i=1}^n (x_i - \theta)^2}
+    \]
+    Функция правдоподобия:
+    \begin{gather*}
+        L(\xi_1, \dots, \xi_n) = f(\xi_1, \dots, \xi_n) , \\
+        \ln L(\xi_1, \dots, \xi_n) = \ln \frac{1}{\left ( 2 \pi \right )^\frac{n}{2}} - \frac{1}{2} \sum_{i=1}^n (\xi_i - \theta)^2 , \\
+        \derivative{\theta} \ln L(\xi_1, \dots, \xi_n) =  \sum_{i=1}^n (\xi_i - \theta) .
+    \end{gather*}
+    Отсюда ОМП оценка $\widehat{\theta}$:
+    \begin{gather*}
+        \left . \derivative{\theta} \ln L(\xi_1, \dots, \xi_n) \right |_{\theta = \widehat{\theta}} = 0 , \\
+        \sum_{i=1}^n (\xi_i - \widehat{\theta}) = 0 , \\
+        \widehat{\theta} = \frac{1}{n} \sum_{i=1}^n \xi_i .
+    \end{gather*}
+    Информация Фишера $I(\theta)$:
+    \[
+        I(\theta)
+        = - \expectation{\Kderivative{2}{\theta} \ln L(\xi_1, \dots, \xi_n)}
+        = - \expectation{\sum_{i=1}^n (-1)}
+        = n .
+    \]
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item ОМП оценка $\frac{1}{n} \sum_{i=1}^n \xi_i$,
+        \item информация Фишера $n$.
+    \end{enumerate}
+\end{document}
