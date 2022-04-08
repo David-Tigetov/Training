@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №2}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 2.1}
+    Доказать непосредственно из определения, что $\widehat{\theta} = \min \set{X_1, \dots, X_n}$ служит состоятельной оценкой параметра $\theta$ в модели с функцией распределения
+    $F_\theta(x) = 1 - e^{-(x-\theta)}$ при $x > \theta$.
+
+    \subsection*{Решение:}
+    Пусть $F_{\widehat{\theta}}(y)$ --- функция распределения оценки $\widehat{\theta}$:
+    \begin{multline*}
+        F_{\widehat{\theta}}(y)
+        = \probability{\widehat{\theta} < y}
+        = 1 - \probability{\widehat{\theta} \ge y}
+        = 1 - \probability{\min \set{X_1, \dots, X_n} \ge y} = \\
+        %
+        = 1 - \probability{X_1 \ge y, \dots, X_n \ge y}
+        = 1 - \probability{X_1 \ge y} \cdot ... \cdot \probability{X_n \ge y} = \\
+        %
+        = 1 - \left ( 1 - F_\theta(y) \right )^n .
+    \end{multline*}
+    Пусть $\varepsilon$ --- произвольное положительное число, вычислим вероятность отклонения:
+    \begin{multline*}
+        \probability{\modulus{\widehat{\theta} - \theta} \le \varepsilon}
+        = \probability{- \varepsilon \le \widehat{\theta} - \theta \le \varepsilon}
+        = \probability{\theta - \varepsilon \le \widehat{\theta} \le \theta + \varepsilon}
+        = F_{\widehat{\theta}}(\theta + \varepsilon) - F_{\widehat{\theta}}(\theta - \varepsilon) = \\
+        %
+        = 1 - \left ( 1 - F_\theta(\theta + \varepsilon) \right )^n - \left ( 1 - \left ( 1 - F_\theta(\theta - \varepsilon) \right )^n \right ) = \\
+        %
+        = 1 - \left ( 1 - F_\theta(\theta + \varepsilon) \right )^n - \left ( 1 - \left ( 1 - 0 \right )^n \right ) = \\
+        %
+        = 1 - \left ( 1 - F_\theta(\theta + \varepsilon) \right )^n
+        = 1 - \left ( 1 - 1 + e^{-(\theta + \varepsilon - \theta)} \right )^n
+        = 1 - e^{-n\varepsilon}.
+    \end{multline*}
+    Отсюда
+    \[
+        \probability{\modulus{\widehat{\theta} - \theta} > \varepsilon}
+        = 1 - \probability{\modulus{\widehat{\theta} - \theta} \le \varepsilon}
+        = 1 - 1 + e^{-n\varepsilon}
+        = e^{-n\varepsilon}
+        \rightarrow 0
+        \text{, при } n \rightarrow \infty.
+    \]
+    Это по определению означает состоятельность оценки $\widehat{\theta}$.
+
+    \section*{Задача 2.5}
+    Доказать, что квадратичный риск произвольной оценки $\widehat{\theta}$ равен сумме $\variance{\widehat{\theta}} + b_n^2$, где $b_n = \expectation{\widehat{\theta}} - \theta$ ---
+    смещение оценки $\widehat{\theta}$. Используя эту формулу и неравенство Чебышёва:
+    \[
+        \forall \varepsilon > 0 : \probability{\modulus{\xi} > \varepsilon} \le \frac{\expectation{\xi^2}}{\varepsilon^2},
+    \]
+    доказать следующую лемму о состоятельности (п. 3 темы 2.1): если дисперсия и смещение оценки стремятся к 0, то оценка состоятельна.
+
+    \subsection*{Решение:}
+    По определению квадратичного риска:
+    \begin{multline*}
+        R(\theta)
+        = \expectation{\left ( \widehat{\theta} - \theta \right )^2}
+        = \expectation{\left ( \widehat{\theta} - \expectation{\widehat{\theta}} + \expectation{\widehat{\theta}} - \theta \right )^2} = \\
+        %
+        = \expectation{\left ( \widehat{\theta} - \expectation{\widehat{\theta}} \right )^2 + 2 \left ( \widehat{\theta} - \expectation{\widehat{\theta}} \right ) \left ( \expectation{\widehat{\theta}} - \theta \right ) + \left ( \expectation{\widehat{\theta}} - \theta \right )^2} = \\
+        %
+        = \expectation{\left ( \widehat{\theta} - \expectation{\widehat{\theta}} \right )^2} + 2 \left ( \expectation{\widehat{\theta}} - \expectation{\widehat{\theta}} \right ) \left ( \expectation{\widehat{\theta}} - \theta \right ) + \left ( \expectation{\widehat{\theta}} - \theta \right )^2
+        = \variance{\widehat{\theta}} + b_n^2 .
+    \end{multline*}
+
+    Пусть $\varepsilon > 0$ --- произвольное положительное число, тогда применение неравенства Чебышёва к величине $\widehat{\theta} - \theta$ приводит к неравенству:
+    \[
+        \probability{\modulus{\widehat{\theta} - \theta} > \varepsilon}
+        \le \frac{\expectation{\left ( \widehat{\theta} - \theta \right )^2}}{\varepsilon^2}
+        = \frac{\variance{\widehat{\theta}} + b_n^2}{\varepsilon^2}
+        \rightarrow 0 ,
+    \]
+    если $\variance{\widehat{\theta}} \rightarrow 0$ и $b_n \rightarrow 0$ при $n \rightarrow \infty$.
+\end{document}
