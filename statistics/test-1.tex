@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{wasysym}
+
+\include{commands}
+
+\begin{document}
+    \title{Тест 1}
+    \author{Тигетов Давид}
+    \date{}
+    \maketitle
+
+    \section*{Вопрос 1}
+    Какими свойствами обладает произвольная функция распределения?
+
+    \subsection*{Ответ:}
+    Пусть $F(x)$ --- функция распределения, тогда
+    \begin{enumerate}
+        \item $\forall x: 0 \le F(x) \le 1$,
+        \item $\lim \limits_{x \rightarrow - \infty}$ F(x) = 0,
+        \item $\lim \limits_{x \rightarrow + \infty}$ F(x) = 1,
+        \item $x_1 \le x_2 \Rightarrow F(x_1) \le F(x_2)$.
+    \end{enumerate}
+
+    \section*{Вопрос 9}
+    Чему равна нижняя выборочная квартиль для выборки с элементами 1, 3, 7?
+
+    \subsection*{Ответ:}
+    $\frac{1+3}{2} = 2.$
+
+    \section*{Вопрос 17}
+    Будет ли асимптотически нормальной выборочная медиана в модели сдвига закона Коши?
+
+    \subsection*{Ответ:}
+    Да.
+
+    По теореме (Крамер) выборочная медиана является асимпотически нормальной, поскольку плотность вероятности распределения Коши:
+    \[
+        f(x) = \frac{1}{\pi b \left ( 1 + \left ( \frac{x - a}{b} \right )^2 \right )} > 0
+    \]
+    положительна в точке медианы, равной параметру сдвига $a$.
+
+    \section*{Вопрос 25}
+    Чему равна информация Фишера в модели сдвига нормального распределения с известной дисперсией?
+
+    \subsection*{Ответ:}
+    Пусть $\xi$ --- случайная величина, имеющая нормальное распределение $\mathcal{N} \left ( m, \sigma \right)$, тогда функция плотности вероятности величины $\xi$:
+    \[
+        f_\xi(x;m) = \frac{1}{\sqrt{2 \pi} \sigma} e^{- \frac{1}{2} \frac{\left ( x-m \right)^2}{\sigma^2}}.
+    \]
+    Откуда
+    \begin{gather}
+        \ln f_\xi(x;m) = \ln \left ( \frac{1}{\sqrt{2 \pi} \sigma} \right ) - \frac{1}{2} \frac{\left ( x-m \right)^2}{\sigma^2} , \\
+        \derivative{m} f_\xi(x;m) =  - \frac{1}{2} \frac{2 \left ( x-m \right ) (-1)}{\sigma^2} = \frac{x-m}{\sigma^2} .
+    \end{gather}
+    Информация Фишера $I(m)$:
+    \[
+        I(m)
+        = \expectation{\left ( \derivative{m} f_\xi(\xi;m) \right )^2}
+        = \expectation{\left ( \frac{\xi-m}{\sigma^2} \right )^2}
+        = \frac{\expectation{\left ( \xi - m \right )^2}}{\sigma^4}
+        = \frac{\sigma^2}{\sigma^4}
+        = \frac{1}{\sigma^2}.
+    \]
+
+    \section*{Будет ли конечным математическое ожидание числа шагов в критерии Вальда?}
+    \subsection*{Ответ:}
+    В некоторых случаях будет.
+
+    Например, в случае когда для случайной величины ($\xi_i$ --- последовательность наблюдений)
+    \[
+        Z_i = \ln \left ( \frac{f(\xi_i; \theta_0)}{f(\xi_i; \theta_1)} \right )
+    \]
+    выполняются условия:
+    \begin{enumerate}
+        \item $\expectation{Z_i} \neq 0$,
+        \item $0 < \variance{Z_i} < \infty$.
+    \end{enumerate}
+\end{document}
