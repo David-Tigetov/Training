@@ -16,43 +16,35 @@
     \maketitle
 
     \section*{Задача 1.4}
-    Пусть $\xi_1$, $\xi_2$, \dots --- независимые случайные величины, имеющие распределение Бернулли $B(m, p)$. Положим $S_n = \xi_1 + \dots + \xi_n$. Найти $p_i = \probability{S_n = i}$
+    Пусть $\xi_1$, $\xi_2$, \dots --- независимые случайные величины, имеющие распределение Бернулли с вероятностью $p$. Положим $S_n = \xi_1 + \dots + \xi_n$. Найти $p_i = \probability{S_n = i}$
     для $i = 0, 1, \dots, n$ и вычислить $\expectation{S_n}$.
 
     \subsection*{Решение:}
-    Каждую величину $\xi_i$ представим в виде суммы индикаторных случайных величин $\eta_{i,j}$ ($j=\overline{1,m}$), принимающих значение 1 с вероятностью $p$ и 0 с вероятностью $1-p$:
+    Сумма $S_n$ равна $i$, если среди величин $\xi_k$ ровно $i$ принимают значения 1 и $n-i$ принимают значение 0, поэтому
     \[
-        \eta_{i,j}
-        = \left \{
-        \begin{array}{ll}
-            0, & \text{с вероятностью } 1-p \\
-            1, & \text{с вероятностью } p
-        \end{array}
-        \right .
+        p_i
+        = \probability{S_n = i}
+        = C_n^i p^i (1-p)^{n-i}
         .
     \]
-    Случайные величины $\xi_i$ представим в виде сумм:
+    Математическое ожидание величин $\xi_i$ найдем по определению
     \[
-        \xi_i = \sum_{j=1}^m \eta_{i,j} ,
+        \expectation{\xi_i} = 0 \cdot (1-p) + 1 \cdot p = p,
     \]
-    тогда величины $S_n$ имеют вид:
+    а для величин $S_n$, используя свойство линейности математического ожидания:
     \[
-        S_n = \sum_{i=1}^n \xi_i = \sum_{i=1}^n \sum_{j=1}^m \eta_{i,j} .
-    \]
-    Величины $\xi_i$ по условию являются независимыми, отсюда все величины $\eta_{i,j}$ также являются независимыми, поэтому величины $S_n$ имеют распределение Бернулли $B(nm, p)$.
-    Следовательно,
-    \[
-        \probability{S_n = i} = C_{nm}^i p^i (1-p)^{nm-i} ,
-    \]
-    и математическое ожидание
-    \[
-        \expectation{S_n} = n m p.
+        \expectation{S_n}
+        = \expectation{\sum_{i=1}^n \xi_i}
+        = \sum_{i=1}^n \expectation{\xi_i}
+        = \sum_{i=1}^n p
+        = n \cdot p
+        .
     \]
 
     \subsection*{Ответ:}
     \begin{enumerate}
-        \item $\probability{S_n = i} = C_{nm}^i p^i (1-p)^{nm-i}$,
-        \item $\expectation{S_n} = n m p$.
+        \item $\probability{S_n = i} = C_n^i p^i (1-p)^{m-i}$,
+        \item $\expectation{S_n} = n p$.
     \end{enumerate}
 
 \end{document}
