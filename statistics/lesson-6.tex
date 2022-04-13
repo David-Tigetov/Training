@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №5}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 6.4}
+    $X_i \sim \mathcal{N} \left ( \theta, \sigma^2 \right )$, $H_0: \theta = \theta_0$, $H_1: \theta = \theta_1$, где $\theta_1 > \theta_0$, параметр $\sigma$ известен. Найдите размер
+    $n^*$ выборки, обеспечивающий заданные вероятности $\alpha$ и $\beta$ ошибок I и II рода для наиболее мощного критерия.
+
+    \subsection*{Решение:}
+    Плотность вероятности $f_X(x_1, \dots, x_n)$ выборки:
+    \[
+        f_X(x_1, \dots, x_n | \theta) = \frac{1}{\left ( 2 \pi \right )^{\frac{n}{2}} \sigma^n} e^{-\frac{1}{2 \sigma^2} \sum_{i=1}^n \left ( x_i - \theta \right )^2}.
+    \]
+    Отношение правдоподобия:
+    \begin{multline*}
+        S(x_1, \dots, x_n)
+        = \frac{f_X(x_1, \dots, x_n | \theta_1)}{f_X(x_1, \dots, x_n | \theta_0)}
+        = \frac{\frac{1}{\left ( 2 \pi \right )^{\frac{n}{2}} \sigma^n} e^{-\frac{1}{2 \sigma^2} \sum_{i=1}^n \left ( x_i - \theta_1 \right )^2}}{\frac{1}{\left ( 2 \pi \right )^{\frac{n}{2}} \sigma^n} e^{-\frac{1}{2 \sigma^2} \sum_{i=1}^n \left ( x_i - \theta_0 \right )^2}}
+        = e^{- \frac{1}{2 \sigma^2} \sum_{i=1}^n \left ( \left ( x_i - \theta_1 \right )^2 - \left ( x_i - \theta_0 \right )^2 \right )} = \\
+        %
+        = e^{- \frac{1}{2 \sigma^2} \sum_{i=1}^n \left ( - 2 x_i \theta_1 + \theta_1^2 + 2 x_i \theta_0 - \theta_0^2 \right )}
+        = e^{- \frac{1}{2 \sigma^2} \left ( - 2 \left ( \theta_1 - \theta_0 \right ) \sum_{i=1}^n x_i + n \left ( \theta_1^2 - \theta_0^2 \right ) \right )}
+    \end{multline*}
+    Гритическая область $G$ образована точками, в которых выполняется неравенство
+    \begin{gather*}
+        S(x_1, \dots, x_n) \ge c , \\
+        e^{- \frac{1}{2 \sigma^2} \left ( - 2 \left ( \theta_1 - \theta_0 \right ) \sum_{i=1}^n x_i + n \left ( \theta_1^2 - \theta_0^2 \right ) \right )} \ge c , \\
+        - \frac{1}{2 \sigma^2} \left ( - 2 \left ( \theta_1 - \theta_0 \right ) \sum_{i=1}^n x_i + n \left ( \theta_1^2 - \theta_0^2 \right ) \right ) \ge \ln c , \\
+        \left ( \theta_1 - \theta_0 \right ) \sum_{i=1}^n x_i - \frac{n}{2} \left ( \theta_1^2 - \theta_0^2 \right ) \right ) \ge \sigma^2 \ln c , \\
+        \sum_{i=1}^n x_i \ge \frac{\sigma^2 \ln c + \frac{n}{2} \left ( \theta_1^2 - \theta_0^2 \right )}{\theta_1 - \theta_0} , \\
+        \sum_{i=1}^n x_i \ge \frac{\sigma^2 \ln c}{\theta_1 - \theta_0} + \frac{n}{2} \left ( \theta_1 + \theta_0 \right ) , \\
+        \frac{1}{n} \sum_{i=1}^n x_i \ge \frac{\sigma^2 \ln c}{n \left ( \theta_1 - \theta_0 \right )} + \frac{1}{2} \left ( \theta_1 + \theta_0 \right ) = T(c, n).
+    \end{gather*}
+
+    Порог $c$ и количество $n$ выбираются из условий ($u_{1-\alpha}$ и $u_\beta$ --- квантили $\mathcal{N}(0,1)$ уровней $1 - \alpha$ и $\beta$):
+    \begin{gather*}
+        \left \{
+        \begin{array}{rcl}
+            \conditionalprobability{S(x_1, \dots, x_n) \ge c}{\theta_0} & = & \alpha \\
+            \conditionalprobability{S(x_1, \dots, x_n) < c}{\theta_1}   & = & \beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            \conditionalprobability{\frac{1}{n} \sum_{i=1}^n x_i \ge T(c, n)}{\theta_0} & = & \alpha \\
+            \conditionalprobability{\frac{1}{n} \sum_{i=1}^n x_i < T(c, n)}{\theta_1}   & = & \beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            1 - \Phi \left ( \frac{T(c,n) - \theta_0}{\frac{\sigma}{\sqrt{n}}} \right ) & = & \alpha \\
+            \Phi \left ( \frac{T(c,n) - \theta_1}{\frac{\sigma}{\sqrt{n}}} \right )     & = & \beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            \frac{T(c,n) - \theta_0}{\frac{\sigma}{\sqrt{n}}} & = & u_{1-\alpha} \\
+            \frac{T(c,n) - \theta_1}{\frac{\sigma}{\sqrt{n}}} & = & u_\beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            \frac{\frac{\sigma^2 \ln c}{n \left ( \theta_1 - \theta_0 \right )} + \frac{1}{2} \left ( \theta_1 + \theta_0 \right ) - \theta_0}{\frac{\sigma}{\sqrt{n}}} & = & u_{1-\alpha} \\
+            \frac{\frac{\sigma^2 \ln c}{n \left ( \theta_1 - \theta_0 \right )} + \frac{1}{2} \left ( \theta_1 + \theta_0 \right ) - \theta_1}{\frac{\sigma}{\sqrt{n}}} & = & u_\beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            \frac{\frac{\sigma^2 \ln c}{n \left ( \theta_1 - \theta_0 \right )} + \frac{1}{2} \left ( \theta_1 - \theta_0 \right )}{\frac{\sigma}{\sqrt{n}}} & = & u_{1-\alpha} \\
+            \frac{\frac{\sigma^2 \ln c}{n \left ( \theta_1 - \theta_0 \right )} - \frac{1}{2} \left ( \theta_1 - \theta_0 \right )}{\frac{\sigma}{\sqrt{n}}} & = & u_\beta
+        \end{array}
+        \right . , \\
+        %
+        \left \{
+        \begin{array}{rcl}
+            \frac{\sigma \ln c}{\theta_1 - \theta_0} + \frac{1}{2} \frac{\theta_1 - \theta_0}{\sigma} n & = & u_{1-\alpha} \sqrt{n} \\
+            \frac{\sigma \ln c}{\theta_1 - \theta_0} - \frac{1}{2} \frac{\theta_1 - \theta_0}{\sigma} n & = & u_\beta \sqrt{n}
+        \end{array}
+        \right . , \\
+        %
+        \frac{\theta_1 - \theta_0}{\sigma} n = u_{1-\alpha} \sqrt{n} - u_\beta \sqrt{n} , \\
+        \frac{\theta_1 - \theta_0}{\sigma} \sqrt{n} = u_{1-\alpha} - u_\beta, \\
+        \sqrt{n} = \frac{\sigma}{\theta_1 - \theta_0} \left ( u_{1-\alpha} - u_\beta \right )
+    \end{gather*}
+
+    \subsection*{Ответ:}
+    $n^* \ge \left ( \frac{\sigma}{\theta_1 - \theta_0} \left ( u_{1-\alpha} - u_\beta \right ) \right )^2$.
+
+    \section*{Задача 6.8}
+    Докажите, что при выполнении приведённых выше условий 1 и 2 критерий Неймана--Пирсона является строго несмещённым.
+
+    \subsection*{Решение:}
+    Мощность $W$ для критерия Неймана--Пирсона:
+    \[
+        W
+        = \int \limits_{x \in G^*} p_1(x) dx
+        \ge \int \limits_{x \in G^*} c_\alpha p_0(x) dx
+        = c_\alpha \int \limits_{x \in G^*} p_0(x) dx
+        = c_\alpha \alpha .
+    \]
+    Однако, вовсе не обязательно, что $c_\alpha > 1$.
+\end{document}
