@@ -5,6 +5,7 @@
 \usepackage[english,russian]{babel}
 \usepackage[margin=2cm]{geometry}
 \usepackage{amsmath}
+\usepackage{xcolor}
 
 \begin{document}
 
@@ -44,9 +45,9 @@
         \end{array}
         \rightarrow
         \begin{array}{c}
-            a_3 \leftarrow \left ( a_3 - a_1 - a_2 \right ) \frac{1}{2} \\
+            a_3 \leftarrow a_3 - 3 a_1 \\
             \begin{pmatrix}
-                2  & 2  & 1 & 1 \\
+                2  & 2  & 0 & 1 \\
                 1  & 2  & 0 & 1 \\
                 -3 & -6 & 0 & 1 \\
                 1  & 2  & 0 & 1
@@ -56,7 +57,7 @@
         \begin{array}{c}
             a_2 \leftarrow \left ( a_2 - 2 a_1 \right ) \left ( - \frac{1}{2} \right ) \\
             \begin{pmatrix}
-                2  & 1 & 1 & 1 \\
+                2  & 1 & 0 & 1 \\
                 1  & 0 & 0 & 1 \\
                 -3 & 0 & 0 & 1 \\
                 1  & 0 & 0 & 1
@@ -65,7 +66,7 @@
     \]
 
     \subsection*{Ответ:}
-    $a_1, a_2, a_4$ и $a_1, a_3, a_4$.
+    $a_1, a_2, a_4$ и $\textcolor{blue}{a_2}, a_3, a_4$.
 
     \subsection*{Пункт б}
     Найдите какую-нибудь ФСР следующей ОСЛУ:
@@ -230,7 +231,9 @@
     \]
     где $c$ --- произвольная постоянная.
 
+    \textcolor{blue}{Самая простая ОСЛУ состоит из одного уравнения.}
+
     \subsection*{Ответ:}
-    Строки матрицы ОСЛУ имеют вид: $\left ( -3 c, c, 2 c, 0 \right )$.
+    $\color{blue} -3 y_1 + y_2 + 2 y_3 = 0 $.
 \end{document}
 
