@@ -1,0 +1,44 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №5}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 5.2}
+    В 10 испытаниях Бернулли случилось 8 "успехов"{} (появлений 1). Принимается или отвергается на уровне значимости 0.05 гипотеза $H: p = \frac{1}{2}$ при проверке с помощью критерия,
+    статистикой которого служит число "успехов".
+
+    \subsection*{Решение:}
+    Пусть величины $X_1, \dots, X_{10}$ обозначают результаты испытаний. Статистика $S$ количества "успехов"
+    \[
+        S = \sum_{i=1}^n X_i \sim B(n,p)
+    \]
+    имеет биномиальное распределение.
+
+    Вычислим вероятность получения 8 и более успехов при $p = \frac{1}{2}$:
+    \begin{multline*}
+        \probability{S \ge 8}
+        = \probability{S = 8} + \probability{S = 9} + \probability{S = 10} = \\
+        %
+        = C_{10}^8 p^8 (1-p)^2 + C_{10}^9 p^9 (1-p) + C_{10}^{10} p^{10}
+        = \frac{10 \cdot 9}{2} \frac{1}{2^{10}} + 9 \frac{1}{2^{10}} + \frac{1}{2^{10}}
+        = 55 \frac{1}{2^{10}}
+        \approx 0.0537 .
+    \end{multline*}
+    Получилось больше, чем уровень значимости 0.05, поэтому гипотеза $H$ принимается.
+
+    \subsection*{Ответ:}
+    Принимается.
+
+\end{document}
