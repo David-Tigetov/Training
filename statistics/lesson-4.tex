@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №4}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 4.1}
+    Вычислить квадратичный риск байесовской оценки из п.3 с $a = b = \frac{\sqrt{n}}{2}$. Сравнить её с оценкой Ходжеса-Лемана из п.3 темы 2.2.
+
+    \subsection*{Решение:}
+    Байесовская оценка $\widehat{\theta}$ имеет вид:
+    \[
+        \widehat{\theta} = \frac{a}{a + b + n} + \frac{1}{a + b + n} \sum_{i=1}^n X_i,
+    \]
+    где $X_1, \dots, X_n$ --- выборка из распределения Бернулли.
+
+    Функция квадратичного риска $R(\theta)$ имеет вид:
+    \[
+        R(\theta)
+        = \expectation{\left ( \widehat{\theta} - \theta \right )^2}
+        = \variance{\widehat{\theta}}
+        + \left ( \expectation{\widehat{\theta}} - \theta \right )^2 ,
+    \]
+    где
+    \begin{gather*}
+        \variance{\widehat{\theta}}
+        = \frac{1}{\left ( a + b + n \right )^2} \sum_{i=1}^n \variance{X_i}
+        = \frac{n}{\left ( a + b + n \right )^2} \theta \left ( 1 - \theta \right ), \\
+        %
+        \expectation{\widehat{\theta}}
+        = \frac{a}{a + b + n} + \frac{1}{a + b + n} \sum_{i=1}^n \expectation{X_i}
+        = \frac{a}{a + b + n} + \frac{n}{a + b + n} \theta
+    \end{gather*}
+    При $a = b = \frac{\sqrt{n}}{2}$:
+    \begin{gather*}
+        \variance{\widehat{\theta}}
+        = \frac{n}{\left ( \frac{\sqrt{n}}{2} + \frac{\sqrt{n}}{2} + n \right )^2} \theta \left ( 1 - \theta \right )
+        = \frac{n}{n \left ( 1 + \sqrt{n} \right )^2} \theta \left ( 1 - \theta \right )
+        = \frac{\theta \left ( 1 - \theta \right )}{\left ( 1 + \sqrt{n} \right )^2}, \\
+        %
+        \expectation{\widehat{\theta}}
+        = \frac{\frac{\sqrt{n}}{2}}{\frac{\sqrt{n}}{2} + \frac{\sqrt{n}}{2} + n} + \frac{n}{\frac{\sqrt{n}}{2} + \frac{\sqrt{n}}{2} + n} \theta
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} + \frac{\sqrt{n}}{1 + \sqrt{n}} \theta , \\
+        %
+        \expectation{\widehat{\theta}} - \theta
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} + \frac{\sqrt{n}}{1 + \sqrt{n}} \theta - \theta
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} - \frac{\theta}{1 + \sqrt{n}}
+        = \frac{\frac{1}{2} - \theta}{1 + \sqrt{n}} .
+    \end{gather*}
+
+    Таким образом, функция квадратичного риска
+    \[
+        R(\theta)
+        = \frac{\theta \left ( 1 - \theta \right )}{\left ( 1 + \sqrt{n} \right )^2}
+        + \frac{\left ( \frac{1}{2} - \theta \right )^2}{\left ( 1 + \sqrt{n} \right )^2}
+        = \frac{\theta - \theta^2 + \frac{1}{4} - \theta + \theta^2}{\left ( 1 + \sqrt{n} \right )^2}
+        = \frac{\frac{1}{4}}{\left ( 1 + \sqrt{n} \right )^2} .
+    \]
+
+    При $a = b = \frac{\sqrt{n}}{2}$ байесовская оценка имеет вид:
+    \[
+        \widehat{\theta}
+        = \frac{\frac{\sqrt{n}}{2}}{\frac{\sqrt{n}}{2} + \frac{\sqrt{n}}{2} + n} + \frac{1}{\frac{\sqrt{n}}{2} + \frac{\sqrt{n}}{2} + n} \sum_{i=1}^n X_i
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} + \frac{1}{1 + \sqrt{n}} \frac{1}{\sqrt{n}} \sum_{i=1}^n X_i
+    \]
+    а оценка Ходжеса-Лемана имеет вид:
+    \begin{multline*}
+        \widetilde{\theta}
+        = \frac{1}{n} \sum_{i=1}^n X_i + \frac{1}{1 + \sqrt{n}} \left ( \frac{1}{2} - \frac{1}{n} \sum_{i=1}^n X_i \right )
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} + \frac{\sqrt{n}}{1 + \sqrt{n}} \frac{1}{n} \sum_{i=1}^n X_i = \\
+        %
+        = \frac{\frac{1}{2}}{1 + \sqrt{n}} + \frac{1}{1 + \sqrt{n}} \frac{1}{\sqrt{n}} \sum_{i=1}^n X_i
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    Функция квадратичного риска $R(\theta) = \frac{\frac{1}{4}}{\left ( 1 + \sqrt{n} \right )^2}$. Байесовкая оценка совпадает с оценкой Ходжеса--Лемана.
+
+    \section*{Задача 4.5}
+    Пусть $t > 0 $. Найти байесовскую оценку для функции надёжности $\varphi(\theta) = \probability{X_i > t} = e^{-t \theta}$ в условиях задачи 4.2.
+
+    \subsection*{Решение:}
+    Плотности вероятности $f_{X_i}(x | \theta)$ величин $X_i$:
+    \[
+        f_{X_i}(x | \theta) = \theta e^{- \theta x} I_{\left ( 0, + \infty\right )}(x) .
+    \]
+    Плотность вероятности $f_X(x_1, \dots, x_n | \theta)$ выборки $X_1, \dots, X_n$:
+    \[
+        f_X(x_1, \dots, x_n | \theta) = \theta^n e^{- \theta \sum_{i=1}^n x_i} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) .
+    \]
+    Совместная плотность $X_1, \dots, X_n$ и $\widetilde{\theta}$:
+    \begin{multline*}
+        f_{X,\widetilde{\theta}}(x_1, \dots, x_n, \theta)
+        = f_X(x_1, \dots, x_n | \theta) \cdot q_{\widetilde{\theta}}(\theta) = \\
+        %
+        = \theta^n e^{- \theta \sum_{i=1}^n x_i} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) \cdot \frac{\sigma^p \theta^{p-1} e^{-\sigma \theta}}{\Gamma(p)} I_{\left ( 0, + \infty\right )}(\theta) = \\
+        %
+        = \frac{\sigma^p}{\Gamma(p)} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta } I_{\left ( 0, + \infty\right )}(\theta) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+    \end{multline*}
+    Апостериорная плотность вероятности:
+    \[
+        q_{\widetilde{\theta}}(\theta | x_1, \dots, x_n) = \frac{f_{X,\widetilde{\theta}}(x_1, \dots, x_n, \theta)}{\int \limits_0^{+ \infty} f_{X,\widetilde{\theta}}(x_1, \dots, x_n, \theta) d \theta} ,
+    \]
+    где
+    \begin{multline*}
+        \int \limits_0^{+ \infty} f_{X,\widetilde{\theta}}(x_1, \dots, x_n, \theta) d \theta
+        = \int \limits_0^{+ \infty} \frac{\sigma^p}{\Gamma(p)} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta } d \theta \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+        %
+        = \frac{\sigma^p}{\Gamma(p)} \frac{1}{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}} \int \limits_0^{+ \infty} \left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta } d \theta \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+        %
+        = \frac{\sigma^p}{\Gamma(p)} \frac{\Gamma(n+p)}{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) .
+    \end{multline*}
+    Тогда апостериорная плотность:
+    \begin{multline*}
+        q_{\widetilde{\theta}}(\theta | x_1, \dots, x_n)
+        = \frac{\frac{\sigma^p}{\Gamma(p)} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta } I_{\left ( 0, + \infty\right )}(\theta) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i)}{\frac{\sigma^p}{\Gamma(p)} \frac{\Gamma(n+p)}{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i)} = \\
+        %
+        = \frac{\theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta }}{\frac{\Gamma(n+p)}{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}}} I_{\left ( 0, + \infty\right )}(\theta) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+        = \frac{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta }}{\Gamma(n+p)} I_{\left ( 0, + \infty\right )}(\theta) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) .
+    \end{multline*}
+
+    Байесовская оценка надёжности:
+    \begin{multline*}
+        \widetilde{\varphi}
+        = \int \limits_0^{+\infty} e^{-t \theta} \frac{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma \right ) \theta }}{\Gamma(n+p)} I_{\left ( 0, + \infty\right )}(\theta) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) d \theta = \\
+        %
+        = \frac{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}}{\Gamma(n+p)} \frac{1}{\left ( \sum_{i=1}^n x_i + \sigma + t \right )^{n+p}} \int \limits_0^{+\infty} \left ( \sum_{i=1}^n x_i + \sigma + t \right )^{n+p} \theta^{n+p-1} e^{- \left ( \sum_{i=1}^n x_i + \sigma +t \right ) \theta} d \theta \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+        %
+        = \frac{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}}{\Gamma(n+p)} \frac{1}{\left ( \sum_{i=1}^n x_i + \sigma + t \right )^{n+p}} \Gamma(n+p) \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) = \\
+        %
+        = \frac{\left ( \sum_{i=1}^n x_i + \sigma \right )^{n+p}}{\left ( \sum_{i=1}^n x_i + \sigma + t \right )^{n+p}} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i)
+        = \left ( \frac{\sum_{i=1}^n x_i + \sigma}{\sum_{i=1}^n x_i + \sigma + t} \right )^{n+p} \prod_{i=1}^n I_{\left ( 0, + \infty\right )}(x_i) .
+    \end{multline*}
+    Таким образом,
+    \[
+        \varphi(X_1, \dots, X_n)
+        = \left ( \frac{\sum_{i=1}^n X_i + \sigma}{\sum_{i=1}^n X_i + \sigma + t} \right )^{n+p}
+        = \left ( \frac{1}{1 + \frac{t}{\sum_{i=1}^n X_i + \sigma}} \right )^{n+p}.
+    \]
+
+    \subsection*{Ответ:}
+    $\left ( \frac{1}{1 + \frac{t}{\sum_{i=1}^n X_i + \sigma}} \right )^{n+p}$.
+\end{document}
