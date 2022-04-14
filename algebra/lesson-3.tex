@@ -1,0 +1,534 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+
+\begin{document}
+
+    \title{Задача 3}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт г}
+    $V_2 = \left < a, b, c \right >$:
+    \[
+        a =
+        \begin{pmatrix}
+            1 \\ -1 \\ 1 \\ -1 \\ 0 \\ 0
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            -5 \\ 1 \\ -1 \\ -1 \\ 2 \\ 1
+        \end{pmatrix},
+        c =
+        \begin{pmatrix}
+            2 \\ 2 \\ 0 \\ 2 \\ -1 \\ 0
+        \end{pmatrix} .
+    \]
+    Проверьте, что $V_2$ содержится в $V$ и $a$, $b$, $c$ --- базис в $V_2$. Дополните $a$, $b$, $c$ до базиса в $V$:
+    \[
+        V: 2 x_1 + 2 x_2 - 5 x_3 - 5 x_4 - 2 x_5 + 2 x_6 = 0
+    \]
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item
+        Проверим, что $V_2 \subset V$ --- подставим векторы $a$, $b$, $c$ в уравнение для $V$:
+        \begin{align*}
+            a: & \; 2 \cdot 1 + 2 \cdot (-1) - 5 \cdot 1 - 5 \cdot (-1) = 2 - 2 - 5 + 5 = 0, \\
+            b: & \; 2 \cdot (-5) + 2 \cdot 1 - 5 \cdot (-1) - 5 \cdot (-1) - 2 \cdot 2 + 2 \cdot 1 = -10 + 2 + 5 + 5 - 4 + 2 = 0, \\
+            c: & \; 2 \cdot 2 + 2 \cdot 2 - 5 \cdot 2 - 2 \cdot (-1) = 4 + 4 - 10 + 2 = 0 .
+        \end{align*}
+
+        \item
+        Покажем, что $a$, $b$, $c$ --- базис в $V_2$: $V_2$ --- линейная оболочка, поэтому любой вектор в $V_2$ выражается через $a$, $b$, $c$, и эти векторы линейно независимы,
+        это можно увидеть, если обратить внимание на последний и предпоследний компоненты векторов.
+
+        \item
+        Базис в $V$ образуют векторы ФСР, поэтому к векторам $a$, $b$, $c$ добавим векторы ФСР и уберем те векторы ФCР, которые линейно зависимы от $a$, $b$, $c$:
+        \begin{gather*}
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  & 5 & 1 & 1  \\
+                1  & 2  & -1 & 0 & -1 & 0 & 0 & 0  \\
+                -1 & 0  & 1  & 2 & 0  & 0 & 0 & 0  \\
+                -1 & 2  & -1 & 0 & 0  & 2 & 0 & 0  \\
+                2  & -1 & 0  & 0 & 0  & 0 & 1 & 0  \\
+                1  & 0  & 0  & 0 & 0  & 0 & 0 & -1
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  & 7  & 3 & -4 \\
+                1  & 2  & -1 & 0 & -1 & -2 & 2 & 1  \\
+                -1 & 0  & 1  & 2 & 0  & 2  & 0 & -1 \\
+                -1 & 2  & -1 & 0 & 0  & 0  & 2 & -1 \\
+                2  & -1 & 0  & 0 & 0  & 0  & 0 & 2  \\
+                1  & 0  & 0  & 0 & 0  & 0  & 0 & 0
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  & 2  & 5 & -4 \\
+                1  & 2  & -1 & 0 & -1 & -2 & 0 & 1  \\
+                -1 & 0  & 1  & 2 & 0  & 0  & 0 & -1 \\
+                -1 & 2  & -1 & 0 & 0  & 0  & 0 & -1 \\
+                2  & -1 & 0  & 0 & 0  & 0  & 0 & 2  \\
+                1  & 0  & 0  & 0 & 0  & 0  & 0 & 0
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  & 5 \\
+                1  & 2  & -1 & 0 & -1 & 0 \\
+                -1 & 0  & 1  & 2 & 0  & 0 \\
+                -1 & 2  & -1 & 0 & 0  & 0 \\
+                2  & -1 & 0  & 0 & 0  & 0 \\
+                1  & 0  & 0  & 0 & 0  & 0
+            \end{pmatrix}
+        \end{gather*}
+        Векторы-столбцы последней матрицы образуют базис в пространстве $V$.
+    \end{enumerate}
+
+    \subsection*{Ответ:}
+    Базис $V$
+    \[
+        \[
+            a, b, c ,
+            \begin{pmatrix}
+                5 \\ 0 \\ 2 \\ 0 \\ 0 \\ 0
+            \end{pmatrix} ,
+            \begin{pmatrix}
+                1 \\ -1 \\ 0 \\ 0 \\ 0 \\ 0
+            \end{pmatrix} ,
+            \begin{pmatrix}
+                5 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0
+            \end{pmatrix} .
+        \]
+        .
+    \]
+
+    \section*{Пункт а}
+    Построить базис суммы и пересечения линейных подпространств:
+    \[
+        V_1 :
+        \left \{
+        \begin{array}{rcl}
+            x_2 + x_3 - x_4 - x_6                         & = & 0 \\
+            2 x_1 + 2 x_2 - 5 x_3 - 5 x_4 - 2 x_5 + 2 x_6 & = & 0
+        \end{array}
+        \right .
+    \]
+    и $V_2 = \left < a, b, c \right >$:
+    \[
+        a =
+        \begin{pmatrix}
+            1 \\ -1 \\ 1 \\ -1 \\ 0 \\ 0
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            -5 \\ 1 \\ -1 \\ -1 \\ 2 \\ 1
+        \end{pmatrix},
+        c =
+        \begin{pmatrix}
+            2 \\ 2 \\ 0 \\ 2 \\ -1 \\ 0
+        \end{pmatrix} .
+    \]
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item
+        Из пункта г известно, что векторы $a$, $b$ и $c$ образуют базис в $V_2$, поэтому добавим к ним векторы ФСР системы для $V_1$ --- базис в $V_1$ --- и уберем линейно зависимые:
+        \begin{gather*}
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & 3 & 1 & -4 \\
+                1  & 2  & -1 & -2 & 2 & 0 & 2  \\
+                -1 & 0  & 1  & 2  & 0 & 0 & 0  \\
+                -1 & 2  & -1 & 0  & 2 & 0 & 0  \\
+                2  & -1 & 0  & 0  & 0 & 1 & 0  \\
+                1  & 0  & 0  & 0  & 0 & 0 & 2
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & 5 & 3 & 6  \\
+                1  & 2  & -1 & -2 & 0 & 2 & 0  \\
+                -1 & 0  & 1  & 2  & 2 & 0 & 2  \\
+                -1 & 2  & -1 & 0  & 0 & 2 & 2  \\
+                2  & -1 & 0  & 0  & 0 & 0 & -4 \\
+                1  & 0  & 0  & 0  & 0 & 0 & 0
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & -2 & 5 & -2 \\
+                1  & 2  & -1 & -2 & 2  & 0 & -8 \\
+                -1 & 0  & 1  & 2  & 0  & 2 & 2  \\
+                -1 & 2  & -1 & 0  & 0  & 0 & -6 \\
+                2  & -1 & 0  & 0  & 0  & 0 & 0  \\
+                1  & 0  & 0  & 0  & 0  & 0 & 0
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & -2 & -2 & -8 \\
+                1  & 2  & -1 & -2 & 2  & 2  & -2 \\
+                -1 & 0  & 1  & 2  & 0  & 0  & -4 \\
+                -1 & 2  & -1 & 0  & 0  & 0  & 0  \\
+                2  & -1 & 0  & 0  & 0  & 0  & 0  \\
+                1  & 0  & 0  & 0  & 0  & 0  & 0
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & -2 & 0 & 6  \\
+                1  & 2  & -1 & -2 & 2  & 0 & -6 \\
+                -1 & 0  & 1  & 2  & 0  & 0 & 0  \\
+                -1 & 2  & -1 & 0  & 0  & 0 & 0  \\
+                2  & -1 & 0  & 0  & 0  & 0 & 0  \\
+                1  & 0  & 0  & 0  & 0  & 0 & 0
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 7  & -2 \\
+                1  & 2  & -1 & -2 & 2  \\
+                -1 & 0  & 1  & 2  & 0  \\
+                -1 & 2  & -1 & 0  & 0  \\
+                2  & -1 & 0  & 0  & 0  \\
+                1  & 0  & 0  & 0  & 0
+            \end{pmatrix}
+        \end{gather*}
+        Векторы-столбы последней матрицы образуют базис суммы $V_1 + V_2$.
+
+        \item Поскольку $V_1 \cap V_2 \subseteq V_2$, то достаточно среди базисных векторов $a$, $b$, $c$ оболочки $V_2$ проверить какие из них удовлетворяют системе, задающей $V_1$.
+        Из пункта г известно, что все три вектора удовлетворяют второму уравнению, поэтому проверяем первое уравнение:
+        \begin{align*}
+            a: & \; -1 - 1 - (-1) \neq 0 , \\
+            b: & \; 1 -1 - (-1) - 1 = 0 , \\
+            c: & \; 2 - 2 = 0
+        \end{align*}
+        Таким образом, векторы $b$, $c$ образуют базис в $V_1 \cap V_2$.
+    \end{enumerate}
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item
+        Базис $V_1 + V_2$
+        \[
+            a, b, c ,
+            \begin{pmatrix}
+                7 \\ -2 \\ 2 \\ 0 \\ 0 \\ 0
+            \end{pmatrix} ,
+            \begin{pmatrix}
+                -2 \\ 2 \\ 0 \\ 0 \\ 0 \\ 0
+            \end{pmatrix} .
+        \]
+
+        \item
+        Базис $V_1 \cap V_2$ --- векторы $b$ и $c$.
+    \end{enumerate}
+
+    \section*{Пункт б}
+    Найдите базис суммы и пересечения двух векторных подпространств $U_1 = \left < a_1, b_1, c_1 \right >$, $U_2 = \left < a_2, b_2, c_2 \right >$.
+    \[
+        a_1 =
+        \begin{pmatrix}
+            1 \\ 1 \\ -1 \\ 1 \\ 1
+        \end{pmatrix},
+        b_1 =
+        \begin{pmatrix}
+            0 \\ 1 \\ -1 \\ 1 \\ 0
+        \end{pmatrix},
+        c_1 =
+        \begin{pmatrix}
+            1 \\ 2 \\ -3 \\ 2 \\ 0
+        \end{pmatrix},
+        a_2 =
+        \begin{pmatrix}
+            1 \\ 0 \\ -2 \\ 1 \\ 1
+        \end{pmatrix},
+        b_2 =
+        \begin{pmatrix}
+            1 \\ 1 \\ -2 \\ 1 \\ 0
+        \end{pmatrix},
+        c_2 =
+        \begin{pmatrix}
+            2 \\ 1 \\ 0 \\ 0 \\ 1
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item
+        Найдем базис суммы $U_1 + U_2$:
+        \begin{gather*}
+            \begin{pmatrix}
+                1  & 0  & 1  & 1  & 1  & 2 \\
+                1  & 1  & 2  & 0  & 1  & 1 \\
+                -1 & -1 & -3 & -2 & -2 & 0 \\
+                1  & 1  & 2  & 1  & 1  & 0 \\
+                1  & 0  & 0  & 1  & 0  & 1
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -1 & 0  & 1  & -1 & 1  & 2 \\
+                0  & 1  & 2  & -1 & 1  & 1 \\
+                -1 & -1 & -3 & -2 & -2 & 0 \\
+                1  & 1  & 2  & 1  & 1  & 0 \\
+                0  & 0  & 0  & 0  & 0  & 1
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \rightarrow
+            \begin{pmatrix}
+                -1 & 0  & 1  & -1 & 1  & 2 \\
+                -1 & 1  & 0  & -2 & 0  & 1 \\
+                0  & -1 & -1 & -1 & -1 & 0 \\
+                0  & 1  & 0  & 0  & 0  & 0 \\
+                0  & 0  & 0  & 0  & 0  & 1
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -1 & 0  & 1  & -2 & 0 & 2 \\
+                -1 & 1  & 0  & -2 & 0 & 1 \\
+                0  & -1 & -1 & 0  & 0 & 0 \\
+                0  & 1  & 0  & 0  & 0 & 0 \\
+                0  & 0  & 0  & 0  & 0 & 1
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \rightarrow
+            \begin{pmatrix}
+                -1 & 0  & 1  & & 2 \\
+                -1 & 1  & 0  & & 1 \\
+                0  & -1 & -1 & & 0 \\
+                0  & 1  & 0  & & 0 \\
+                0  & 0  & 0  & & 1
+            \end{pmatrix}
+        \end{gather*}
+        Векторы-столбцы последней матрицы образуют базис в пространстве $U_1 + U_2$.
+
+        \item
+        Найдем базис пересечения $U_1 \cap U_2$:
+        \begin{gather*}
+            \begin{pmatrix}
+                1  & 0  & 1  \\
+                1  & 1  & 2  \\
+                -1 & -1 & -3 \\
+                1  & 1  & 2  \\
+                1  & 0  & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                1  & 1  & 2 \\
+                0  & 1  & 1 \\
+                -2 & -2 & 0 \\
+                1  & 1  & 0 \\
+                1  & 0  & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+            %
+            \begin{pmatrix}
+                1 & 0 & 1  \\
+                1 & 1 & 2  \\
+                0 & 0 & -1 \\
+                0 & 0 & 0  \\
+                1 & 0 & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                1  & 1  & 2  \\
+                0  & 1  & 1  \\
+                -2 & -1 & 1  \\
+                1  & 0  & -1 \\
+                1  & 0  & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+            %
+            \begin{pmatrix}
+                0 & 0 & 1  \\
+                0 & 1 & 2  \\
+                0 & 0 & -1 \\
+                0 & 0 & 0  \\
+                1 & 0 & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0  & 1  & 1  \\
+                -1 & 1  & 0  \\
+                -2 & -1 & 1  \\
+                1  & 0  & -1 \\
+                1  & 0  & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+            %
+            \begin{pmatrix}
+                0 & 0 & 0  \\
+                0 & 1 & 0  \\
+                0 & 0 & -1 \\
+                0 & 0 & 0  \\
+                1 & 0 & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                -2 & 0  & 2  \\
+                -5 & -1 & 2  \\
+                -2 & -1 & 1  \\
+                1  & 0  & -1 \\
+                1  & 0  & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+            %
+            \begin{pmatrix}
+                0 & 0 & 0  \\
+                0 & 1 & 0  \\
+                0 & 0 & -1 \\
+                0 & 0 & 0  \\
+                1 & 0 & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0  & 0  & 0  \\
+                -5 & -1 & 2  \\
+                -2 & -1 & 1  \\
+                1  & 0  & -1 \\
+                1  & 0  & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+            %
+            \begin{pmatrix}
+                1 & 0 & 0 \\
+                0 & 1 & 0 \\
+                0 & 0 & 1 \\
+                0 & 0 & 0 \\
+            \end{pmatrix}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                1  & 0  & 1  \\
+                -5 & -1 & 2  \\
+                2  & 1  & -1 \\
+                1  & 0  & -1 \\
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix} , \\
+        \end{gather*}
+
+        Получили два вектора ФСР:
+        \begin{gather*}
+            \begin{array}{c}
+                % x
+                \begin{pmatrix}
+                    x_1 \\ x_2 \\ x_3
+                \end{pmatrix}
+                = \begin{pmatrix}
+                      0 \\ -1 \\ 1
+                \end{pmatrix}             \\
+                % y
+                \begin{pmatrix}
+                    y_1 \\ y_2 \\ y_3
+                \end{pmatrix}
+                = \begin{pmatrix}
+                      0 \\ 1 \\ 0
+                \end{pmatrix}
+            \end{array},
+            \begin{array}{c}
+                % x
+                \begin{pmatrix}
+                    x_1 \\ x_2 \\ x_3
+                \end{pmatrix}
+                = \begin{pmatrix}
+                      2 \\ -3 \\ 1
+                \end{pmatrix}             \\
+                % y
+                \begin{pmatrix}
+                    y_1 \\ y_2 \\ y_3
+                \end{pmatrix}
+                = \begin{pmatrix}
+                      1 \\ 0 \\ 1
+                \end{pmatrix}
+            \end{array}
+        \end{gather*}
+        Значит базис образуют два вектора:
+        \[
+            b_2 =
+            \begin{pmatrix}
+                1 \\ 1 \\ -2 \\ 1 \\ 0
+            \end{pmatrix} ,
+            a_2 + c_2 =
+            \begin{pmatrix}
+                3 \\ 1 \\ -2 \\ 1 \\ 2
+            \end{pmatrix} .
+        \]
+    \end{enumerate}
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item
+        Базис $U_1 + U_2$
+        \[
+            \begin{pmatrix}
+                -1 & 0  & 1  & & 2 \\
+                -1 & 1  & 0  & & 1 \\
+                0  & -1 & -1 & & 0 \\
+                0  & 1  & 0  & & 0 \\
+                0  & 0  & 0  & & 1
+            \end{pmatrix}
+        \]
+        \item
+        Базис $U_1 \cap U_2$
+        \[
+            \begin{pmatrix}
+                1  & 3  \\
+                1  & 1  \\
+                -2 & -2 \\
+                1  & 1  \\
+                0  & 2
+            \end{pmatrix}
+        \]
+    \end{enumerate}
+
+    \section*{Пункт в}
+    По подпространствам какой размерности могут пересекаться 6-мерное и 16-мерное подпространства в $\mathbb{C}^{20}$.
+
+    \subsection*{Решение:}
+    6-мерное пространство может полностью лежать внутри 16-мерного пространства. Можно "вынести"{} один вектора базиса 6-мерного пространства из 16-мерного. Продолжая, можно "вынести"{}
+    два, три и четыре вектора базиса 6-мерного пространства, но больше "вынести"{} нельзя, потому что размерность пространства $\mathbb{C}^{20}$ всего 20.
+
+    \subsection*{Ответ:}
+    По подпространствам размерностей 2, 3, 4, 5, 6.
+
+\end{document}
