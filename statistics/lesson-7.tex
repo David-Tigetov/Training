@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №7}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 7.1}
+    Вычислите предел при $\alpha \rightarrow 0$ экономичности критерия Вальда $E(\alpha)$, определяемой формулой:
+    \[
+        E(\alpha) \approx \frac{1 - 2 \alpha}{2 x_\alpha^2} \ln \frac{1 - \alpha}{\alpha} .
+    \]
+    с помощью асимптотики $1 - \Phi(x) \sim \frac{1}{\sqrt{2 \pi} x} e^{- \frac{x^2}{2}}$ при $x \rightarrow + \infty$.
+
+    \subsection*{Решение:}
+    Выделим в экономичности два слагаемых:
+    \[
+        E(\alpha)
+        \approx \frac{1 - 2 \alpha}{2 x_\alpha^2} \ln \frac{1 - \alpha}{\alpha}
+        = \frac{1 - 2 \alpha}{2 x_\alpha^2} \left ( \ln \left ( 1 - \alpha \right ) - \ln \alpha \right )
+        = \frac{1 - 2 \alpha}{2 x_\alpha^2} \ln \left ( 1 - \alpha \right ) - \frac{1 - 2 \alpha}{2 x_\alpha^2} \ln \alpha
+    \]
+    Заметим, что $\lim \limits_{\alpha \rightarrow 0} x_\alpha = - \infty$ поэтому предел первого слагаемого легко вычисляется:
+    \[
+        \lim \limits_{\alpha \rightarrow 0} \frac{1 - 2 \alpha}{2 x_\alpha^2} \ln \left ( 1 - \alpha \right ) = 0 ,
+    \]
+    поэтому предел экономичности определяется вторым слагаемым:
+    \begin{equation} \label{7:limit}
+        \lim \limits_{\alpha \rightarrow 0} E(\alpha)
+        = - \lim \limits_{\alpha \rightarrow 0} \frac{1 - 2 \alpha}{2} \frac{\ln \alpha}{x_\alpha^2}
+        = - \frac{1}{2} \lim \limits_{\alpha \rightarrow 0} \frac{\ln \alpha}{x_\alpha^2} .
+    \end{equation}
+
+    В силу симметрии функции Лапласа $\Phi(x)$ имеет место эквивалентность:
+    \begin{gather*}
+        \Phi(x) \sim \frac{1}{\sqrt{2 \pi} (-x)} e^{- \frac{x^2}{2}}, \\
+        \text{при } x \rightarrow - \infty .
+    \end{gather*}
+    Тогда квантиль $x_\alpha$:
+    \begin{gather*}
+        \Phi \left ( x_\alpha \right ) = \alpha, \\
+        \frac{1}{\sqrt{2 \pi} (-x_\alpha)} e^{- \frac{x_\alpha^2}{2}} \approx \alpha, \\
+        - \ln \left ( \sqrt{2 \pi} (-x_\alpha) \right ) - \frac{x_\alpha^2}{2} = \ln \alpha, \\
+        - \frac{\ln \left ( \sqrt{2 \pi} (-x_\alpha) \right )}{x_\alpha^2} - \frac{1}{2} = \frac{\ln \alpha}{x_\alpha^2} .
+    \end{gather*}
+    Подставим левую часть в равенство \eqref{7:limit}:
+    \[
+        \lim \limits_{\alpha \rightarrow 0} E(\alpha)
+        = - \frac{1}{2} \lim \limits_{\alpha \rightarrow 0} \left ( - \frac{\ln \left ( \sqrt{2 \pi} (-x_\alpha) \right )}{x_\alpha^2} - \frac{1}{2} \right )
+        = \frac{1}{2} \lim \limits_{\alpha \rightarrow 0} \frac{\ln \left ( \sqrt{2 \pi} (-x_\alpha) \right )}{x_\alpha^2} + \frac{1}{4}
+        = \frac{1}{4} ,
+    \]
+    поскольку $\ln(-x_\alpha)$ возрастает медленней степени $x_\alpha^2$.
+
+    \subsection*{Ответ:}
+    $\frac{1}{4}$.
+\end{document}
