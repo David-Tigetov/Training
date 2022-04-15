@@ -1,0 +1,461 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+
+\begin{document}
+
+    \title{Задача 4}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Задать параметрически пересечение аффинных подпространств, которые содержат точки $P_1$ ($P_2$ соответственно), и чьи присоединенные линейные подпространства порождены векторами
+    $a_1$, $b_1$, $c_1$ ($a_2$, $b_2$, $c_2$ соответственно)
+    \begin{gather*}
+        P_1 =
+        \begin{pmatrix}
+            1 \\ -1 \\ -1 \\ 1
+        \end{pmatrix} ,
+        a_1 =
+        \begin{pmatrix}
+            -1 \\ -2 \\ -1 \\ 1
+        \end{pmatrix} ,
+        b_1 =
+        \begin{pmatrix}
+            -1 \\ -1 \\ 1 \\ 0
+        \end{pmatrix} ,
+        c_1 =
+        \begin{pmatrix}
+            2 \\ 1 \\ 0 \\ 0
+        \end{pmatrix} , \\
+        %
+        P_2 =
+        \begin{pmatrix}
+            2 \\ 1 \\ 0 \\ 0
+        \end{pmatrix} ,
+        a_2 =
+        \begin{pmatrix}
+            2 \\ 0 \\ 1 \\ 0
+        \end{pmatrix} ,
+        b_2 =
+        \begin{pmatrix}
+            1 \\ 0 \\ 1 \\ 0
+        \end{pmatrix} ,
+        c_2 =
+        \begin{pmatrix}
+            1 \\ 1 \\ 0 \\ 0
+        \end{pmatrix} .
+    \end{gather*}
+
+    \subsection*{Решение:}
+    Для определения пересечения аффинных подпространства найдем все наборы координат $x_1$, $x_2$, $x_3$ и $y_1$, $y_2$, $y_3$ такие, что:
+    \begin{gather*}
+        P_1 + a_1 x_1 + b_1 x_2 + c_1 x_3 = P_2 + a_2 y_1 + b_2 y_2 + c_2 y_3 , \\
+        %
+        a_1 x_1 + b_1 x_2 + c_1 x_3 - a_2 y_1 - b_2 y_2 - c_2 y_3 = P_2 - P_1 , \\
+        %
+        \begin{pmatrix}
+            -1 & -1 & 2 \\
+            -2 & -1 & 1 \\
+            -1 & 1  & 0 \\
+            1  & 0  & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            2 & 1 & 1 \\
+            0 & 0 & 1 \\
+            1 & 1 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\ y_2 \\ y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1 \\
+            2 \\
+            1 \\
+            -1
+        \end{pmatrix} , \\
+        %
+        \begin{pmatrix}
+            0 & -1 & 2 \\
+            0 & -1 & 1 \\
+            0 & 1  & 0 \\
+            1 & 0  & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            2 & 1 & 1 \\
+            0 & 0 & 1 \\
+            1 & 1 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\ y_2 \\ y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix} , \\
+        %
+        \begin{pmatrix}
+            0 & 0 & 2 \\
+            0 & 0 & 1 \\
+            0 & 1 & 0 \\
+            1 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            3 & 2 & 1 \\
+            1 & 1 & 1 \\
+            1 & 1 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\ y_2 \\ y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix} ,
+    \end{gather*}
+    \begin{gather}
+        \label{4:a:system}
+        \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 1 \\
+            0 & 1 & 0 \\
+            1 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            1 & 0 & -1 \\
+            1 & 1 & 1  \\
+            1 & 1 & 0  \\
+            0 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\ y_2 \\ y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix} .
+    \end{gather}
+
+    При нулевой правой части получим координаты векторов, образующих присоединенное подпространство:
+    \begin{gather*}
+        \begin{array}{c}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0 \\ 1 \\ 1
+            \end{pmatrix}             \\
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0 \\ 1 \\ 0
+            \end{pmatrix} \\
+        \end{array} ,
+        \begin{array}{c}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0 \\ 1 \\ 2
+            \end{pmatrix}             \\
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                1 \\ 0 \\ 1
+            \end{pmatrix}
+        \end{array} ,
+    \end{gather*}
+    Следовательно, присоединенное пространство образовано векторами:
+    \[
+        b_1 + c_1 =
+        \begin{pmatrix}
+            1 \\ 0 \\ 1 \\ 0
+        \end{pmatrix}
+        = b_2,
+        b_1 + 2 c_1 =
+        \begin{pmatrix}
+            3 \\ 1 \\ 1 \\ 0
+        \end{pmatrix}
+        = a_2 + c_2 .
+    \]
+    Кстати, векторы линейно-независимы.
+
+    Решение системы \eqref{4:a:system} даёт вектор аффинного подпространства:
+    \[
+        \begin{array}{c}
+            \begin{pmatrix}
+                x_1 \\ x_2 \\ x_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                -1 \\ 0 \\ 0
+            \end{pmatrix}             \\
+            \begin{pmatrix}
+                y_1 \\ y_2 \\ y_3
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0 \\ 0 \\ 0
+            \end{pmatrix} \\
+        \end{array} ,
+    \]
+    откуда:
+    \[
+        P_1 - a_1 = P_2 ,
+    \]
+    то есть $P_2$ --- вектор из пересечения аффинных подпространств.
+
+    \subsection*{Ответ:}
+    $P_2 + \lambda_1 b_2 + \lambda_2 \left ( a_2 + c_2 \right )$, где $\lambda_1$ и $\lambda_2$ --- произвольные постоянные.
+
+    \section*{Пункт б}
+    Найти матрицу перехода от базиса $e_1$, $e_2$, $e_3$ к базису $\widetilde{e}_1$, $\widetilde{e}_2$, $\widetilde{e}_3$
+    \[
+        \begin{array}{l}
+            e_1 =
+            \begin{pmatrix}
+                1 \\ 2 \\ 1
+            \end{pmatrix},              \\
+            \widetilde{e}_1
+            =
+            \begin{pmatrix}
+                3 \\ 5 \\ 8
+            \end{pmatrix},
+        \end{array}
+        \begin{array}{l}
+            e_2 =
+            \begin{pmatrix}
+                2 \\ 3 \\ 3
+            \end{pmatrix},              \\
+            \widetilde{e}_2
+            =
+            \begin{pmatrix}
+                5 \\ 14 \\ 13
+            \end{pmatrix},
+        \end{array}
+        \begin{array}{l}
+            e_3 =
+            \begin{pmatrix}
+                3 \\ 8 \\ 2
+            \end{pmatrix},              \\
+            \widetilde{e}_3
+            =
+            \begin{pmatrix}
+                1 \\ 9 \\ 2
+            \end{pmatrix}.
+        \end{array}
+    \]
+
+    \subsection*{Решение:}
+    Матрица перехода $P$ от базиса $e_i$ к базису $\widetilde{e}_i$ должна удовлетворять матричному уравнению:
+    \begin{gather*}
+        \begin{pmatrix}
+            1 & 2 & 3 \\
+            2 & 3 & 8 \\
+            1 & 3 & 2
+        \end{pmatrix}
+        P
+        =
+        \begin{pmatrix}
+            3 & 5  & 1 \\
+            5 & 14 & 9 \\
+            8 & 13 & 2
+        \end{pmatrix} , \\
+        %
+        \begin{pmatrix}
+            1 & 2  & 3  \\
+            0 & -1 & 2  \\
+            0 & 1  & -1
+        \end{pmatrix}
+        P
+        =
+        \begin{pmatrix}
+            3  & 5 & 1 \\
+            -1 & 4 & 7 \\
+            5  & 8 & 1
+        \end{pmatrix} , \\
+        %
+        \begin{pmatrix}
+            1 & 0  & 7 \\
+            0 & -1 & 2 \\
+            0 & 0  & 1
+        \end{pmatrix}
+        P
+        =
+        \begin{pmatrix}
+            1  & 13 & 15 \\
+            -1 & 4  & 7  \\
+            4  & 12 & 8
+        \end{pmatrix} , \\
+        %
+        \begin{pmatrix}
+            1 & 0  & 0 \\
+            0 & -1 & 0 \\
+            0 & 0  & 1
+        \end{pmatrix}
+        P
+        =
+        \begin{pmatrix}
+            -27 & -71 & -41 \\
+            -9  & -20 & -9  \\
+            4   & 12  & 8
+        \end{pmatrix} , \\
+        %
+        P
+        =
+        \begin{pmatrix}
+            -27 & -71 & -41 \\
+            9   & 20  & 9   \\
+            4   & 12  & 8
+        \end{pmatrix}
+    \end{gather*}
+    Проверка:
+    \[
+        \begin{pmatrix}
+            1 & 2 & 3 \\
+            2 & 3 & 8 \\
+            1 & 3 & 2
+        \end{pmatrix}
+        P
+        =
+        \begin{pmatrix}
+            -27 + 18 + 12 & -71 + 40 + 36  & -41 + 18 + 24 \\
+            -54 + 27 + 32 & -142 + 60 + 96 & -82 + 27 + 64 \\
+            -27 + 27 + 8  & -71 + 60 + 24  & -41 + 27 + 16 \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            3 & 5  & 1 \\
+            5 & 14 & 9 \\
+            8 & 13 & 2
+        \end{pmatrix}
+    \]
+    Ура!
+
+    \subsection*{Ответ:}
+    $
+    \begin{pmatrix}
+        -27 & -71 & -41 \\
+        9   & 20  & 9   \\
+        4   & 12  & 8
+    \end{pmatrix}
+    $
+
+    \section*{Пункт в}
+    Как изменится матрица перехода от первого базиса ко второму, если:
+    \begin{enumerate}
+        \item поменять местами два вектора первого базиса,
+        \item поменять местами два вектора второго базиса,
+        \item записать векторы обоих базисов в обратном порядке.
+    \end{enumerate}
+    \subsection*{Решение:}
+    Пусть $e_1$, \dots, $e_n$ --- первый базис, $\widetilde{e}_1$, \dots, $\widetilde{e}_n$ --- второй базис и $P$ --- матрица перехода:
+    \[
+        \begin{pmatrix}
+            \widetilde{e}_1, \dots, \widetilde{e}_n
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            e_1, \dots, e_n
+        \end{pmatrix}
+        \begin{pmatrix}
+            p_{11} & p_{12} & \dots  & p_{1n} \\
+            p_{21} & p_{22} & \dots  & p_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            p_{n1} & p_{n2} & \dots  & p_{nn} \\
+        \end{pmatrix}
+    \]
+
+    Если меняются местами векторы $e_i$ и $e_j$, то в матрице перехода меняются местами строки $i$ и $j$.
+
+    Если меняются местами векторы $\widetilde{e}_i$ и $\widetilde{e}_j$, то в матрице перехода меняются местами столбцы $i$ и $j$.
+
+    Если векторы обоих базисов записываются в обратном порядке, то матрицу перехода нужно "отразить" относительно побочной диагонали (диагонали проходящей через элементы $p_{n1}$ и $p_{1n}$).
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item в матрице поменяются местами строки,
+        \item в матрице поменяются местами столбцы,
+        \item в матрице элементы "отразятся"{} относительно побочной диагонали.
+    \end{enumerate}
+
+    \section*{Пункт г}
+    Пусть $\Pi_1$, $\Pi_2$ --- аффинные двумерные подпространства в $\mathbb{K}^n$. Докажите, что существует аффинное подпространство $\Pi$ размерности не более 5, содержащее и $\Pi_1$,
+    и $\Pi_2$. Каким может быть расположение $\Pi_1$ и $\Pi_2$, если $n \ge 5$.
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item
+        Пусть $\Pi_1 = p_1 + U_1$ и $u_{11}$, $u_{12}$ --- базис $U_1$, и $\Pi_2 = p_2 + U_2$ и $u_{21}$, $u_{22}$ --- базис $U_2$. Образуем множество $\Pi$:
+        \[
+            \Pi = p_1 + \left < p_2 - p_1, u_{11}, u_{12}, u_{21}, u_{22} \right >.
+        \]
+        Множество $\Pi$ по построению является аффинным подпространством (это нужно доказывать?).
+
+        Легко видеть, что
+        \begin{gather*}
+            \Pi_1 \subseteq \Pi :
+            p \in \Pi_1
+            \Rightarrow
+            p = p_1 + c_1 u_{11} + c_2 u_{22} \in \Pi, \\
+            %
+            \Pi_2 \subseteq \Pi :
+            p \in \Pi_2
+            \Rightarrow
+            p = p_2 + c_1 u_{21} + c_2 u_{22} = p_1 + (p_2 - p_1) + c_1 u_{21} + c_2 u_{22} \in \Pi .
+        \end{gather*}
+
+        Очевидно, что размерность присоединенного подпространства $\left < p_2 - p_1, u_{11}, u_{12}, u_{21}, u_{22} \right >$ никак не может быть больше 5: в наборе из 5 векторов ещё
+        оказаться линейно зависимые подсистемы.
+
+        \item Возможные варианты расположения $\Pi_1$ и $\Pi_2$ исчерпываются вариантами:
+        \begin{enumerate}
+            \item $p_1 - p_2 \notin U_1 + U_2$: $\Pi_1$ и $\Pi_2$ не пересекаются,
+            \item $p_1 - p_2 \in U_1 + U_2$: $\Pi_1$ и $\Pi_2$ пересекаются, и размерность присоединенного подпространства $dim\left ( U_1 \cap U_2 \right ) \in \{ 0, 1, 2 \}$, поскольку $k \ge 5$
+            допускает $U_1 \cap U_2 = \emptyset$.
+        \end{enumerate}
+    \end{enumerate}
+\end{document}
