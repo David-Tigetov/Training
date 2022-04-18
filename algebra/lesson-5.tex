@@ -1,0 +1,365 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 5}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Составьте какую-нибудь ОСЛУ, для которой множество решений представляется в виде линейной оболочки следующих векторов.
+    \[
+        a_1 =
+        \begin{pmatrix}
+            1 \\ -1 \\ 1 \\ -1 \\ 1
+        \end{pmatrix},
+        a_2 =
+        \begin{pmatrix}
+            1 \\ 1 \\ 0 \\ 0 \\ 3
+        \end{pmatrix},
+        a_3 =
+        \begin{pmatrix}
+            3 \\ 1 \\ 1 \\ -1 \\ 7
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Решение:}
+    Проверим векторы на линейную зависимость:
+    \[
+        \begin{pmatrix}
+            1  & 1 & 3  \\
+            -1 & 1 & 1  \\
+            1  & 0 & 1  \\
+            -1 & 0 & -1 \\
+            1  & 3 & 7
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            2  & 1 & 2  \\
+            0  & 1 & 0  \\
+            1  & 0 & 1  \\
+            -1 & 0 & -1 \\
+            4  & 3 & 4
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            2  & 1 & 0 \\
+            0  & 1 & 0 \\
+            1  & 0 & 0 \\
+            -1 & 0 & 0 \\
+            4  & 3 & 0
+        \end{pmatrix}
+    \]
+    Значит нужно выбрать три линейно независимых вектора, ортогональных двум ненулевым векторам-столбцам, например:
+    \[
+        \begin{pmatrix}
+            -1 & 1  & 2 & 0 & 0 \\
+            1  & -1 & 0 & 2 & 0 \\
+            -6 & -3 & 0 & 0 & 3
+        \end{pmatrix}
+        .
+    \]
+
+    \subsection*{Ответ:}
+    \[
+        \begin{pmatrix}
+            -1 & 1  & 2 & 0 & 0 \\
+            1  & -1 & 0 & 2 & 0 \\
+            -6 & -3 & 0 & 0 & 3
+        \end{pmatrix}
+        .
+    \]
+
+    \section*{Пункт б}
+    Найдите длины сторон треугольника ABC в пространстве $\mathbb{R}^5$.
+    \[
+        A =
+        \begin{pmatrix}
+            2 \\ 4 \\ 2 \\ 4 \\ 2
+        \end{pmatrix},
+        B =
+        \begin{pmatrix}
+            6 \\ 4 \\ 4 \\ 4 \\ 6
+        \end{pmatrix},
+        C =
+        \begin{pmatrix}
+            5 \\ 7 \\ 5 \\ 7 \\ 2
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Решение:}
+    Сторона $\overline{AB}$:
+    \begin{gather*}
+        \overline{AB}
+        = B - A
+        = \begin{pmatrix}
+              4 \\ 0 \\ 2 \\ 0 \\ 4
+        \end{pmatrix}, \\
+        %
+        \modulus{\overline{AB}}
+        = \sqrt{4^2 + 2^2 + 4^2}
+        = \sqrt{16 + 4 + 16}
+        = \sqrt{36}
+        = 6 .
+    \end{gather*}
+
+    Сторона $BC$:
+    \begin{gather*}
+        \overline{BC}
+        = C - B
+        = \begin{pmatrix}
+              -1 \\ 3 \\ 1 \\ 3 \\ -4
+        \end{pmatrix}, \\
+        %
+        \modulus{\overline{BC}}
+        = \sqrt{(-1)^2 + 3^2 + 1^2 + 3^2 + (-4)^2}
+        = \sqrt{1 + 9 + 1 + 9 + 16}
+        = \sqrt{36}
+        = 6 .
+    \end{gather*}
+
+    Сторона $AC$:
+    \begin{gather*}
+        \overline{AC}
+        = C - A
+        = \begin{pmatrix}
+              3 \\ 3 \\ 3 \\ 3 \\ 0
+        \end{pmatrix}, \\
+        %
+        \modulus{\overline{BC}}
+        = \sqrt{3^2 + 3^2 + 3^2 + 3^2}
+        = \sqrt{4 \cdot 3^2}
+        = 2 \cdot 3
+        = 6 .
+    \end{gather*}
+
+    \subsection*{Ответ:}
+    Длины всех сторон равны 6.
+
+    \section*{Пункт в}
+    Задать системой линейных неоднородных уравнений аффинное подпространство, которое содержит точку $P$, и чье присоединенное линейное подпространство порождено векторами $a$, $b$,
+    $c$, $d$:
+    \begin{gather*}
+        P =
+        \begin{pmatrix}
+            4 \\ 3 \\ 1 \\ 3 \\ 1
+        \end{pmatrix},
+        a =
+        \begin{pmatrix}
+            1 \\ 2 \\ 1 \\ 2 \\ 1
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            2 \\ 1 \\ -1 \\ 1 \\ 0
+        \end{pmatrix},
+        c =
+        \begin{pmatrix}
+            2 \\ -1 \\ -2 \\ 0 \\ -1
+        \end{pmatrix},
+        d =
+        \begin{pmatrix}
+            -1 \\ -1 \\ 1 \\ 0 \\ 0
+        \end{pmatrix}.
+    \end{gather*}
+
+    \subsection*{Решение:}
+    Попробуем упростить векторы $a$ -- $d$:
+    \begin{gather*}
+        \begin{pmatrix}
+            1 & 2  & 2  & -1 \\
+            2 & 1  & -1 & -1 \\
+            1 & -1 & -2 & 1  \\
+            2 & 1  & 0  & 0  \\
+            1 & 0  & -1 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            3  & 2  & 2  & -1 \\
+            1  & 1  & -1 & -1 \\
+            -1 & -1 & -2 & 1  \\
+            2  & 1  & 0  & 0  \\
+            0  & 0  & -1 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            -1 & 2  & 2  & -1 \\
+            -1 & 1  & -1 & -1 \\
+            1  & -1 & -2 & 1  \\
+            0  & 1  & 0  & 0  \\
+            0  & 0  & -1 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            0 & 1 & 0  & -1 \\
+            0 & 0 & -3 & -1 \\
+            0 & 0 & 0  & 1  \\
+            0 & 1 & 0  & 0  \\
+            0 & 0 & -1 & 0
+        \end{pmatrix}
+        .
+    \end{gather*}
+    Матрица ОСЛУ имеет вид:
+    \[
+        A =
+        \begin{pmatrix}
+            -1 & 0  & -1 & 1 & 0 \\
+            0  & -1 & -1 & 0 & 3
+        \end{pmatrix}.
+    \]
+    Для определения правой части вычислим:
+    \[
+        A \cdot P =
+        \begin{pmatrix}
+            -4 - 1 + 3 \\
+            -3 - 1 + 3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -2 \\
+            -1
+        \end{pmatrix}
+        .
+    \]
+
+    \subsection*{Ответ:}
+    $
+    \left \{
+    \begin{array}{ccccccccccc}
+        -x_1 &   &     & - & x_3 & + & x_4 &   &       & = & -2 \\
+        & - & x_2 & - & x_3 &   &     & + & 3 x_5 & = & -1
+    \end{array}
+    \right .
+    $
+
+    \section*{Пункт г}
+    Рассмотрим функцию $f$ от векторов $x, y \in \mathbb{R}^2$, заданную формулой
+    \[
+        f(x,y) =
+        \begin{pmatrix}
+            x_1 & x_2
+        \end{pmatrix}
+        \begin{pmatrix}
+            a & b \\
+            c & d
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        ,
+        \text{где }
+        x =
+        \begin{pmatrix}
+            x_1 \\
+            x_2
+        \end{pmatrix},
+        y =
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}.
+    \]
+    Доказать, что эта формула определяет евклидово скалярное произведение в $\mathbb{R}^2$ тогда и только тогда, когда $a > 0$, $ad - b^2 > 0$.
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item
+        Билинейность $f(x,y)$ очевидна и не накладывает никаких условий на $a$, $b$, $c$ и $d$.
+
+        \item
+        Равенство $f(x,y) = f(y,x)$ для всех $x$ и $y$ равносильно равенству:
+        \begin{gather*}
+            x^T
+            \begin{pmatrix}
+                a & b \\
+                c & d
+            \end{pmatrix}
+            y
+            =
+            y^T
+            \begin{pmatrix}
+                a & b \\
+                c & d
+            \end{pmatrix}
+            x , \\
+            %
+            x^T
+            \begin{pmatrix}
+                a & b \\
+                c & d
+            \end{pmatrix}
+            y
+            =
+            x^T
+            \begin{pmatrix}
+                a & c \\
+                b & d
+            \end{pmatrix}
+            y , \\
+            %
+            \begin{pmatrix}
+                a & b \\
+                c & d
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                a & c \\
+                b & d
+            \end{pmatrix}, \\
+            %
+            b = c .
+        \end{gather*}
+
+        \item
+        Из равенства $f(x,y)=f(y,x)$ и условия $f(x,x) > 0$ для всех $x \neq 0$ следует неравенство:
+        \begin{gather*}
+            f(x,x) > 0 , \\
+            a x_1^2 + b x_1 x_2 + c x_2 x_1 + d x_2^2 > 0, \\
+            a x_1^2 + 2 b x_1 x_2 + d x_2^2 > 0 ,
+        \end{gather*}
+        Возьмем $x_2 \neq 0$, тогда:
+        \begin{gather*}
+            a \left ( \frac{x_1}{x_2} \right )^2 + 2 b \frac{x_1}{x_2} + d > 0 .
+        \end{gather*}
+        Ветви параболы направлены вверх, дискриминант отрицательный:
+        \begin{gather*}
+            a > 0, \\
+            b^2 - ad < 0 \Rightarrow ad - b^2 > 0 .
+        \end{gather*}
+
+        \item
+        Таким образом,
+        \[
+            f(x,y) = f(y,x) \Leftrightarrow b = c
+        \]
+        и
+        \[
+            \left .
+            \begin{array}{r}
+                f(x,y) = f(y,x) \\
+                \forall x \neq 0: f(x,x) > 0
+            \end{array}
+            \right \}
+            \Rightarrow
+            \left \{
+            \begin{array}{l}
+                a > 0, \\
+                ad - b^2 > 0
+            \end{array}
+            \right .
+        \]
+        Мне кажется, что в постановке задачи не хватает условия для $c$.
+    \end{enumerate}
+\end{document}
