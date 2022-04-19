@@ -1,0 +1,730 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 7}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Найти ортогональную проекцию и ортогональную составляющую вектора $x$ при проекции на подпространство $V = \left < a, b, c \right >$
+    \[
+        x =
+        \begin{pmatrix}
+            2 \\ 5 \\ -2 \\ 3
+        \end{pmatrix},
+        a =
+        \begin{pmatrix}
+            -3 \\ 1 \\ 1 \\ 1
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            1 \\ 0 \\ 1 \\ 0
+        \end{pmatrix},
+        c =
+        \begin{pmatrix}
+            -1 \\ 0 \\ 1 \\ 1
+        \end{pmatrix} .
+    \]
+
+    \subsection*{Решение:}
+    Пусть
+    \[
+        \projection{V}{x} = y_1 a + y_2 b + y_3 c,
+    \]
+    тогда
+    \begin{gather*}
+        \begin{pmatrix}
+            a^T \\
+            b^T \\
+            c^T
+        \end{pmatrix}
+        \projection{V}{x}
+        =
+        \begin{pmatrix}
+            a^T \\
+            b^T \\
+            c^T
+        \end{pmatrix}
+        x , \\
+        %
+        \begin{pmatrix}
+            a^T \\
+            b^T \\
+            c^T
+        \end{pmatrix}
+        \begin{pmatrix}
+            a & b & c
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            a^T \\
+            b^T \\
+            c^T
+        \end{pmatrix}
+        x , \\
+        %
+        \begin{pmatrix}
+            \scalarproduct{a}{a} & \scalarproduct{a}{b} & \scalarproduct{a}{c} \\
+            \scalarproduct{b}{a} & \scalarproduct{b}{b} & \scalarproduct{b}{c} \\
+            \scalarproduct{c}{a} & \scalarproduct{c}{b} & \scalarproduct{c}{c} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \scalarproduct{a}{x} \\
+            \scalarproduct{b}{x} \\
+            \scalarproduct{c}{x}
+        \end{pmatrix}
+    \end{gather*}
+    Вычислим скалярные произведения:
+    \begin{align*}
+        \scalarproduct{a}{a} & = 9 + 1 + 1 + 1 = 12, \\
+        \scalarproduct{a}{b} & = -3 + 1 = -2, \\
+        \scalarproduct{a}{c} & = 3 + 1 + 1 = 5, \\
+        \scalarproduct{b}{b} & = 1 + 1 = 2, \\
+        \scalarproduct{c}{b} & = -1 + 1 = 0, \\
+        \scalarproduct{c}{c} & = 1 + 1 + 1 = 3, \\
+        \scalarproduct{a}{x} & = -6 + 5 - 2 + 3 = 0, \\
+        \scalarproduct{b}{x} & = 2 - 2 = 0, \\
+        \scalarproduct{c}{x} & = -2 - 2 + 3 = -1 .
+    \end{align*}
+    Таким образом, необходимо решить СЛУ
+    \begin{gather*}
+        \begin{pmatrix}
+            12 & -2 & 5 \\
+            -2 & 2  & 0 \\
+            5  & 0  & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            10 & 0 & 5 \\
+            -2 & 2 & 0 \\
+            5  & 0 & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            2  & 0 & 1 \\
+            -2 & 2 & 0 \\
+            5  & 0 & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            2  & 0 & 1 \\
+            -2 & 2 & 0 \\
+            -1 & 0 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            0 \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            y_1 \\
+            y_2 \\
+            y_3
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1 \\
+            1 \\
+            -2
+        \end{pmatrix}
+    \end{gather*}
+    Откуда
+    \begin{gather*}
+        \projection{V}{x}
+        =
+        \begin{pmatrix}
+            -3 + 1 + 2 \\
+            1 + 0 + 0  \\
+            1 + 1 - 2  \\
+            1 + 0 - 2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            1 \\
+            0 \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \perpendicular{V}{x}
+        = x - \projection{V}{x}
+        =
+        \begin{pmatrix}
+            2 - 0  \\
+            5 - 1  \\
+            -2 - 0 \\
+            3 + 1
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            2  \\
+            4  \\
+            -2 \\
+            4
+        \end{pmatrix}
+    \end{gather*}
+
+    \subsection*{Ответ:}
+    $
+    \perpendicular{V}{x}
+    =
+    \begin{pmatrix}
+        2  \\
+        4  \\
+        -2 \\
+        4
+    \end{pmatrix},
+    %
+    \projection{V}{x}
+    =
+    \begin{pmatrix}
+        0 \\
+        1 \\
+        0 \\
+        -1
+    \end{pmatrix}
+    $.
+
+    \section*{Пункт б}
+    Найти расстояние и угол между вектором $x$ и подпространством $V = \left < a, b \right >$
+    \[
+        x =
+        \begin{pmatrix}
+            4 \\ -8 \\ 0 \\ 1
+        \end{pmatrix},
+        a =
+        \begin{pmatrix}
+            -1 \\ 1 \\ 2 \\ 3
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            2 \\ 0 \\ 1 \\ 1
+        \end{pmatrix},
+    \]
+
+    \subsection*{Решение:}
+    Пусть
+    \[
+        \projection{V}{x} = y_1 a + y_2 b,
+    \]
+    тогда
+    \begin{gather*}
+        \begin{pmatrix}
+            \scalarproduct{a}{a} & \scalarproduct{a}{b} \\
+            \scalarproduct{b}{a} & \scalarproduct{b}{b}
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -4 - 8 + 3 \\
+            8 + 1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            1 + 1 + 4 + 9 & -2 + 2 + 3 \\
+            -2 + 2 + 3    & 4 + 1 + 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -4 - 8 + 3 \\
+            8 + 1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            15 & 3 \\
+            3  & 6
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -9 \\
+            9
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            5 & 1 \\
+            1 & 2
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -3 \\
+            3
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            6 & 3 \\
+            1 & 2
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            3
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            2 & 1 \\
+            1 & 2
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0 \\
+            3
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -1 \\
+            2
+        \end{pmatrix}.
+    \end{gather*}
+    Таким образом,
+    \begin{gather*}
+        \projection{V}{x}
+        = -a + 2 b
+        =
+        \begin{pmatrix}
+            1 + 4  \\
+            -1 + 0 \\
+            -2 + 2 \\
+            -3 + 2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            5  \\
+            -1 \\
+            0  \\
+            -1
+        \end{pmatrix}, \\
+        %
+        \perpendicular{V}{x}
+        = x - \projection{V}{x}
+        =
+        \begin{pmatrix}
+            4 - 5  \\
+            -8 + 1 \\
+            0 - 0  \\
+            1 + 1
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -1 \\
+            -7 \\
+            0  \\
+            2
+        \end{pmatrix}
+    \end{gather*}
+    Расстояние
+    \[
+        \modulus{\perpendicular{V}{x}}
+        = \sqrt{1 + 49 + 4}
+        = \sqrt{54}
+        = 3 \sqrt{6}
+    \]
+    и угол
+    \begin{multline*}
+        \angle \left ( x, V \right )
+        = \arccos \frac{\scalarproduct{x}{\projection{V}{x}}}{\modulus{x} \cdot \modulus{\projection{V}{x}}}
+        = \arccos \frac{20 + 8 - 1}{\sqrt{16 + 64 + 1} \cdot \sqrt{25 + 1 + 1}}
+        = \arccos \frac{27}{\sqrt{81} \cdot \sqrt{27}} = \\
+        %
+        = \arccos \sqrt{\frac{27}{81}}
+        = \arccos \frac{1}{\sqrt{3}}.
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    $\modulus{\perpendicular{V}{x}} = 3 \sqrt{6}, \angle \left ( x, V \right ) = \arccos \frac{1}{\sqrt{3}}$.
+
+    \section*{Пункт в}
+    Найти расстояние между вектором $x$ и подпространством $V$, заданным ОСЛУ:
+    \[
+        x =
+        \begin{pmatrix}
+            -1 \\ 3 \\ -3 \\ 5
+        \end{pmatrix}, \\
+        V:
+        \begin{pmatrix}
+            1 & 2  & 1 & 1  \\
+            5 & -2 & 1 & -9
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3 \\ x_4
+        \end{pmatrix}
+        = 0 .
+    \]
+
+    \subsection*{Решение:}
+    Пусть
+    \[
+        a =
+        \begin{pmatrix}
+            1 \\ 2 \\ 1 \\ 1
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            5 \\ -2 \\ 1 \\ -9
+        \end{pmatrix}.
+    \]
+    Заметим, что $\left < a, b \right > = V^\perp$, поэтому
+    \[
+        \perpendicular{V}{x} = \projection{V^\perp}{x} = y_1 a + y_2 b,
+    \]
+    где $y_1$ и $y_2$ удовлетворяют СЛУ:
+    \begin{gather*}
+        \begin{pmatrix}
+            \scalarproduct{a}{a} & \scalarproduct{a}{b} \\
+            \scalarproduct{b}{a} & \scalarproduct{b}{b}
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \scalarproduct{a}{x} \\
+            \scalarproduct{b}{x}
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            1 + 4 + 1 + 1 & 5 - 4 + 1 - 9   \\
+            5 - 4 + 1 - 9 & 25 + 4 + 1 + 81
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -1 + 6 - 3 + 5 \\
+            -5 - 6 - 3 - 45
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            7  & -7  \\
+            -7 & 111
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            7 \\
+            -59
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            7 & -7  \\
+            0 & 104
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            7 \\
+            -52
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \frac{1}{2} \\
+            -\frac{1}{2}
+        \end{pmatrix}
+    \end{gather*}
+    Таким образом,
+    \[
+        \projection{V^\perp}{x}
+        = \frac{1}{2} a + \frac{1}{2} b
+        =
+        \begin{pmatrix}
+            \frac{1}{2} - \frac{5}{2} \\
+            \frac{2}{2} + \frac{2}{2} \\
+            \frac{1}{2} - \frac{1}{2} \\
+            \frac{1}{2} + \frac{9}{2}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -2 \\
+            2  \\
+            0  \\
+            5
+        \end{pmatrix},
+    \]
+    и расстояние
+    \[
+        \modulus{\perpendicular{V}{x}}
+        = \modulus{\projection{V^\perp}{x}}
+        = \sqrt{4 + 4 + 25}
+        = \sqrt{33} .
+    \]
+
+    \subsection*{Ответ:}
+    $\sqrt{33}$.
+
+    \section*{Пункт г}
+    Найти угол между вектором $x$ и подпространством $V$, заданным ОСЛУ:
+    \[
+        x =
+        \begin{pmatrix}
+            -1 \\ 5 \\ 3 \\ 5
+        \end{pmatrix}, \\
+        V:
+        \begin{pmatrix}
+            -2  & 4 & -2 & 0 \\
+            -10 & 5 & 8  & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3 \\ x_4
+        \end{pmatrix}
+        = 0 .
+    \]
+
+    \subsection*{Решение:}
+    Аналогично пункту в находим ортогональную составляющую:
+    \begin{gather*}
+        a =
+        \begin{pmatrix}
+            -2 \\ 4 \\ -2 \\ 0
+        \end{pmatrix},
+        b =
+        \begin{pmatrix}
+            -10 \\ 5 \\ 8 \\ 3
+        \end{pmatrix}, \\
+        %
+        V^{\perp} = \left < a, b \right >, \\
+        %
+        \perpendicular{V}{x} = \projection{V^\perp}{x} = y_1 a + y_2 b,
+    \end{gather*}
+    где $y_1$ и $y_2$ удовлетворяют СЛУ:
+    \begin{gather*}
+        \begin{pmatrix}
+            \scalarproduct{a}{a} & \scalarproduct{a}{b} \\
+            \scalarproduct{b}{a} & \scalarproduct{b}{b}
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \scalarproduct{a}{x} \\
+            \scalarproduct{b}{x}
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            4 + 16 + 4   & 20 + 20 - 16      \\
+            20 + 20 - 16 & 100 + 25 + 64 + 9
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            2 + 20 - 6 \\
+            10 + 25 + 24 + 15
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            24 & 24  \\
+            24 & 198
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            16 \\
+            74
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            24 & 24  \\
+            0  & 174
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            16 \\
+            58
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            3 & 3 \\
+            0 & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            2 \\
+            1
+        \end{pmatrix}, \\
+        %
+        \begin{pmatrix}
+            y_1 \\
+            y_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \frac{1}{3} \\
+            \frac{1}{3}
+        \end{pmatrix}
+    \end{gather*}
+    Таким образом,
+    \[
+        \projection{V^\perp}{x}
+        = \frac{1}{3} a + \frac{1}{3} b
+        =
+        \begin{pmatrix}
+            - \frac{2}{3} - \frac{10}{3} \\
+            \frac{4}{3} + \frac{5}{3}    \\
+            - \frac{2}{3} + \frac{8}{3}  \\
+            0 + \frac{3}{3}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -4 \\
+            3  \\
+            2  \\
+            1
+        \end{pmatrix},
+    \]
+    Проекция
+    \[
+        \projection{V}{x}
+        = x - \perpendicular{V}{x}
+        = x - \projection{V^\perp}{x}
+        =
+        \begin{pmatrix}
+            -1 + 4 \\
+            5 - 3  \\
+            3 - 2  \\
+            5 - 1
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            3 \\
+            2 \\
+            1 \\
+            4
+        \end{pmatrix}
+    \]
+    и угол
+    \begin{multline*}
+        \angle \left ( x, V \right )
+        = \arccos \frac{\scalarproduct{x}{\projection{V}{x}}}{\modulus{x} \cdot \modulus{\projection{V}{x}}}
+        = \arccos \frac{-3 + 10 + 3 + 20}{\sqrt{1 + 25 + 9 + 25} \cdot \sqrt{9 + 4 + 1 + 16}} = \\
+        %
+        = \arccos \frac{30}{\sqrt{60} \cdot \sqrt{30}}
+        = \arccos \sqrt{\frac{30}{60}}
+        = \arccos \frac{1}{\sqrt{2}}
+        = \frac{\pi}{4} .
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    $\frac{\pi}{4}$.
+
+
+\end{document}
