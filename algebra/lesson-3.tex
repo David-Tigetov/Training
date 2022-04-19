@@ -75,21 +75,40 @@
             %
             \rightarrow
             \begin{pmatrix}
-                -5 & 2  & 1  & 5 & 1  & 2  & 5 & -4 \\
-                1  & 2  & -1 & 0 & -1 & -2 & 0 & 1  \\
-                -1 & 0  & 1  & 2 & 0  & 0  & 0 & -1 \\
-                -1 & 2  & -1 & 0 & 0  & 0  & 0 & -1 \\
-                2  & -1 & 0  & 0 & 0  & 0  & 0 & 2  \\
-                1  & 0  & 0  & 0 & 0  & 0  & 0 & 0
+                -5 & 2  & 1  & 5 & 1  & 2  & 5                   & \textcolor{blue}{0}  \\
+                1  & 2  & -1 & 0 & -1 & -2 & 0                   & \textcolor{blue}{5}  \\
+                -1 & 0  & 1  & 2 & 0  & 0  & \textcolor{blue}{2} & \textcolor{blue}{-1} \\
+                -1 & 2  & -1 & 0 & 0  & 0  & 0                   & \textcolor{blue}{3}  \\
+                2  & -1 & 0  & 0 & 0  & 0  & 0                   & \textcolor{blue}{0}  \\
+                1  & 0  & 0  & 0 & 0  & 0  & 0                   & 0
             \end{pmatrix}
             \rightarrow
             \begin{pmatrix}
-                -5 & 2  & 1  & 5 & 1  & 5 \\
-                1  & 2  & -1 & 0 & -1 & 0 \\
-                -1 & 0  & 1  & 2 & 0  & 0 \\
-                -1 & 2  & -1 & 0 & 0  & 0 \\
-                2  & -1 & 0  & 0 & 0  & 0 \\
-                1  & 0  & 0  & 0 & 0  & 0
+                -5 & 2  & 1  & 5 & 1  & 2  & 5                   & \textcolor{blue}{3} \\
+                1  & 2  & -1 & 0 & -1 & -2 & 0                   & \textcolor{blue}{2} \\
+                -1 & 0  & 1  & 2 & 0  & 0  & \textcolor{blue}{2} & \textcolor{blue}{2} \\
+                -1 & 2  & -1 & 0 & 0  & 0  & 0                   & \textcolor{blue}{0} \\
+                2  & -1 & 0  & 0 & 0  & 0  & 0                   & \textcolor{blue}{0} \\
+                1  & 0  & 0  & 0 & 0  & 0  & 0                   & 0
+            \end{pmatrix}
+            \rightarrow \\
+            %
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  & 2  & 5                   & \textcolor{blue}{-2} \\
+                1  & 2  & -1 & 0 & -1 & -2 & 0                   & \textcolor{blue}{2}  \\
+                -1 & 0  & 1  & 2 & 0  & 0  & \textcolor{blue}{2} & \textcolor{blue}{0}  \\
+                -1 & 2  & -1 & 0 & 0  & 0  & 0                   & \textcolor{blue}{0}  \\
+                2  & -1 & 0  & 0 & 0  & 0  & 0                   & \textcolor{blue}{0}  \\
+                1  & 0  & 0  & 0 & 0  & 0  & 0                   & 0
+            \end{pmatrix}
+            \rightarrow
+            \begin{pmatrix}
+                -5 & 2  & 1  & 5 & 1  \\
+                1  & 2  & -1 & 0 & -1 \\
+                -1 & 0  & 1  & 2 & 0  \\
+                -1 & 2  & -1 & 0 & 0  \\
+                2  & -1 & 0  & 0 & 0  \\
+                1  & 0  & 0  & 0 & 0
             \end{pmatrix}
         \end{gather*}
         Векторы-столбцы последней матрицы образуют базис в пространстве $V$.
@@ -98,20 +117,17 @@
     \subsection*{Ответ:}
     Базис $V$
     \[
+        \color{blue}
         a, b, c ,
         \begin{pmatrix}
             5 \\ 0 \\ 2 \\ 0 \\ 0 \\ 0
         \end{pmatrix} ,
         \begin{pmatrix}
             1 \\ -1 \\ 0 \\ 0 \\ 0 \\ 0
-        \end{pmatrix} ,
-        \begin{pmatrix}
-            5 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0
         \end{pmatrix} .
-        .
     \]
 
-    \section*{Пункт а}
+    \section*{Пункт а \textcolor{red}{[верно]}}
     Построить базис суммы и пересечения линейных подпространств:
     \[
         V_1 :
@@ -231,7 +247,7 @@
         Базис $V_1 \cap V_2$ --- векторы $b$ и $c$.
     \end{enumerate}
 
-    \section*{Пункт б}
+    \section*{Пункт б \textcolor{red}{[верно]}}
     Найдите базис суммы и пересечения двух векторных подпространств $U_1 = \left < a_1, b_1, c_1 \right >$, $U_2 = \left < a_2, b_2, c_2 \right >$.
     \[
         a_1 =
@@ -519,7 +535,7 @@
         \]
     \end{enumerate}
 
-    \section*{Пункт в}
+    \section*{Пункт в \textcolor{red}{[верно]}}
     По подпространствам какой размерности могут пересекаться 6-мерное и 16-мерное подпространства в $\mathbb{C}^{20}$.
 
     \subsection*{Решение:}
