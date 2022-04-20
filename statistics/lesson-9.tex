@@ -1,0 +1,157 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №9}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 9.4}
+    $X_t = Z \cos \left ( t - \Phi \right )$, $T = \left ( - \infty, + \infty \right )$, где случайные величины $Z$ и $\Phi$ независимые, $\expectation{Z} = a$, $\variance{Z} = b^2$,
+    $\Phi$ равномерно распределена на отрезке $\left [ 0, 2 \pi \right ]$. Вычислить $\mu(t)$, $\sigma^2(t)$, $r(s,t)$.
+
+    \subsection*{Решение:}
+    Математическое ожидание:
+    \[
+        \mu(t)
+        = \expectation{Z \cos \left ( t - \Phi \right )}
+        = \expectation{Z} \expectation{\cos \left ( t - \Phi \right )}
+        = 0,
+    \]
+    поскольку
+    \[
+        \expectation{\cos \left ( t - \Phi \right )}
+        = \int \limits_0^{2 \pi} \cos \left ( t - \varphi \right ) \frac{1}{2 \pi} d \varphi
+        = \frac{1}{2 \pi} \left . \left ( - \sin \left ( t - \varphi \right ) \right ) \right |_0^{2 \pi}
+        = \frac{1}{2 \pi} \left ( \sin t - \sin \left ( t - 2 \pi \right ) \right )
+        = 0 .
+    \]
+    Дисперсия
+    \[
+        \sigma^2(t)
+        = \variance{Z \cos \left ( t - \Phi \right )}
+        = \expectation{Z^2 \cos^2 \left ( t - \Phi \right )}
+        = \expectation{Z^2} \expectation{\cos^2 \left ( t - \Phi \right )},
+    \]
+    где
+    \[
+        \expectation{Z^2}
+        = \variance{Z} + \left ( \expectation{Z} \right )^2
+        = b^2 + a^2 ,
+    \]
+    и
+    \begin{multline*}
+        %
+        \expectation{\cos^2 \left ( t - \Phi \right )}
+        = \int \limits_0^{2 \pi} \cos^2 \left ( t - \varphi \right ) \frac{1}{2 \pi} d \varphi
+        = \frac{1}{2 \pi} \int \limits_0^{2 \pi} \frac{1 + \cos 2 \left ( t - \varphi \right )}{2} d \varphi = \\
+        %
+        = \frac{1}{4 \pi} \left ( \int \limits_0^{2 \pi} d \varphi + \int \limits_0^{2 \pi} \cos 2 \left ( t - \varphi \right ) d \varphi \right )
+        = \frac{1}{4 \pi} \left ( 2 \pi - \left . \frac{\sin 2 \left ( t - \varphi \right )}{2} \right |_0^{2 \pi} \right ) = \\
+        %
+        = \frac{1}{4 \pi} \left ( 2 \pi - \frac{\sin 2 t - \sin 2 \left ( t - 2 \pi \right )}{2} \right )
+        = \frac{1}{4 \pi} 2 \pi
+        = \frac{1}{2}.
+    \end{multline*}
+    Таким образом,
+    \[
+        \sigma^2(t) = \frac{b^2 + a^2}{2} .
+    \]
+
+    Ковариационная функция
+    \begin{multline*}
+        R(s,t)
+        = \covariance{X_s}{X_t}
+        = \expectation{X_s X_t}
+        = \expectation{Z \cos \left ( s - \Phi \right ) Z \cos \left ( t - \Phi \right )} = \\
+        %
+        = \expectation{Z^2 \cos \left ( s - \Phi \right ) \cos \left ( t - \Phi \right )}
+        = \expectation{Z^2} \expectation{\cos \left ( s - \Phi \right ) \cos \left ( t - \Phi \right )},
+    \end{multline*}
+    где
+    \begin{multline*}
+        \expectation{\cos \left ( s - \Phi \right ) \cos \left ( t - \Phi \right )}
+        = \expectation{\frac{1}{2} \left ( \cos \left ( s - t \right ) + \cos \left ( s + t - 2 \Phi \right ) \right )} = \\
+        %
+        = \frac{1}{2} \left ( \cos \left ( s - t \right ) + \expectation{\cos \left ( s + t - 2 \Phi \right )} \right )
+        = \frac{1}{2} \cos \left ( s - t \right ),
+    \end{multline*}
+    поскольку
+    \[
+        \expectation{\cos \left ( s + t - 2 \Phi \right )}
+        = \int \limits_0^{2 \pi} \cos \left ( s + t - 2 \Phi \right ) \frac{1}{2 \pi} d \varphi
+        = 0 .
+    \]
+    Таким образом,
+    \begin{gather*}
+        R(s,t) = \left ( b^2 + a^2 \right ) \frac{1}{2} \cos \left ( s - t \right ), \\
+        %
+        r(s,t)
+        = \frac{R(s,t)}{\sigma(s) \cdot \sigma(t)}
+        = \frac{\left ( b^2 + a^2 \right ) \frac{1}{2} \cos \left ( s - t \right )}{\frac{b^2 + a^2}{2}}
+        = \cos \left ( s - t \right ).
+    \end{gather*}
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item $\mu(t) = 0$,
+        \item $\sigma^2(t) = \frac{b^2 + a^2}{2}$,
+        \item $r(s,t) = \cos \left ( s - t \right )$.
+    \end{enumerate}
+
+    \section*{Задача 9.8}
+    Доказать, используя результат задачи 9.7, что математическое ожидание числа пересечений траекторией процесса $G_t$ из примера 1 горизонтального уровня $a>0$ на $\left [ 0, b \right ]$
+    равно $\frac{\lambda b}{\pi} e^{-\frac{a^2}{2}}$.
+
+    \subsection*{Решение:}
+    Пусть $\nu$ --- количество пересечений процессом $G_t$ горизонтального уровня $a$, тогда:
+    \[
+        \nu = I_{x \ge a}(Z) \cdot \nu_{\Phi},
+    \]
+    где $I_{x \ge a}(Z)$ --- индикаторная случайная величина, показывающая, что при $Z < a$ количество пересечений нулевое, а при $Z \ge a$ определяется величиной $\nu_{\Phi}$ ---
+    количеством пересечений процессом $\cos \left ( \lambda t - \Phi \right )$ уровня $\frac{a}{Z}$ на отрезке $\left [ 0, b \right ]$.
+
+    Поскольку величины $Z$ и $\Phi$ независимы, то и функции от них $I_{x \ge a}(Z)$ и $\nu_{\Phi}$ также независимы, поэтому:
+    \[
+        \expectation{\nu} = \expectation{I_{x \ge a}(Z)} \cdot \expectation{\nu_{\Phi}} ,
+    \]
+    где
+    \begin{gather*}
+        I_{x \ge a}(Z)
+        = \left \{
+        \begin{array}{ll}
+            0, & \text{с вероятностью } \probability{Z<a}     \\
+            1, & \text{с вероятностью } \probability{Z \ge a}
+        \end{array}
+        \right . , \\
+        %
+        \expectation{I_{x \ge a}(Z)}
+        = \probability{Z \ge a}
+        = \int \limits_a^\infty x e^{- \frac{x^2}{2}} dx
+        = \left . - e^{- \frac{x^2}{2}} \right |_a^\infty
+        = e^{- \frac{a^2}{2}}.
+    \end{gather*}
+
+    Если выполнить масштабирование времени $\tau = \lambda t$, то можно заметить, что количество пересечений процессом
+    $\cos \left ( \lambda t - \Phi \right )$ уровня $\frac{a}{Z}$ на отрезке $\left [ 0, b \right ]$ такое как и количество пересечений процессом $\cos \left ( \tau - \Phi \right )$
+    уровня $\frac{a}{Z}$ на отрезке $\left [ 0, \lambda b \right ]$, поэтому, используя результат задачи 9.7, получим:
+    \[
+        \nu_{\Phi} = \frac{\lambda b}{\pi}.
+    \]
+
+    В итоге,
+    \[
+        \expectation{\nu}
+        = e^{- \frac{a^2}{2}} \cdot \frac{\lambda b}{\pi}.
+    \]
+\end{document}
