@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 9}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Пусть $V = \mathbb{R}^3$ со стандартным скалярным произведением, а $W \in V$ является линейной оболочкой вектора $a$:
+    \[
+        a = \begin{pmatrix}
+                1 \\ 2 \\ 3
+        \end{pmatrix} .
+    \]
+    Рассмотрим отображение $\mathcal{A}: V \rightarrow W$, заданное формулой $\mathcal{A}(x) = \projection{W}{x}$. Докажите, что $\mathcal{A}$ --- линейное отображение и найдите его
+    матрицу $A$ по отношению к базисам $\epsilon$, $\varphi$ пространств $V$ и $W$ соответственно, где:
+    \begin{enumerate}
+        \item $\epsilon$ стандартный базис в $\mathbb{R}^3$, $\varphi = \set{a}$,
+        \item $\epsilon = \set{b_1, b_2, b_3}$, $\varphi = \set{a}$, где
+        \[
+            b_1 = \begin{pmatrix}
+                      1 \\ 0 \\ 1
+            \end{pmatrix} ,
+            b_2 = \begin{pmatrix}
+                      2 \\ 0 \\ -1
+            \end{pmatrix} ,
+            b_3 = \begin{pmatrix}
+                      1 \\ 1 \\ 0
+            \end{pmatrix} .
+        \]
+    \end{enumerate}
+
+    \subsection*{Решение:}
+    По свойству проекции для любых векторов $x$ и $y$ и постоянной $\lambda$:
+    \begin{gather*}
+        \mathcal{A}(x + y)
+        = \projection{W}{(x + y)}
+        = \projection{W}{x} + \projection{W}{y}
+        = \mathcal{A}(x) + \mathcal{A}(y), \\
+        %
+        \mathcal{A}(\lambda x)
+        = \projection{W}{\lambda x}
+        = \lambda \projection{W}{x}
+        = \lambda \mathcal{A}(x) .
+    \end{gather*}
+    Это означает, что $\mathcal{A}$ --- линейное отображение.
+
+    Отображение $\mathcal{A}$ можно представить в виде:
+    \[
+        \mathcal{A}(x)
+        = \frac{\scalarproduct{x}{a}}{\scalarproduct{a}{a}} a ,
+    \]
+    где
+    \[
+        \scalarproduct{a}{a} = 1 + 4 + 9 = 14.
+    \]
+    Действие отображения $\mathcal{A}$ на векторы стандартного базиса:
+    \begin{gather*}
+        \mathcal{A}(e_1)
+        = \frac{1}{14} a, \\
+        %
+        \mathcal{A}(e_2)
+        = \frac{2}{14} a, \\
+        %
+        \mathcal{A}(e_3)
+        = \frac{3}{14} a,
+    \end{gather*}
+    откуда матрица $A$
+    \[
+        A =
+        \begin{pmatrix}
+            \frac{1}{14} & \frac{2}{14} & \frac{3}{14}
+        \end{pmatrix}
+    \]
+
+    Действие отображения $\mathcal{A}$ на векторы $b_i$:
+    \begin{gather*}
+        \mathcal{A}(b_1)
+        = \frac{1 + 3}{14} a, \\
+        %
+        \mathcal{A}(b_2)
+        = \frac{2 - 6}{14} a, \\
+        %
+        \mathcal{A}(b_3)
+        = \frac{1 + 2}{14} a,
+    \end{gather*}
+    откуда матрица $A$
+    \[
+        A =
+        \begin{pmatrix}
+            \frac{4}{14} & - \frac{4}{14} & \frac{3}{14}
+        \end{pmatrix}
+        .
+    \]
+
+\end{document}
