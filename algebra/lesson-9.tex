@@ -195,7 +195,65 @@
     \]
     Рассмотрим отображение $\mathcal{A}: V \rightarrow W$, заданное формулой $\mathcal{A}(x) = \projection{W}{x}$.
 
-    Докажите, что $A$ --- линейное отображение и найдите его матрицу по отношению к базисам $\epsilon$, $\varphi$ пространств $V$ и $W$ соответственно, где $\epsilon$ ---
+    Докажите, что $\mathcal{A}$ --- линейное отображение и найдите его матрицу по отношению к базисам $\epsilon$, $\varphi$ пространств $V$ и $W$ соответственно, где $\epsilon$ ---
     стандартный базис в $\mathbb{R}^3$.
 
+    \subsection*{Решение:}
+    К счастью векторы $a_1$ и $a_2$ ортогональны:
+    \[
+        \scalarproduct{a_1}{a_2} = 1 + 0 - 1 = 0,
+    \]
+    что существенно упрощает вычисление проекции:
+    \begin{gather*}
+        \mathcal{A}(x)
+        = \frac{\scalarproduct{x}{a_1}}{\scalarproduct{a_1}{a_1}} a_1 + \frac{\scalarproduct{x}{a_2}}{\scalarproduct{a_2}{a_2}} a_2
+        = \mathcal{A}_1(x) + \mathcal{A}_2(x) , \\
+        %
+        \mathcal{A}_i(x) = \frac{\scalarproduct{x}{a_i}}{\scalarproduct{a_i}{a_i}} a_i .
+    \end{gather*}
+    Из пункта а мы уже знаем, что $\mathcal{A}_i$ --- линейные отображения, поэтому для любых векторов $x$ и $y$ и числа $\lambda$:
+    \begin{gather*}
+        \mathcal{A}(x + y)
+        = \mathcal{A}_1(x + y) + \mathcal{A}_2(x + y)
+        = \mathcal{A}_1(x) + \mathcal{A}_1(y) + \mathcal{A}_2(x) + \mathcal{A}_2(y)
+        = \mathcal{A}(x) + \mathcal{A}(y), \\
+        %
+        \mathcal{A}(\lambda x)
+        = \mathcal{A}_1(\lambda x) + \mathcal{A}_2(\lambda x)
+        = \lambda \mathcal{A}_1(x) + \lambda \mathcal{A}_2(x)
+        = \lambda \left ( \mathcal{A}_1(x) + \mathcal{A}_2(x) \right )
+        = \lambda \mathcal{A}(x),
+    \end{gather*}
+    и $\mathcal{A}$ тоже линейное отображение.
+
+    Произведения:
+    \begin{gather*}
+        \scalarproduct{a_1}{a_1} = 1 + 1 = 2, \\
+        \scalarproduct{a_2}{a_2} = 1 + 1 = 2 ,
+    \end{gather*}
+    действие отображения $\mathcal{A}$ на векторы стандартного базиса:
+    \begin{align*}
+        \mathcal{A}(e_1) & = \frac{1}{2} a_1 + \frac{1}{2} a_2 , \\
+        \mathcal{A}(e_2) & = \frac{0}{2} a_1 + \frac{0}{2} a_2  = 0 , \\
+        \mathcal{A}(e_3) & = -\frac{1}{2} a_1 + \frac{1}{2} a_2 .
+    \end{align*}
+    откуда матрица $A$ отображения:
+    \[
+        A
+        =
+        \begin{pmatrix}
+            \frac{1}{2} & 0 & - \frac{1}{2} \\
+            \frac{1}{2} & 0 & \frac{1}{2}
+        \end{pmatrix}
+        .
+    \]
+
+    \subsection*{Ответ:}
+    Матрица отображения:
+    $
+    \begin{pmatrix}
+        \frac{1}{2} & 0 & - \frac{1}{2} \\
+        \frac{1}{2} & 0 & \frac{1}{2}
+    \end{pmatrix}
+    $.
 \end{document}
