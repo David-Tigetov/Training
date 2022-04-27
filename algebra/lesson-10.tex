@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{amssymb}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 10}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Линейный оператор в некотором базисе $e_1$, $e_2$, $e_3$, $e_4$ имеет матрицу:
+    \[
+        A
+        =
+        \begin{pmatrix}
+            1 & 2 & 0  & 1 \\
+            3 & 0 & -1 & 2 \\
+            2 & 5 & 3  & 1 \\
+            1 & 2 & 1  & 3
+        \end{pmatrix} .
+    \]
+    Найдите его матрицу в базисе $f_1 = e_1$, $f_1 = e_1 + e_2$, $f_1 = e_1 + e_2 + e_3$, $f_1 = e_1 + e_2 + e_3 + e_4$.
+
+    \subsection*{Решение:}
+    Матрица перехода от базиса $e_i$ к базису $f_i$:
+    \[
+        C
+        =
+        \begin{pmatrix}
+            1 & 1 & 1 & 1 \\
+            0 & 1 & 1 & 1 \\
+            0 & 0 & 1 & 1 \\
+            0 & 0 & 0 & 1
+        \end{pmatrix}.
+    \]
+    Обратная матрица:
+    \[
+        C^{-1}
+        =
+        \begin{pmatrix}
+            1 & -1 & 0  & 0  \\
+            0 & 1  & -1 & 0  \\
+            0 & 0  & 1  & -1 \\
+            0 & 0  & 0  & 1
+        \end{pmatrix}.
+    \]
+    Матрица оператора в базисе $f_i$:
+    \begin{multline*}
+        \widetilde{A}
+        = C^{-1} A C
+        =
+        \begin{pmatrix}
+            1 & -1 & 0  & 0  \\
+            0 & 1  & -1 & 0  \\
+            0 & 0  & 1  & -1 \\
+            0 & 0  & 0  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 2 & 0  & 1 \\
+            3 & 0 & -1 & 2 \\
+            2 & 5 & 3  & 1 \\
+            1 & 2 & 1  & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 1 & 1 & 1 \\
+            0 & 1 & 1 & 1 \\
+            0 & 0 & 1 & 1 \\
+            0 & 0 & 0 & 1
+        \end{pmatrix} = \\
+        %
+        =
+        \begin{pmatrix}
+            1 & -1 & 0  & 0  \\
+            0 & 1  & -1 & 0  \\
+            0 & 0  & 1  & -1 \\
+            0 & 0  & 0  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 3 & 3  & 4  \\
+            3 & 4 & 2  & 4  \\
+            2 & 7 & 10 & 11 \\
+            1 & 3 & 4  & 7
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -2 & 0  & 1  & 0  \\
+            1  & -4 & -8 & -7 \\
+            1  & 4  & 6  & 4  \\
+            1  & 3  & 4  & 7
+        \end{pmatrix} .
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    $
+    \begin{pmatrix}
+        -2 & 0  & 1  & 0  \\
+        1  & -4 & -8 & -7 \\
+        1  & 4  & 6  & 4  \\
+        1  & 3  & 4  & 7
+    \end{pmatrix} .
+    $
+\end{document}
