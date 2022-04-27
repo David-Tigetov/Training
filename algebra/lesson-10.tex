@@ -111,4 +111,168 @@
         1  & 3  & 4  & 7
     \end{pmatrix} .
     $
+
+    \section*{Пункт б}
+    Пусть $V = \mathbb{R}^3$ со стандартным скалярным произведением. Пусть $\mathcal{A}$ --- оператор ортогональной проекции на вектор $u = (1, -2, 1)$, $\mathcal{B}$ --- оператор,
+    сопоставляющий вектору $v$ его векторное произведение с вектором $w = (1, 1, 1)$. Найдите матрицы операторов $\mathcal{A} \circ \mathcal{B}$ и $\mathcal{B} \circ \mathcal{A}$
+    в стандартном базисе.
+
+    \subsection*{Решение:}
+    Оператор проекции $\mathcal{A}$ имеет выражение:
+    \[
+        \mathcal{A}(x)
+        = \frac{\scalarproduct{x}{u}}{\scalarproduct{u}{u}} u
+        = \frac{\scalarproduct{x}{u}}{6} u
+    \]
+    и матрицу $A$:
+    \[
+        A
+        =
+        \begin{pmatrix}
+            1  & 1  & 1  \\
+            -2 & -2 & -2 \\
+            1  & 1  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{1}{6} & 0             & 0           \\
+            0           & - \frac{2}{6} & 0           \\
+            0           & 0             & \frac{1}{6}
+        \end{pmatrix}
+    \]
+
+    Действие оператора $\mathcal{B}$ на векторы стандартного базиса:
+    \begin{gather}
+        \mathcal{B}(e_1)
+        =
+        \begin{vmatrix}
+            e_1 & e_2 & e_3 \\
+            1   & 0   & 0   \\
+            1   & 1   & 1
+        \end{vmatrix}
+        = - e_2 + e_3 , \\
+        %
+        \mathcal{B}(e_2)
+        =
+        \begin{vmatrix}
+            e_1 & e_2 & e_3 \\
+            0   & 1   & 0   \\
+            1   & 1   & 1
+        \end{vmatrix}
+        = e_1 - e_3 , \\
+        %
+        \mathcal{B}(e_3)
+        =
+        \begin{vmatrix}
+            e_1 & e_2 & e_3 \\
+            0   & 0   & 1   \\
+            1   & 1   & 1
+        \end{vmatrix}
+        = - e_1 + e_2 ,
+    \end{gather}
+    откуда матрица оператора $\mathcal{B}$
+    \[
+        B
+        =
+        \begin{pmatrix}
+            0  & 1  & -1 \\
+            -1 & 0  & 1  \\
+            1  & -1 & 0
+        \end{pmatrix}
+        .
+    \]
+
+    Матрица оператора $\mathcal{A} \circ \mathcal{B}$:
+    \begin{multline*}
+        A B =
+        \begin{pmatrix}
+            1  & 1  & 1  \\
+            -2 & -2 & -2 \\
+            1  & 1  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{1}{6} & 0             & 0           \\
+            0           & - \frac{2}{6} & 0           \\
+            0           & 0             & \frac{1}{6}
+        \end{pmatrix}
+        \begin{pmatrix}
+            0  & 1  & -1 \\
+            -1 & 0  & 1  \\
+            1  & -1 & 0
+        \end{pmatrix} = \\
+        %
+        =
+        \begin{pmatrix}
+            1  & 1  & 1  \\
+            -2 & -2 & -2 \\
+            1  & 1  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            0           & \frac{1}{6}  & - \frac{1}{6} \\
+            \frac{2}{6} & 0            & -\frac{2}{6}  \\
+            \frac{1}{6} & -\frac{1}{6} & 0
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \frac{1}{2} & 0 & - \frac{1}{2} \\
+            - 1         & 0 & 1             \\
+            \frac{1}{2} & 0 & - \frac{1}{2}
+        \end{pmatrix} .
+    \end{multline*}
+
+    Матрица оператора $\mathcal{B} \circ \mathcal{A}$:
+    \begin{multline*}
+        B A =
+        \begin{pmatrix}
+            0  & 1  & -1 \\
+            -1 & 0  & 1  \\
+            1  & -1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            1  & 1  & 1  \\
+            -2 & -2 & -2 \\
+            1  & 1  & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{1}{6} & 0             & 0           \\
+            0           & - \frac{2}{6} & 0           \\
+            0           & 0             & \frac{1}{6}
+        \end{pmatrix} = \\
+        %
+        =
+        \begin{pmatrix}
+            -3 & -3 & -3 \\
+            0  & 0  & 0  \\
+            3  & 3  & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{1}{6} & 0             & 0           \\
+            0           & - \frac{2}{6} & 0           \\
+            0           & 0             & \frac{1}{6}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            -\frac{1}{2} & 1   & - \frac{1}{2} \\
+            0            & 0   & 0             \\
+            \frac{1}{2}  & - 1 & \frac{1}{2}
+        \end{pmatrix} .
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    Матрица оператора $\mathcal{A} \circ \mathcal{B}$:
+    $
+    \begin{pmatrix}
+        \frac{1}{2} & 0 & - \frac{1}{2} \\
+        - 1         & 0 & 1             \\
+        \frac{1}{2} & 0 & - \frac{1}{2}
+    \end{pmatrix}
+    $.
+    Матрица оператора $\mathcal{B} \circ \mathcal{A}$:
+    $
+    \begin{pmatrix}
+        -\frac{1}{2} & 1   & - \frac{1}{2} \\
+        0            & 0   & 0             \\
+        \frac{1}{2}  & - 1 & \frac{1}{2}
+    \end{pmatrix}
+    $.
+
 \end{document}
