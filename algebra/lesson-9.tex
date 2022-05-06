@@ -19,7 +19,7 @@
     \date{}
     \maketitle
 
-    \section*{Пункт а}
+    \section*{Пункт а \textcolor{red}{[верно]}}
     Пусть $V = \mathbb{R}^3$ со стандартным скалярным произведением, а $W \in V$ является линейной оболочкой вектора $a$:
     \[
         a = \begin{pmatrix}
@@ -123,7 +123,7 @@
         \end{pmatrix}$.
     \end{enumerate}
 
-    \section*{Пункт б}
+    \section*{Пункт б \textcolor{red}{[верно]}}
     Пусть линейное отображение $\mathcal{A}: V \rightarrow W$ в базисах $\set{e_1, e_2, e_3}$ и $\set{f_1, f_2}$ пространств $V$ и $W$ соответственно имеет матрицу
     \[
         A = \begin{pmatrix}
@@ -204,7 +204,34 @@
     \[
         \scalarproduct{a_1}{a_2} = 1 + 0 - 1 = 0,
     \]
-    что существенно упрощает вычисление проекции:
+    что существенно упрощает вычисление проекции.
+
+        {
+        \color{blue}
+        Действительно, произвольный вектор $x$ можно представить в виде суммы ортогональной проекции $\projection{W}{x}$ на подпространство $W$ и ортогональной составляющей
+        $\perpendicular{W}{x}$:
+        \begin{gather*}
+            x = \projection{W}{x} + \perpendicular{W}{x}, \\
+            \projection{W}{x} = x_1 a_1 + x_2 a_2 ,
+        \end{gather*}
+        где ортогональная проекция $\projection{W}{x} \in W$, поэтому может быть представлена линейной комбинацией векторов $a_1$ и $a_2$. Для вычисления коэффициентов $x_i$
+        необходимо вычислить скалярные произведения:
+        \begin{multline*}
+            \scalarproduct{x}{a_i}
+            = \scalarproduct{\projection{W}{x} + \perpendicular{W}{x}}{a_i}
+            = \scalarproduct{\projection{W}{x}}{a_i} + \scalarproduct{\perpendicular{W}{x}}{a_i} = \\
+            %
+            = \scalarproduct{x_1 a_1 + x_2 a_2}{a_i} + 0
+            = x_1 \scalarproduct{a_1}{a_i} + x_2 \scalarproduct{a_2}{a_i}.
+        \end{multline*}
+        Откуда
+        \begin{gather*}
+            \scalarproduct{x}{a_1} = x_1 \scalarproduct{a_1}{a_1} + x_2 \cdot 0 \Rightarrow x_1 = \frac{\scalarproduct{x}{a_1}}{\scalarproduct{a_1}{a_1}} , \\
+            \scalarproduct{x}{a_2} = x_1 \cdot 0 + x_2 \cdot \scalarproduct{a_2}{a_2} \Rightarrow x_2 = \frac{\scalarproduct{x}{a_2}}{\scalarproduct{a_2}{a_2}} .
+        \end{gather*}
+    }
+
+    Таким образом, в результате проецирования произвольного вектора $x$ получается вектор $\mathcal{A}(x)$:
     \begin{gather*}
         \mathcal{A}(x)
         = \frac{\scalarproduct{x}{a_1}}{\scalarproduct{a_1}{a_1}} a_1 + \frac{\scalarproduct{x}{a_2}}{\scalarproduct{a_2}{a_2}} a_2
@@ -258,7 +285,7 @@
     \end{pmatrix}
     $.
 
-    \section*{Пункт г}
+    \section*{Пункт г \textcolor{red}{[верно]}}
     Найдите размерности ядра и образа линейного отображения $\mathcal{L}$, заданного матрицей:
     \[
         L
