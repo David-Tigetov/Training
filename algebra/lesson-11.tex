@@ -1,0 +1,99 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{amssymb}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 11}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Докажите, что подпространство $W = \left < a, b \right >$ является инвариантным для оператора, заданного матрицей $A$:
+    \[
+        a = \begin{pmatrix}
+                -2 \\ 1 \\ 1
+        \end{pmatrix},
+        b = \begin{pmatrix}
+                3 \\ 2 \\ -5
+        \end{pmatrix},
+        A = \begin{pmatrix}
+                2 & 10 & 5 \\
+                3 & -15 & 6 \\
+                -1 & 9 & -7
+        \end{pmatrix}
+    \]
+
+    \subsection*{Решение:}
+    Применим оператор к векторам $a$ и $b$:
+    \begin{gather*}
+        A a
+        =
+        \begin{pmatrix}
+            -4 + 10 + 5 \\
+            -6 - 15 + 6 \\
+            2 + 9 - 7
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            11 \\
+            -15 \\
+            4
+        \end{pmatrix} , \\
+        %
+        A b
+        =
+        \begin{pmatrix}
+            6 + 20 - 25 \\
+            9 - 30 - 30 \\
+            - 3 + 18 + 35 \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1 \\
+            - 51 \\
+            50
+        \end{pmatrix}
+        .
+    \end{gather*}
+
+    Проверим принадлежность полученных векторов оболочке $W = \left < a, b \right >$:
+    \begin{gather*}
+        \begin{pmatrix}
+            -2 & 3 & 11 & 1 \\
+            1 & 2 & -15 & -51 \\
+            1 & -5 & 4 & 50 \\
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            -2 & 7 & -19 & -101 \\
+            1 & 0 & 0 & 0 \\
+            1 & -7 & 19 & 101 \\
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            -2 & 7 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            1 & -7 & 0 & 0 \\
+        \end{pmatrix}
+    \end{gather*}
+    Таким образом, $Aa \in W$ и $Ab \in W$, поэтому для любого вектора $x \in W$:
+    \[
+        x = \lambda_1 a + \lambda_2 b
+        \rightarrow
+        A x = \lambda_1 Aa + \lambda_2 Ab \in W.
+    \]
+
+
+\end{document}
