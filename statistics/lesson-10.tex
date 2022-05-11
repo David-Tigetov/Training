@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №10}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 10.1}
+    Используя счётную аддитивность вероятностной меры, на основе определения цепи Маркова из п.2, доказать, что для произвольного $k$ ($1 \le k \le n$) выполняется равенство:
+    \[
+        \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_0 = x_0} = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}}.
+    \]
+
+    \subsection*{Решение:}
+    Согласно определению цепи Маркова:
+    \[
+        \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_0 = x_0} = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}}.
+    \]
+    ?
+
+    \section*{Задача 10.5}
+    Используя марковское свойство, доказать, что $p_{ij}(n) = \conditionalprobability{X_n = j}{X_0 = i}$ --- $(i,j)$-й элемент матрицы $P^n$.
+
+    \subsection*{Решение:}
+    Докажем по индукции.
+
+    При $n=1$ вероятности $p_{ij}(1) = \conditionalprobability{X_1 = j}{X_0 = i}$ являются элементами матрицы $P$.
+
+    Пусть вероятности $p_{ij}(n-1) = \conditionalprobability{X_{n-1} = j}{X_0 = i}$ являются элементами матрицы $P^{n-1}$. Пусть числа $1$, \dots, $M$ обозначают состояния цепи, тогда
+    по формуле полной вероятности:
+    \begin{multline*}
+        p_{ij}(n)
+        = \conditionalprobability{X_n = j}{X_0 = i}
+        = \sum_{k=1}^M \conditionalprobability{X_n = j, X_{n-1} = k}{X_0 = i} = \\
+        %
+        = \sum_{k=1}^M \conditionalprobability{X_n = j}{X_{n-1} = k, X_0 = i} \conditionalprobability{X_{n-1} = k}{X_0 = i}
+    \end{multline*}
+    Поскольку цепь является марковской, то
+    \[
+        \conditionalprobability{X_n = j}{X_{n-1} = k, X_0 = i}
+        = \conditionalprobability{X_n = j}{X_{n-1} = k} .
+    \]
+    В силу однородности цепи:
+    \[
+        \conditionalprobability{X_n = j}{X_{n-1} = k}
+        = \conditionalprobability{X_1 = j}{X_0 = k},
+    \]
+    тогда
+    \begin{multline*}
+        p_{ij}(n)
+        = \sum_{k=1}^M \conditionalprobability{X_1 = j}{X_0 = k} \conditionalprobability{X_{n-1} = k}{X_0 = i} = \\
+        %
+        = \sum_{k=1}^M p_{kj}(1) p_{ik}(n-1)
+        = \sum_{k=1}^M p_{ik}(n-1) p_{kj}(1)
+    \end{multline*}
+    Согласно правилу умножения "строка на столбец"{} сумма в правой части соответствует элементу $(i,j)$ произведения $P^{n-1} \cdot P = P^n$.
+
+\end{document}
