@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №11}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 11.1}
+    \begin{enumerate}
+        \item По индукции с использованием формулы свёртки найти формулу для плотности распределения случайной величины $S_n$ из определения 1 пуассоновского процесса.
+        \item Используя равенство $\probability{N_t = k} = \probability{S_k \le t, S_{k+1} > t} = \probability{S_{k+1} > t} - \probability{S_k > t}$, интегрированием по частям установить,
+        что $\probability{N_t = k} = \frac{(\lambda t)^k}{k!} e^{-\lambda t}$.
+    \end{enumerate}
+
+    \subsection*{Решение:}
+    \begin{enumerate}
+        \item Все величины $T_i$ имеют одинаковую плотность распределения $f(x)$:
+        \[
+            f(x) = \derivative{x} F(x) = \lambda e^{-\lambda x} .
+        \]
+
+        Величина $S_1 = T_1$ имеет плотность распределения $f_1(x)$:
+        \[
+            f_1(x) = f(x) = \lambda e^{-\lambda x} .
+        \]
+
+        Величина $S_2 = S_1 + T_2$ имеет плотность распределения $f_2(x)$:
+        \[
+            f_2(x)
+            = \int \limits_{-\infty}^{\infty} f_1(t) f(x-t) dt
+            = \int \limits_0^x \lambda e^{- \lambda t} \lambda e^{- \lambda (x-t)} dt
+            = \lambda^2 \int \limits_0^x e^{- \lambda x} dt
+            = \lambda^2 x e^{- \lambda x} .
+        \]
+
+        Величина $S_3 = S_2 + T_3$ имеет плотность распределения $f_3(x)$:
+        \[
+            f_3(x)
+            = \int \limits_{-\infty}^{\infty} f_2(t) f(x-t) dt
+            = \int \limits_0^x \lambda^2 t e^{- \lambda t} \lambda e^{- \lambda (x-t)} dt
+            = \lambda^3 \int \limits_0^x t dt e^{- \lambda x}
+            = \lambda^3 \frac{x^2}{2} e^{- \lambda x} .
+        \]
+
+        Теперь видна закономерность: в результате свертки добавляется множитель $\lambda \frac{1}{n-1}$ и на единицу увеличивается степень $x$. Для доказательства по индукции предположим, что для величина $S_{n-1}$
+        имеет плотность распределения:
+        \[
+            f_{n-1}(x) = \lambda^{n-1} \frac{x^{n-2}}{(n-2)!} e^{-x} ,
+        \]
+        тогда величина $S_n = S_{n-1} + T_n$ имеет плотность распредления $f_n(x)$:
+        \begin{multline*}
+            f_n(x)
+            = \int \limits_{-\infty}^{\infty} f_{n-1}(t) f(x-t) dt
+            = \int \limits_0^x \lambda^{n-1} \frac{t^{n-2}}{(n-2)!} e^{-x} \lambda e^{- \lambda (x - t )} dt = \\
+            %
+            = \lambda^n \frac{1}{(n-2)!} \int \limits_0^x t^{n-2} dt e^{- \lambda x}
+            = \lambda^n \frac{1}{(n-2)!} \frac{x^{n-1}}{n-1} e^{- \lambda x}
+            = \lambda^n \frac{x^{n-1}}{(n-1)!} e^{- \lambda x} .
+        \end{multline*}
+        Плотность распределения Эрланга.
+
+        \item Необходимо вычислить вероятность вида:
+        \begin{multline*}
+            \probability{S_k > t}
+            = \int \limits_t^{\infty} f_k(x) dx
+            = \int \limits_t^{\infty} \lambda^n \frac{x^{n-1}}{(n-1)!} e^{- \lambda x} dx = \\
+            %
+            =
+            \left . \frac{x^{n-1}}{(n-1)!} \lambda^{n-1} \left ( - e^{-\lambda x } \right ) \right |_t^{\infty}
+            - \left . \frac{x^{n-2}}{(n-2)!} \lambda^{n-2} \left ( e^{-\lambda x } \right ) \right |_t^{\infty}
+            + \left . \frac{x^{n-3}}{(n-3)!} \lambda^{n-3} \left ( - e^{-\lambda x } \right ) \right |_t^{\infty}
+            - ...
+            - \left . e^{-\lambda x} \right |_t^\infty = \\
+            %
+            = \frac{t^{n-1}}{(n-1)!} \lambda^{n-1} e^{-\lambda t}
+            + \frac{t^{n-2}}{(n-2)!} \lambda^{n-2} e^{-\lambda t}
+            + ...
+            + e^{-\lambda t},
+        \end{multline*}
+        поскольку $\lim \limits_{x \rightarrow \infty} x^k e^{- \lambda x} = 0$.
+
+        Согласно равенству из условия задачи:
+        \begin{multline*}
+            \probability{N_t = k}
+            = \probability{S_{k+1} > t} - \probability{S_k > t} = \\
+            %
+            \shoveleft{
+                = \frac{t^k}{k!} \lambda^{k} e^{-\lambda t}
+                + \frac{t^{k-1}}{(k-1)!} \lambda^{k-1} e^{-\lambda t}
+                + ...
+                + e^{-\lambda t} - } \\
+            %
+            \shoveright{
+                - \frac{t^{k-1}}{(k-1)!} \lambda^{k-1} e^{-\lambda t}
+                - \frac{t^{k-2}}{(k-2)!} \lambda^{k-2} e^{-\lambda t}
+                - ...
+                - e^{-\lambda t} } \\
+            %
+            = \frac{t^k}{k!} \lambda^{k} e^{-\lambda t}
+        \end{multline*}
+    \end{enumerate}
+
+\end{document}
