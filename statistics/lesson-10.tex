@@ -23,11 +23,61 @@
     \]
 
     \subsection*{Решение:}
-    Согласно определению цепи Маркова:
+    Счётная аддитивность вероятностной меры приводит к счётной формуле полной вероятности: пусть $B$ --- произвольное событий и $A_i$ --- счётное разбиение множества всех элементарных исходов
+    $\Omega$, тогда
     \[
-        \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_0 = x_0} = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}}.
+        B
+        = B \cdot \Omega
+        = B \cdot \bigcup_{k=0}^{\infty} A_k
+        = \bigcup_{k=0}^{\infty} B A_k
     \]
-    ?
+    И поскольку множества $B A_k$ не пересекаются, то в силу счётной аддитивности:
+    \[
+        \probability{B}
+        = \probability{\bigcup_{k=0}^{\infty} B A_k}
+        = \sum_{k=0}^{\infty} \probability{B A_k}
+        = \sum_{k=0}^{\infty} \conditionalprobability{B}{A_k} \probability{A_k} .
+    \]
+
+    Пусть $X^{(0)}$ --- множество всех возможных значений случайной величины $X_0$, множество $X^{(0)}$ конечно либо счётно. В силу условий нормировки и счётной аддитивности меры:
+    \begin{gather*}
+        1 = \probability{X_0 \in X^{(0)}} , \\
+        1 = \probability{\bigcup_{\widetilde{x}_0 \in X^{(0)}} X_0 = \widetilde{x}_0 }, \\
+        1 = \sum_{\widetilde{x}_0 \in X^{(0)}} \probability{X_0 = \widetilde{x}_0 } ,
+    \end{gather*}
+    и умножая последнее равенство на $f_k(x_k, \dots, x_1, x_0)$, получим:
+    \[
+        f_k(x_k, \dots, x_1, x_0) = f_k(x_k, \dots, x_1, x_0) \sum_{\widetilde{x}_0 \in X^{(0)}} \probability{X_0 = \widetilde{x}_0} .
+    \]
+    По условию $f_k(x_k, \dots, x_1, x_0)$ зависит от $x_0$ формально, то есть не изменяет своё значение при изменении величины $x_0$, поэтому значение
+    $f_k(x_k, \dots, x_1, x_0)$ можно внести в сумму:
+    \[
+        f_k(x_k, \dots, x_1, x_0)
+        = \sum_{\widetilde{x}_0 \in X^{(0)}} f_k(x_k, \dots, x_1, x_0) \probability{X_0 = \widetilde{x}_0}
+        = \sum_{\widetilde{x}_0 \in X^{(0)}} f_k(x_k, \dots, x_1, \widetilde{x}_0) \probability{X_0 = \widetilde{x}_0} .
+    \]
+    Далее, используя счётную формулу полной вероятности, получим:
+    \begin{multline*}
+        f_k(x_k, \dots, x_0)
+        = \sum_{\widetilde{x}_0 \in X^{(0)}} \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_1 = x_1, X_0 = \widetilde{x}_0} \probability{X_0 = \widetilde{x}_0} = \\
+        %
+        = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_1 = x_1} .
+    \end{multline*}
+    Таким образом,
+    \[
+        f_k(x_k, \dots, x_0) = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_1 = x_1} .
+    \]
+    Повторяя аналогичную процедуру для множества значений величин $X_1$, \dots, $X_{k-2}$, получим последовательность равенств:
+    \begin{gather*}
+        f_k(x_k, \dots, x_0) = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_2 = x_2} , \\
+        \dots \\
+        f_k(x_k, \dots, x_0) = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, X_{k-2} = x_{k-2}} , \\
+        f_k(x_k, \dots, x_0) = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}} .
+    \end{gather*}
+    Откуда следует:
+    \[
+        \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}, \dots, X_0 = x_0} = \conditionalprobability{X_k = k}{X_{k-1} = x_{k-1}} .
+    \]
 
     \section*{Задача 10.5}
     Используя марковское свойство, доказать, что $p_{ij}(n) = \conditionalprobability{X_n = j}{X_0 = i}$ --- $(i,j)$-й элемент матрицы $P^n$.
