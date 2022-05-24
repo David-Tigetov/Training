@@ -1,0 +1,372 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{amssymb}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Задача 12}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Пункт а}
+    Найдите базисы в собственных подпространствах для оператора над $\mathbb{C}$, заданного матрицей:
+    \[
+        A =
+        \begin{pmatrix}
+            7  & -2 & -14 & 10 \\
+            -1 & 0  & 4   & -5 \\
+            6  & -2 & -13 & 10 \\
+            3  & -1 & -6  & 4
+        \end{pmatrix}
+    \]
+
+    \subsection*{Решение:}
+    Собственные значения оператора $\lambda_1 = -1$, $\lambda_2 = 1$.
+
+    Собственные векторы собственного значения $\lambda_1$:
+    \begin{gather*}
+        \left ( A - \lambda_1 E \right ) u_i = 0, \\
+        u_1 = \begin{pmatrix}
+                  1 \\ -3 \\ 1 \\ 0
+        \end{pmatrix},
+        u_2 = \begin{pmatrix}
+                  0 \\ 5 \\ 0 \\ 1
+        \end{pmatrix}
+    \end{gather*}
+
+    Собственные векторы собственного значения $\lambda_2$
+    \begin{gather*}
+        \left ( A - \lambda_2 E \right ) v_i = 0, \\
+        v_1 = \begin{pmatrix}
+                  3 \\ 0 \\ 2 \\ 1
+        \end{pmatrix} .
+    \end{gather*}
+
+    \subsection*{Ответ:}
+    Собственное подпространство $U = \left < u_1, u_2 \right >$:
+    \[
+        u_1 = \begin{pmatrix}
+                  1 \\ -3 \\ 1 \\ 0
+        \end{pmatrix},
+        u_2 = \begin{pmatrix}
+                  0 \\ 5 \\ 0 \\ 1
+        \end{pmatrix}.
+    \]
+
+    Собственное подпространство $V = \left < v_1 \right >$:
+    \[
+        v_1 = \begin{pmatrix}
+                  3 \\ 0 \\ 2 \\ 1
+        \end{pmatrix} .
+    \]
+
+    \section*{Пункт б}
+    Рассмотрим оператор, заданный матрицей
+    \[
+        \begin{pmatrix}
+            1 & 1  & 1  & 1  \\
+            1 & 1  & -1 & -1 \\
+            1 & -1 & 1  & -1 \\
+            1 & -1 & -1 & 1
+        \end{pmatrix}.
+    \]
+    Найдите базис, в котором матрица оператора диагональна и укажите соответствующий диагональный вид.
+
+    \subsection*{Решение:}
+    Собственные значения оператора $\lambda_1 = -2$, $\lambda_2 = 2$.
+
+    Собственные векторы собственного значения $\lambda_1$:
+    \[
+        u_1 = \begin{pmatrix}
+                  -1 \\ 1 \\ 1 \\ 1
+        \end{pmatrix}
+        .
+    \]
+
+    Cобственные векторы собственного значения $\lambda_2$:
+    \[
+        v_1 = \begin{pmatrix}
+                  1 \\ 1 \\ 0 \\ 0
+        \end{pmatrix},
+        v_2 = \begin{pmatrix}
+                  1 \\ 0 \\ 1 \\ 0
+        \end{pmatrix},
+        v_3 = \begin{pmatrix}
+                  1 \\ 0 \\ 0 \\ 1
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Ответ:}
+    В базисе
+    \[
+        u_1 = \begin{pmatrix}
+                  -1 \\ 1 \\ 1 \\ 1
+        \end{pmatrix},
+        v_1 = \begin{pmatrix}
+                  1 \\ 1 \\ 0 \\ 0
+        \end{pmatrix},
+        v_2 = \begin{pmatrix}
+                  1 \\ 0 \\ 1 \\ 0
+        \end{pmatrix},
+        v_3 = \begin{pmatrix}
+                  1 \\ 0 \\ 0 \\ 1
+        \end{pmatrix}
+    \]
+    матрица оператора имеет диагональный вид:
+    \[
+        \begin{pmatrix}
+            -2 & 0 & 0 & 0 \\
+            0  & 2 & 0 & 0 \\
+            0  & 0 & 2 & 0 \\
+            0  & 0 & 0 & 2
+        \end{pmatrix}
+        .
+    \]
+
+    \section*{Пункт в}
+    Выясните, можно ли диагонализировать оператор над $\mathbb{R}$ и $\mathbb{C}$, заданным матрицей:
+    \[
+        \begin{pmatrix}
+            4  & 7 & -5  \\
+            -4 & 5 & 0   \\
+            1  & 9 & - 4
+        \end{pmatrix}
+    \]
+    Если нет, то объясните почему. Если да, то приведите базис, в котором матрица диагонализуется и соответствующий базис.
+
+    \subsection*{Решение:}
+    Собственные значения оператора $\lambda_1 = 1$, $\lambda_2 = 2 - 3i$, $\lambda_3 = 2 + 3i$.
+
+    Есть комплесные собственные значения, поэтому на полем действительных чисел $\mathbb{R}$ матрица оператора не может быть приведена к диагональному виду.
+
+    Тем не менее, матрица диагонализуема над полем комплексных чисел $\mathbb{C}$.
+
+    Собственный вектор собственного значения $\lambda_1$:
+    \[
+        u_1 = \begin{pmatrix}
+                  1 \\ 1 \\ 2
+        \end{pmatrix}.
+    \]
+
+    Собственные векторы собственных значений $\lambda_2$ и $\lambda_3$ соответственно:
+    \[
+        v_1 = \begin{pmatrix}
+                  12 + 3i \\ 10 - 6i \\ 17
+        \end{pmatrix},
+        v_2 = \begin{pmatrix}
+                  12 - 3i \\ 10 + 6i \\ 17
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Ответ:}
+    Над полем $\mathbb{R}$ матрица не может быть диагонализирована.
+
+    Над полем $\mathbb{C}$ в базисе
+    \[
+        u_1 = \begin{pmatrix}
+                  1 \\ 1 \\ 2
+        \end{pmatrix},
+        v_1 = \begin{pmatrix}
+                  12 + 3i \\ 10 - 6i \\ 17
+        \end{pmatrix},
+        v_2 = \begin{pmatrix}
+                  12 - 3i \\ 10 + 6i \\ 17
+        \end{pmatrix}
+    \]
+    матрица оператора имеет диагональный вид:
+    \[
+        \begin{pmatrix}
+            1 & 0      & 0      \\
+            0 & 2 - 3i & 0      \\
+            0 & 0      & 2 + 3i
+        \end{pmatrix}
+        .
+    \]
+
+    \section*{Пункт г}
+    Приведите матрицу оператора $\mathcal{A}: \mathbb{C}^{\textcolor{magenta}{4}} \rightarrow \mathbb{C}^{\textcolor{magenta}{4}}$ к верхнетреугольному виду и найдите соответствующий базис
+    \[
+        \begin{pmatrix}
+            -3 & -5 & 2  & 5  \\
+            -2 & 0  & 1  & 2  \\
+            6  & 3  & -4 & -8 \\
+            -6 & -3 & 3  & 7
+        \end{pmatrix}
+        .
+    \]
+
+    \subsection*{Решение:}
+    Собственные значения оператора $\lambda_1 = -1$ и $\lambda_2 = 1$.
+
+    Собственный вектор собственного значения $\lambda_1$:
+    \[
+        u_1 = \begin{pmatrix}
+                  2 \\ 1 \\ -3 \\ 3
+        \end{pmatrix}
+        .
+    \]
+
+    Собственный вектор собственного значения $\lambda_2$:
+    \[
+        v_1 = \begin{pmatrix}
+                  1 \\ 1 \\ -3 \\ 3
+        \end{pmatrix}
+        .
+    \]
+
+    Собственных векторов не хватает для формирования базиса.
+
+    Подпространство $\kernel{\left ( A - \lambda_1 E\right )^2}$ оказалось размерности 2, в дополнение к вектору $u_1$ можно взять вектор:
+    \[
+        u_2 = \begin{pmatrix}
+                  0 \\ 0 \\ 1 \\ 0
+        \end{pmatrix}
+        .
+    \]
+
+    Подпространство $\kernel{\left ( A - \lambda_2 E\right )^2}$ также размерности 2, в дополнение к вектору $v_1$ можно взять вектор:
+    \[
+        v_2 = \begin{pmatrix}
+                  -2 \\ 1 \\ 0 \\ 0
+        \end{pmatrix}
+        .
+    \]
+
+    Векторы $u_1$, $u_2$, $v_1$, $v_2$ линейно независимы:
+    \[
+        \begin{pmatrix}
+            2  & 0 & 1  & -2 \\
+            1  & 0 & 1  & 1  \\
+            -3 & 1 & -3 & 0  \\
+            3  & 0 & 3  & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            2 & 0 & 1 & -2 \\
+            1 & 0 & 1 & 1  \\
+            0 & 1 & 0 & 0  \\
+            3 & 0 & 3 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 1 & -2 \\
+            0 & 0 & 1 & 1  \\
+            0 & 1 & 0 & 0  \\
+            0 & 0 & 3 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 1 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 3 & 0
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 3 & 0
+        \end{pmatrix}
+        .
+    \]
+    Итак, найден базис $u_1$, $u_2$, $v_1$, $v_2$.
+
+    Найдём разложение вектора $\mathcal{A} u_2$ по векторам $u_1$, $u_2$:
+    \begin{gather*}
+        \left .
+        \begin{pmatrix}
+            2  & 0 \\
+            1  & 0 \\
+            -3 & 1 \\
+            3  & 0
+        \end{pmatrix}
+        \right |
+        \begin{pmatrix}
+            A u_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            2  \\
+            1  \\
+            -4 \\
+            3
+        \end{pmatrix} , \\
+        %
+        A u_2 = u_1 - u_2 .
+    \end{gather*}
+
+    Найдём разложение вектора $\mathcal{A} v_2$ по векторам $v_1$, $v_2$:
+    \begin{gather*}
+        \left .
+        \begin{pmatrix}
+            1  & -2 \\
+            1  & 1  \\
+            -3 & 0  \\
+            3  & 0
+        \end{pmatrix}
+        \right |
+        \begin{pmatrix}
+            A v_2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1  \\
+            3  \\
+            -9 \\
+            9
+        \end{pmatrix} , \\
+        %
+        A v_2 = 3 v_1 + v_2 .
+    \end{gather*}
+
+    Таким образом, в базисе $u_1$, $u_2$, $v_1$, $v_2$ матрица оператора $\mathcal{A}$ будет иметь вид:
+    \[
+        \begin{pmatrix}
+            1 & 1  & 0 & 0 \\
+            0 & -1 & 0 & 0 \\
+            0 & 0  & 1 & 3 \\
+            0 & 0  & 0 & 1
+        \end{pmatrix}
+    \]
+
+    \subsection*{Ответ:}
+    В базисе $u_1$, $u_2$, $v_1$, $v_2$:
+    \[
+        u_1 = \begin{pmatrix}
+                  2 \\ 1 \\ -3 \\ 3
+        \end{pmatrix},
+        u_2 = \begin{pmatrix}
+                  0 \\ 0 \\ 1 \\ 0
+        \end{pmatrix},
+        v_1 = \begin{pmatrix}
+                  1 \\ 1 \\ -3 \\ 3
+        \end{pmatrix},
+        v_2 = \begin{pmatrix}
+                  -2 \\ 1 \\ 0 \\ 0
+        \end{pmatrix}.
+    \]
+    матрица оператора будет иметь верхне треугольный вид:
+    \[
+        \begin{pmatrix}
+            1 & 1  & 0 & 0 \\
+            0 & -1 & 0 & 0 \\
+            0 & 0  & 1 & 3 \\
+            0 & 0  & 0 & 1
+        \end{pmatrix}
+        .
+    \]
+
+
+\end{document}
