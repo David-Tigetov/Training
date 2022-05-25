@@ -52,7 +52,7 @@
                   1 \\ 0 \\ 0
         \end{pmatrix}.
     \]
-    Под действием $\left ( A - \lambda_1 E \right )$ вектор $v_1$ переходит во второй базисный вектор $v_2$:
+    Под действием $\left ( A - \lambda_1 E \right )$ вектор $v_1$ переходит во второй базисный вектор $v_1$:
     \[
         v_1
         = \left ( A - \lambda_1 E \right ) v_2
@@ -157,14 +157,14 @@
     \]
     в жордановом базисе:
     \begin{gather*}
-        v_1 = \begin{pmatrix}
-                  -1 \\ -1 \\ 1
+        \begin{pmatrix}
+            -1 \\ -1 \\ 1
         \end{pmatrix},
-        v_2 = \begin{pmatrix}
-                  1 \\ 0 \\ 0
+        \begin{pmatrix}
+            1 \\ 0 \\ 0
         \end{pmatrix},
-        v_3 = \begin{pmatrix}
-                  -1 \\ 1 \\ 0
+        \begin{pmatrix}
+            -1 \\ 1 \\ 0
         \end{pmatrix} .
     \end{gather*}
 
@@ -179,17 +179,17 @@
     \]
     в жордановом базисе:
     \begin{gather*}
-        v_1 = \begin{pmatrix}
-                  2 \\ 1 \\ -3 \\ 3
+        \begin{pmatrix}
+            2 \\ 1 \\ -3 \\ 3
         \end{pmatrix} ,
-        v_2 = \begin{pmatrix}
-                  0 \\ 0 \\ 1 \\ 0
+        \begin{pmatrix}
+            0 \\ 0 \\ 1 \\ 0
         \end{pmatrix},
-        v_3 = \begin{pmatrix}
-                  3 \\ 3 \\ -9 \\ 9
+        \begin{pmatrix}
+            3 \\ 3 \\ -9 \\ 9
         \end{pmatrix},
-        v_4 = \begin{pmatrix}
-                  -2 \\ 1 \\ 0 \\ 0
+        \begin{pmatrix}
+            -2 \\ 1 \\ 0 \\ 0
         \end{pmatrix}.
     \end{gather*}
 
@@ -349,4 +349,167 @@
           -3           & 0 & -9  & -2
     \end{pmatrix}
     $.
+
+    \section*{Пункт в}
+    Найдите жорданову форму и жорданов базис для оператора, заданного матрицей
+    \[
+        A = \begin{pmatrix}
+                1 & -1 & 1 & 0  \\
+                1 & 1  & 0 & 1  \\
+                0 & 0  & 1 & -1 \\
+                0 & 0  & 1 & 1
+        \end{pmatrix} .
+    \]
+
+    \subsection*{Решение:}
+    У матрицы $A$ два собственных значения $\lambda_1 = 1 - i$ и $\lambda_2 = 1 + i$.
+
+    Собственное подпространство $\kernel{A - \lambda_1 E}$ имеет размерность 1, поэтому рассмотрим корневое подпространство $\kernel{\left ( A - \lambda_1 E \right )^2}$,
+    в котором выберем базисные векторы:
+    \begin{gather*}
+        v_2 \in \kernel{\left ( A - \lambda_1 E \right)^2}, \\
+        v_2 \notin \kernel{\left ( A - \lambda_1 E \right)}, \\
+        v_2 = \begin{pmatrix}
+                  0 \\ 0 \\ -i \\ 1
+        \end{pmatrix}, \\
+        v_1
+        = \left ( A - \lambda_1 E \right) v_2
+        = \begin{pmatrix}
+              -i \\ 1 \\ 0 \\ 0
+        \end{pmatrix}.
+    \end{gather*}
+
+    Аналогично в корневом подпростанстве $\kernel{\left ( A - \lambda_2 E \right )^2}$ выберем базисные векторы
+    \begin{gather*}
+        v_4 \in \kernel{\left ( A - \lambda_2 E \right)^2}, \\
+        v_4 \notin \kernel{\left ( A - \lambda_2 E \right)}, \\
+        v_4 = \begin{pmatrix}
+                  0 \\ 0 \\ i \\ 1
+        \end{pmatrix}, \\
+        v_3
+        = \left ( A - \lambda_1 E \right) v_2
+        = \begin{pmatrix}
+              i \\ 1 \\ 0 \\ 0
+        \end{pmatrix} .
+    \end{gather*}
+
+    Матрица перехода:
+    \[
+        C
+        = \begin{pmatrix}
+              -i & 0  & i & 0 \\
+              1  & 0  & 1 & 0 \\
+              0  & -i & 0 & i \\
+              0  & 1  & 0 & 1
+        \end{pmatrix}.
+    \]
+
+    В базисе $v_1$, $v_2$, $v_3$, $v_4$ матрица оператора имеет вид:
+    \[
+        J
+        = C^{-1} A C
+        = \begin{pmatrix}
+              1 - i & 1     & 0     & 0     \\
+              0     & 1 - i & 0     & 0     \\
+              0     & 0     & 1 + i & 1     \\
+              0     & 0     & 0     & 1 + i
+        \end{pmatrix}.
+    \]
+
+    \subsection*{Ответ:}
+    Жорданова форма:
+    \[
+        \begin{pmatrix}
+            1 - i & 1     & 0     & 0     \\
+            0     & 1 - i & 0     & 0     \\
+            0     & 0     & 1 + i & 1     \\
+            0     & 0     & 0     & 1 + i
+        \end{pmatrix}.
+    \]
+    в базисе
+    \[
+        \begin{pmatrix}
+            -i \\ 1 \\ 0 \\ 0
+        \end{pmatrix}, \\
+        \begin{pmatrix}
+            0 \\ 0 \\ -i \\ 1
+        \end{pmatrix}, \\
+        \begin{pmatrix}
+            i \\ 1 \\ 0 \\ 0
+        \end{pmatrix} ,
+        \begin{pmatrix}
+            0 \\ 0 \\ i \\ 1
+        \end{pmatrix} .
+    \]
+
+    \section*{Пункт г}
+    Найдите $A^{1000000}$, где
+    \[
+        A = \begin{pmatrix}
+                1 & -1 & 1 & 0  \\
+                1 & 1  & 0 & 1  \\
+                0 & 0  & 1 & -1 \\
+                0 & 0  & 1 & 1
+        \end{pmatrix} .
+    \]
+
+    \subsection*{Решение:}
+    Согласно пункту в
+    \begin{multline*}
+        A^N
+        = C^{-1} J^N C
+        = C^{-1}
+        \begin{pmatrix}
+            \begin{pmatrix}
+                1 - i & 1     \\
+                0     & 1 - i
+            \end{pmatrix}^N & 0 \\
+            0 & \begin{pmatrix}
+                    1 + i & 1     \\
+                    0     & 1 + i
+            \end{pmatrix}^N
+        \end{pmatrix}
+        C = \\
+        %
+        =
+        \begin{pmatrix}
+            \frac{i}{2}   & \frac{1}{2} & 0            & 0           \\
+            0             & 0           & \frac{i}{2}  & \frac{1}{2} \\
+            - \frac{i}{2} & \frac{1}{2} & 0            & 0           \\
+            0             & 0           & -\frac{i}{2} & \frac{1}{2}
+        \end{pmatrix}
+        \begin{pmatrix}
+        ( 1 - i )
+            ^N & N \cdot ( 1 - i )^{N-1} & 0           & 0                   \\
+            0  & ( 1 - i )^N             & 0           & 0                   \\
+            0  & 0                       & ( 1 + i )^N & N \cdot ( 1 + i )^N \\
+            0  & 0                       & 0           & ( 1 + i )^N
+        \end{pmatrix}
+        \begin{pmatrix}
+            -i & 0  & i & 0 \\
+            1  & 0  & 1 & 0 \\
+            0  & -i & 0 & i \\
+            0  & 1  & 0 & 1
+        \end{pmatrix} = \\
+        %
+        =
+        \begin{pmatrix}
+        ( 1 - i )
+            ^{N-1} \left ( 1 - i + \frac{N}{2} i \right ) & 0                                                      & ( 1 - i )^{N-1} \cdot \frac{N}{2} i               & 0                                                 \\
+            0                                             & ( 1 + i )^{N-1} \left ( 1 + i + \frac{N}{2} i \right ) & 0                                                      & ( 1 + i )^{N-1} \cdot \frac{N}{2} i                    \\
+            - ( 1 - i )^{N-1} \cdot \frac{N}{2} i         & 0                                                      & ( 1 - i )^{N-1} \left ( 1 - i - \frac{N}{2} i \right ) & 0                                   \\
+            0                                             & - ( 1 + i )^{N-1} \cdot \frac{N}{2} i                  & 0                                                      & ( 1 + i )^{N-1} \left ( 1 + i - \frac{N}{2} i \right )
+        \end{pmatrix}.
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    \[
+        \begin{pmatrix}
+        ( 1 - i )
+            ^{99999} \left ( 1 + 499999 i \right ) & 0                                               & ( 1 - i )^{99999} \cdot 500000 i                & 0                                               \\
+            0                                      & ( 1 + i )^{99999} \left ( 1 + 500001 i \right ) & 0                                               & ( 1 + i )^{99999} \cdot 500000 i                \\
+            - ( 1 - i )^{99999} \cdot 500000 i     & 0                                               & ( 1 - i )^{99999} \left ( 1 - 500001 i \right ) & 0                                   \\
+            0                                      & - ( 1 + i )^{99999} \cdot 500000 i              & 0                                               & ( 1 + i )^{99999} \left ( 1 - 499999 i \right )
+        \end{pmatrix}.
+    \]
 \end{document}
