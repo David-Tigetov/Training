@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №12}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 12.1}
+    а) Используя марковское свойство, вывести соотношение Колмогорова-Чепмена (формула (3)).
+    б) Доказать равенство (4).
+
+    \subsection*{Решение:}
+    Согласно формуле умножения:
+    \begin{multline*}
+        \probability{X(0) = i, X(t) = k, X(t+h) = j} = \\
+        %
+        = \probability{X(0) = i, X(t) = k} \cdot \conditionalprobability{X(t+h) = j}{X(0) = i, X(t) = k} = \\
+        %
+        = \probability{X(0) = i} \cdot \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(0) = i, X(t) = k}.
+    \end{multline*}
+    Используем марковское свойство в последнем множителе в правой части:
+    \[
+        \probability{X(0) = i, X(t) = k, X(t+h) = j} = \probability{X(0) = i} \cdot \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(t) = k} , \\
+    \]
+    Суммируем по всем состояниям в момент $t$, используем свойство совместного распределения в левой части:
+    \begin{multline*}
+        \sum_k \probability{X(0) = i, X(t) = k, X(t+h) = j} = \\
+        \shoveright{= \sum_k \probability{X(0) = i} \cdot \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(t) = k},} \\
+        %
+        \shoveleft{\probability{X(0) = i, X(t+h) = j} =} \\
+        = \probability{X(0) = i} \sum_k \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(t) = k}.
+    \end{multline*}
+    Делим на $\probability{X(0) = i}$, используем определение условной вероятности:
+    \begin{gather*}
+        \frac{\probability{X(0) = i, X(t+h) = j}}{\probability{X(0) = i}} = \sum_k \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(t) = k}, \\
+        \conditionalprobability{X(t+h) = j}{X(0) = i} = \sum_k \conditionalprobability{X(t) = k}{X(0) = i} \cdot \conditionalprobability{X(t+h) = j}{X(t) = k}, \\
+        p_{ij}(0, t+h) = \sum_k p_{ik}(0, t) \cdot p_{kj}(t, t+h) .
+    \end{gather*}
+    Используем однородность
+    \[
+        p_{ij}(t+h) = \sum_k p_{ik}(t) \cdot p_{kj}(h) .
+    \]
+
+    Суммируем по всем возможным состояния в момент времени 0 с учётом вероятностей:
+    \begin{gather*}
+        \sum_i p_{ij}(t+h) p_i(0) = \sum_i \left ( \sum_k p_{ik}(t) \cdot p_{kj}(h) \right ) p_i(0) , \\
+        \sum_i p_{ij}(t+h) p_i(0) = \sum_k \left ( \sum_i p_i(0) p_{ik}(t) \right ) \cdot p_{kj}(h).
+    \end{gather*}
+    Используем формулу полной вероятности:
+    \[
+        p_j(t+h) = \sum_k p_k(t) \cdot p_{kj}(h) .
+    \]
+    Переименовываем индекс:
+    \[
+        p_j(t+h) = \sum_i p_i(t) \cdot p_{ij}(h) .
+    \]
+\end{document}
