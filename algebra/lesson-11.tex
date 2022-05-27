@@ -19,7 +19,7 @@
     \date{}
     \maketitle
 
-    \section*{Пункт а}
+    \section*{Пункт а \textcolor{red}{[верно]}}
     Докажите, что подпространство $W = \left < a, b \right >$ является инвариантным для оператора, заданного матрицей $A$:
     \[
         a = \begin{pmatrix}
@@ -95,7 +95,7 @@
         A x = \lambda_1 Aa + \lambda_2 Ab \in W.
     \]
 
-    \section*{Пункт б}
+    \section*{Пункт б \textcolor{red}{[верно]}}
     Найдите спектр и характеристический многочлен оператора, заданного матрицей
     \[
         \begin{pmatrix}
@@ -184,7 +184,7 @@
     \subsection*{Ответ:}
     Характеристический многочлен $(\lambda + 2)^2 (\lambda - 1)^2$, спектр $\set{-2, 1}$.
 
-    \section*{Пункт в}
+    \section*{Пункт в \textcolor{red}{[верно]}}
     Докажите, что подпространство $W = \left < a, b, c \right >$ является инвариантным для оператора, заданного матрицей $A$:
     \[
         a  = \begin{pmatrix}
@@ -675,16 +675,24 @@
     \end{gather*}
 
     \subsection*{Ответ:}
-    Всего три инвариантных подпространства $W_i = \left < a_i \right >$, где
-    \[
-        a_1 = \begin{pmatrix}
-                  1 \\ - \frac{5}{4} \\ - \frac{67}{12}
-        \end{pmatrix} ,
-        a_2 = \begin{pmatrix}
-                  0 \\ 1 \\ \frac{7}{19}
-        \end{pmatrix} ,
-        a_3 = \begin{pmatrix}
-                  0 \\ 0 \\ 1
-        \end{pmatrix} .
-    \]
+    {
+        \color{blue}
+        Инвариантные подпространства:
+        $\emptyset$,
+        $\left < a_1 \right >$, $\left < a_2 \right >$, $\left < a_3 \right >$,
+        $\left < a_1, a_2 \right >$, $\left < a_1, a_3 \right >$, $\left < a_2, a_3 \right >$,
+        $\left < a_1, a_2, a_3 \right >$,
+        где
+        \[
+            a_1 = \begin{pmatrix}
+                      1 \\ - \frac{5}{4} \\ - \frac{67}{12}
+            \end{pmatrix} ,
+            a_2 = \begin{pmatrix}
+                      0 \\ 1 \\ \frac{7}{19}
+            \end{pmatrix} ,
+            a_3 = \begin{pmatrix}
+                      0 \\ 0 \\ 1
+            \end{pmatrix} .
+        \]
+    }
 \end{document}
