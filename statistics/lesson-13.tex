@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Домашнее задание №13}
+    \author{Тигетов Давид Георгиевич}
+    \date{}
+    \maketitle
+
+    \section*{Задача 13.4}
+    Убедиться, что случайная последовательность $\widetilde{X}_n = \sum_{k=0}^\infty \alpha^k \varepsilon_{n-k}$ удовлетворяет уравнению авторегрессии 1-го порядка
+    $X_n = \alpha X_{n-1} + \varepsilon_n$, где параметр $\modulus{\alpha} < 1$, $\set{\varepsilon_n}$ --- "белый шум"{}. Найти её ковариационную функцию $R(n)$ и соответствующую
+    спектральную плотность $f(\lambda)$ (без использования формул (8), (9), (11) или (14)).
+
+    \subsection*{Решение:}
+    Легко видеть, что
+    \[
+        \widetilde{X}_n
+        = \sum_{k=0}^\infty \alpha^k \varepsilon_{n-k}
+        = \sum_{k=1}^\infty \alpha^k \varepsilon_{n-k} + \alpha^0 \varepsilon_n
+        = \sum_{k=0}^\infty \alpha^{k+1} \varepsilon_{n-(k+1)} + \varepsilon_n
+        = \alpha \sum_{k=0}^\infty \alpha^k \varepsilon_{(n-1)-k} + \varepsilon_n
+        = \alpha \widetilde{X}_{n-1} + \varepsilon_n .
+    \]
+    Отсюда следует, что
+    \[
+        \widetilde{X}_{n+m}
+        = \alpha^m \widetilde{X}_n + \alpha^{m-1} \varepsilon_{n+1} + \dots + \alpha \varepsilon_{n+m-1} + \varepsilon_{n+m} .
+    \]
+
+    Поскольку
+    \[
+        \expectation{\widetilde{X}_n}
+        = \expectation{\sum_{k=0}^\infty \alpha^k \varepsilon_{n-k}}
+        = \sum_{k=0}^\infty \alpha^k \expectation{\varepsilon_{n-k}}
+        = \sum_{k=0}^\infty \alpha^k \cdot 0
+        = 0 ,
+    \]
+    то ковариационная функция при $m \ge 0$
+    \begin{multline*}
+        R(m)
+        = \covariance{\widetilde{X}_{n+m}}{\widetilde{X}_{n}}
+        = \expectation{\widetilde{X}_{n+m} \overline{\widetilde{X}_{n}}}
+        = \expectation{\widetilde{X}_{n+m} \overline{\widetilde{X}_{n}}} = \\
+        %
+        = \expectation{\left ( \alpha^m \widetilde{X}_n + \alpha^{m-1} \varepsilon_{n+1} + \dots + \alpha \varepsilon_{n+m-1} + \varepsilon_{n+m} \right ) \overline{\widetilde{X}_{n}}} = \\
+        %
+        = \alpha^m \expectation{\widetilde{X}_n \overline{\widetilde{X}_{n}}} + \alpha^{m-1} \expectation{\varepsilon_{n+1} \overline{\widetilde{X}_{n}}} + \dots + \alpha \expectation{\varepsilon_{n+m-1} \overline{\widetilde{X}_{n}}} + \expectation{\varepsilon_{n+m} \overline{\widetilde{X}_{n}}} = \\
+        %
+        = \alpha^m \expectation{\widetilde{X}_n \overline{\widetilde{X}_{n}}} ,
+    \end{multline*}
+    где
+    \[
+        \expectation{\varepsilon_{n+j} \overline{X}_n} = 0,
+    \]
+    поскольку $X_n$ не содержит величин $\varepsilon_{n+j}$ и величины $\varepsilon_n$ некоррелированы. Далее,
+    \begin{multline*}
+        R(m)
+        = \alpha^m \expectation{\widetilde{X}_n \overline{\widetilde{X}_{n}}}
+        = \alpha^m \expectation{\sum_{k=0}^\infty \alpha^k \varepsilon_{n-k} \overline{ \left ( \sum_{j=0}^\infty \alpha^j \varepsilon_{n-j} \right )}}
+        = \alpha^m \expectation{\sum_{k=0}^\infty \alpha^k \varepsilon_{n-k} \left ( \sum_{j=0}^\infty \overline{\alpha}^j \cdot \overline{\varepsilon_{n-j}} \right )} = \\
+        %
+        = \alpha^m \expectation{\sum_{k=0}^\infty \sum_{j=0}^\infty \alpha^k \overline{\alpha}^j \varepsilon_{n-k} \overline{\varepsilon_{n-j}}}
+        = \alpha^m \sum_{k=0}^\infty \sum_{j=0}^\infty \alpha^k \overline{\alpha}^j \expectation{\varepsilon_{n-k} \overline{\varepsilon_{n-j}}} = \\
+        %
+        = \alpha^m \sum_{k=0}^\infty \alpha^k \overline{\alpha}^k \expectation{\varepsilon_{n-k} \overline{\varepsilon_{n-k}}}
+        = \alpha^m \sum_{k=0}^\infty \modulus{\alpha}^k
+        = \alpha^m \frac{1}{1 - \modulus{\alpha}} .
+    \end{multline*}
+
+    Спектральная плотность
+    \begin{multline*}
+        f(\lambda)
+        = \frac{1}{2 \pi} \sum_{m = -\infty}^{\infty} e^{-i \lambda m} R(m)
+        = \frac{1}{2 \pi} \left ( \sum_{m = -\infty}^{-1} e^{-i \lambda m} R(m) + \sum_{m = 0}^{\infty} e^{-i \lambda m} R(m) \right ) = \\
+        %
+        = \frac{1}{2 \pi} \left ( \sum_{m = 1}^{\infty} e^{i \lambda m} R(-m) + \sum_{m = 0}^{\infty} e^{-i \lambda m} R(m) \right )
+        = \frac{1}{2 \pi} \left ( \sum_{m = 1}^{\infty} e^{i \lambda m} \frac{\overline{\alpha}^m}{1 - \modulus{\alpha}} + \sum_{m = 0}^{\infty} e^{-i \lambda m} \frac{\alpha^m}{1 - \modulus{\alpha}} \right ) = \\
+        %
+        = \frac{1}{2 \pi} \frac{1}{1 - \modulus{\alpha}} \left ( \sum_{m = 1}^{\infty} \left ( e^{i \lambda} \overline{\alpha} \right )^m + \sum_{m = 0}^{\infty} \left ( e^{- i \lambda} \alpha \right )^m \right )
+        = \frac{1}{2 \pi} \frac{1}{1 - \modulus{\alpha}} \left ( \frac{e^{i \lambda} \overline{\alpha}}{1 - e^{i \lambda} \overline{\alpha}} + \frac{1}{1 - e^{- i \lambda} \alpha} \right ) = \\
+        %
+        = \frac{1}{2 \pi} \frac{1}{1 - \modulus{\alpha}} \frac{e^{i \lambda} \overline{\alpha} - e^{i \lambda} \overline{\alpha} e^{- i \lambda} \alpha + 1 - e^{i \lambda} \overline{\alpha}}{\left ( 1 - e^{i \lambda} \overline{\alpha} \right ) \left ( 1 - e^{- i \lambda} \alpha \right )}
+        = \frac{1}{2 \pi} \frac{1}{1 - \modulus{\alpha}} \frac{1 - \modulus{\alpha}^2}{1 - e^{i \lambda} \overline{\alpha} - e^{- i \lambda} \alpha + e^{i \lambda} \overline{\alpha} e^{- i \lambda} \alpha \right )} = \\
+        %
+        = \frac{1}{2 \pi} \frac{1}{1 - \modulus{\alpha}} \frac{\left ( 1 - \modulus{\alpha} \right ) \left ( 1 + \modulus{\alpha} \right )}{1 - 2 Re ( e^{-i \lambda} \alpha ) + \modulus{\alpha}^2}
+        = \frac{1}{2 \pi} \frac{1 + \modulus{\alpha}}{1 - 2 Re ( e^{-i \lambda} \alpha ) + \modulus{\alpha}^2} .
+    \end{multline*}
+
+    \subsection*{Ответ:}
+    $R(n) = \frac{\alpha^n}{1 - \modulus{\alpha}}$,
+    $f(\lambda) = \frac{1}{2 \pi} \frac{1 + \modulus{\alpha}}{1 - 2 Re ( e^{-i \lambda} \alpha ) + \modulus{\alpha}^2}$.
+
+    \section*{Задача 13.8}
+    Пусть $X_n = Z \cdot g(n)$, где $Z$ --- случайная величина с $\expectation{Z} = 0$, $\variance{Z} = 1$. Найти явный вид функции $g(n)$, обеспечивающий стационарность в широком смысле
+    последовательности $\set{X_n}$.
+
+    \subsection*{Решение:}
+    По условию стационарности в широком смысле второй абсолютный момент должен быть конечным:
+    \[
+        \expectation{\modulus{X_n}^2}
+        = \expectation{\modulus{Z g(n)}^2}
+        = \expectation{\modulus{Z}^2 \cdot \modulus{g(n)}^2}
+        = \expectation{\modulus{Z}^2} \cdot \modulus{g(n)}^2
+        < \infty .
+    \]
+    Дисперсия
+    \begin{multline*}
+        \variance{Z}
+        = \expectation{\left ( Z - \expectation{Z} \right ) \overline{ \left (Z - \expectation{Z} \right )}}
+        = \expectation{\left ( Z - \expectation{Z} \right ) \left (\overline{Z} - \overline{\expectation{Z}} \right )} = \\
+        %
+        = \expectation{Z \overline{Z}} - \expectation{Z} \expectation{\overline{Z}} - \expectation{Z} \overline{\expectation{Z}} + \expectation{Z} \overline{\expectation{Z}}
+        = \expectation{\modulus{Z}^2} - \expectation{Z} \expectation{\overline{Z}} = \\
+        %
+        = \expectation{\modulus{Z}^2} - \expectation{Z} \overline{\expectation{Z}}
+        = \expectation{\modulus{Z}^2} - \modulus{\expectation{Z}}^2.
+    \end{multline*}
+    Откуда
+    \[
+        \expectation{\modulus{Z}^2}
+        = \variance{Z} + \modulus{\expectation{Z}}^2
+        = 1 + 0
+        = 1,
+    \]
+    поэтому условие конечности второго абсолютного момента приводит к требованию:
+    \[
+        \modulus{g(n)} < \infty.
+    \]
+
+    Условие постоянности математического ожидания:
+    \[
+        \expectation{Z \cdot g(n)}
+        = \expectation{Z} \cdot g(n)
+        = 0
+    \]
+    выполнено без дополнительных требований к $g(n)$.
+
+    Условие для ковариации:
+    \begin{multline*}
+        \covariance{X_{n+k}}{X_n}
+        = \expectation{X_{n+k} \overline{X}_n}
+        = \expectation{Z g(n+k) \cdot \overline{Z g(n)}} = \\
+        %
+        = \expectation{Z \overline{Z}} g(n+k) \overline{g(n)}
+        = \expectation{\modulus{Z}^2} g(n+k) \overline{g(n)}
+        = g(n+k) \overline{g(n)}
+    \end{multline*}
+    приводит к условию:
+    \begin{equation}
+        \label{13.8:covariance}
+        R(k)
+        = g(n+k) \overline{g(n)}.
+    \end{equation}
+    Если $k=0$, тогда:
+    \[
+        R(0)
+        = g(n) \overline{g(n)}
+        = \modulus{g(n)}^2.
+    \]
+    Таким образом, числа $g(n)$ располагаются на окружности радиуса $\sqrt{R(0)}$, поэтому они представляются в виде:
+    \[
+        g(n) = \sqrt{R(0)} e^{i \varphi_n},
+    \]
+    где $\varphi_n$ --- некоторые углы, для которых:
+    \begin{gather*}
+        R(k)
+        = g(n+k) \overline{g(n)}
+        = \sqrt{R(0)} e^{i \varphi_{n+k}} \overline{\sqrt{R(0)} e^{i \varphi_{n}}}
+        = R(0) e^{i \varphi_{n+k}} e^{- i \varphi_{n}}
+        = R(0) e^{i ( \varphi_{n+k} - \varphi_n )}
+    \end{gather*}
+    то есть разность углов есть функция только $k$:
+    \[
+        \varphi_{n+k} - \varphi_n = \varphi(k) .
+    \]
+    Заметим, что
+    \begin{multline*}
+        \varphi(k)
+        = \varphi_{n+k} - \varphi_n
+        = \varphi_{n+k} - \varphi_{n+k-1} + \varphi_{n+k-1} - \varphi_{n+k-2} + \dots + \varphi_{n+1} - \varphi_n = \\
+        %
+        = \varphi(1) + \varphi(1) + \dots + \varphi(1)
+        = k \cdot \varphi(1) .
+    \end{multline*}
+    Откуда следует, что углы являются значениями линейной функции от $k$:
+    \[
+        \varphi_{n+k} = \varphi_n + k \cdot \varphi(1).
+    \]
+    Поэтому можно произвольным образом выбрать один угол, например $\varphi_0$, и разность $\Delta \varphi = \varphi(1)$:
+    \[
+        \varphi_m = \varphi_0 + m \cdot \Delta \varphi .
+    \]
+
+    \subsection*{Ответ:}
+    $g(n) = R \cdot e^{i ( \varphi_0 + n \cdot \Delta \varphi)}$, где $R$ --- произвольное неотрицательное действительное число, $\varphi_0$ и $\Delta \varphi$ ---
+    произвольные комплексные числа.
+\end{document}
