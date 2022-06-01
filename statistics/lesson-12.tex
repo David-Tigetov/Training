@@ -6,6 +6,7 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{tikz}
 
 \include{commands}
 
@@ -65,4 +66,126 @@
     \[
         p_j(t+h) = \sum_i p_i(t) \cdot p_{ij}(h) .
     \]
+
+    \section*{Задача 12.5}
+    Для процесса рождения и гибели с иммиграцией $X(t)$ из примера 3:
+    \begin{enumerate}
+        \item получить дифференциальное уравнение для тренда $\mu(t) = \expectation{X(t)}$;
+        \item решить это уравнение и построить графики функций $\mu(t)$ для $\lambda = \mu$, $\lambda > \mu$ и $\lambda < \mu$.
+    \end{enumerate}
+
+    \subsection*{Решение:}
+    Для функций $p_j(t) = \probability{X(t)=j}$ справедливо уравнение:
+    \[
+        p_j^{\prime}(t) = \sum_{i \neq j} q_{ij} p_i(t) - q_j p_j(t),
+    \]
+    где
+    \begin{gather*}
+        q_{ij}
+        = \left \{
+        \begin{array}{ll}
+            i \lambda + \alpha, & j = i+1           \\
+            i \mu,              & j = i-1           \\
+            0,                  & \modulus{j-i} > 1
+        \end{array}
+        \right . , \\
+        q_{j} = j \lambda + \alpha + j \mu ,
+    \end{gather*}
+    поэтому
+    \[
+        p_0^{\prime}(t) = \mu p_1(t) - \alpha p_0(t),
+    \]
+    а для $j \ge 1$:
+    \begin{multline*}
+        p_j^{\prime}(t)
+        = ( (j-1) \lambda + \alpha ) p_{j-1}(t) + (j+1) \mu p_{j+1}(t) - ( j \lambda + \alpha + j \mu ) p_j(t) = \\
+        %
+        = \lambda (j-1) p_{j-1}(t) + \alpha p_{j-1}(t) + \mu (j+1) p_{j+1}(t) - ( \lambda + \mu ) j p_j(t) - \alpha p_j(t) .
+    \end{multline*}
+    Умножаем на $j$ левую и правую части и суммируем по всем состояниям $j$ (при $j=0$ уравнение для $p_0^\prime(t)$ можно не учитывать):
+    \begin{multline*}
+        \sum_{j=1}^\infty j p_j^{\prime}(t) = \\
+        %
+        = \lambda \sum_{j=1}^\infty j (j-1) p_{j-1}(t) + \alpha \sum_{j=1}^\infty j p_{j-1}(t) + \mu \sum_{j=1}^\infty j (j+1) p_{j+1}(t) - ( \lambda + \mu ) \sum_{j=1}^\infty j^2 p_j(t) - \alpha \sum_{j=1}^\infty j p_j(t).
+    \end{multline*}
+    Рассмотрим суммы:
+    \begin{align*}
+        \sum_{j=1}^\infty j p_j^{\prime}(t) &
+        = \left ( \sum_{j=1}^\infty j p_j(t) \right )^\prime
+        = \mu^\prime(t), \\
+        %
+        \sum_{j=1}^\infty j (j-1) p_{j-1}(t) &
+        = \sum_{j=0}^\infty (j+1) j p_j(t)
+        = \sum_{j=0}^\infty j^2 p_j(t) + \sum_{j=0}^\infty j p_j(t)
+        = \mu_2(t) + \mu(t) , \\
+        %
+        \sum_{j=1}^\infty j p_{j-1}(t) &
+        = \sum_{j=0}^\infty (j+1) p_j(t)
+        = \sum_{j=0}^\infty j p_j(t) + \sum_{j=0}^\infty p_j(t)
+        = \mu(t) + 1 , \\
+        %
+        \sum_{j=1}^\infty j (j+1) p_{j+1}(t) &
+        = \sum_{j=2}^\infty (j-1) j p_j(t)
+        = \sum_{j=2}^\infty j^2 p_j(t) - \sum_{j=2}^\infty j p_j(t) = \\ &
+        = \sum_{j=2}^\infty j^2 p_j(t) + 1^2 \cdot p_1(t) - 1 \cdot p_1(t) - \sum_{j=2}^\infty j p_j(t) = \\ &
+        = \sum_{j=1}^\infty j^2 p_j(t) - \sum_{j=1}^\infty j p_j(t)
+        = \mu_2(t) - \mu(t) , \\
+        %
+        \sum_{j=1}^\infty j^2 p_j(t) &
+        = \mu_2(t), \\
+        %
+        \sum_{j=1}^\infty j p_j(t) &
+        = \mu(t)
+    \end{align*}
+    Таким образом,
+    \begin{multline*}
+        \mu^{\prime}(t)
+        = \lambda ( \mu_2(t) + \mu(t) ) + \alpha ( \mu(t) + 1 ) + \mu ( \mu_2(t) - \mu(t) ) - ( \lambda + \mu ) \mu_2(t) - \alpha \mu(t) = \\
+        %
+        = ( \lambda + \mu - \lambda - \mu ) \mu_2(t) + ( \lambda + \alpha - \mu - \alpha ) \mu(t) + \alpha
+        = ( \lambda - \mu ) \mu(t) + \alpha .
+    \end{multline*}
+    Уравнение для $\mu(t)$:
+    \[
+        \mu^{\prime}(t) = ( \lambda - \mu ) \mu(t) + \alpha .
+    \]
+    Если $\lambda \neq \mu$, то общее решение:
+    \[
+        \mu(t) = c(t) \cdot e^{(\lambda - \mu) t} .
+    \]
+    находится методом вариации постоянной:
+    \begin{gather*}
+        c^{\prime}(t) e^{(\lambda - \mu) t} + c(t) (\lambda - \mu) e^{(\lambda - \mu) t} = ( \lambda - \mu ) c(t) e^{(\lambda - \mu) t} + \alpha , \\
+        c^{\prime}(t) e^{(\lambda - \mu) t} = \alpha , \\
+        c^{\prime}(t) = \alpha e^{- (\lambda - \mu) t} , \\
+        c(t) = - \frac{\alpha}{\lambda - \mu} e^{- (\lambda - \mu) t} + c ,
+    \end{gather*}
+    и $c$ - произвольная постоянная:
+    \[
+        \mu(t) = c \cdot e^{(\lambda - \mu) t} - \frac{\alpha}{\lambda - \mu}.
+    \]
+    Если $\lambda = \mu$, то уравнение преобразуется к виду:
+    \[
+        \mu^{\prime}(t) = \alpha ,
+    \]
+    и общее решение:
+    \[
+        \mu(t) = \alpha t + c,
+    \]
+    где $c$ --- произвольная постоянная.
+
+    Постоянная $c$ определяется начальным условием --- значением $\mu(0)$.
+
+    \begin{figure}[!ht]
+        \centering
+        \begin{tikzpicture}
+            \draw [->] ( -0.5, 0 ) -- ( 6, 0 ) node [below] at ( 6, 0 ) {$t$};
+            \draw [->] ( 0, -0.5 ) -- ( 0, 5 ) node [left] at ( 0, 5 ) {$N$};
+
+            \draw [dashed, domain=0:3] plot ( \x, {exp(0.5*\x)} ) node [right] at ( 3, 4 ) {$\lambda > \mu$};
+            \draw [domain=0:6] plot ( \x, {0.2*\x + 1} )  node [above] at ( 5, 2 ) {$\lambda = \mu$};
+            \draw [dotted, domain=0:6] plot ( \x, {exp(-0.7*\x)} ) node [above] at ( 5, 0 ) {$\lambda < \mu$};
+        \end{tikzpicture}
+        \caption{Графики функции $\mu(t)$ при различных $\lambda$ и $\mu$.}
+    \end{figure}
 \end{document}
