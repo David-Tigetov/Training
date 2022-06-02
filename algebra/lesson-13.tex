@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage{color}
 \usepackage{amssymb}
+\usepackage{lscape}
 
 \include{commands}
 
@@ -19,7 +20,7 @@
     \date{}
     \maketitle
 
-    \section*{Пункт а}
+    \section*{Пункт а \textcolor{red}{[верно]}}
     Найдите жорданову нормальную форму и жорданов базис для операторов, заданных матрицами:
     \[
         A =
@@ -213,11 +214,14 @@
 
     \subsection*{Решение:}
     Используя нормальную жорданову форму из пункта а:
-    \[
-        A^N
-        = C_A^{-1} J_A^N C_A
-    \]
-    где
+        {
+        \color{blue}
+        \begin{gather*}
+            J_A = C_A^{-1} A C_A , \\
+            C_A J_A C_A^{-1} = A , \\
+            C_A J_A^N C_A^{-1} = A^N ,
+        \end{gather*}
+    }
     \[
         J_A^N
         = \begin{pmatrix}
@@ -229,57 +233,34 @@
         \end{pmatrix}
         = \begin{pmatrix}
         (-1)
-              ^N & (-1)^N N & 0   \\
-              0  & (-1)^N   & 0   \\
-              0  & 0        & 1^N
+              ^N & (-1)^{\textcolor{blue}{N-1}} \cdot N & 0   \\
+              0  & (-1)^N                               & 0   \\
+              0  & 0                                    & 1^N
         \end{pmatrix} .
     \]
     Таким образом,
-    \begin{multline*}
-        A^{1000000}
-        = C_A^{-1}
-        \begin{pmatrix}
-            1 & -1000000 & 0 \\
-            0 & 1        & 0 \\
-            0 & 0        & 1
-        \end{pmatrix}
-        C_A
-        = C_A^{-1}
-        \left (
-        E
-        + \begin{pmatrix}
-              0 & 1000000 & 0 \\
-              0 & 0       & 0 \\
-              0 & 0       & 0
-        \end{pmatrix}
-        \right )
-        C_A
-        = \\
-        %
-        = C_A^{-1} C_A
-        + C_A^{-1} \begin{pmatrix}
-                       0 & 1000000 & 0 \\
-                       0 & 0       & 0 \\
-                       0 & 0       & 0
-        \end{pmatrix}
-        C_A
-        = \\
-        = E
-        + \begin{pmatrix}
-              0        & 0 & 0       \\
-              -1000000 & 0 & 1000000 \\
-              0        & 0 & 0
-        \end{pmatrix}
-        = \begin{pmatrix}
-              1        & 0 & 0       \\
-              -1000000 & 1 & 1000000 \\
-              0        & 0 & 1
-        \end{pmatrix}.
-    \end{multline*}
+        {
+        \color{blue}
+        \[
+            A^{1000000}
+            = C_A
+            \begin{pmatrix}
+                1 & -1000000 & 0 \\
+                0 & 1        & 0 \\
+                0 & 0        & 1
+            \end{pmatrix}
+            C_A^{-1}
+            = \begin{pmatrix}
+                  1000001  & 1000000  & 2000000  \\
+                  1000000  & 1000001  & 2000000  \\
+                  -1000000 & -1000000 & -1999999
+            \end{pmatrix} .
+        \]
+    }
 
     Аналогично
     \[
-        B^N = C_B^{-1} J_B^N C_B ,
+        B^N = \textcolor{blue}{C_B} J_B^N \textcolor{blue}{C_B^{-1}} ,
     \]
     где
     \[
@@ -297,60 +278,71 @@
         =
         \begin{pmatrix}
         (-2)
-            ^N & N \cdot (-2)^{N-1} & 0   & 0   \\
-            0  & (-2)^N             & 0   & 0   \\
-            0  & 0                  & 1^N & N   \\
-            0  & 0                  & 0   & 1^N \\
+            ^N & (-2)^{N-1} \cdot N & 0   & 0                                 \\
+            0  & (-2)^N             & 0   & 0                                 \\
+            0  & 0                  & 1^N & \textcolor{blue}{1^{N-1}} \cdot N \\
+            0  & 0                  & 0   & 1^N                               \\
         \end{pmatrix},
     \]
     тогда
-    \begin{multline*}
-        B^{1000000}
-        = C_B^{-1}
+    \[
+        \color{blue}
+        B^N
+        = \begin{pmatrix}
+              2  & 0 & 3  & -2 \\
+              1  & 0 & 3  & 1  \\
+              -3 & 1 & -9 & 0  \\
+              3  & 0 & 9  & 0
+        \end{pmatrix}
         \begin{pmatrix}
         (-2)
-            ^{1000000} & 1000000 \cdot (-2)^{99999} & 0 & 0       \\
-            0          & (-2)^{1000000}             & 0 & 0       \\
-            0          & 0                          & 1 & 1000000 \\
-            0          & 0                          & 0 & 1       \\
+            ^N & (-2)^{N-1} \cdot N & 0   & 0                                 \\
+            0  & (-2)^N             & 0   & 0                                 \\
+            0  & 0                  & 1^N & \textcolor{blue}{1^{N-1}} \cdot N \\
+            0  & 0                  & 0   & 1^N                               \\
         \end{pmatrix}
-        C_B
-        = \\
-        = \begin{pmatrix}
-              4 \cdot (-2) - 3 \cdot 1 + 1                                & 0 & 9 \cdot (-2) - 9 \cdot 1 + 3  & 1             \\
-              3                                                           & 1 & 9                             & 0             \\
-              -\frac{4}{3} \cdot (-2) + \frac{4}{3} \cdot 1 - \frac{1}{3} & 0 & -3 \cdot (-2) + 4 \cdot 1 - 1 & - \frac{1}{3} \\
-              -2 - 1                                                      & 0 & 3 \cdot (-2) - 3 \cdot 1      & -2
-        \end{pmatrix}
-        =
         \begin{pmatrix}
-            -10          & 0 & -24 & 1             \\
-            3            & 1 & 9   & 0             \\
-            \frac{11}{3} & 0 & 9   & - \frac{1}{3} \\
-            -3           & 0 & -9  & -2
+            1             & 2             & 0 & -1            \\
+            0             & 0             & 1 & 1             \\
+            - \frac{1}{3} & - \frac{2}{3} & 0 & \frac{4}{9}   \\
+            0             & 1             & 0 & - \frac{1}{3}
         \end{pmatrix}
-    \end{multline*}
+        .
+    \]
+    \begin{landscape}
+        \color{blue}
+        \begin{multline*}
+            B^{1000000}
+            = \begin{pmatrix}
+                  2 \cdot (-2)^{1000000} - 1 & 4 \cdot (-2)^{1000000} - 4 + 3000000   & 2000000 \cdot (-2)^{99999}                   & -2 \cdot (-2)^{1000000} + 2000000 \cdot (-2)^{99999} + 2 - 1000000 \\
+                  (-2)^{1000000} - 1         & 2 \cdot (-2)^{1000000} - 1 + 3000000   & 1000000 \cdot (-2)^{99999}                   & - (-2)^{1000000} + 1000000 \cdot (-2)^{99999} + 1 - 1000000 \\
+                  3 - 3 \cdot (-2)^{1000000} & - 6 \cdot (-2)^{1000000} + 6 - 9000000 & (-2)^{1000000} - 3000000 \cdot (-2)^{999999} & 4 \cdot (-2)^{1000000} - 3000000 \cdot (-2)^{999999} - 4 + 3000000 \\
+                  3 \cdot (-2)^{1000000} - 3 & 6 \cdot (-2)^{1000000} - 6 + 9000000   & 3000000 \cdot (-2)^{99999}                   & - 3 \cdot (-2)^{1000000} + 3000000 \cdot (-2)^{999999} + 4 - 3000000
+            \end{pmatrix}
+            = \\
+            %
+            = \begin{pmatrix}
+                  2 \cdot (-2)^{1000000} - 1 & 4 \cdot (-2)^{1000000} + 2999996   & 2000000 \cdot (-2)^{99999}                   & -2 \cdot (-2)^{1000000} + 2000000 \cdot (-2)^{99999} - 999998 \\
+                  (-2)^{1000000} - 1         & 2 \cdot (-2)^{1000000} + 2999999   & 1000000 \cdot (-2)^{99999}                   & - (-2)^{1000000} + 1000000 \cdot (-2)^{99999} - 999999           \\
+                  3 - 3 \cdot (-2)^{1000000} & - 6 \cdot (-2)^{1000000} - 8999994 & (-2)^{1000000} - 3000000 \cdot (-2)^{999999} & 4 \cdot (-2)^{1000000} - 3000000 \cdot (-2)^{999999} + 2999996 \\
+                  3 \cdot (-2)^{1000000} - 3 & 6 \cdot (-2)^{1000000} + 8999994   & 3000000 \cdot (-2)^{99999}                   & - 3 \cdot (-2)^{1000000} + 3000000 \cdot (-2)^{999999} - 2999996
+            \end{pmatrix}
+        \end{multline*}
+        \color{blue}
+    \end{landscape}
 
     \subsection*{Ответ:}
     $
     A^{1000000}
     = \begin{pmatrix}
-          1        & 0 & 0       \\
-          -1000000 & 1 & 1000000 \\
-          0        & 0 & 1
+          1000001  & 1000000  & 2000000  \\
+          1000000  & 1000001  & 2000000  \\
+          -1000000 & -1000000 & -1999999
     \end{pmatrix}
     $,
-    $
-    B^{1000000}
-    = \begin{pmatrix}
-          -10          & 0 & -24 & 1             \\
-          3            & 1 & 9   & 0             \\
-          \frac{11}{3} & 0 & 9   & - \frac{1}{3} \\
-          -3           & 0 & -9  & -2
-    \end{pmatrix}
-    $.
+    $B^{1000000}  = ...$.
 
-    \section*{Пункт в}
+    \section*{Пункт в \textcolor{red}{[верно]}}
     Найдите жорданову форму и жорданов базис для оператора, заданного матрицей
     \[
         A = \begin{pmatrix}
@@ -457,8 +449,8 @@
     Согласно пункту в
     \begin{multline*}
         A^N
-        = C^{-1} J^N C
-        = C^{-1}
+        = \textcolor{blue}{C} J^N \textcolor{blue}{C^{-1}}
+        = \textcolor{blue}{C}
         \begin{pmatrix}
             \begin{pmatrix}
                 1 - i & 1     \\
@@ -469,47 +461,66 @@
                     0     & 1 + i
             \end{pmatrix}^N
         \end{pmatrix}
-        C = \\
+        \textcolor{blue}{C^{-1}} = \\
         %
         =
+        \begin{pmatrix}
+            -i & 0  & i & 0 \\
+            1  & 0  & 1 & 0 \\
+            0  & -i & 0 & i \\
+            0  & 1  & 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+        ( 1 - i )
+            ^N & ( 1 - i )^{N-1} \cdot N & 0           & 0                   \\
+            0  & ( 1 - i )^N             & 0           & 0                   \\
+            0  & 0                       & ( 1 + i )^N & ( 1 + i )^N \cdot N \\
+            0  & 0                       & 0           & ( 1 + i )^N
+        \end{pmatrix}
+        \begin{pmatrix}
+            \frac{i}{2}   & \frac{1}{2} & 0            & 0           \\
+            0             & 0           & \frac{i}{2}  & \frac{1}{2} \\
+            - \frac{i}{2} & \frac{1}{2} & 0            & 0           \\
+            0             & 0           & -\frac{i}{2} & \frac{1}{2}
+        \end{pmatrix} .
+    \end{multline*}
+    \begin{landscape}
+        \[
+            A^{1000000}
+            =
+            \begin{pmatrix}
+                \frac{(1-i)^{1000000} + (1+i)^{1000000}}{2}                 & \frac{(1+i)^{1000000} \cdot i - (1-i)^{1000000} \cdot i}{2} & 500000 \cdot (1-i)^{999999} + 500000 \cdot (1+i)^{999999} & - (1-i)^{999999} \cdot 500000i + (1+i)^{999999} \cdot 500000i \\
+                \frac{(1-i)^{1000000} \cdot i - (1+i)^{1000000} \cdot i}{2} & \frac{(1-i)^{1000000} + (1+i)^{1000000}}{2} & (1-i)^{999999} \cdot 500000i - (1+i)^{999999} \cdot 500000i & 500000 \cdot (1-i)^{999999} + 500000 \cdot (1+i)^{999999} \\
+                0                                                           & 0                                                           & \frac{(1-i)^{1000000} + (1+i)^{1000000}}{2}                 & \frac{(1+i)^{1000000} \cdot i - (1-i)^{1000000} \cdot i}{2}   \\
+                0                                                           & 0                                                           & \frac{(1-i)^{1000000} \cdot i - (1+i)^{1000000} \cdot i}{2} & \frac{(1-i)^{1000000} + (1+i)^{1000000}}{2}
+            \end{pmatrix}.
+        \]
+    \end{landscape}
+
+    \subsection*{Ответ:}
+    \[
+        A^N
+        =
+        \begin{pmatrix}
+            -i & 0  & i & 0 \\
+            1  & 0  & 1 & 0 \\
+            0  & -i & 0 & i \\
+            0  & 1  & 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+        ( 1 - i )
+            ^N & ( 1 - i )^{N-1} \cdot N & 0           & 0                   \\
+            0  & ( 1 - i )^N             & 0           & 0                   \\
+            0  & 0                       & ( 1 + i )^N & ( 1 + i )^N \cdot N \\
+            0  & 0                       & 0           & ( 1 + i )^N
+        \end{pmatrix}
         \begin{pmatrix}
             \frac{i}{2}   & \frac{1}{2} & 0            & 0           \\
             0             & 0           & \frac{i}{2}  & \frac{1}{2} \\
             - \frac{i}{2} & \frac{1}{2} & 0            & 0           \\
             0             & 0           & -\frac{i}{2} & \frac{1}{2}
         \end{pmatrix}
-        \begin{pmatrix}
-        ( 1 - i )
-            ^N & N \cdot ( 1 - i )^{N-1} & 0           & 0                   \\
-            0  & ( 1 - i )^N             & 0           & 0                   \\
-            0  & 0                       & ( 1 + i )^N & N \cdot ( 1 + i )^N \\
-            0  & 0                       & 0           & ( 1 + i )^N
-        \end{pmatrix}
-        \begin{pmatrix}
-            -i & 0  & i & 0 \\
-            1  & 0  & 1 & 0 \\
-            0  & -i & 0 & i \\
-            0  & 1  & 0 & 1
-        \end{pmatrix} = \\
-        %
-        =
-        \begin{pmatrix}
-        ( 1 - i )
-            ^{N-1} \left ( 1 - i + \frac{N}{2} i \right ) & 0                                                      & ( 1 - i )^{N-1} \cdot \frac{N}{2} i               & 0                                                 \\
-            0                                             & ( 1 + i )^{N-1} \left ( 1 + i + \frac{N}{2} i \right ) & 0                                                      & ( 1 + i )^{N-1} \cdot \frac{N}{2} i                    \\
-            - ( 1 - i )^{N-1} \cdot \frac{N}{2} i         & 0                                                      & ( 1 - i )^{N-1} \left ( 1 - i - \frac{N}{2} i \right ) & 0                                   \\
-            0                                             & - ( 1 + i )^{N-1} \cdot \frac{N}{2} i                  & 0                                                      & ( 1 + i )^{N-1} \left ( 1 + i - \frac{N}{2} i \right )
-        \end{pmatrix}.
-    \end{multline*}
-
-    \subsection*{Ответ:}
-    \[
-        \begin{pmatrix}
-        ( 1 - i )
-            ^{99999} \left ( 1 + 499999 i \right ) & 0                                               & ( 1 - i )^{99999} \cdot 500000 i                & 0                                               \\
-            0                                      & ( 1 + i )^{99999} \left ( 1 + 500001 i \right ) & 0                                               & ( 1 + i )^{99999} \cdot 500000 i                \\
-            - ( 1 - i )^{99999} \cdot 500000 i     & 0                                               & ( 1 - i )^{99999} \left ( 1 - 500001 i \right ) & 0                                   \\
-            0                                      & - ( 1 + i )^{99999} \cdot 500000 i              & 0                                               & ( 1 + i )^{99999} \left ( 1 - 499999 i \right )
-        \end{pmatrix}.
+        .
     \]
+
 \end{document}
