@@ -1,0 +1,287 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usepackage{wasysym}
+
+\include{commands}
+
+\begin{document}
+
+    \section*{Задача 28}
+    Случайная величина $\xi$ имеет сдвинутое показательное распределение с параметром $\lambda > 0$ и плотностью распределения $p_\xi(x)$:
+    \[
+        p_\xi(x)
+        = \left \{
+        \begin{array}{ll}
+            0,                             & x < 2   \\
+            \lambda e^{- \lambda (x - 2)}, & x \ge 2
+        \end{array}
+        \right .
+        .
+    \]
+    Случайная величина $\eta = \varphi(\xi)$, где функция $\varphi(x)$ задана графически:
+
+    \begin{figure}[!ht]
+        \centering
+        \begin{tikzpicture}
+            % оси
+            \draw [->] ( -1, 0 ) -- ( 8, 0 ) node [below] at ( 8, 0 ) {$X$};
+            \draw [->] ( 0, -5 ) -- ( 0, 2 ) node [left] at ( 0, 2 ) {$Y$};
+
+            % метки на оси X
+            \draw ( 1, -0.1 ) -- ( 1, 0.1 ) node [below] at ( 1, 0 ) {$1$};
+            \draw ( 2, -0.1 ) -- ( 2, 0.1 ) node [below] at ( 2, 0 ) {$2$};
+            \draw ( 3, -0.1 ) -- ( 3, 0.1 ) node [below] at ( 3, 0 ) {$3$};
+            \draw ( 4, -0.1 ) -- ( 4, 0.1 ) node [below] at ( 4, 0 ) {$4$};
+            \draw ( 5, -0.1 ) -- ( 5, 0.1 ) node [below] at ( 5, 0 ) {$5$};
+            \draw ( 6, -0.1 ) -- ( 6, 0.1 ) node [below] at ( 6, 0 ) {$6$};
+            \draw ( 7, -0.1 ) -- ( 7, 0.1 ) node [below] at ( 7, 0 ) {$7$};
+
+            % метки на оси Y
+            \draw ( -0.1, -5 ) -- ( 0.1, -5 ) node [left] at ( 0, -5 ) {$-5$};
+            \draw ( -0.1, -4 ) -- ( 0.1, -4 ) node [left] at ( 0, -4 ) {$-4$};
+            \draw ( -0.1, -3 ) -- ( 0.1, -3 ) node [left] at ( 0, -3 ) {$-3$};
+            \draw ( -0.1, -2 ) -- ( 0.1, -2 ) node [left] at ( 0, -2 ) {$-2$};
+            \draw ( -0.1, -1 ) -- ( 0.1, -1 ) node [left] at ( 0, -1 ) {$-1$};
+            \draw ( -0.1, 1 ) -- ( 0.1, 1 ) node [left] at ( 0, 1 ) {$1$};
+
+            % график функции
+            \draw [ultra thick] ( 2, 1 ) -- ( 4, -1 ) -- ( 6, -1 ) -- ( 8, -5 );
+            \node [right] at ( 2, 1 ) {$-(x - 3)$};
+            \node [right] at ( 7, -2 ) {$-2(x - 6) - 1$};
+        \end{tikzpicture}
+        \caption{График функции преобразования $\varphi(x)$.}
+    \end{figure}
+
+    Найти функцию распределения $F_\eta(y)$ и плотность распределения $p_\eta(y)$ случайной величины $\eta$.
+
+    \subsection*{Решение:}
+    Найдем функцию распределения $F_\xi(x)$ случайной величины $\xi$:
+    \[
+        F_\xi(x)
+        = \int \limits_{-\infty}^x p_x(t) dt
+        = \left \{
+        \begin{array}{ll}
+            0,                         & x < 2   \\
+            1 - e^{- \lambda (x - 2)}, & x \ge 2
+        \end{array}
+        \right .
+        .
+    \]
+
+    Теперь нужно выразить функцию распределения $F_\eta(y)$ через функцию распределения $F_\xi(x)$. По определению функции распределения:
+    \[
+        F_\eta(y)
+        = \probability{\eta < y}
+        = \probability{\varphi(\xi) < y}.
+    \]
+    Нужно неравенство $\eta < y$, оно же $\varphi(\xi) < y$, преобразовать к условию для $\xi$, которое принимает различный вид и изменяется при переходе через уровень $y=-1$, поскольку
+    в этой точке меняется сама функция преобразования $\varphi(x)$. Условие для $\xi$ легко представить себе, если провести на графике функции $\varphi(x)$ уровень $y$ (рисунок
+    \ref{28:transformation}).
+
+    \begin{figure}[!ht]
+        \centering
+        \begin{tikzpicture}
+            % оси
+            \draw [->] ( -1, 0 ) -- ( 8, 0 ) node [below] at ( 8, 0 ) {$X$};
+            \draw [->] ( 0, -5 ) -- ( 0, 2 ) node [left] at ( 0, 2 ) {$Y$};
+
+            % метки на оси X
+            \draw ( 1, -0.1 ) -- ( 1, 0.1 ) node [below] at ( 1, 0 ) {$1$};
+            \draw ( 2, -0.1 ) -- ( 2, 0.1 ) node [below] at ( 2, 0 ) {$2$};
+            \draw ( 3, -0.1 ) -- ( 3, 0.1 ) node [below] at ( 3, 0 ) {$3$};
+            \draw ( 4, -0.1 ) -- ( 4, 0.1 ) node [below] at ( 4, 0 ) {$4$};
+            \draw ( 5, -0.1 ) -- ( 5, 0.1 ) node [below] at ( 5, 0 ) {$5$};
+            \draw ( 6, -0.1 ) -- ( 6, 0.1 ) node [below] at ( 6, 0 ) {$6$};
+            \draw ( 7, -0.1 ) -- ( 7, 0.1 ) node [below] at ( 7, 0 ) {$7$};
+
+            % метки на оси Y
+            \draw ( -0.1, -5 ) -- ( 0.1, -5 ) node [left] at ( 0, -5 ) {$-5$};
+            \draw ( -0.1, -4 ) -- ( 0.1, -4 ) node [left] at ( 0, -4 ) {$-4$};
+            \draw ( -0.1, -3 ) -- ( 0.1, -3 ) node [left] at ( 0, -3 ) {$-3$};
+            \draw ( -0.1, -2 ) -- ( 0.1, -2 ) node [left] at ( 0, -2 ) {$-2$};
+            \draw ( -0.1, -1 ) -- ( 0.1, -1 ) node [left] at ( 0, -1 ) {$-1$};
+            \draw ( -0.1, 1 ) -- ( 0.1, 1 ) node [left] at ( 0, 1 ) {$1$};
+
+            % график функции
+            \draw [ultra thick] ( 2, 1 ) -- ( 4, -1 ) -- ( 6, -1 ) -- ( 8, -5 );
+
+            % уроверь y
+            \draw [dashed] ( -1, -0.6 ) -- ( 8, -0.6 ) node [below] ( 6, -0.6 ) {уровень $y$};
+            \draw [dashed] ( 3.6, -0.6 ) -- ( 3.6, 0 );
+
+            % неравенства
+            \draw ( 0, -0.6 ) to [out=-70,in=90] ( 0.5, -5) node [right] at ( 0.5, -3 ) {$\eta < y$};
+            \draw ( 3.6, 0 ) to [out=20,in=180] ( 8, 0.5 ) node [above] at ( 7, 0.5) {$-y + 3 < \xi$};
+        \end{tikzpicture}
+        \caption{Преобразование неравенства $\eta < y$.}
+        \label{28:transformation}
+    \end{figure}
+
+    \begin{enumerate}
+        \item если $y \le -1$:
+        \[
+            \varphi(\xi) < y
+            \Leftrightarrow
+            -2 ( \xi - 6 ) - 1 < y
+            \Leftrightarrow
+            - \frac{y+1}{2} + 6 < \xi
+        \]
+        \item если $-1 < y \le 1 $:
+        \[
+            \varphi(\xi) < y
+            \Leftrightarrow
+            - ( \xi - 3 ) < y
+            \Leftrightarrow
+            - y + 3 < \xi .
+        \]
+        \item если $ 1 < y $ (из графика):
+        \[
+            \varphi(\xi) < y
+            \Leftrightarrow
+            \xi \ge 2 .
+        \]
+    \end{enumerate}
+    Таким образом,
+    \begin{multline*}
+        F_\eta(y)
+        =
+        \left \{
+        \begin{array}{ll}
+            \probability{- \frac{y+1}{2} + 6 < \xi}, & y \le -1     \\
+            \probability{- y + 3 < \xi},             & -1 < y \le 1 \\
+            \probability{2 \le \xi},                 & 1 < y
+        \end{array}
+        \right .
+        =
+        \left \{
+        \begin{array}{ll}
+            1 - F_\xi \left ( - \frac{y+1}{2} + 6 \right ), & y \le -1     \\
+            1 - F_\xi \left ( - y + 3 \right ),             & -1 < y \le 1 \\
+            1,                                              & 1 < y
+        \end{array}
+        \right .
+        = \\
+        %
+        =
+        \left \{
+        \begin{array}{ll}
+            1 - 1 + e^{ -\lambda \left ( - \frac{y+1}{2} + 6 - 2 \right )}, & y \le -1     \\
+            1 - 1 + e^{ -\lambda \left ( - y + 3 - 2 \right )},             & -1 < y \le 1 \\
+            1,                                                              & 1 < y
+        \end{array}
+        \right .
+        =
+        \left \{
+        \begin{array}{ll}
+            e^{ -\lambda \left ( - \frac{y+1}{2} + 4 \right )}, & y \le -1     \\
+            e^{ -\lambda \left ( - y + 1 \right )},             & -1 < y \le 1 \\
+            1,                                                  & 1 < y
+        \end{array}
+        \right . .
+    \end{multline*}
+
+    График функции $F_\eta(y)$ представлен на рисунке \ref{28:eta_cumulative_distribution_plot}.
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}[yscale=5]
+            % оси
+            \draw [->] ( -5, 0 ) -- ( 3, 0 ) node [below] at ( 3, 0 ) {$Y$};
+            \draw [->] ( 0, -0.1 ) -- ( 0, 1.2 );
+
+            % y <= -1
+            \draw [domain=-5:-1] plot(\x, {exp(-0.5*(-0.5*(\x+1)+4))});
+            % -1 < y <= 1
+            \draw [domain=-1:1] plot(\x, {exp(-0.5*(-\x+1))});
+            % 1 < y
+            \draw ( 1, 1 ) -- ( 3, 1 );
+
+            % метки на оси Y
+            \draw ( -4, -0.02 ) -- ( -4, 0.02 ) node [below] at ( -4, 0 ) {$-4$};
+            \draw ( -3, -0.02 ) -- ( -3, 0.02 ) node [below] at ( -3, 0 ) {$-3$};
+            \draw ( -2, -0.02 ) -- ( -2, 0.02 ) node [below] at ( -2, 0 ) {$-2$};
+            \draw ( -1, -0.02 ) -- ( -1, 0.02 ) node [below] at ( -1, 0 ) {$-1$};
+            \draw ( 1, -0.02 ) -- ( 1, 0.02 ) node [below] at ( 1, 0 ) {$1$};
+            \draw ( 2, -0.02 ) -- ( 2, 0.02 ) node [below] at ( 2, 0 ) {$2$};
+
+            % метки на оси Z
+            \draw ( -0.02, 1 ) -- ( 0.02, 1 ) node [left] at ( 0, 1 ) {$1$};
+        \end{tikzpicture}
+        \caption{График функции распределения $F_\eta(y)$.}
+        \label{28:eta_cumulative_distribution_plot}
+    \end{figure}
+
+    Плотность распределения $p_\eta(y)$ --- функция,  которая удовлетворяет равенству:
+    \begin{equation}
+        \label{28:density}
+        F_\eta(y)
+        = \int \limits_{- \infty}^y p_\eta(t) dt .
+    \end{equation}
+    В некоторых случаях, функцию $p_\eta(y)$ удаётся найти дифференцированием левой и правой частей равенства \eqref{28:density}, но в данном случае в точке $-1$ функция
+    $F_\eta(y)$ не является дифференцируемой и имеет разрыв величиной:
+    \[
+        \lim \limits_{y \rightarrow -1 + 0} F_\eta(y) - F_\eta(-1)
+        = e^{-\lambda \left (- (-1) + 1 \right )} - e^{-\lambda \left ( - \frac{-1 + 1}{2} + 4 \right )}
+        = e^{-2 \lambda} - e^{- 4 \lambda}
+        .
+    \]
+    Тем не менее, используя интегральное свойство дельта-функции ($\varepsilon > 0$):
+    \[
+        \int \limits_{-\varepsilon}^{\varepsilon} \delta(x) dx = 1 ,
+    \]
+    можно получить выражение для плотности распределения $p_\eta(y)$:
+    \[
+        p_\eta(y)
+        =
+        \left \{
+        \begin{array}{ll}
+            \frac{\lambda}{2} e^{ -\lambda \left ( - \frac{y+1}{2} + 4 \right )}, & y < -1       \\
+            \lambda e^{ -\lambda \left ( - y + 1 \right )},                       & -1 < y \le 1 \\
+            0,                                                                    & 1 < y
+
+        \end{array}
+        \right .
+        + \left ( e^{-2 \lambda} - e^{- 4 \lambda} \right ) \delta(y+1)
+        .
+    \]
+
+    \subsection*{Ответ:}
+    \begin{enumerate}
+        \item
+        $
+        F_\eta(y)
+        =
+        \left \{
+        \begin{array}{ll}
+            e^{ -\lambda \left ( - \frac{y+1}{2} + 4 \right )}, & y \le -1     \\
+            e^{ -\lambda \left ( - y + 1 \right )},             & -1 < y \le 1 \\
+            1,                                                  & 1 < y
+        \end{array}
+        \right . ,
+        $
+        \item
+        $
+        p_\eta(y)
+        =
+        \left \{
+        \begin{array}{ll}
+            \frac{\lambda}{2} e^{ -\lambda \left ( - \frac{y+1}{2} + 4 \right )}, & y < -1       \\
+            \lambda e^{ -\lambda \left ( - y + 1 \right )},                       & -1 < y \le 1 \\
+            0,                                                                    & 1 < y
+
+        \end{array}
+        \right .
+        + \left ( e^{-2 \lambda} - e^{- 4 \lambda} \right ) \delta(y+1)
+        .
+        $
+    \end{enumerate}
+
+\end{document}

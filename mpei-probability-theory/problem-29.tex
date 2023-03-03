@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usepackage{wasysym}
+
+\include{commands}
+
+\begin{document}
+
+    \section*{Задача 29}
+    Случайные величины $\left ( \xi_1, \xi_2 \right )$ имеют распределение с функцией плотности вероятности $p_{\xi_1, \xi_2}(x_1, x_2)$:
+    \[
+        p_{\xi_1, \xi_2}(x_1, x_2)
+        =
+        \left \{
+        \begin{array}{ll}
+            a b e^{-a x_1 - b x_2}, & 0 \le x_1 \text{ и } 0 \le x_2 \\
+            0,                      & x_1 < 0 \text{ или } x_2 < 0
+        \end{array}
+        \right .
+        .
+    \]
+    Случайные величины $\left ( \eta_1, \eta_2 \right )$ связаны с величинами $\left ( \xi_1, \xi_2 \right )$ взаимно однозначным преобразованием:
+    \begin{gather*}
+        \xi_1 = f_1(\eta_1, \eta_2) , \\
+        \xi_2 = f_2(\eta_1, \eta_2) , \\
+        f_1(y_1, y_2) = y_1 \cos y_2 , \\
+        f_2(y_1, y_2) = y_1 \sin y_2 , \\
+        \eta_1 \in \left [ 0, \infty \right ), \eta_2 \in \left [ 0, \frac{\pi}{2} \right ] .
+    \end{gather*}
+    Необходимо найти функцию плотности вероятности $p_{\eta_1, \eta_2}(y_1, y_2)$ случайных величин $\left ( \eta_1, \eta_2 \right )$.
+
+    \subsection*{Решение:}
+    Можно показать, что плотности вероятности $p_{\eta_1, \eta_2}(y_1, y_2)$ и $p_{\xi_1, \xi_2}(x_1, x_2)$ связаны соотношением:
+    \begin{gather*}
+        p_{\eta_1, \eta_2}(y_1, y_2) = p_{\xi_1, \xi_2}(f_1(y_1, y_2), f_2(y_1, y_2)) \modulus{J}, \\
+        J = \jacobian{f_1, f_2}{y_1, y_2} ,
+    \end{gather*}
+    где якобиан
+    \[
+        \jacobian{f_1, f_2}{y_1, y_2}
+        = \begin{vmatrix}
+              \Pderivative{f_1}{y_1} & \Pderivative{f_1}{y_2} \\
+              \Pderivative{f_2}{y_1} & \Pderivative{f_2}{y_2}
+        \end{vmatrix}
+        = \begin{vmatrix}
+              \cos y_2 & - y_1 \sin y_2 \\
+              \sin y_2 & y_1 \cos y_2
+        \end{vmatrix}
+        = y_1 \cos^2 y_2 + y_1 \sin^2 y_2
+        = y_1
+        .
+    \]
+    Таким образом,
+    \[
+        p_{\eta_1, \eta_2}(y_1, y_2)
+        = p_{\xi_1, \xi_2}(y_1 \cos y_2, y_1 \sin y_2) \cdot y_1
+        = a b e^{-a y_1 \cos y_2 - b y_1 \sin y_2} \cdot y_1
+        .
+    \]
+
+    \subsection*{Ответ:}
+    $y_1 a b e^{-a y_1 \cos y_2 - b y_1 \sin y_2}$
+\end{document}
