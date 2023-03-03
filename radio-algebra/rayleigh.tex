@@ -1,0 +1,531 @@
+\chapter{Сопряженный оператор}
+
+
+\section{Унитарные пространства}
+
+Пусть $\mathbb{C}$ --- обозначает поле комплексных чисел, и $\mathcal{U}$ --- множество векторов, для которых определена операции сложения $+$ векторов и умножения
+векторов на число из поля $\mathbb{C}$, обладающих свойствами для любых $u, v, w \in \mathcal{U}$ и $\alpha, \beta \in \mathbb{C}$:
+\begin{enumerate}
+    \item $u + ( v + w ) = ( u + v ) + w$,
+    \item $\exists 0 \in U: u + 0 = 0 + u = u$,
+    \item $\exists (-u) \in U: u + (-u) = (-u) + u = 0$,
+    \item $u + v = v + u$,
+    \item $(\alpha + \beta) u = \alpha u + \beta u$,
+    \item $\alpha ( u + v ) = \alpha u + \alpha v$,
+    \item $\alpha (\beta u) = (\alpha \beta) u$,
+    \item $u = 1 \cdot u$.
+\end{enumerate}
+
+Пусть на множестве всех пар векторов пространства $\mathcal{U}$ определена функция $\scalarproduct{\cdot}{\cdot}$, называемая скалярным произведением, обладающая
+следующими свойствами для любых $u, v \in \mathcal{U}$ и числа $\lambda \in \mathbb{C}$:
+\begin{enumerate}
+    \item $\scalarproduct{u}{u} \ge 0$,
+    \item $\scalarproduct{u}{u} = 0 \Leftrightarrow u = 0$,
+    \item $\scalarproduct{u + w}{v} = \scalarproduct{u}{v} + \scalarproduct{w}{v}$,
+    \item $\scalarproduct{\lambda u}{v} = \lambda \scalarproduct{u}{v}$,
+    \item $\scalarproduct{u}{v} = \overline{\scalarproduct{v}{u}}$,
+\end{enumerate}
+где черта $\overline{\cdot}$ обозначает комплексное сопряжение. Из приведённых свойств скалярного произведения следует:
+\begin{gather*}
+    \scalarproduct{u}{v + w}
+    = \overline{\scalarproduct{v + w}{u}}
+    = \overline{\scalarproduct{v}{u} + \scalarproduct{w}{u}}
+    = \overline{\scalarproduct{v}{u}} + \overline{\scalarproduct{w}{u}}
+    = \scalarproduct{u}{v} + \scalarproduct{u}{w}, \\
+    %
+    \scalarproduct{u}{\lambda v}
+    = \overline{\scalarproduct{\lambda v}{u}}
+    = \overline{\lambda  \scalarproduct{v}{u}}
+    = \overline{\lambda} \overline{\scalarproduct{v}{u}}
+    = \overline{\lambda} \scalarproduct{u}{v} .
+\end{gather*}
+
+Если в линейном пространстве $\mathcal{U}$ задано скалярное произведение $\scalarproduct{\cdot}{\cdot}$, то такое пространство называется унитарным.
+
+С помощью скалярного произведения можно определить норму $\norm{\cdot}$ векторов:
+\[
+    \norm{u} = \sqrt{\scalarproduct{u}{u}}.
+\]
+Такое определение будет удовлетворять всем свойствам нормы:
+\begin{enumerate}
+    \item $\norm{u} \ge 0$,
+    \item $\norm{u} = 0 \Leftrightarrow u = 0$,
+    \item $\norm{\lambda u} = \modulus{\lambda} \norm{u}$,
+    \item $\norm{u + v} \le \norm{u} + \norm{v}$.
+\end{enumerate}
+
+
+\section{Операторы}
+
+Пусть $\mathcal{U}$ является унитарным пространством со скалярным произведением $\scalarproduct{\cdot}{\cdot}_\mathcal{U}$ и $\mathcal{V}$ тоже унитарное пространство
+со своим скалярным произведением $\scalarproduct{\cdot}{\cdot}_\mathcal{V}$.
+
+Пусть $\mathcal{A} : \mathcal{U} \rightarrow \mathcal{V}$ --- оператор, действующий из пространства $\mathcal{U}$ в пространство $\mathcal{V}$.
+Оператор $\mathcal{A}^*$ называется сопряженным к $\mathcal{A}$, если:
+\begin{gather}
+    \scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}} = \scalarproduct{u}{\mathcal{A}^* v}_{\mathcal{U}}
+    \label{rayleigh:operator:scalars_equality}, \\
+    \forall u \in \mathcal{U}, \forall v \in \mathcal{V}
+    \notag.
+\end{gather}
+
+Возникает вопрос об условиях существовании сопряженного оператора $\mathcal{A}^*$. Как будет показано далее, при некоторых условиях сопряженный оператор существует,
+более того его можно построить.
+
+Пусть оператор $\mathcal{A}$ является линейным, то есть для любых $u_1, u_2 \in \mathcal{U}$ и любого числа $\lambda \in \mathbb{C}$ выполняются равенства:
+\begin{enumerate}
+    \item $\mathcal{A}(u_1 + u_2) = \mathcal{A}(u_1) + \mathcal{A}(u_2)$,
+    \item $\mathcal{A}(\lambda u_1) = \lambda \mathcal{A}(u_1)$.
+\end{enumerate}
+
+Линейный оператор можно задать следующим образом: выбрать базисный набор векторов $e_i$ пространства $\mathcal{U}$ и определить действие оператора на базисные векторы
+$\mathcal{A} e_i$, затем используя линейность для всякого элемента $u \in \mathcal{U}$:
+\[
+    u = c_1 e_1 + c_2 e_2 + \dots,
+\]
+получим:
+\[
+    \mathcal{A} u
+    = \mathcal{A} ( c_1 e_1 + c_2 e_2 + \dots )
+    = c_1 \mathcal{A} e_1 + c_2 \mathcal{A} e_2 + \dots
+\]
+
+При построении сопряженного оператора $\mathcal{A}^*$ можно использовать такой же способ его определения.
+
+Пусть пространства $\mathcal{U}$ и $\mathcal{V}$ являются конечномерными и набор векторов $e = \{ e_1, \dots, e_n \}$ является ортонормированными базисом
+в пространстве $U$, а набор векторов $f = \{f_1, \dots, f_m \}$ является ортономированным базисом в пространстве $\mathcal{V}$. Пусть
+$A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей оператора $\mathcal{A}$ в базисах $e$ и $f$, тогда:
+\[
+    \mathcal{A} e_j = a_{1j} f_1 + \dots + a_{mj} f_m,
+\]
+тем самым определено действие оператора $\mathcal{A}$ на базисные векторы $e_j$.
+
+Попробуем определить оператор $\mathcal{B}$ так, чтобы равенство \eqref{rayleigh:operator:scalars_equality} выполнялось для набора векторов $e$ и $f$:
+\begin{equation}
+    \label{rayleigh:operator:basis_scalars_equality}
+    \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} .
+\end{equation}
+Поскольку $\mathcal{B} f_i \in \mathcal{U}$, то:
+\[
+    \mathcal{B} f_i = b_{1i} e_1 + \dots + b_{ni} e_n ,
+\]
+причём коэффициенты $b_{ji}$ следует выбирать таким образом, чтобы выполнялось равенство \eqref{rayleigh:operator:basis_scalars_equality}, которое в силу
+ортонормированности наборов $e$ и $f$ приводит к равенству:
+\begin{align*}
+    \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} , \\
+    \scalarproduct{a_{1j} f_1 + \dots + a_{mj} f_m}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{b_{1i} e_1 + \dots + b_{ni} e_n}_\mathcal{U} , \\
+    a_{1j} \scalarproduct{f_1}{f_i}_\mathcal{V} + \dots + a_{mj} \scalarproduct{f_m}{f_i}_\mathcal{V} & = \overline{b_{1i}} \scalarproduct{e_j}{e_1}_\mathcal{U} + \dots + \overline{b_{ni}} \scalarproduct{e_j}{e_n}_\mathcal{U} , \\
+    a_{ij} \scalarproduct{f_i}{f_i}_\mathcal{V} & = \overline{b_{ji}} \scalarproduct{e_j}{e_j}_\mathcal{U} , \\
+    a_{ij} & = \overline{b_{ji}} , \\
+    \overline{a_{ij}} & = b_{ji} .
+\end{align*}
+Таким образом, определено действие оператора $\mathcal{B}$ на базисные векторы $f_i$:
+\begin{equation}
+    \label{rayleigh:operator:basis_images}
+    \mathcal{B} f_i = \overline{a_{i1}} e_1 + \dots + \overline{a_{in}} e_n .
+\end{equation}
+
+Теперь распространим действие оператора $\mathcal{B}$ на все векторы $v \in \mathcal{V}$, сделав оператор $\mathcal{B}$ линейным, пусть
+\[
+    v = v_1 f_1 + \dots + v_m f_m,
+\]
+тогда
+\[
+    \mathcal{B} v = v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m .
+\]
+Проверим, что при таком определении оператор $\mathcal{B}$ оказывается сопряженным к оператору $\mathcal{A}$. Пусть $u \in \mathcal{U}$ --- произвольный вектор
+пространства $U$:
+\[
+    u = u_1 e_1 + \dots + u_n e_n,
+\]
+тогда
+\begin{multline*}
+    \scalarproduct{\mathcal{A} u}{v}_\mathcal{V}
+    = \scalarproduct{\mathcal{A} (u_1 e_1 + \dots + u_n e_n)}{v}_\mathcal{V}
+    = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v}_\mathcal{V} = \\
+    %
+    = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v_1 f_1 + \dots + v_m f_m}_\mathcal{V} = \\
+    %
+    = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{\mathcal{A} e_i}{f_j}_\mathcal{V}
+    = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{e_i}{\mathcal{B} f_j}_\mathcal{U} = \\
+    %
+    = \scalarproduct{u_1 e_i + \dots + u_n e_n}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U} = \\
+    %
+    = \scalarproduct{u}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U}
+    = \scalarproduct{u}{\mathcal{B} (v_1 f_1 + \dots + v_m f_m)}_\mathcal{U}
+    = \scalarproduct{u}{\mathcal{B} v}_\mathcal{U} .
+\end{multline*}
+Таким образом, $\mathcal{B}$ является сопряженным к $\mathcal{A}$:
+\[
+    \mathcal{A}^* = \mathcal{B}.
+\]
+Кроме того, из равенства \eqref{rayleigh:operator:basis_images} следует, что матрица $B$ оператора $\mathcal{B}$ в базисах $f$ и $e$:
+\[
+    B =
+    \begin{pmatrix}
+        \overline{a_{11}} & \overline{a_{21}} & \dots  & \overline{a_{m1}} \\
+        \overline{a_{12}} & \overline{a_{22}} & \dots  & \overline{a_{m2}} \\
+        \vdots            & \vdots            & \ddots & \vdots            \\
+        \overline{a_{1n}} & \overline{a_{2n}} & \dots  & \overline{a_{mn}}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \overline{a_{11}} & \overline{a_{12}} & \dots  & \overline{a_{1n}} \\
+        \overline{a_{21}} & \overline{a_{22}} & \dots  & \overline{a_{2n}} \\
+        \vdots            & \vdots            & \ddots & \vdots            \\
+        \overline{a_{n1}} & \overline{a_{n2}} & \dots  & \overline{a_{nm}}
+    \end{pmatrix}^T
+    = \overline{A}^T .
+\]
+То есть матрица $A^*$ сопряженного оператора $\mathcal{A}^*$:
+\[
+    A^* = \overline{A}^T .
+\]
+
+
+\section{Спектральное разложение}
+
+Пусть $A$ --- матрица оператора $\mathcal{A}$ в ортонормированных базисах пространств $\mathcal{U}$ и $\mathcal{V}$. Согласно теореме Шура любая матрицы $A$
+унитарно подобна верхнетреугольной матрице, то есть существует унитарная матрица $U$:
+\[
+    U^* U = I,
+\]
+такая что
+\[
+    U^* A U = R, \\
+\]
+где $R$ --- верхнетреугольная матрица. Умножая последнее равенство слева на $U$ и справа на $U^*$, получим
+\begin{align}
+    U^* A U & = R,
+    \notag \\
+    U U^* A U U^* & = U R U^*,
+    \notag \\
+    A & = U R U^*
+    \label{rayleigh:normal:schur_decomposition}
+\end{align}
+
+Оператор $\mathcal{A}$ называется нормальным, если:
+\[
+    \mathcal{A}^* \mathcal{A} = \mathcal{A} \mathcal{A}^* .
+\]
+Отсюда следует равенство матриц:
+\[
+    A^* A = A A^* .
+\]
+Используя в последнем равенстве разложение \eqref{rayleigh:normal:schur_decomposition}, получим:
+\begin{align*}
+    \left ( U R U^* \right ) ^* U R U^* & = U R U^* \left ( U R U^* \right )^* , \\
+    U R^* U^* U R U^* & = U R U^* U R U^* , \\
+    U R^* R U^* & = U R R^* U^* , \\
+    U^* U R^* R U^* U & = U^* U R R^* U^* U, \\
+    R^* R & = R R^* .
+\end{align*}
+Поскольку $R$ --- верхнетреугольная матрица, то последнее равенство возможно только в том случае, когда $R$ --- диагональная:
+\[
+    R = \Lambda,
+\]
+где $\Lambda$ --- диагональная матрица.
+
+Таким образом, если $\mathcal{A}$ --- нормальный оператор, то матрица $A$ такого оператора диагонализуема:
+\begin{equation}
+    \label{rayleigh:normal:spectral_decomposition}
+    A = U \Lambda U^* .
+\end{equation}
+Такое разложение называется спектральным, и называется так потому, что, умножая справа на $U$, получим равенство:
+\[
+    A U = U \Lambda,
+\]
+откуда следует, что столбцы матрицы $U$ определяют собственные векторы, а элементы матрицы $\Lambda$ являются собственными числами.
+
+
+\section{Эрмитовый оператор}
+
+Частным случаям нормального оператора $\mathcal{A} : \mathcal{U} \rightarrow \mathcal{U}$ является самосопряженный (эрмитов) оператор:
+\[
+    \mathcal{A}^* = \mathcal{A}.
+\]
+
+Отсюда, матрица $A$ оператора $\mathcal{A}$ является самосопряженной (эрмитовой):
+\[
+    A^* = A.
+\]
+Используя спектральное разложение \eqref{rayleigh:normal:spectral_decomposition}, получим:
+\begin{align*}
+    \left ( U \Lambda U^* \right )^* & = U \Lambda U^* , \\
+    U \Lambda^* U^* & = U \Lambda U^* , \\
+    U^* U \Lambda^* U^* U & = U^* U \Lambda U^* U, \\
+    \Lambda^* & = \Lambda .
+\end{align*}
+Если $\lambda_i$ --- диагональный элемент матрицы $\Lambda$, тогда:
+\[
+    \overline{\lambda_i} = \lambda_i
+\]
+а это возможно тогда и только тогда, когда число $\lambda_i$ --- вещественное:
+\[
+    \lambda_i \in \mathbb{R}.
+\]
+Таким образом, у эрмитова оператора все собственные значения вещественные.
+
+Рассмотрим квадратичную форму с эрмитовым оператором:
+\[
+    \scalarproduct{\mathcal{A} u}{u}
+    = \scalarproduct{u}{\mathcal{A}^* u}
+    = \scalarproduct{u}{\mathcal{A} u}
+    = \overline{\scalarproduct{\mathcal{A} u}{u}}
+\]
+Отсюда следует, что значения квадратичной формы $\scalarproduct{\mathcal{A} u}{u}$ являются вещественными при всех векторах $u$. Пусть дополнительно оператор $A$
+является положительно определенным, то есть для всех векторов $u$:
+\[
+    \scalarproduct{\mathcal{A} u}{u} > 0
+\]
+Если $u_i$ --- собственный вектор, соответствующей собственному значению $\lambda_i$, тогда:
+\begin{align*}
+    \scalarproduct{u_i}{u_i} & > 0 , \\
+    \scalarproduct{\lambda_i u_i}{u_i} & > 0 , \\
+    \lambda_i \scalarproduct{u_i}{u_i} & > 0 , \\
+    \lambda_i \norm{u_i}^2 & > 0 , \\
+    \lambda_i > 0 ,
+\end{align*}
+поскольку собственный вектор $u_i \neq 0$ и $\norm{u_i} > 0$. Таким образом, если $\mathcal{A} > 0$, то все его собственные числа положительны, и для диагональной
+матрицы $\Lambda$:
+\[
+    \Lambda
+    = \begin{pmatrix}
+          \lambda_1 & 0         & \dots  & 0         \\
+          0         & \lambda_2 & \dots  & 0         \\
+          \vdots    & \vdots    & \ddots & \vdots    \\
+          0         & 0         & \dots  & \lambda_n
+    \end{pmatrix}
+\]
+определен квадратный корень:
+\[
+    \Lambda^\frac{1}{2}
+    = \begin{pmatrix}
+          \lambda_1^\frac{1}{2} & 0                     & \dots  & 0                     \\
+          0                     & \lambda_2^\frac{1}{2} & \dots  & 0                     \\
+          \vdots                & \vdots                & \ddots & \vdots                \\
+          0                     & 0                     & \dots  & \lambda_n^\frac{1}{2}
+    \end{pmatrix}
+    .
+\]
+Тогда из спектрального разложения матрицы $A$ оператора \eqref{rayleigh:normal:spectral_decomposition}:
+\[
+    A
+    = U \Lambda U^*
+    = U \Lambda^\frac{1}{2} \Lambda^\frac{1}{2} U^*
+    = \left ( U \Lambda^\frac{1}{2} \right ) \left ( U \Lambda^\frac{1}{2} \right )^*
+    = A^\frac{1}{2} \left ( A^\frac{1}{2} \right )^*,
+\]
+где
+\[
+    A^\frac{1}{2} = U \Lambda^\frac{1}{2}
+\]
+квадратный корень из эрмитовой матрицы $A$.
+
+
+\section{Вещественные квадратичные формы}
+
+Если матрица $A$ определена ($A > 0$, $A \ge 0$, $A \le 0$ или $A < 0$), то при всех $x$ квадратичную форму $x^* A x$ можно сравнивать с нулём, а значит она является
+вещественным числом. Отсюда сразу следует, что $A$ является эрмитовой. Действительно:
+\begin{gather*}
+    x^* A x \in \mathbb{R} , \\
+    x^* A x = ( x^* A x )^* , \\
+    x^* A x = x^* A^* x .
+\end{gather*}
+
+Возьмем в качестве $x$ векторы вида $e_k = (0, \dots, 0, 1, 0, \dots, 0)$ с одной единицей, тогда из равенства квадратичных форм следует, что диагональные
+элементы матриц $A$ и $A^*$ вещественны и одинаковы:
+\begin{gather*}
+    e_k^* A e_k = e_k^* A^* e_k , \\
+    a_{kk} = a_{kk}^* .
+\end{gather*}
+Возьмем в качестве $x$ векторы $e_{kj} = (0, \dots, 0, 1, 0, \dots, 0, 1, 0, \dots, 0)$ с двумя единицами, тогда из равенства квадратичных форм следует,
+что внедиагональные элементы сопряжены:
+\begin{gather*}
+    e_{kj}^* A e_{kj} = e_{kj}^* A^* e_{kj} , \\
+    a_{kk} + a_{kj} + a_{jk} + a_{jj} = a_{kk}^* + a_{jk}^* + a_{kj}^* + a_{jj}^* , \\
+    a_{kk} + a_{kj} + a_{jk} + a_{jj} = a_{kk} + a_{jk}^* + a_{kj}^* + a_{jj} , \\
+    a_{kj} + a_{jk} = a_{jk}^* + a_{kj}^* , \\
+    a_{kj} + a_{jk} = a_{kj}^* + a_{jk}^* , \\
+    a_{kj} + a_{jk} = ( a_{kj} + a_{jk} )^* , \\
+    \image{a_{kj} + a_{jk}} = 0 , \\
+    \image{a_{kj}} = - \image{a_{jk}} .
+\end{gather*}
+Возьмем в качестве $x$ векторы $e_{kj} = (0, \dots, 0, 1, 0, \dots, 0, -1, 0, \dots, 0)$ с двумя единицами, тогда из равенства квадратичных форм следует,
+что внедиагональные элементы сопряжены:
+\begin{gather*}
+    e_{kj}^* A e_{kj} = e_{kj}^* A^* e_{kj} , \\
+    a_{kk} + i a_{kj} - i a_{jk} - i^2 a_{jj} = a_{kk}^* + i a_{jk}^* - i a_{kj}^* - i^2 a_{jj}^* , \\
+    a_{kk} + i a_{kj} - i a_{jk} + a_{jj} = a_{kk}^* + i a_{jk}^* - i a_{kj}^* + a_{jj}^* , \\
+    a_{kk} + i a_{kj} - i a_{jk} + a_{jj} = a_{kk} + i a_{jk}^* - i a_{kj}^* + a_{jj} , \\
+    i a_{kj} - i a_{jk} = i a_{jk}^* - i a_{kj}^* , \\
+    i a_{kj} - i a_{jk} = ( - i a_{jk} + i a_{kj} )^* , \\
+    i a_{kj} - i a_{jk} = ( i a_{kj} - i a_{jk})^* , \\
+    \image{i a_{kj} - i a_{jk}} = 0 , \\
+    \real{a_{kj} - a_{jk}} = 0 , \\
+    \real{a_{kj}} = \real{a_{jk}} .
+\end{gather*}
+Таким образом,
+\[
+    A = A^*.
+\]
+
+
+\section{Отношение Релея}
+
+В радиолокации физические колебательные процессы часто описываются с помощью вектора комплексных амплитуд $x \in \Cspace{n}$. Кроме того, выделение линейной части
+преобразований приводит к векторам $Fx$. Далее, обычно, интересуются энергией, которая пропорциональна квадратам норм:
+\begin{gather*}
+    \norm{x}^2 = x^* x , \\
+    \norm{F x}^2 = x^* F^* F x ,
+\end{gather*}
+и сравнением энергий, которое приводит к отношениям вида:
+\begin{gather*}
+    \rho(x) = \frac{x^* F^* F x}{x^* x}.
+\end{gather*}
+Легко видеть, что матрица $F^* F$ является эрмитовой:
+\[
+    ( F^* F )^* = F^* F .
+\]
+
+В более общем случае рассматривается отношение:
+\[
+    \rho(x) = \frac{x^* A x}{x^* B x},
+\]
+где $A$ и $B$ --- эрмитовы матрицы и $B > 0$.
+
+Для положительно определенной матрицы $B > 0$ существует квадратный корень $B^\frac{1}{2}$:
+\begin{gather*}
+    B = B^\frac{1}{2} ( B^\frac{1}{2} )^* , \\
+    %
+    B^\frac{1}{2} = U_B D_B^\frac{1}{2} ,
+\end{gather*}
+причём
+\[
+    \det B^\frac{1}{2}
+    = \det ( U_B D_B^\frac{1}{2} )
+    = \det U_B \cdot \det D_B^\frac{1}{2}
+    = 1 \cdot \det D_B^\frac{1}{2}
+    > 0 ,
+\]
+поэтому существует обратная матрица $B^{-\frac{1}{2}}$.
+
+Отношение Релея $\rho(x)$ можно представить в виде:
+\begin{gather*}
+    \rho(x)
+    = \frac{x^* A x}{x^* B^\frac{1}{2} ( B^\frac{1}{2} )^* x}
+    = \frac{x^* B^\frac{1}{2} B^{-\frac{1}{2}} A ( B^{-\frac{1}{2}} )^* ( B^\frac{1}{2} )^* x}{x^* B^\frac{1}{2} ( B^\frac{1}{2} )^* x} , \\
+    %
+    \rho(y)
+    = \frac{y^* B^{-\frac{1}{2}} A ( B^{-\frac{1}{2}} )^* y}{y^* y}
+    = \frac{y^* C y}{y^* y}, \\
+    %
+    C = B^{-\frac{1}{2}} A ( B^{-\frac{1}{2}} )^*, \\
+    %
+    y = ( B^\frac{1}{2} )^* x .
+\end{gather*}
+
+Заметим, что матрица $C$ является эрмитовой:
+\[
+    C^*
+    = ( B^{-\frac{1}{2}} A ( B^{-\frac{1}{2}} )^* )^*
+    = B^{-\frac{1}{2}} A^* ( B^{-\frac{1}{2}} )^*
+    = B^{-\frac{1}{2}} A ( B^{-\frac{1}{2}} )^*
+    = C,
+\]
+поэтому она подобна диагональной матрице:
+\[
+    C = U_C D_C U_C^* .
+\]
+Используя это представление матрицы $C$, преобразуем отношение Релея к виду:
+\begin{gather*}
+    \rho(y)
+    = \frac{y^* U_C D_C U_C^* y}{y^* y}
+    = \frac{y^* U_C D_C U_C^* y}{y^* U_C U_C^* y} , \\
+    %
+    \rho(z)
+    = \frac{z^* D_C z}{z^* z} , \\
+    %
+    z = U_C^* y
+\end{gather*}
+
+Отношение Релея не зависит от величины вектора $z$, а только от его направления, поскольку для вектора $\alpha z$:
+\[
+    \rho(\alpha z)
+    = \frac{\alpha^* z^* D_C \alpha z}{ \alpha^* z^* \alpha z}
+    = \frac{\modulus{\alpha}^2 \cdot z^* D_C z}{ \modulus{\alpha}^2 \cdot z^* z}
+    = \frac{z^* D_C z}{z^* z}
+    = \rho(z) .
+\]
+Таким образом, можно ограничится рассмотрением векторов $z$, для которых:
+\begin{gather*}
+    z^* z = 1 , \\
+    %
+    \rho(z) = z^* D_C z .
+\end{gather*}
+
+Пусть
+\begin{gather*}
+    D_C
+    = \begin{pmatrix}
+          \lambda_1 & 0         & \dots  & 0         \\
+          0         & \lambda_2 & \dots  & 0         \\
+          \vdots    & \vdots    & \ddots & \vdots    \\
+          0         & 0         & \dots  & \lambda_n
+    \end{pmatrix} , \\
+    %
+    \lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_n.
+\end{gather*}
+тогда
+\begin{gather*}
+    \rho(z)
+    = \lambda_1 \modulus{z_1}^2 + \lambda_2 \modulus{z_2}^2 + \dots + \lambda_n \modulus{z_n}^2, \\
+    %
+    \modulus{z_1}^2 + \modulus{z_2}^2 + \dots + \modulus{z_n}^2 = 1.
+\end{gather*}
+Из последнего равенства следует, что
+\[
+    0 \le \modulus{z_i}^2 \le 1 ,
+\]
+поэтому
+\begin{gather*}
+    \lambda_n \le \rho(z) \le \lambda_1 .
+\end{gather*}
+
+Максимальное значение отношение Релея достигает при векторе $z_{max}$:
+\[
+    z_{max}
+    = \begin{pmatrix}
+          1     \\
+          0     \\
+          \dots \\
+          0
+    \end{pmatrix} ,
+\]
+которому соответствует вектор $y_{max}$:
+\begin{align*}
+    z_{max} & = U_C^* y_{max} , \\
+    U_C z_{max} & = y_{max} ,
+\end{align*}
+которому соответствует вектор $x_{max}$:
+\begin{align*}
+    \left ( B^\frac{1}{2} \right )^* x_{max} & = y_{max} = U_C z_{max} , \\
+    \left ( U_B D_B^\frac{1}{2} \right )^* x_{max} & = U_C z_{max} , \\
+    D_B^\frac{1}{2} U_B^* x_{max} & = U_C z_{max} , \\
+    U_B^* x_{max} & = D_B^{-\frac{1}{2}} U_C z_{max} , \\
+    x_{max} & = U_B D_B^{-\frac{1}{2}} U_C z_{max} .
+\end{align*}
+Аналогично минимальное значение отношение Релея достигает при векторе $z_{min}$:
+\[
+    z_{min}
+    = \begin{pmatrix}
+          0     \\
+          \dots \\
+          0     \\
+          1
+    \end{pmatrix} ,
+\]
+которому соответствует вектор $x_{min}$:
+\[
+    x_{min} = U_B D_B^{-\frac{1}{2}} U_C z_{min}
+\]

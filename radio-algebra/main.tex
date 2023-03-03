@@ -1,0 +1,77 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{amsfonts}
+
+\include{commands}
+
+\begin{document}
+
+    \title{Некоторые приложения алгебры в радиолокации}
+    \author{Тигетов Давид Георгиевич}
+    \maketitle
+
+    \tableofcontents
+
+
+    \part{Сопряжение}
+    \include{rayleigh}
+
+
+    \part{Введение}
+    \include{introduction/complex}
+    \include{introduction/wave}
+
+
+    \part{Излучение сигналов}
+    \include{emission/emitter}
+    \include{emission/array}
+    \include{emission/scheme}
+
+
+    \part{Приём сигналов}
+    \include{jammers/receivers}
+    \include{jammers/search/problems}
+    \include{jammers/search/theory}
+    \include{jammers/search/methods}
+    \include{jammers/adaptation/problems}
+    \include{jammers/estimate}
+
+    \include{appendix/dependence}
+
+    \begin{enumerate}
+        \item Обусловленность задачи решения системы линейных уравнений.
+        \item $LU$ и $LDL^T$ разложения (с выбором ведущего элемента).
+        \item Вычисление QR разложения.
+        \item Вычисление собственных значений и собственных векторов. Нахождение наибольшего собственного значения.
+        \item Вычисление сингулярного разложения. Приложения (Колесников).
+        \item Итерационные методы решения СЛУ.
+        \item Проекционные методы решения СЛУ.
+        \item Методы факторизации (из Ратынского).
+        \item Быстрое умножение матриц - алгоритм Штрассена (Блейхут).
+        \item Быстрые алгоритмы свёртки (Блейхут).
+        \item Быстрое преобразование Фурье (Блейхут).
+        \item Быстрое решение тёплицевых систем (Блейхут).
+        \item Ленточные матрицы. Решение систем с трехдиагональной матрицей (прогонка).
+    \end{enumerate}
+
+    Основные задачи.
+    \begin{enumerate}
+        \item Разложения: $LU$, $LDL^T$, $QR$, $U \Sigma V^T$.
+        \item Решение системы.
+        \item Собственные значения и векторы.
+    \end{enumerate}
+
+    Прикладные задачи:
+    \begin{enumerate}
+        \item Задачи из книги Ратынского.
+        \item Задачи из книги Матасова.
+    \end{enumerate}
+\end{document}
