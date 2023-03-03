@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+
+\include{commands}
+
+\begin{document}
+
+    \section*{Задача 26}
+
+    Случайная величина $\xi$ имеет плотность распределения $p_\xi(x)$. Случайная величина $\eta = 2 \xi^m + 1$. Определить $\expectation{\eta}$ и $\variance{\eta}$.
+
+    \subsection*{Решение:}
+    Воспользуемся свойствами математического ожидания и дисперсии:
+    \begin{gather*}
+        \expectation{\eta}
+        = \expectation{2 \xi^m + 1}
+        = 2 \cdot \expectation{\xi^m} + 1 , \\
+        %
+        \variance{\eta}
+        = \variance{2 \xi^m + 1}
+        = 2^2 \cdot \variance{\xi^m}
+        = 2^2 \cdot \left ( \expectation{\xi^{2m}} - \left ( \expectation{\xi^m} \right )^2 \right ).
+    \end{gather*}
+    Остаётся вычислить два момента:
+    \begin{gather*}
+        \expectation{\xi^m} = \int \limits_{-\infty}^{\infty} x^m p_{\xi}(x) dx , \\
+        \expectation{\xi^{2m}} = \int \limits_{-\infty}^{\infty} x^{2m} p_{\xi}(x) dx .
+    \end{gather*}
+\end{document}

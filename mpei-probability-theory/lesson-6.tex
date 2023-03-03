@@ -1,0 +1,508 @@
+\chapter{Случайные величины непрерывного типа}
+
+\section*{Введение}
+
+Случайная величина $\xi$ является случайной величиной непрерывного типа, если её функцию распределения $F_\xi(x)$ можно представить в виде:
+\begin{equation}
+    F_{\xi}(x) = \int \limits_{-\infty}^x f_\xi(t) dt ,
+\end{equation}
+где функция $f_\xi(t)$ называется функций плотности вероятности.
+
+Поскольку $\lim \limits_{x \rightarrow \infty} F_\xi(x) = 1$, то для функции плотности вероятности выполняется условие нормировки:
+\begin{equation}
+    \int \limits_{-\infty}^\infty f_\xi(t) dt = 1 .
+\end{equation}
+
+Для случайных величин непрерывного типа вводятся начальные $m_k$ и центральные $\mu_k$ моменты:
+\begin{gather}
+    m_k = \int \limits_{-\infty}^\infty x^k f_\xi(t) dt, \\
+    \mu_k = \int \limits_{-\infty}^\infty \left ( x - \expectation{\xi} \right )^k f_\xi(t) dt.
+\end{gather}
+Математическое ожидание --- начальный момент 1-го порядка, дисперсия --- центральный момент второго порядка. Можно показать, что дисперсия имеет следующее выражение через
+начальные моменты:
+\begin{equation}
+    \variance{\xi}
+    = \expectation{\left ( \xi - \expectation{\xi} \right )^2}
+    = \expectation{\xi^2} - \left ( \expectation{\xi}\right )^2 .
+\end{equation}
+
+Квантилью уровня $p$ ( $0 \le p \le 1$) называется такое число $x_p$, для которого выполняется равенство:
+\begin{equation}
+    F_{\xi}(x_p) = p .
+\end{equation}
+
+Вычисление вероятностей попадания случайной величины $\xi$ в промежутки различного вида производится с помощью функции распределения: Например, для вычисления вероятности
+события $\xi \in \left [ a, b \right )$ необходимо использовать сумму событий:
+\begin{equation}
+    \xi \in \left ( -\infty, b \right ) = \xi \in \left ( -\infty, a \right ) + \xi \in \left [ a, b \right ).
+\end{equation}
+Поскольку события в правой части несовместны, то вероятность:
+\begin{gather}
+    \probability{\xi \in \left ( -\infty, b \right )} = \probability{\xi \in \left ( -\infty, a \right )} + \probability{\xi \in \left [ a, b \right )} , \\
+    \probability{\xi < b} = \probability{\xi < a} + \probability{\xi \in \left [ a, b \right )} , \\
+    \probability{\xi \in \left [ a, b \right )} = \probability{\xi < b} - \probability{\xi < a} , \\
+    \probability{\xi \in \left [ a, b \right )} = F_{\xi}(b) - F_{\xi}(a) .
+\end{gather}
+Вероятности попадания в промежутки иного вида вычисляются аналогичным образом:
+\begin{align}
+    \probability{\xi \in \left ( a, b \right )} & = F_{\xi}(b) - \lim \limits_{x \rightarrow a+0} F_{\xi}(x) = F_{\xi}(b) - F_{\xi}(a) \\
+    \probability{\xi \in \left [ a, b \right ]} & = \lim \limits_{x \rightarrow b+0} F_{\xi}(x) - F_{\xi}(a) = F_{\xi}(b) - F_{\xi}(a) \\
+    \probability{\xi \in \left ( a, b \right ]} & = \lim \limits_{x \rightarrow b+0} F_{\xi}(x) - \lim \limits_{x \rightarrow a+0} F_{\xi}(x) = F_{\xi}(b) - F_{\xi}(a),
+\end{align}
+поскольку у случайных величин непрерывного типа функции распределения являются непрерывными (в силу их представления интегралами).
+
+\section*{Задача 18.269}
+
+Случайная величина $X$ распределена по закону, определяемому функцией плотности вероятности вида:
+\[
+    f_X(x)
+    = \left \{
+    \begin{array}{ll}
+        c \cos x , & \text{если } - \frac{\pi}{2} \le x \le \frac{\pi}{2} , \\
+        0,         & \text{если } \modulus{x} > \frac{\pi}{2} .
+    \end{array}
+    \right .
+\]
+Необходимо:
+\begin{enumerate}
+    \item найти константу $c$,
+    \item функцию распределения $F_X(x)$,
+    \item вероятность $\probability{\modulus{X} < \frac{\pi}{4}}$,
+    \item математическое ожидание $\expectation{X}$,
+    \item дисперсию $\variance{X}$,
+    \item квантиль $x_{\frac{1}{3}}$ уровня $\frac{1}{3}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+Постоянная $c$ определяется из условия нормировки:
+\begin{equation}
+    \int \limits_{-\infty}^{\infty} f_X(x) dx = 1 .
+\end{equation}
+Подставляя выражение для плотности вероятности, получим уравнение:
+\begin{gather}
+    \int \limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}} c \cos x dx = 1 , \\
+    c \int \limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \cos x dx = 1 , \\
+    c \left . \sin x \right |_{-\frac{\pi}{2}}^{\frac{\pi}{2}} = 1 . \\
+    c \cdot 2 = 1 , \\
+    c = \frac{1}{2} .
+\end{gather}
+
+Функция распределения $F_X(x)$ связана с функцией плотности вероятности равенством:
+\begin{gather}
+    F_X(x) = \int \limits_{-\infty}^x f_X(t) dt .
+\end{gather}
+Учитывая носитель функции плотности распределения, получим:
+\begin{equation}
+    F_X(x)
+    = \left \{
+    \begin{array}{ll}
+        0,                                              & \text{если } x < - \frac{\pi}{2},                    \\
+        \int \limits_{-\frac{\pi}{2}}^x \frac{1}{2} \cos t dt, & \text{если } -\frac{\pi}{2} \le x \le \frac{\pi}{2}, \\
+        1,                                              & \text{если } \frac{\pi}{2} < x .
+    \end{array}
+    \right .
+\end{equation}
+Вычисляя интеграл, получим выражение:
+\begin{equation}
+    F_X(x)
+    = \left \{
+    \begin{array}{ll}
+        0,                                       & \text{если } x < - \frac{\pi}{2},                    \\
+        \frac{1}{2} \left ( \sin x + 1 \right ), & \text{если } -\frac{\pi}{2} \le x \le \frac{\pi}{2}, \\
+        1,                                       & \text{если } \frac{\pi}{2} < x .
+    \end{array}
+    \right .
+\end{equation}
+
+Вероятность события $\event{\modulus{X} < \frac{\pi}{4}}$ можно вычислить с помощью функции распределения или функции плотности вероятности:
+\begin{multline}
+    \probability{\modulus{X} < \frac{\pi}{4}}
+    = \probability{-\frac{\pi}{4} < X < \frac{\pi}{4}} = \\
+    %
+    = \left [
+    \begin{array}{l}
+        \int \limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}} f_X(x) dx , \\
+        \probability{X < \frac{\pi}{4}} - \probability{X \le -\frac{\pi}{4}} = F_X \left ( \frac{\pi}{4} \right ) - \lim \limits_{x \rightarrow - \frac{\pi}{4}+0} F_X(x) .
+    \end{array}
+    \right .
+\end{multline}
+С помощью функции распределения $F_X(x)$:
+\begin{multline}
+    \probability{\modulus{X} < \frac{\pi}{4}}
+    = \frac{1}{2} \left ( \sin \frac{\pi}{4} + 1 \right ) - \frac{1}{2} \left ( \sin \left ( - \frac{\pi}{4} \right ) + 1 \right ) = \\
+    %
+    = \frac{1}{2} \sin \frac{\pi}{4} - \frac{1}{2} \sin \left ( - \frac{\pi}{4} \right )
+    = \sin \frac{\pi}{4}
+    = \frac{1}{\sqrt{2}} .
+\end{multline}
+
+Математическое ожидание:
+\begin{equation}
+    \expectation{X}
+    = \int \limits_{-\infty}^{\infty} x \cdot f_X(x) dx
+    = \int \limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}} x \cdot \frac{1}{2} \cos x dx
+    = 0,
+\end{equation}
+поскольку подынтегральная функция нечетная.
+
+При вычислении дисперсии воспользуемся её представлением через начальные моменты:
+\begin{equation}
+    \variance{X} = \expectation{X^2} - \left ( \expectation{X} \right )^2 .
+\end{equation}
+Остаётся вычислить только второй начальный момент:
+\begin{multline}
+    \expectation{X^2}
+    = \int \limits_{-\infty}^{\infty} x^2 \cdot f_X(x) dx
+    = \int \limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}} x^2 \cdot \frac{1}{2} \cos x dx = \\
+    %
+    = \frac{1}{2} \left (
+    \left . x^2 \sin x \right |_{-\frac{\pi}{2}}^{\frac{\pi}{2}}
+    - \left . 2 x \left ( - \cos x \right )\right |_{-\frac{\pi}{2}}^{\frac{\pi}{2}}
+    + \left . 2 \left ( - \sin x \right )\right |_{-\frac{\pi}{2}}^{\frac{\pi}{2}}
+    \right )
+    = \\
+    %
+    = \frac{1}{2} \left (
+    \left ( \frac{\pi}{2} \right )^2 +  \left ( \frac{\pi}{2} \right )^2
+    - 0
+    + 2 \cdot ( - 2 )
+    \right )
+    = \left ( \frac{\pi}{2} \right )^2 - 2.
+\end{multline}
+Дисперсия:
+\begin{equation}
+    \variance{X}
+    = \left ( \frac{\pi}{2} \right )^2 - 2 - 0^2
+    = \left ( \frac{\pi}{2} \right )^2 - 2.
+\end{equation}
+
+При вычислении квантиля $x_{\frac{1}{3}}$ используется функция распределения:
+\begin{gather}
+    \probability{X < x_{\frac{1}{3}}} = \frac{1}{3} , \\
+    F_X \left ( x_{\frac{1}{3}} \right ) = \frac{1}{3} , \\
+    \frac{1}{2} \left ( \sin x_{\frac{1}{3}} + 1 \right ) = \frac{1}{3} , \\
+    \sin x_{\frac{1}{3}} + 1 = \frac{2}{3} , \\
+    \sin x_{\frac{1}{3}} = - \frac{1}{3} , \\
+    x_{\frac{1}{3}} = \arcsin \left (- \frac{1}{3} \right ) .
+\end{gather}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $c = \frac{1}{2}$,
+    \item $F_X(x)
+    = \left \{
+    \begin{array}{ll}
+        0,                                       & \text{если } x < - \frac{\pi}{2},                    \\
+        \frac{1}{2} \left ( \sin x + 1 \right ), & \text{если } -\frac{\pi}{2} \le x \le \frac{\pi}{2}, \\
+        1,                                       & \text{если } \frac{\pi}{2} < x .
+    \end{array}
+    \right .
+    $
+    \item $\probability{\modulus{X} < \frac{\pi}{4}} = \frac{1}{\sqrt{2}}$,
+    \item $\expectation{X} = 0$,
+    \item $\variance{X} = \left ( \frac{\pi}{2} \right )^2 - 2$,
+    \item $x_{\frac{1}{3}} = \arcsin \left (- \frac{1}{3} \right )$.
+\end{enumerate}
+
+\section*{Задачи 18.282, 18.283}
+
+Автобусы идут с интервалом 5 минут. Считая, что случайная величина $X$ --- время ожидания автобуса на остановке --- распределена равномерно на указанном интервале,
+найти:
+\begin{itemize}
+    \item среднее время ожидания $\expectation{X}$
+    \item дисперсию времени ожидания $\variance{X}$,
+    \item функцию распределения времени ожидания $F_X(x)$,
+    \item вероятность ожидания автобуса более 3 минут.
+\end{itemize}
+
+\subsection*{Решение:}
+
+Поскольку случайная величина $X$ имеет равномерное распределение, то функция плотности вероятности имеет вид:
+\begin{equation}
+    f_X(x)
+    = \left \{
+    \begin{array}{ll}
+        0,           & \text{если } x \notin \left [ 0, 5 \right ], \\
+        \frac{1}{5}, & \text{если } x \in \left [ 0, 5 \right ] .
+    \end{array}
+    \right .
+\end{equation}
+
+Математическое ожидание времени $X$:
+\begin{equation}
+    \expectation{X}
+    = \int \limits_{-\infty}^{\infty} x \cdot f_X(x) dx
+    = \int \limits_0^5 x \cdot \frac{1}{5} dx
+    = \frac{1}{5} \left . \frac{x^2}{2} \right |_0^5
+    = \frac{1}{5} \cdot \frac{25}{2}
+    = \frac{5}{2} .
+\end{equation}
+
+Дисперсию времени $X$ можно вычислить через второй начальный момент:
+\begin{equation}
+    \expectation{X^2}
+    = \int \limits_{-\infty}^{\infty} x^2 \cdot f_X(x) dx
+    = \int \limits_0^5 x^2 \cdot \frac{1}{5} dx
+    = \frac{1}{5} \left . \frac{x^3}{3} \right |_0^5
+    = \frac{1}{5} \cdot \frac{25 \cdot 5}{3}
+    = \frac{25}{3} ,
+\end{equation}
+тогда:
+\begin{equation}
+    \variance{X}
+    = \expectation{X^2} - \left ( \expectation{X} \right )^2
+    = \frac{25}{3} - \left ( \frac{5}{2} \right )^2
+    = \frac{25}{3} - \frac{25}{4}
+    = \frac{4 \cdot 25}{12} - \frac{3 \cdot 25}{12}
+    = \frac{25}{12}
+\end{equation}
+
+Функция распределения времени ожидания:
+\begin{equation}
+    F_X(x)
+    = \int \limits_{-\infty}^x f_X(t) dt
+    = \left \{
+    \begin{array}{ll}
+        0,                                 & \text{если } x < 0,      \\
+        \int \limits_{0}^x \frac{1}{5} dt, & \text{если } 0 \le x < 5 \\
+        1,                                 & \text{если } 5 \le x
+    \end{array}
+    \right .
+    = \left \{
+    \begin{array}{ll}
+        0,              & \text{если } x < 0,      \\
+        \frac{x}{5}, & \text{если } 0 \le x < 5 \\
+        1,              & \text{если } 5 \le x
+    \end{array}
+    \right .
+    .
+\end{equation}
+
+Вероятность ожидания более 3 минут:
+\begin{equation}
+    \probability{X > 3}
+    = 1 - \probability{X \le 3}
+    = 1 - \lim \limits_{x \rightarrow 3 + 0} F_X(x)
+    = 1 - \frac{3}{5}
+    = \frac{2}{5}.
+\end{equation}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\expectation{X} = \frac{5}{2}$,
+    \item $\variance{X} = \frac{25}{12}$,
+    \item
+    $
+    F_X(x)
+    = \left \{
+    \begin{array}{ll}
+        0,           & \text{если } x < 0,      \\
+        \frac{x}{5}, & \text{если } 0 \le x < 5 \\
+        1,           & \text{если } 5 \le x
+    \end{array}
+    \right .
+    ,
+    $
+    \item $\probability{X > 3} = \frac{2}{5}$ .
+\end{enumerate}
+
+\section*{Задачи 18.289, 18.290}
+
+Время безотказной работы радиоаппаратуры является случайной величиной $X$, распределенной по показательному закону с параметром $\lambda$. Найти:
+\begin{enumerate}
+    \item математическое ожидание $\expectation{X}$,
+    \item дисперсию $\variance{X}$,
+    \item порядок квантили $\expectation{X}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+Поскольку величина $X \sim E(\lambda)$, то функция плотности вероятности $f_X(x)$ величины $X$:
+\begin{equation}
+    f_X(x) =
+    \left \{
+    \begin{array}{ll}
+        0,                      & \text{если } x < 0,    \\
+        \lambda e^{-\lambda x}, & \text{если } 0 \le x .
+    \end{array}
+    \right .
+\end{equation}
+
+Используя функцию плотности вероятности, вычислим математическое ожидание:
+\begin{equation}
+    \expectation{X}
+    = \int \limits_{-\infty}^\infty x \cdot f_X(x) dx
+    = \int \limits_0^\infty x \lambda e^{-\lambda x} dx
+    = \left . x \left ( - e^{-\lambda x} \right ) \right |_0^\infty
+    - \left . \frac{1}{\lambda} e^{-\lambda x} \right |_0^\infty
+    = \frac{1}{\lambda} ,
+\end{equation}
+второй начальный момент:
+\begin{multline}
+    \expectation{X^2}
+    = \int \limits_{-\infty}^\infty x^2 \cdot f_X(x) dx
+    = \int \limits_0^\infty x^2 \lambda e^{-\lambda x} dx = \\
+    %
+    = \left . x^2 \left ( - e^{-\lambda x} \right ) \right |_0^\infty
+    - 2 x \left . \frac{1}{\lambda} e^{-\lambda x} \right |_0^\infty
+    + 2 \left . \left ( - \frac{1}{\lambda^2} e^{-\lambda x} \right ) \right |_0^\infty
+    = 2 \frac{1}{\lambda^2} ,
+\end{multline}
+дисперсию:
+\begin{equation}
+    \variance{X}
+    = \expectation{X^2} - \left ( \expectation{X} \right )^2
+    = 2 \frac{1}{\lambda^2} - \left ( \frac{1}{\lambda} \right )^2
+    = \frac{1}{\lambda^2}.
+\end{equation}
+
+Функцию распределения $F_X(x)$ величины $X$ определяем путём интегрирования функции плотности вероятности:
+\begin{equation}
+    F_X(x)
+    = \int \limits_{-\infty}^x f_X(t) dt
+    = \left \{
+    \begin{array}{ll}
+        0,                                            & \text{если } x < 0,  \\
+        \int \limits_{0}^x \lambda e^{-\lambda t} dt, & \text{если } 0 \le x \\
+    \end{array}
+    \right .
+    = \left \{
+    \begin{array}{ll}
+        0,                  & \text{если } x < 0,  \\
+        1 - e^{-\lambda x}, & \text{если } 0 \le x \\
+    \end{array}
+    \right .
+    .
+\end{equation}
+
+Для определения порядка квантили $\expectation{X}$ необходимо вычислить значение функции распределения $F_X(\expectation{X})$:
+\begin{equation}
+    F_X \left ( \expectation{X} \right )
+    = F_X \left ( \frac{1}{\lambda} \right )
+    = 1 - e^{-\lambda \frac{1}{\lambda}}
+    = 1 - e^{-1}
+    = 1 - \frac{1}{e} .
+\end{equation}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\expectation{X} = \frac{1}{\lambda}$,
+    \item $\variance{X} = \frac{1}{\lambda^2}$,
+    \item $1 - \frac{1}{e}$ --- порядок квантили $\expectation{X}$.
+\end{enumerate}
+
+\section*{Задача 18.365}
+
+В нормально распределенной совокупности 15\% значений $X$ меньше 12 и 40\% значений $X$ больше 16.2. Найти среднее значение $m$ и стандартное отклонение $\sigma$ данного
+нормального распределения.
+
+\subsection*{Решение:}
+
+В соответствии с условием имеем систему равенств:
+\begin{gather}
+    \left \{
+    \begin{array}{lcl}
+        \probability{X < 12}   & = & 0.15 \\
+        \probability{X > 16.2} & = & 0.40
+    \end{array}
+    \right . \\
+%
+    \left \{
+    \begin{array}{lcl}
+        \probability{X < 12}         & = & 0.15 \\
+        1 - \probability{X \le 16.2} & = & 0.40
+    \end{array}
+    \right . \\
+%
+    \left \{
+    \begin{array}{lcl}
+        \probability{X < 12}     & = & 0.15 \\
+        \probability{X \le 16.2} & = & 0.60
+    \end{array}
+    \right .
+\end{gather}
+Пусть $F_X(x)$ --- функция распределения, тогда:
+\begin{equation}
+    \label{365:system}
+    \left \{
+    \begin{array}{lcl}
+        F_X(12)   & = & 0.15 \\
+        F_X(16.2) & = & 0.6
+    \end{array}
+    \right .
+    .
+\end{equation}
+Пусть $m$ и $\sigma$ --- математическое ожидание и стандартное (среднеквадратическое) отклонение совокупности, которые необходимо найти, тогда:
+\begin{equation}
+    \label{365:F}
+    F_X(x) = \Phi \left ( \frac{x - m}{\sigma} \right ),
+\end{equation}
+где $\Phi$ --- функция распределения стандартного нормального распределения $\mathcal{N}(0, 1)$ (функция Лапласа). Используя равенство \eqref{365:F} в системе \eqref{365:system}, получим:
+\begin{gather}
+    \left \{
+    \begin{array}{lcl}
+        \Phi \left ( \frac{12-m}{\sigma} \right )   & = & 0.15 \\
+        \Phi \left ( \frac{16.2-m}{\sigma} \right ) & = & 0.6
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{lcl}
+        \frac{12-m}{\sigma}   & = & \Phi^{-1} \left (  0.15 \right ) \\
+        \frac{16.2-m}{\sigma} & = & \Phi^{-1} \left ( 0.6 \right )
+    \end{array}
+    \right .
+\end{gather}
+Используя таблицы функции Лапласа $\Phi(\cdot)$, получим значения в правой части равенств:
+\begin{gather}
+    \left \{
+    \begin{array}{lcl}
+        \frac{12-m}{\sigma}   & \approx & -1.05 \\
+        \frac{16.2-m}{\sigma} & \approx & 0.25
+    \end{array}
+    \right . \\
+%
+    \left \{
+    \begin{array}{lcl}
+        12 - m   & \approx & -1.05 \sigma \\
+        16.2 - m & \approx & 0.25 \sigma
+    \end{array}
+    \right . \\
+%
+    \left \{
+    \begin{array}{lcl}
+        m - 1.05 \sigma & \approx & 12   \\
+        m + 0.25 \sigma & \approx & 16.2
+    \end{array}
+    \right .
+\end{gather}
+Для исключения $m$ из второго уравнения вычитаем первое, а для исключения $\sigma$ складываем первое уравнения со вторым, умноженным на 4.2:
+\begin{gather}
+    \left \{
+    \begin{array}{lcl}
+        1.3 \sigma & \approx & 4.2                 \\
+        5.2 m      & \approx & 16.2 \cdot 4.2 + 12
+    \end{array}
+    \right . \\
+%
+    \left \{
+    \begin{array}{lcl}
+        \sigma & \approx & 3.23  \\
+        m      & \approx & 15.39
+    \end{array}
+    \right .
+\end{gather}
+
+\subsection*{Ответ:}
+Математическое ожидание $m \approx 15.39$ и стандартное отклонение $\sigma \approx 3.23$.
+
+\section*{Задачи для самостоятельного решения}
+
+Из раздела 18 сборника задач Ефимова и Поспелова.
+\begin{enumerate}
+    \item На занятии: 284, 291, 362.
+    \item Дома: 271, 288, 294, 297, 300, 302, 366, 369, 373.
+\end{enumerate}
+
+Из сборника задач типового расчёта Чудесенко: 21, 22.

@@ -1,0 +1,298 @@
+\chapter{Характеристические функции}
+
+\section*{Введение}
+
+Для каждой случайной величины $\xi$ вводится понятие характеристической функции $E_\xi(t)$ действительной переменной $t$:
+\begin{equation}
+    E_\xi(t) = \expectation{e^{i t \xi}}.
+\end{equation}
+Eсли $\xi$ --- случайная величина дискретного типа, то
+\begin{equation}
+    E_\xi(t) = \sum_{x_k} e^{i t x_k} \probability{\xi = x_k},
+\end{equation}
+если $\xi$ --- случайная величина непрерывного типа, то
+\begin{equation}
+    E_\xi(t) = \int \limits_{-\infty}^\infty e^{i t x} f_\xi(x) dx,
+\end{equation}
+где $f_\xi(x)$ --- функция плотности вероятности величины $\xi$.
+
+Характеристические функции обладают следующими свойствами:
+\begin{itemize}
+    \item линейное преобразование: если $\eta = a \xi + b$, то характеристическая функция $E_\eta(t)$ случайной величины $\eta$ имеет вид
+    \begin{equation}
+        E_\eta(t) = e^{i t b} E_\xi(a t),
+    \end{equation}
+    \item начальные моменты:
+    \begin{equation}
+        \expectation{\xi^k} i^k = \left . \Kderivative{k}{t} E_\xi(t) \right |_{t=0} ,
+    \end{equation}
+    \item суммы случайных величины: если $\xi_1$, \dots, $\xi_n$ независимые в совокупности случайные величины, имеющие характеристические функции $E_{\xi_1}(t)$, \dots,
+    $E_{\xi_n}(t)$, и $\eta = \xi_1 + \dots \xi_n$, то характеристическая функция $E_\eta(t)$ случайной величины $\eta$ имеет вид
+    \begin{equation}
+        E_\eta(t) = E_{\xi_1}(t) \cdot ... \cdot E_{\xi_n}(t) .
+    \end{equation}
+\end{itemize}
+
+По характеристической функции $E_\xi(t)$ можно восстановить функцию плотности вероятности $f_\xi(x)$:
+\begin{equation}
+    f_\xi(x) = \frac{1}{2 \pi} \int \limits_{-\infty}^\infty e^{-i t x} E_\xi(t) dt .
+\end{equation}
+
+\begin{comment}
+    \section*{Задача 18.472}
+
+    Случайная величина $X$ дискретного типа может принимать только два возможных значения -1 и 1, с равными вероятностями. Вычислить характеристическую функцию данного распределения.
+
+    \subsection*{Решение:}
+
+    По определению характеристическая функция $E_X(t)$ случайной величины $X$ имеет вид:
+    \begin{multline}
+        E_X(t)
+        = e^{it \cdot (-1)} \probability{X = -1} + e^{it \cdot 1} \probability{X = 1}
+        = e^{-it} \frac{1}{2} + e^{it} \frac{1}{2}
+        = \frac{e^{-it} + e^{it}}{2} = \\
+        %
+        = \frac{\cos t - i \sin t + \cos t + i \sin t}{2}
+        = \frac{\cos t + \cos t}{2}
+        = \cos t.
+    \end{multline}
+
+    \subsection*{Ответ:}
+    $\cos t$.
+\end{comment}
+
+\section*{Задачи 18.474, 18.475}
+
+Проводятся последовательные независимые испытания с двумя исходами. Случайные величины: $I_k$ --- индикатор успеха в $k$-ом испытании, $X$ --- число успехов в $n$ испытаниях,
+$p_k$ --- вероятность успеха в $k$-ом испытании. Необходимо:
+\begin{enumerate}
+    \item найти характеристические функции $E_{I_k}(t)$ величин $I_k$,
+    \item найти характеристическую функцию $E_X(t)$ величины $X$,
+    \item с помощью характеристической функции $E_X(t)$ вычислить математическое ожидание $\expectation{X}$ и дисперсию $\variance{X}$ случайной величины $X$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+Характеристические функции $E_{I_k}(t)$ случайных величин $I_k$ имеют вид:
+\begin{equation}
+    E_{I_k}(t)
+    = e^{it \cdot 0} \probability{I_k = 0} + e^{it \cdot 1} \probability{I_k = 1}
+    = 1 \cdot ( 1 - p_k ) + e^{it} \cdot p_k .
+\end{equation}
+
+Случайная величина $X$ является суммой независимых в совокупности величин $I_k$:
+\begin{equation}
+    X = I_1 + I_2 + \dots + I_n,
+\end{equation}
+поэтому характеристическая функция $E_X(t)$ случайной величины $X$ является произведением характеристических функций $I_k(t)$:
+\begin{equation}
+    E_X(t)
+    = E_{I_1}(t) \cdot E_{I_2}(t) \cdot \dots E_{I_n}(t)
+    = \prod_{k=1}^n \left ( 1 - p_k + e^{it} p_k \right ).
+\end{equation}
+
+Математическое ожидание величины $X$ --- первый начальный момент --- связан с значение первой производной характеристической функции в нуле:
+\begin{multline}
+    \expectation{X} = m_1
+    = \frac{1}{i} \left . \derivative{t} E_X(t) \right |_{t=0}
+    = \frac{1}{i} \left . \sum_{l=1}^n e^{it} i p_l \cdot \prod_{k \neq l} \left ( 1 - p_k + e^{it} p_k \right ) \right |_{t=0} = \\
+    %
+    = \frac{1}{i}  \sum_{l=1}^n i p_l \cdot \prod_{k \neq l} \left ( 1 - p_k + p_k \right )
+    = \frac{1}{i} \sum_{l=1}^n i p_l
+    = \sum_{l=1}^n p_l .
+\end{multline}
+
+Дисперсию случайной величины $X$ будем вычислять через второй начальный момент случайной величины $X$, который связан с значением второй производной характеристической функции
+$E_X(t)$ в нуле:
+\begin{multline}
+    m_2
+    = \frac{1}{i^2} \left . \Kderivative{2}{t} E_X(t) \right |_{t=0}
+    = \frac{1}{i^2} \left . \derivative{t} \left ( \sum_{l=1}^n e^{it} i p_l \cdot \prod_{k \neq l} \left ( 1 - p_k + e^{it} p_k \right ) \right ) \right |_{t=0} = \\
+    %
+    = \frac{1}{i^2}
+    \left .
+    \sum_{l=1}^n
+    \left (
+    e^{it} i^2 p_l \cdot \prod_{k \neq l} \left ( 1 - p_k + e^{it} p_k \right )
+    + e^{it} i p_l \cdot \sum_{k \neq l} e^{it} i p_k \prod_{m \neq l, m \neq k} \left ( 1 - p_m + e^{it} p_m \right )
+    \right )
+    \right |_{t=0} = \\
+    %
+    = \frac{1}{i^2}
+    \sum_{l=1}^n
+    \left (
+    i^2 p_l \cdot \prod_{k \neq l} \left ( 1 - p_k + p_k \right )
+    + i p_l \cdot \sum_{k \neq l} i p_k \prod_{m \neq l, m \neq k} \left ( 1 - p_m + p_m \right )
+    \right ) = \\
+    %
+    = \frac{1}{i^2} \sum_{l=1}^n \left ( i^2 p_l + i p_l \sum_{k \neq l} i p_k \right )
+    = \sum_{l=1}^n \left ( p_l + p_l \sum_{k \neq l} p_k \right )
+    = \sum_{l=1}^n p_l + \sum_{l=1}^n p_l \sum_{k \neq l} p_k = \\
+    %
+    = \sum_{l=1}^n p_l + \sum_{l=1}^n \sum_{k \neq l} p_l p_k .
+\end{multline}
+
+С учётом полученных значений $m_1$ и $m_2$, дисперсия имеет вид:
+\begin{multline}
+    \variance{X}
+    = m_2 - m_1^2
+    = \sum_{l=1}^n p_l + \sum_{l=1}^n \sum_{k \neq l} p_l p_k - \left ( \sum_{l=1}^n p_l \right )^2 = \\
+    %
+    = \sum_{l=1}^n p_l + \sum_{l=1}^n \sum_{k \neq l} p_l p_k - \sum_{l=1}^n p_l \cdot \sum_{k=1}^n p_k = \\
+    %
+    = \sum_{l=1}^n p_l + \sum_{l=1}^n \sum_{k \neq l} p_l p_k - \sum_{l=1}^n \sum_{k=1}^n p_l p_k = \\
+    %
+    = \sum_{l=1}^n p_l - \sum_{l=1}^n p_l p_l
+    = \sum_{l=1}^n \left ( p_l - p_l^2 \right )
+    = \sum_{l=1}^n p_l \left ( 1 - p_l \right ).
+\end{multline}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $E_{I_k}(t) = 1 - p_k + e^{it} p_k$,
+    \item $E_X(t) = \prod_{k=1}^n \left ( 1 - p_k + e^{it} p_k \right )$,
+    \item $\expectation{X} = \sum_{l=1}^n p_l$,
+    \item $\variance{X} = \sum_{l=1}^n p_l ( 1 - p_l )$.
+\end{enumerate}
+
+\section*{Задача 18.487}
+
+Случайная величина $X$ подчиняется закону Коши с параметрами $c \in \mathbb{R}$ и $a > 0$ с плотностью распределения вероятностей:
+\[
+    f_X(x) = \frac{a}{\pi} \frac{1}{\left ( x - c \right )^2 + a^2}.
+\]
+Найти её характеристическую функцию $E_X(t)$.
+
+\subsection*{Решение:}
+Согласно определению характеристической функции:
+\begin{multline}
+    E_X(t)
+    = \int \limits_{-\infty}^\infty e^{itx} f_X(x) dx
+    = \int \limits_{-\infty}^\infty e^{itx} \frac{a}{\pi} \frac{1}{(x-c)^2 + a^2} dx = \\
+    %
+    = \begin{vmatrix}
+          y = x - c \\ dy = dx
+    \end{vmatrix}
+    = \int \limits_{-\infty}^\infty e^{it(y+c)} \frac{a}{\pi} \frac{1}{y^2 + a^2} dy
+    = \frac{a}{\pi} e^{itc} \int \limits_{-\infty}^\infty \frac{e^{ity}}{y^2 + a^2} dy .
+\end{multline}
+Интеграл, стоящий в правой части, вычислим с помощью вычетов. У подынтегральной функции
+\begin{equation}
+    \frac{e^{ity}}{y^2 + a^2}
+    = \frac{e^{ity}}{y^2 - i^2 a^2}
+    = \frac{e^{ity}}{\left ( y + ia \right ) \left ( y - ia \right )}
+\end{equation}
+два простых полюса $ia$ и $-ia$, поэтому:
+\begin{equation}
+    \int \limits_{-\infty}^\infty \frac{e^{ity}}{y^2 + a^2}
+    = 2 \pi i \left [
+    \begin{array}{ll}
+        \res \limits_{y=ia} \left [ \frac{e^{ity}}{y^2 + a^2} \right ]    & \text{при } t > 0 , \\
+        - \res \limits_{y=-ia} \left [ \frac{e^{ity}}{y^2 + a^2} \right ] & \text{при } t < 0.
+    \end{array}
+    \right .
+\end{equation}
+при этом вычеты:
+\begin{gather}
+    \res \limits_{y=ia} \left [ \frac{e^{ity}}{y^2 + a^2} \right ]
+    = \left . \frac{e^{ity}}{\derivative{y} \left ( y^2 + a^2 \right )} \right |_{y=ia}
+    = \left . \frac{e^{ity}}{2 y} \right |_{y=ia}
+    = \frac{e^{it ia}}{2 i a}
+    = \frac{e^{- t a}}{2 i a}
+    = \frac{e^{- \modulus{t} a}}{2 i a}, \\
+    %
+    \res \limits_{y=ia} \left [ \frac{e^{ity}}{y^2 + a^2} \right ]
+    = \left . \frac{e^{ity}}{\derivative{y} \left ( y^2 + a^2 \right )} \right |_{y=-ia}
+    = \left . \frac{e^{ity}}{2 y} \right |_{y=-ia}
+    = \frac{e^{it (-ia)}}{2 (-i a)}
+    = - \frac{e^{t a}}{2 i a}
+    = \frac{e^{- \modulus{t} a}}{2 i a} .
+\end{gather}
+откуда интеграл
+\begin{equation}
+    \int \limits_{-\infty}^\infty \frac{e^{ity}}{y^2 + a^2}
+    = 2 \pi i \frac{e^{- \modulus{t} a}}{2 i a}
+    = \pi \frac{e^{- \modulus{t} a}}{a},
+\end{equation}
+и характеристическая функция
+\begin{equation}
+    E_X(t)
+    = \frac{a}{\pi} e^{itc} \cdot \pi \frac{e^{- \modulus{t} a}}{a}
+    = e^{itc} \cdot e^{- \modulus{t} a}
+    = e^{itc - \modulus{t} a} .
+\end{equation}
+
+\subsection*{Ответ:}
+$E_X(t) = e^{itc - \modulus{t} a}$.
+
+\section*{Задача 18.497}
+
+Случайная величина $X$ непрерывного типа имеет характеристическую функцию вида
+\[
+    E_X(t)
+    = \left \{
+    \begin{array}{ll}
+        1 - \modulus{t}, & \modulus{t} \le 1 , \\
+        0,               & \modulus{t} > 1
+    \end{array}
+    \right .
+\]
+
+Найти её плотность распределения вероятностей $f_X(x)$.
+
+\subsection*{Решение:}
+
+Функцию плотности вероятности можно восстановить по характеристической функции вычислением интеграла:
+\begin{multline}
+    f_X(x)
+    = \frac{1}{2 \pi} \int \limits_{-\infty}^\infty e^{-itx} E_X(t) dt
+    = \frac{1}{2 \pi} \int \limits_{-1}^1 e^{-itx} \left ( 1 - \modulus{t} \right ) dt = \\
+    %
+    = \frac{1}{2 \pi} \left ( \int \limits_{-1}^1 e^{-itx} dt - \int \limits_{-1}^1 e^{-itx} \modulus{t} dt \right )
+\end{multline}
+Первый интеграл:
+\begin{equation}
+    \int \limits_{-1}^1 e^{-itx} dt
+    = \left . \frac{e^{-itx}}{-ix} \right |_{-1}^1
+    = \frac{e^{-ix} - e^{ix}}{-ix}
+    = \frac{e^{ix} - e^{-ix}}{ix}
+    = 2 \frac{\sh \left ( ix \right )}{ix}
+\end{equation}
+Второй интеграл преобразуем к виду:
+\begin{multline}
+    \int \limits_{-1}^1 \modulus{t} e^{-itx} dt
+    = \int \limits_{-1}^0 (-t) e^{-itx} dt + \int \limits_0^1 t e^{-itx} dt
+    = - \int \limits_{-1}^0 t e^{itx} dt + \int \limits_0^1 t e^{-itx} dt = \\
+    %
+    = \int \limits_0^1 t e^{itx} dt + \int \limits_0^1 t e^{-itx} dt
+    = \int \limits_0^1 t \left ( e^{itx} + e^{-itx} \right ) dt
+    = 2 \int \limits_0^1 t \ch \left ( itx \right ) dt = \\
+    %
+    = 2 \left ( \left . t \frac{\sh \left ( itx \right )}{ix} \right |_0^1 - \left . \frac{\ch \left ( itx \right )}{\left ( ix \right )^2} \right |_0^1 \right )
+    = 2 \left ( \frac{\sh \left ( ix \right )}{ix} - \frac{\ch \left ( ix \right ) - 1}{\left ( ix \right )^2} \right ) .
+\end{multline}
+В результате получим:
+\begin{multline}
+    f_X(x)
+    = \frac{1}{2 \pi} \left ( 2 \frac{\sh \left ( ix \right )}{ix} - 2 \left ( \frac{\sh \left ( ix \right )}{ix} - \frac{\ch \left ( ix \right ) - 1}{\left ( ix \right )^2} \right ) \right )
+    = \frac{1}{2 \pi} 2 \frac{\ch \left ( ix \right ) - 1}{\left ( ix \right )^2} = \\
+    %
+    = \frac{1}{\pi} \frac{\ch \left ( ix \right ) - 1}{\left ( -1 \right ) x^2}
+    = \frac{1 - \ch \left ( ix \right )}{\pi x^2}
+    = \frac{1 - \cos \left ( i \cdot ix \right )}{\pi x^2}
+    = \frac{1 - \cos \left ( -x \right )}{\pi x^2}
+    = \frac{1 - \cos x}{\pi x^2} .
+\end{multline}
+
+\subsection*{Ответ:}
+$f_X(x) = \frac{1 - \cos x}{\pi x^2}$.
+
+\section*{Задачи для самостоятельного решения}
+
+Из раздела 18 сборника задач Ефимова и Поспелова.
+\begin{enumerate}
+    \item На занятии: 473, 486.
+    \item Дома: 476, 477, 478, 484, 485, 491, 492.
+\end{enumerate}
+
+Из сборника задач типового расчёта Чудесенко: 23, 24.

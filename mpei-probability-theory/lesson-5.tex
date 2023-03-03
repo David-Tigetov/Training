@@ -1,0 +1,484 @@
+\chapter{Случайные величины дискретного типа}
+
+\section*{Введение}
+
+Случайная величина $\xi(\omega)$ --- это числовая функция, определенная на множестве элементарных исходов:
+\begin{equation}
+    \xi : \Omega \rightarrow \mathbb{R}.
+\end{equation}
+
+Примем краткое обозначение для $A \subseteq \mathbb{R}$:
+\begin{equation}
+    \xi \in A = \event{\omega : \xi(\omega) \in A}.
+\end{equation}
+
+Исчерпывающей характеристикой случайной величины является функция распределения:
+\begin{equation}
+    F_\xi(x) = \probability{\xi < x}.
+\end{equation}
+
+Случайные величины подразделяются на типы в зависимости от множества значений. Случайные величины дискретного типа имеют конечное или счетное множество значений.
+
+Если случайная величина дискретного типа принимает значения $x_i$ с вероятностями $p_i$, то закон распределения такой случайной величины удобно представлять в виде таблицы:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        $x_1$ & $x_2$ & \dots & $x_k$ & \dots \\
+        \hline
+        $p_1$ & $p_2$ & \dots & $p_k$ & \dots \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Числовые характеристики случайной величины:
+\begin{itemize}
+    \item начальный момент порядка $k$:
+    \begin{equation}
+        m_k = \sum_{i=1}^{\infty} x_i^k p_i ,
+    \end{equation}
+    \item центральный момент порядка $k$:
+    \begin{equation}
+        \mu_k = \sum_{i=1}^{\infty} \left ( x_i - m_1 \right )^k p_i ,
+    \end{equation}
+\end{itemize}
+Основные числовые характеристики случайной величины $\xi$:
+\begin{itemize}
+    \item математическое ожидание --- начальный момент 1-го порядка
+    \begin{equation}
+        \expectation{\xi} = \sum_{i=1}^{\infty} x_i p_i ,
+    \end{equation}
+    \item дисперсия --- ценральный момент 2-го порядка
+    \begin{equation}
+        \variance{\xi} = \sum_{i=1}^{\infty} \left ( x_i - \expectation{\xi} \right )^2 p_i ,
+    \end{equation}
+    \item среднеквадратическое отклонение
+    \begin{equation}
+        \sigma_\xi = \sqrt{\variance{\xi}} .
+    \end{equation}
+\end{itemize}
+
+Схема Бернулли: $n$ независимых испытаний, в каждом из которых с вероятностью $p$ можно происходить событие "успех"{}.
+Случайная величина $\xi$ количества успехов имеет распределение Бернулли (биномиальное распределение) $\xi \sim B(n,p)$:
+\begin{gather}
+    \xi : \Omega \rightarrow \set{0, 1, \dots, n} \notag, \\
+    \probability{\xi = k} = C_n^k p^k (1-p)^{n-k} .
+\end{gather}
+
+Полиномиальная схема: в $n$ независимых испытаниях может происходить одно и только одно из событий $A_1$, \dots, $A_m$, имеющих вероятности $p_1$, \dots, $p_m$.
+Вероятность события $A(k_1, \dots, k_m)$, в котором каждое событие $A_i$ происходит $k_i$ раз, имеет вид:
+\begin{equation}
+    \probability{A(k_1, \dots, k_m)} = \frac{n!}{k_1! \dots k_m!} p_1^{k_1} \dots p_m^{k_m}.
+\end{equation}
+
+Случайная величина $\xi$ имеет распределение Пуассона $\xi \sim P(\lambda)$:
+\begin{gather}
+    \xi : \Omega \rightarrow \set{0, 1, 2, \dots}, \\
+    \probability{\xi = k} = \frac{\lambda^k}{k!} e^{-\lambda} .
+\end{gather}
+
+\section*{Задачи 18.258, 18.259, 18.260}
+
+Закон распределения случайной величины $\xi$ дискретного типа задан таблицей:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        $x_i$ & 1              & 2             & 3             & 4              \\
+        \hline
+        $p_i$ & $\frac{1}{16}$ & $\frac{1}{4}$ & $\frac{1}{2}$ & $\frac{3}{16}$ \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Найти:
+\begin{enumerate}
+    \item вероятность $\probability{\xi > 2}$,
+    \item математическое ожидание $\expectation{\xi}$,
+    \item дисперсию $\variance{\xi}$,
+    \item среднеквадратическое отклонение $\sigma_\xi$ .
+\end{enumerate}
+
+Построить график функции распределения $F_\xi(x)$.
+
+\subsection*{Решение:}
+
+Вероятность:
+\begin{multline}
+    \probability{\xi > 2}
+    = \probability{\left ( \xi = 3 \right ) + \left ( \xi = 4 \right )} = \\
+    %
+    = \probability{\xi = 3} + \probability{\xi = 4} - \probability{\left ( \xi = 3 \right ) \left ( \xi = 4 \right )} = \\
+    %
+    = \frac{1}{2} + \frac{3}{16} - 0
+    = \frac{8}{16} + \frac{3}{16}
+    = \frac{11}{16} .
+\end{multline}
+Математическое ожидание:
+\begin{equation}
+    \expectation{\xi}
+    = \sum_{i=1}^4 x_i p_i
+    = 1 \cdot \frac{1}{16} + 2 \cdot \frac{1}{4} + 3 \cdot \frac{1}{2} + 4 \cdot \frac{3}{16}
+    = \frac{1}{16} + \frac{8}{16} + \frac{24}{16} + \frac{12}{16}
+    = \frac{45}{16} .
+\end{equation}
+Дисперсия:
+\begin{multline}
+    \variance{\xi}
+    = \sum_{i=1}^4 \left ( x_i - \expectation{\xi} \right )^2 p_i = \\
+    %
+    = \left ( 1 - \frac{45}{16} \right )^2 \cdot \frac{1}{16} + \left ( 2 - \frac{45}{16} \right )^2 \cdot \frac{1}{4} + \left ( 3 - \frac{45}{16} \right )^2 \cdot \frac{1}{2} + \left ( 4 - \frac{45}{16} \right )^2 \cdot \frac{3}{16} = \\
+    %
+    = \left ( - \frac{29}{16} \right )^2 \cdot \frac{1}{16} + \left ( - \frac{13}{16} \right )^2 \cdot \frac{1}{4} + \left ( \frac{3}{16} \right )^2 \cdot \frac{1}{2} + \left ( \frac{19}{16} \right )^2 \cdot \frac{3}{16} = \\
+    %
+    = \frac{29^2}{16^2} \cdot \frac{1}{16} + \frac{13^2}{16^2} \cdot \frac{4}{16} + \frac{3^2}{16^2} \cdot \frac{8}{16} + \frac{19^2}{16^2} \cdot \frac{3}{16} = \\
+    %
+    = \frac{841 + 676 + 72 + 1083}{16^2 \cdot 16}
+    = \frac{2672}{16^2 \cdot 16}
+    = \frac{167}{256} .
+\end{multline}
+
+Среднеквадратическое отклонение:
+\begin{equation}
+    \sigma_\xi
+    = \sqrt{\frac{167}{256}}
+    = \frac{\sqrt{167}}{16} .
+\end{equation}
+
+Для вычисления значений функции распределения $F_\xi(x)$ случайных величин дискретного типа необходимо найти все значения величины, которые строго меньше $x$, и просуммировать
+их вероятности:
+\begin{equation}
+    F_\xi(x)
+    = \probability{\xi < x}
+    = \sum_{x_i < x} p_i .
+\end{equation}
+
+У случайных величин дискретного типа функция распределения является кусочно-постоянной функцией.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[yscale=6]
+        % оси
+        \draw [->] ( -1, 0 ) -- ( 5, 0 ) node [below] at ( 5, 0 ) {$X$};
+        \draw [->] ( 0, -0.1 ) -- ( 0, 1.1 ) node [left] at ( 0, 1.1 ) {$Y$};
+
+        % значения
+        \draw ( 1, 0.01 ) -- ( 1, -0.01 ) node [ below ] at ( 1, 0 ) {$1$};
+        \draw ( 2, 0.01 ) -- ( 2, -0.01 ) node [ below ] at ( 2, 0 ) {$2$};
+        \draw ( 3, 0.01 ) -- ( 3, -0.01 ) node [ below ] at ( 3, 0 ) {$3$};
+        \draw ( 4, 0.01 ) -- ( 4, -0.01 ) node [ below ] at ( 4, 0 ) {$4$};
+
+        % вероятности
+        \draw ( -0.1, 1/16 ) -- ( 0.1, 1/16 ) node [ left ] at ( -0.1, 1/16 ) {$\frac{1}{16}$};
+        \draw ( -0.1, 5/16 ) -- ( 0.1, 5/16 ) node [ left ] at ( -0.1, 5/16 ) {$\frac{5}{16}$};
+        \draw ( -0.1, 13/16 ) -- ( 0.1, 13/16 ) node [ left ] at ( -0.1, 13/16 ) {$\frac{13}{16}$};
+        \draw ( -0.1, 1 ) -- ( 0.1, 1 ) node [ left ] at ( -0.1, 1 ) {$1$};
+
+        % уровни функции
+        \draw [ultra thick] ( -1, 0 ) -- ( 1, 0 );
+        \draw [<-, ultra thick] ( 1, 1/16 ) -- ( 2, 1/16 );
+        \draw [<-, ultra thick] ( 2, 5/16 ) -- ( 3, 5/16 ) node [ right ] at ( 2, 3/16 ) {$\frac{1}{4}$};
+        \draw [<-, ultra thick] ( 3, 13/16 ) -- ( 4, 13/16 ) node [ right ] at ( 3, 9/16 ) {$\frac{1}{2}$};
+        \draw [<-, ultra thick] ( 4, 1 ) -- ( 5, 1 ) node [ right ] at ( 4, 14.5/16 ) {$\frac{3}{16}$};
+
+        % пунктиры
+        \draw [dashed] ( 1, 0 ) -- ( 1, 1/16 );
+        \draw [dashed] ( 2, 1/16 ) -- ( 2, 5/16 );
+        \draw [dashed] ( 3, 5/16 ) -- ( 3, 13/16 );
+        \draw [dashed] ( 4, 13/16 ) -- ( 4, 1 );
+    \end{tikzpicture}
+    \caption{График функции распределения $F_\xi(x)$.}
+\end{figure}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{\xi > 2} = \frac{11}{16}$,
+    \item $\expectation{\xi} = \frac{45}{16}$,
+    \item $\variance{\xi} = \frac{167}{256}$,
+    \item $\sigma_\xi = \frac{\sqrt{167}}{16}$.
+\end{enumerate}
+
+\section*{Задачи 18.312, 18.313}
+
+Для стрелка, выполняющего упражнение в тире, вероятность попасть в "яблочко"{} при одном выстреле не зависит от результатов предшествующих выстрелов и равна $p = \frac{1}{4}$.
+Спортсмен сделал $n = 5$ выстрелов. Найти вероятности событий:
+\begin{enumerate}
+    \item $A = \event{\text{ровно одно попадание}}$,
+    \item $B = \event{\text{ровно два попадания}}$,
+    \item $C = \event{\text{хотя бы одно попадание}}$,
+    \item $D = \event{\text{не менее трех попаданий}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+Случайная величина $\xi$ количества попаданий имеет распределение Бернулли, поскольку попадания являются независимыми событиями и имеют одинаковую вероятность:
+\begin{equation}
+    \xi \sim B \left ( n, p \right ) .
+\end{equation}
+
+Вероятность события $A$:
+\begin{multline}
+    \probability{A}
+    = \probability{\xi = 1}
+    = C_n^1 p^1 \left ( 1 - p \right )^{n-1}
+    = 5 \frac{1}{4} \left ( 1 - \frac{1}{4} \right )^{5-1}
+    = 5 \frac{1}{4} \left ( \frac{3}{4} \right )^4 = \\
+    %
+    = \frac{5 \cdot 3^4}{4^5}
+    = \frac{5 \cdot 81}{2^{10}}
+    = \frac{405}{1024}.
+\end{multline}
+
+Вероятность события $B$:
+\begin{multline}
+    \probability{B}
+    = \probability{\xi = 2}
+    = C_n^2 p^2 \left ( 1 - p \right )^{n-2} = \\
+    %
+    = \frac{5 \cdot 4}{2} \left ( \frac{1}{4} \right )^2 \left ( 1 - \frac{1}{4} \right )^{5-2}
+    = \frac{5 \cdot 4}{2} \left ( \frac{1}{4} \right )^2 \left ( \frac{3}{4} \right )^{3}
+    = \frac{5 \cdot 4 \cdot 3^3}{2 \cdot 4^5}
+    = \frac{5 \cdot 3^3}{2 \cdot 4^4}
+    = \frac{5 \cdot 27}{2^{9}}
+    = \frac{135}{512} .
+\end{multline}
+
+Вероятность события $C$:
+\begin{multline}
+    \probability{C}
+    = \probability{\xi \ge 1}
+    = 1 - \probability{\xi < 1}
+    = 1 - \probability{\xi = 0} = \\
+    %
+    = 1 - C_n^0 p^0 \left ( 1 - p \right )^{n-0}
+    = 1 - \left ( 1 - p \right )^n = \\
+    %
+    = 1 - \left ( 1 - \frac{1}{4} \right )^5
+    = 1 - \left ( \frac{3}{4} \right )^5
+    = \frac{4^5 - 3^5}{4^5}
+    = \frac{2^{10} - 3^5}{2^{10}}
+    = \frac{1024 - 243}{1024}
+    = \frac{781}{1024} .
+\end{multline}
+
+Вероятность события $D$:
+\begin{multline}
+    \probability{D}
+    = \probability{\xi \ge 3}
+    = \probability{\left ( \xi = 3 \right ) + \left ( \xi = 4 \right ) + \left ( \xi = 5 \right )} = \\
+    %
+    \shoveleft{= \probability{\xi = 3} + \probability{\xi = 4} + \probability{\xi = 5} -} \\
+        - \probability{\left ( \xi = 3 \right ) \left ( \xi = 4 \right )}
+        - \probability{\left ( \xi = 3 \right ) \left ( \xi = 5 \right )}
+        - \probability{\left ( \xi = 4 \right ) \left ( \xi = 5 \right )} + \\
+    \shoveright{+ \probability{\left ( \xi = 3 \right ) \left ( \xi = 4 \right ) \left ( \xi = 5 \right )} =} \\
+    = \probability{\xi = 3} + \probability{\xi = 4} + \probability{\xi = 5} = \\
+    %
+    = C_n^3 p^3 \left ( 1 - p \right )^{n-3} + C_n^4 p^4 \left ( 1 - p \right )^{n-4} + C_n^5 p^5 \left ( 1 - p \right )^{n-5} = \\
+    %
+    = \frac{5 \cdot 4}{2!} \left ( \frac{1}{4} \right )^3 \left ( 1 - \frac{1}{4} \right )^2
+        + 5 \left ( \frac{1}{4} \right )^4 \left ( 1 - \frac{1}{4} \right )
+        + \left ( \frac{1}{4} \right )^5 = \\
+    %
+    = \frac{5 \cdot 4}{2!} \left ( \frac{1}{4} \right )^3 \left ( \frac{3}{4} \right )^2
+        + 5 \left ( \frac{1}{4} \right )^4 \left ( \frac{3}{4} \right )
+        + \left ( \frac{3}{4} \right )^5 = \\
+    %
+    = \frac{5 \cdot 4 \cdot 3^2}{2 \cdot 4^5} + \frac{5 \cdot 3}{4^5} + \frac{1}{4^5}
+    = \frac{5 \cdot 2 \cdot 3^2}{4^5} + \frac{5 \cdot 3}{4^5} + \frac{1}{4^5}
+    = \frac{5 \cdot 2 \cdot 3^2 + 5 \cdot 3 + 1}{4^5}
+    = \frac{5 \cdot 3 \cdot 7 + 1}{4^5} = \\
+    %
+    = \frac{105 + 1}{2^{10}}
+    = \frac{106}{1024} .
+\end{multline}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{A} = \frac{405}{1024}$,
+    \item $\probability{B} = \frac{135}{512}$,
+    \item $\probability{C} = \frac{781}{1024}$,
+    \item $\probability{D} = \frac{106}{1024}$.
+\end{enumerate}
+
+\section*{Задача 18.325}
+
+На контроль поступила партия деталей из цеха. Известно, что 5\% всех деталей не удовлетворяет стандарту. Сколько нужно испытать деталей, чтобы с вероятностью не менее 0.95
+обнаружить хотя бы одну нестандартную деталь?
+
+\subsection*{Решение:}
+
+Пусть $n$ --- искомое количество деталей, $p=0.05$ --- вероятность того, что деталь не является стандартной, тогда количество нестандартных деталей $\xi$ имеет распределение
+Бернулли:
+\begin{equation}
+    \xi \sim B \left ( n, p \right ).
+\end{equation}
+
+Событие $\xi \ge 1$ эквивалентно событию "хотя бы одна нестандартная деталь"{}, и вероятность этого события:
+\begin{equation}
+    \probability{\xi \ge 1}
+    = 1 - \probability{\xi < 1}
+    = 1 - \probability{\xi = 0}
+    = 1 - C_n^0 p^0 (1 - p)^n
+    = 1 - (1 - p)^n .
+\end{equation}
+По условию задачи необходимо подобрать $n$ таким образом, чтобы вероятность получить хотя бы одну нестандартную деталь была не менее 0.95:
+\begin{gather}
+    1 - (1 - p)^n \ge 0.95 , \\
+    0.05 \ge (1 - p)^n , \\
+    \ln 0.05 \ge n \cdot \ln (1 - p), \\
+    \frac{\ln 0.05}{\ln (1-p)} \le n .
+\end{gather}
+Подставляя числовые значения,  получим:
+\begin{equation}
+    n
+    \ge \frac{\ln 0.05}{\ln (1-0.05)}
+    = \frac{\ln 0.05}{\ln 0.95}
+    \approx 58.4 .
+\end{equation}
+
+\subsection*{Ответ:}
+Не менее 59.
+
+\section*{Задачи 18.346, 18.347}
+
+Произведено три независимых выстрела по мишени в неизменных условиях. Вероятность при одном выстреле попасть в "десятку"{} равна $p_{10} = 0.3$, вероятность попасть в "девятку"{}
+$p_9 = 0.4$, вероятность не попасть ни в девятку, ни в десятку равна $p_0 = 1 - p_{10} - p_9 = 0.3$. Найти вероятности следующих событий:
+\begin{enumerate}
+    \item $A = \event{\text{одно попадание в "десятку"{} и одно в "девятку"{}}}$,
+    \item $B = \event{\text{ровно два попадания в "десятку"{}}}$,
+    \item $C = \event{\text{будет набрано не менее 29 очков}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+Введем события:
+\begin{enumerate}
+    \item $D_{10} = \event{\text{попадание в "десятку"{}}}$,
+    \item $D_9 = \event{\text{попадание в "девятку"{}}}$,
+    \item $D_0 = \event{\text{не попадание ни в "десятку"{}, ни в "девятку"{}}}$.
+\end{enumerate}
+События $D_{10}$, $D_9$ и $D_0$ образуют полную группу (происходит одно и только одно из них). Используя полиномиальное распределение, вычислим вероятности событий при $n = 3$.
+В событии $A$ событие $D_{10}$ происходит 1 раз, $D_9$ --- 1 раз, $D_0$ --- 1 раз:
+\begin{equation}
+    \probability{A}
+    = \frac{3!}{1!1!1!} p_{10}^1 p_9^1 p_0^1
+    = 6 \cdot 0.3^1 \cdot 0.4^1 \cdot 0.3^1
+    = \frac{6 \cdot 3 \cdot 4 \cdot 3}{1000}
+    = \frac{216}{1000} .
+\end{equation}
+Событие $B$ состоит из двух несовместных событий:
+\begin{enumerate}
+    \item $B_1$, в котором событие $D_{10}$ происходит 2 раза, $D_9$ --- 1 раз, $D_0$ --- 0 раз,
+    \item $B_2$, в котором событие $D_{10}$ происходит 2 раза, $D_9$ --- 0 раз, $D_0$ --- 1 раз.
+\end{enumerate}
+Вероятность события $B$:
+\begin{multline}
+    \probability{B}
+    = \probability{B_1 + B_2}
+    = \probability{B_1} + \probability{B_2} - \probability{B_1 B_2}
+    = \probability{B_1} + \probability{B_2} = \\
+    %
+    = \frac{3!}{2!1!0!} p_{10}^2 p_9^1 p_0^0 + \frac{3!}{2!0!1!} p_{10}^2 p_9^0 p_0^1
+    = 3 \cdot 0.3^2 \cdot 0.4 + 3 \cdot 0.3^2 \cdot 0.3
+    = 3 \cdot 0.3^2 \cdot \left ( 0.4 + 0.3 \right ) = \\
+    %
+    = 3 \cdot 0.3^2 \cdot 0.7
+    = \frac{3 \cdot 3^2 \cdot 7}{1000}
+    = \frac{189}{1000} .
+\end{multline}
+Событие $C$ образовано двумя несовместными событиями:
+\begin{enumerate}
+    \item $C_1$, в котором $D_{10}$ происходит 3 раза, $D_9$ --- 0 раз, $D_0$ --- 0 раз.
+    \item $C_2$, в котором $D_{10}$ происходит 2 раза, $D_9$ --- 1 раз, $D_0$ --- 0 раз.
+\end{enumerate}
+Вероятность события $C$:
+\begin{multline}
+    \probability{C}
+    = \probability{C_1 + C_2}
+    = \probability{C_1} + \probability{C_2} - \probability{C_1 C_2}
+    = \probability{C_1} + \probability{C_2} = \\
+    %
+    = \frac{3!}{3!0!0!} p_{10}^3 p_9^0 p_0^0 + \frac{3!}{2!1!0!} p_{10}^2 p_9^1 p_0^0
+    = 0.3^3 + 3 \cdot 0.3^2 \cdot 0.4 = \\
+    %
+    = \frac{3^3 + 3 \cdot 3^2 \cdot 4}{1000}
+    = \frac{27 + 108}{1000}
+    = \frac{135}{1000} .
+\end{multline}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{A} = 0.216$,
+    \item $\probability{B} = 0.189$,
+    \item $\probability{C} = 0.135$.
+\end{enumerate}
+
+\section*{Задача 18.352}
+
+Аппаратура состоит из 1000 элементов, каждый из которых независимо от остальных выходит из строя за время $T$ с вероятностью $p = 5 \cdot 10^{-4}$. Найти вероятности следующих
+событий:
+\begin{enumerate}
+    \item $A = \event{\text{за время } T \text{ откажет ровно 3 элемента}}$,
+    \item $B = \event{\text{за время } T \text{ откажет хотя бы один элемент}}$,
+    \item $C = \event{\text{за время } T \text{ откажет не более 3 элементов}}$.
+\end{enumerate}
+
+Считать, что количество отказов $\xi$ за время $T$ имеет распределение Пуассона.
+
+\subsection*{Решение:}
+
+Интенсивность потока отказов элементов $\lambda$ (параметр распределения Пуассона), связана с количеством $n$ и вероятностью отказа $p$ равенством:
+\begin{equation}
+    \lambda = n \cdot p = 1000 \cdot 5 \cdot 10^{-4} = 0.5 .
+\end{equation}
+
+Вероятность события $A$:
+\begin{equation}
+    \probability{A}
+    = \probability{\xi = 3}
+    = \frac{\lambda^3}{3!} e^{-\lambda}
+    = \frac{0.5^3}{3!} e^{-0.5}
+    \approx 0.0126 .
+\end{equation}
+
+Вероятность события $B$:
+\begin{multline}
+    \probability{B}
+    = \probability{\xi \ge 1}
+    = 1 - \probability{\xi < 1}
+    = 1 - \probability{\xi = 0} = \\
+    %
+    = 1 - \frac{\lambda^0}{0!} e^{-\lambda}
+    = 1 - \frac{0.5^0}{0!} e^{-0.5}
+    \approx 0.3935 .
+\end{multline}
+
+Вероятность события $C$:
+\begin{multline}
+    \probability{C}
+    = \probability{\xi \le 3}
+    = \probability{\left ( \xi = 0 \right ) + \left ( \xi = 1 \right ) + \left ( \xi = 2 \right ) + \left ( \xi = 3 \right )} = \\
+    %
+    = \probability{\xi = 0} + \probability{\xi = 1} + \probability{\xi = 2} + \probability{\xi = 3} = \\
+    %
+    = \frac{\lambda^0}{0!} e^{-\lambda} + \frac{\lambda^1}{1!} e^{-\lambda} + \frac{\lambda^2}{2!} e^{-\lambda} + \frac{\lambda^3}{3!} e^{-\lambda} = \\
+    %
+    = \frac{0.5^0}{0!} e^{-0.5} + \frac{0.5^1}{1!} e^{-0.5} + \frac{0.5^2}{2!} e^{-0.5} + \frac{0.5^3}{3!} e^{-0.5}
+    = 0.9982 .
+\end{multline}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{A} \approx 0.0126$,
+    \item $\probability{B} \approx 0.3935$,
+    \item $\probability{C} \approx 0.9982$.
+\end{enumerate}
+
+\section*{Задачи для самостоятельного решения}
+
+Из раздела 18 сборника задач Ефимова и Поспелова.
+\begin{enumerate}
+    \item На занятии: 265, 266, 281, 328.
+    \item Дома: 267, 273, 315, 316, 326, 330, 348, 349, 353, 354.
+\end{enumerate}
+
+Из сборника задач типового расчёта Чудесенко: 16, 17, 18.

@@ -1,0 +1,518 @@
+\chapter{Вычисление вероятностей}
+
+\section*{Введение}
+
+Вычисление вероятности события --- одна из основных задач в теории вероятностей. Обычно, эта задача формулируется в следующем виде: заданы события с известными вероятностями,
+требуется вычислить вероятность некоторого другого события, которое с ними связано, то есть выражается через события с известными вероятностями с помощью операций объединения,
+произведения, дополнения, разности.
+
+Решение задач подобного типа состоит из двух частей: в первой части необходимо получить выражение для события с неизвестной вероятностью, во второй части
+вычислить вероятность с использованием известных соотношений, к которым относятся:
+\begin{enumerate}
+    \item вероятность дополнительного события:
+    \begin{equation}
+        \probability{\overline{A}} = 1 - \probability{A} ,
+    \end{equation}
+
+    \item формула сложения:
+    \begin{equation}
+        \probability{A + B} = \probability{A} + \probability{B} - \probability{A B} ,
+    \end{equation}
+
+    \item формула умножения:
+    \begin{equation}
+        \probability{A \cdot B} = \probability{A} \cdot \conditionalprobability{B}{A},
+    \end{equation}
+
+    \item формула полной вероятности:
+    \begin{equation}
+        \probability{B} = \sum_{i=1}^n \probability{A_i} \cdot \conditionalprobability{B}{A_i} ,
+    \end{equation}
+    где $A_1$, \dots, $A_n$ --- полная группа событий.
+
+    \item формула Байеса:
+    \begin{equation}
+        \conditionalprobability{A_i}{B}
+        = \frac{\probability{A_iB}}{\probability{B}}
+        = \frac{\probability{A_i} \cdot \conditionalprobability{B}{A_i}}{\sum_{i=1}^n \probability{A_i} \cdot \conditionalprobability{B}{A_i}} ,
+    \end{equation}
+    где $A_1$, \dots, $A_n$ --- полная группа событий.
+\end{enumerate}
+
+\section*{Задача 18.163}
+
+Один раз подбрасывается игральный кубик. Заданы события:
+\begin{itemize}
+    \item $A = \event{\text{выпало простое число очков}}$ ,
+    \item $B = \event{\text{выпало чётное число очков}}$ .
+\end{itemize}
+Вычислить условную вероятность $\conditionalprobability{A}{B}$.
+
+\subsection*{Решение:}
+
+Согласно определению условной вероятности:
+\begin{equation}
+    \conditionalprobability{A}{B} = \frac{\probability{A B}}{\probability{B}} .
+\end{equation}
+
+Вероятности $\probability{A B}$ и $\probability{B}$ вычислим, используя классическое определение вероятности. Элементарные исходы представляем число выпавших очков. При одном
+подбрасывании кубика получим 6 элементарных исходов:
+\begin{equation}
+    \Omega = \set{1, 2, 3, 4, 5, 6} .
+\end{equation}
+В событии $A B$ один элементарный исход:
+\begin{equation}
+    A B = \set { 2 } ,
+\end{equation}
+поэтому вероятность:
+\begin{equation}
+    \probability{A B} = \frac{\modulus{AB}}{\modulus{\Omega}} = \frac{1}{6} .
+\end{equation}
+В событии $B$ три элементарных исхода:
+\begin{equation}
+    B = \set { 2, 4, 6 } ,
+\end{equation}
+и вероятность:
+\begin{equation}
+    \probability{B} = \frac{\modulus{B}}{\modulus{\Omega}} = \frac{3}{6}.
+\end{equation}
+Таким образом, условная вероятность:
+\begin{equation}
+    \conditionalprobability{A}{B} = \frac{\frac{1}{6}}{\frac{3}{6}} = \frac{1}{3} .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{1}{3} .$
+
+\section*{Задача 18.178}
+
+Тетраэдр, три грани которого окрашены соответственно в красный, желтый и синий цвета, а четвертая грань содержит все три цвета, бросается наудачу. События:
+\begin{itemize}
+    \item $K = \event{\text{тетраэдр упал на грань, содержащую красный цвет}}$ ,
+    \item $G = \event{\text{тетраэдр упал на грань, содержащую желтый цвет}}$ ,
+    \item $S = \event{\text{тетраэдр упал на грань, содержащую синий цвет}}$ .
+\end{itemize}
+
+Показать, что указанные события попарно независимы, но не являются независимыми в совокупности.
+
+\subsection*{Решение:}
+
+Множество элементарных исходов содержит четыре элемента $\Omega = \set{\omega_1, \omega_2, \omega_3, \omega_4}$. Каждый исход соответствует грани, на которую падает тетраэдр:
+\begin{itemize}
+    \item $\omega_1$ --- грань красного цвета,
+    \item $\omega_2$ --- грань желтого цвета,
+    \item $\omega_3$ --- грань синего цвета,
+    \item $\omega_4$ --- грань, содержащая все три цвета.
+\end{itemize}
+
+События:
+\begin{gather}
+    K = \set{\omega_1, \omega_4} , \\
+    G = \set{\omega_2, \omega_4} , \\
+    S = \set{\omega_3, \omega_4} .
+\end{gather}
+их вероятности:
+\begin{gather}
+    \probability{K} = \frac{\modulus{K}}{\modulus{\Omega}} = \frac{2}{4} = \frac{1}{2} , \\
+    \probability{G} = \frac{\modulus{G}}{\modulus{\Omega}} = \frac{2}{4} = \frac{1}{2} , \\
+    \probability{S} = \frac{\modulus{S}}{\modulus{\Omega}} = \frac{2}{4} = \frac{1}{2} .
+\end{gather}
+
+Попарные произведения событий:
+\begin{gather}
+    KG = \set{\omega_4} , \\
+    KS = \set{\omega_4} , \\
+    GS = \set{\omega_4} .
+\end{gather}
+и их вероятности:
+\begin{gather}
+    \probability{KG} = \frac{\modulus{KG}}{\modulus{\Omega}} = \frac{1}{4} , \\
+    \probability{KS} = \frac{\modulus{KS}}{\modulus{\Omega}} = \frac{1}{4} , \\
+    \probability{GS} = \frac{\modulus{GS}}{\modulus{\Omega}} = \frac{1}{4} .
+\end{gather}
+
+Проверяем условия попарной независимости --- вероятность произведения должна быть равна произведению вероятностей:
+\begin{gather}
+    \frac{1}{4} = \probability{KG} = \probability{K} \cdot \probability{G} = \frac{1}{2} \cdot \frac{1}{2} , \\
+    \frac{1}{4} = \probability{KS} = \probability{K} \cdot \probability{S} = \frac{1}{2} \cdot \frac{1}{2} , \\
+    \frac{1}{4} = \probability{GS} = \probability{G} \cdot \probability{S} = \frac{1}{2} \cdot \frac{1}{2} .
+\end{gather}
+Равенства выполняются --- все события попарно независимы.
+
+Событие произведения всех событий:
+\begin{equation}
+    KGS = \set{\omega_4}
+\end{equation}
+и его вероятность:
+\begin{equation}
+    \probability{KGS} = \frac{\modulus{KGS}}{\modulus{\Omega}} = \frac{1}{4} .
+\end{equation}
+
+Проверяем условие независимости в совокупности:
+\begin{equation}
+    \frac{1}{4} = \probability{KGS} \neq \probability{K} \cdot \probability{G} \cdot \probability{S} = \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{8} .
+\end{equation}
+Равенство не выполняется --- события не являются независимыми в совокупности.
+
+\section*{Задача 18.182}
+
+В ящике лежат 12 красных, 8 зеленых и 10 синих шаров. Наудачу вынимают два шара. Найти вероятность того, что будут вынуты шары разного цвета, при условии, что не вынут синий шар.
+
+\subsection*{Решение:}
+
+\subsubsection{Вариант I (определение условной вероятности)}
+
+Нас интересуют два события: $A = \event{\text{извлечены шары разных цветов}}$ и $B = \event{\text{не вынут синий шар}}$. Как связаны между собой события $A$ и $B$?
+
+Подумаем о том, какие события могут происходить в нашем эксперименте. Очевидно, что происходит только одно из следующих событий:
+\begin{itemize}
+    \item KK --- извлечены два красных шара,
+    \item KС --- извлечены красный и синий шары,
+    \item KЗ --- извлечены красный и зелёный шары,
+    \item СС --- извлечены два синих шара,
+    \item СЗ --- извлечены синий и зеленый шары,
+    \item ЗЗ --- извлечены два зеленых шара.
+\end{itemize}
+В этих событиях порядок извлечения не учитывается, например, в событие КС попадают и элементарные исходы, в которых первый извлеченный шар красный, а второй синий,
+и элементарные исходы, в которых первым оказался синий шар, а второй красный.
+
+Легко видеть, что события $A$ и $B$ имеют следующее представление:
+\begin{gather}
+    A = \text{КС} + \text{КЗ} + \text{СЗ} , \\
+    B = \text{KK} + \text{КЗ} + \text{ЗЗ} .
+\end{gather}
+Отсюда
+\begin{equation}
+    A B = \text{КЗ} ,
+\end{equation}
+а искомая условная вероятность
+\begin{equation}
+    \conditionalprobability{A}{B}
+    = \frac{\probability{AB}}{\probability{B}}
+    = \frac{\probability{\text{КЗ}}}{\probability{\text{КК} + \text{КЗ} + \text{ЗЗ}}} .
+\end{equation}
+
+Заметим, что события КК, КЗ и ЗЗ несовместны (не могут происходит одновременно, не содержат общих элементарных исходов), поэтому по аксиоме аддитивности меры
+$\probability{\cdot}$:
+\begin{equation}
+    \probability{\text{КК} + \text{КЗ} + \text{ЗЗ}} = \probability{\text{КК}} + \probability{\text{КЗ}} + \probability{\text{ЗЗ}}.
+\end{equation}
+
+Таким образом,
+\begin{equation}
+    \conditionalprobability{A}{B}
+    = \frac{\probability{\text{КЗ}}}{\probability{\text{КК}} + \probability{\text{КЗ}} + \probability{\text{ЗЗ}}}
+\end{equation}
+и осталось вычислить вероятности событий КК, КЗ и ЗЗ. Это нужно сделать путём определения множества всех элементарных исходов и определения их вероятностей.
+
+Занумеруем все шары в ящике: красные шары имеют номера 1 -- 12, зеленые шары --- 13 -- 20, синие --- 21 -- 30. Элементарные исходы представляем в виде пары двух чисел,
+соответствующих тем номерам шаров, которые были извлечены из ящика:
+\begin{equation}
+    \Omega = \set{\left ( i, j \right ): i, j \in \set{1, \dots, 30}, i \neq j}.
+\end{equation}
+При таком представлении все элементарные исходы являются равновероятными, это значит, что для вычисления вероятностей событий достаточно всего лишь посчитать количества
+элементарных исходов в каждом событии. Всего элементарных исходов:
+\begin{equation}
+    \modulus{\Omega} = 30 \cdot 29.
+\end{equation}
+А в событиях:
+\begin{align}
+    \modulus{\text{КК}} = 12 \cdot 11 & \rightarrow \probability{\text{КК}} = \frac{\modulus{\text{КК}}}{\modulus{\Omega}} = \frac{12 \cdot 11}{30 \cdot 29} , \\
+    \modulus{\text{КЗ}} = 12 \cdot 8 + 8 \cdot 12 & \rightarrow \probability{\text{КЗ}} = \frac{\modulus{\text{КЗ}}}{\modulus{\Omega}} = \frac{12 \cdot 8 + 8 \cdot 12}{30 \cdot 29} , \\
+    \modulus{\text{ЗЗ}} = 8 \cdot 7 & \rightarrow \probability{\text{ЗЗ}} = \frac{\modulus{\text{ЗК}}}{\modulus{\Omega}} = \frac{8 \cdot 7}{30 \cdot 29} .
+\end{align}
+
+Искомая условная вероятность:
+\begin{multline}
+    \conditionalprobability{A}{B}
+    = \frac{\frac{12 \cdot 8 + 8 \cdot 12}{30 \cdot 29}}{\frac{12 \cdot 11}{30 \cdot 29} + \frac{12 \cdot 8 + 8 \cdot 12}{30 \cdot 29} + \frac{8 \cdot 7}{30 \cdot 29}}
+    = \frac{12 \cdot 8 + 8 \cdot 12}{12 \cdot 11 + 12 \cdot 8 + 8 \cdot 12 + 8 \cdot 7} = \\
+    %
+    = \frac{3 \cdot 8 + 8 \cdot 3}{3 \cdot 11 + 3 \cdot 8 + 8 \cdot 3 + 2 \cdot 7}
+    = \frac{48}{33 + 48 + 14}
+    = \frac{48}{95} .
+\end{multline}
+
+\subsubsection*{Вариант II (вспомогательный эксперимент)}
+
+Сократим множество всех элементарных исходов до множества $B$:
+\begin{equation}
+    \Omega \rightarrow \Omega^\prime = B .
+\end{equation}
+Сокращенное множество элементарных исходов $\Omega^\prime$ по-прежнему представляется множеством пар:
+\begin{equation}
+    \Omega^\prime = \set{\left ( i, j \right ): i, j \in \set{1, \dots, 12, 13, \dots, 20}} ,
+\end{equation}
+и все исходы в нём равновероятны, но в нём нет номеров, соответствующих шарам синего цвета. Общее количество элементарных исходов:
+\begin{equation}
+    \modulus{\Omega^\prime} = 20 \cdot 19 .
+\end{equation}
+
+Рассматривается событие $A^\prime = \set{\text{извлечены шары разных цветов}}$. Оно образовано парами, в которых один номер соответствует шару красного цвета, а другой - зеленого
+(событие $A^\prime$ является аналогом события $AB$ из варианта I):
+\begin{multline}
+    A^\prime = \set{\left ( i, j \right ): i \in \set{1, \dots, 12}, j \in \set{13, \dots, 20}} + \\
+    + \set{\left ( i, j \right ): i \in \set{13, \dots, 20}, j \in \set{1, \dots, 12}} .
+\end{multline}
+Количество элементарных исходов:
+\begin{equation}
+    \modulus{A^\prime} = 12 \cdot 8 + 8 \cdot 12 .
+\end{equation}
+Таким образом, вероятность
+\begin{equation}
+    \probability{A^\prime}
+    = \frac{\modulus{A^\prime}}{\modulus{\Omega^\prime}}
+    = \frac{12 \cdot 8 + 8 \cdot 12}{20 \cdot 19}
+    = \frac{3 \cdot 8 + 8 \cdot 3}{5 \cdot 19}
+    = \frac{48}{95} .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{48}{95}$
+
+\section*{Задача 18.187}
+
+Из урны, содержащей 6 белых и 4 черных шара, наудачу и последовательно извлекают по одному шару до появления черного шара. Найти вероятность
+того, что придется производить четвертое извлечение, если выборка производится: а) с возвращением, б) без возвращения.
+
+\subsection*{Решение:}
+\begin{enumerate}
+
+    \item Пусть событие $A = \event{\text{производится четвертое извлечение}}$, попытаемся представить его с помощью событий извлечения шаров:
+    по условиям эксперимета четвертое извлечение происходит тогда и только тогда, когда при первом, втором и третьем извлечении были вытащены шары
+    белого цвета.
+
+    Пусть $A_i = \event{\text{при }i\text{-ом извлечении появился белый шар}}$, тогда искомое событие:
+    \begin{gather}
+        A = A_1 A_2 A_3 , \\
+        \probability{A} = \probability{A_1 A_2 A_3} .
+    \end{gather}
+    По формуле умножения:
+    \begin{equation}
+        \probability{A}
+        = \probability{A_1} \conditionalprobability{A_2 A_3}{A_1}
+        = \probability{A_1} \conditionalprobability{A_2}{A_1} \conditionalprobability{A_3}{A_1 A_2} .
+    \end{equation}
+
+    Безусловная вероятность вычисляется с помощью классических вероятностей: из 10 шаров 6 белых, поэтому
+    \begin{equation}
+        \probability{A_1} = \frac{6}{10} .
+    \end{equation}
+    А условные вероятности зависят от схемы извлечения шаров, но их нетрудно вычислить с помощью метода вспомогательного эксперимента.
+
+    \item В случае а (с возвращением) после вытаскивания белого шара его возвращают обратно, поэтому общее количество шаров по-прежнему 10,
+    и количество белых шаров по-прежнему 6, поэтому
+    \begin{equation}
+        \conditionalprobability{A_2}{A_1} = \frac{6}{10} .
+    \end{equation}
+    После возвращения второго белого шара воспроизводится начальное состояние: общее количество шаров 10 из них 6 белых, поэтому
+    \begin{equation}
+        \conditionalprobability{A_3}{A_1 A_2} = \frac{6}{10} .
+    \end{equation}
+    Таким образом, искомая вероятность:
+    \begin{equation}
+        \probability{A}
+        = \frac{6}{10} \cdot \frac{6}{10} \cdot \frac{6}{10}
+        = \frac{216}{1000} .
+    \end{equation}
+
+    \item В случае б (без возвращения) состояние урны изменяется. После первого извлечения белого шара в урне остается 9 шаров из которых 5 белых,
+    поэтому
+    \begin{equation}
+        \conditionalprobability{A_2}{A_1} = \frac{5}{9} .
+    \end{equation}
+    А после извлечения второго белого шара, в урне осталось 8 шаров из которых 4 белых, поэтому
+    \begin{equation}
+        \conditionalprobability{A_3}{A_1 A_2} = \frac{4}{8} .
+    \end{equation}
+    Искомая вероятность:
+    \begin{equation}
+        \probability{A}
+        = \frac{6}{10} \cdot \frac{5}{9} \cdot \frac{4}{8}
+        = \frac{3}{5} \cdot \frac{5}{9} \cdot \frac{1}{2}
+        = \frac{1}{3} \cdot \frac{1}{2}
+        = \frac{1}{6} .
+    \end{equation}
+\end{enumerate}
+
+\subsection*{Ответ:}
+а) $0.216$, б) $\frac{1}{6}$.
+
+\section*{Задача 18.210}
+
+Имеется схема элементов, представленная на рисунке.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % вход
+        \draw ( -0.5, 0.5 ) -- ( 0, 0.5 );
+
+        % 1
+        \draw ( 0, 0 ) -- ( 0, 1 ) -- ( 1, 1 ) -- ( 1, 0 ) -- ( 0, 0 ) node at ( 0.5, 0.5 ) {$1$};
+        % 1-[2,3]
+        \draw ( 1, 0.5 ) -- ( 2, 0.5 ) -- ( 2, 1.5 ) -- ( 3, 1.5 );
+        \draw ( 2, 0.5 ) -- ( 2, -0.5 ) -- ( 3, -0.5 );
+
+        % 2
+        \draw ( 3, 2 ) -- ( 4, 2 ) -- ( 4, 1 ) -- ( 3, 1 ) -- ( 3, 2 ) node at ( 3.5, 1.5 ) {$2$};
+        % 3
+        \draw ( 3, 0 ) -- ( 4, 0 ) -- ( 4, -1 ) -- ( 3, -1 ) -- ( 3, 0 ) node at ( 3.5, -0.5 ) {$3$};
+
+        % [2,3]-4
+        \draw ( 4, 1.5 ) -- ( 5, 1.5 ) -- ( 5, 0.5 ) -- ( 6, 0.5 );
+        \draw ( 4, -0.5 ) -- ( 5, -0.5 ) -- ( 5, 0.5 );
+
+        % 4
+        \draw ( 6, 1 ) -- ( 7, 1 ) -- ( 7, 0 ) -- ( 6, 0 ) -- ( 6, 1 ) node at ( 6.5, 0.5 ) {$4$};
+
+        % выход
+        \draw ( 7, 0.5 ) -- ( 7.5, 0.5 );
+    \end{tikzpicture}
+    \caption{Схема.}
+\end{figure}
+
+Отказы элементов являются независимыми в совокупности событиями. Для каждого элемента с номером $k$ известна его надежность
+(вероятность безотказной работы) $p_k$. Соответственно, вероятность отказа $q_k = 1 - p_k$. Определить надежность схемы
+(вероятность безотказной работы).
+
+\subsection*{Решение:}
+Пусть событие $C_k = \event{\text{нет отказа в элементе с номером }k}$ и событие $C = \event{\text{нет отказа схемы}}$:
+\begin{equation}
+    C
+    = C_1 \left ( C_2 + C_3 \right ) C_4 .
+\end{equation}
+Вероятность события $C$ по формуле умножения:
+\begin{equation}
+    \probability{C}
+    = \probability{C_1 \left ( C_2 + C_3 \right ) C_4}
+    = \probability{C_1} \conditionalprobability{C_2 + C_3}{C_1} \conditionalprobability{C_4}{C_1 \left ( C_2 + C_3 \right )}.
+\end{equation}
+
+По условию задачи события $C_1$, $C_2$, $C_3$, $C_4$ независимы в совокупности, отсюда следуют независимость в совокупности событий $C_1$,
+$C_2 + C_3$, $C_4$. Для независимых в совокупности событий условные вероятности равны безусловным:
+\begin{equation}
+    \probability{C}
+    = \probability{C_1} \probability{C_2 + C_3} \probability{C_4}.
+\end{equation}
+По формуле сложения для центрального множителя:
+\begin{multline}
+    \probability{C}
+    = \probability{C_1} \left ( \probability{C_2} + \probability{C_3} - \probability{C_2 C_3} \right ) \probability{C_4} = \\
+    %
+    = \probability{C_1} \left ( \probability{C_2} + \probability{C_3} - \probability{C_2} \conditionalprobability{C_3}{C_2} \right ) \probability{C_4}.
+\end{multline}
+В силу независимости событий $C_2$ и $C_3$:
+\begin{equation}
+    \probability{C}
+    = \probability{C_1} \left ( \probability{C_2} + \probability{C_3} - \probability{C_2} \probability{C_3} \right ) \probability{C_4}.
+\end{equation}
+В обозначениях, принятых в условии задачи:
+\begin{equation}
+    \probability{C_k} = p_k ,
+\end{equation}
+тогда
+\begin{equation}
+    \probability{C}
+    = p_1 \left ( p_2 + p_3 - p_2 p_3 \right ) p_4.
+\end{equation}
+Используя вероятности отказов $q_k$:
+\begin{multline}
+    \probability{C}
+    = p_1 \left ( 1 - q_2 + 1 - q_3 - \left ( 1 - q_2 \right ) \left ( 1 - q_3 \right ) \right ) p_4 = \\
+    %
+    = p_1 \left ( 1 - q_2 + 1 - q_3 - 1 + q_2 + q_3 - q_2 q_3 \right ) p_4
+    = p_1 \left ( 1 - q_2 q_3 \right ) p_4.
+\end{multline}
+
+\subsection*{Ответ:}
+$p_1 \left ( 1 - q_2 q_3 \right ) p_4 .$
+
+\section*{Задача 18.227}
+
+Два цеха штампуют однотипные детали. Первый цех дает $\alpha$\% брака, второй --- $\beta$\%. Для контроля отобрано $n_1$ деталий из первого цеха
+и $n_2$ из второго. Эти $n_1 + n_2$ деталей смешаны в одну партию, и из неё наудачу извлекают одну деталь. Какова вероятность, что она бракованная?
+
+\subsection*{Решение:}
+Пусть событие $A = \event{\text{деталь бракованная}}$. Рассмотрим группу событий:
+\begin{itemize}
+    \item $B_1 = \event{\text{выбрана деталь из 1го цеха}}$ ,
+    \item $B_2 = \event{\text{выбрана деталь из 2го цеха}}$ .
+\end{itemize}
+Очевидно, что события $B_1$ и $B_2$ образуют полную группу (обязательно происходит только одно из событий).
+
+В соответствии с формулой полной вероятности:
+\begin{equation}
+    \probability{A}
+    = \probability{B_1} \conditionalprobability{A}{B_1} + \probability{B_2} \conditionalprobability{A}{B_2} .
+\end{equation}
+
+Условная вероятность $\conditionalprobability{A}{B_1}$ --- вероятность бракованной детали, при условии, что деталь из первого цеха,
+а условная вероятность $\conditionalprobability{A}{B_2}$ --- из второго цеха. Согласно условию:
+\begin{gather}
+    \conditionalprobability{A}{B_1} = \frac{\alpha}{100} , \\
+    \conditionalprobability{A}{B_2} = \frac{\beta}{100} .
+\end{gather}
+
+Безусловные вероятности $\probability{B_1}$ и $\probability{B_2}$ подсчитываем с помощью классических вероятностей: всего отобрано $n_1 + n_2$
+деталей, $n_1$ из первого цеха и $n_2$ из второго, поэтому
+\begin{gather}
+    \probability{B_1} = \frac{n_1}{n_1 + n_2} , \\
+    \probability{B_2} = \frac{n_2}{n_1 + n_2} .
+\end{gather}
+
+Таким образом,
+\begin{equation}
+    \probability{A}
+    = \frac{n_1}{n_1 + n_2} \frac{\alpha}{100} + \frac{n_2}{n_1 + n_2} \frac{\beta}{100}
+    = \frac{\frac{\alpha}{100} n_1 + \frac{\beta}{100} n_2}{n_1 + n_2} .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{\frac{\alpha}{100} n_1 + \frac{\beta}{100} n_2}{n_1 + n_2} .$
+
+\section*{Задача 18.243}
+
+На вход радиолокационного устройства с вероятностью 0.8 поступает смесь полезного сигнала с помехой, а с вероятностью 0.2 --- только помеха.
+Если поступает полезный сигнал с помехой, то устройство регистрирует наличие какого-то сигнала с вероятностью 0.7, если только помеха, ---
+то с вероятностью 0.3. Известно, что устройство зарегистрировало наличие какого-то сигнала. Найти вероятность того, что в составе есть полезный
+сигнал.
+
+\subsection*{Решение:}
+
+Пусть событие $A = \event{\text{зарегистрирован сигнал}}$. Регистрация сигнала по условию задачи может происходит в двух случаях, когда подается
+смесь сигнала и помехи, и когда подается только помеха. Помеха на входе устройства есть всегда, и всё определяется наличием сигнала:
+\begin{itemize}
+    \item $B_1 = \event{\text{есть полезный сигнал}}$,
+    \item $B_2 = \event{\text{нет полезного сигнала}}$ .
+\end{itemize}
+События $B_1$ и $B_2$ образуют полную группу, событие $A$ может происходить и при появлении события $B_1$, и при появлении события $B_2$.
+Нас интересует вероятность наличия полезного сигнала при условии регистрации. Согласно формуле Байеса:
+\begin{equation}
+    \conditionalprobability{B_1}{A}
+    = \frac{\probability{A B_1}}{\probability{A}}
+    = \frac{\probability{B_1} \conditionalprobability{A}{B_1}}{\probability{B_1} \conditionalprobability{A}{B_1} + \probability{B_2} \conditionalprobability{A}{B_2}} .
+\end{equation}
+
+Остаётся только подставить числовые значения из условия задачи:
+\begin{equation}
+    \conditionalprobability{B_1}{A}
+    = \frac{0.8 \cdot 0.7}{0.8 \cdot 0.7 + 0.2 \cdot 0.3}
+    = \frac{4 \cdot 0.7}{4 \cdot 0.7 + 0.3}
+    = \frac{0.28}{0.28 + 0.3}
+    = \frac{0.28}{0.41}
+    = \frac{28}{31} .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{28}{31} .$
+
+\section*{Задачи для самостоятельного решения}
+
+Из раздела 18 сборника задач Ефимова и Поспелова.
+\begin{enumerate}
+    \item На занятии: 167, 179, 217.
+    \item Дома: 160, 169, 184, 191, 203, 211, 222, 231, 234, 241, 242, 247.
+\end{enumerate}
+
+Из сборника задач типового расчёта Чудесенко: 8, 9, 10, 11, 12, 13, 14, 15.

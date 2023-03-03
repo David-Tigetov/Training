@@ -1,0 +1,455 @@
+\chapter{Классические вероятности}
+
+\section*{Введение}
+
+В теории вероятностей решение задач выполняется в рамках вероятностного пространства $\left ( \Omega, \Sigma, P \right )$. В первом занятии разбирались вопросы формирования
+множества всех элементарных исходов $\Omega$, событий из алгебры $\Sigma$ и операций над этими событиями. В этом занятии мы перейдем к одной из основных задач теории вероятностей
+--- вычислению вероятностей с использованием заданной вероятностей меры $P$.
+
+Вероятностная мера $P$ может быть задана различными способами. В частности, если множество элементарных исходов $\Omega$ имеет конечное число элементов $\modulus{\Omega} < \infty$,
+то всем элементарным исходам $\omega_i \in \Omega$ ($i=1,\dots,\modulus{\Omega}$) можно приписать равные вероятности:
+\begin{equation}
+    \probability{\event{\omega_i}} = \frac{1}{\modulus{\Omega}}.
+\end{equation}
+Такое определение вероятностей меры называется \textbf{классическим определением вероятности}.
+
+Теперь представим, что есть некоторое событие $A \in \Sigma$ из алгебры наблюдаемых событий. Как вычислить вероятность $\probability{A}$? Пусть событие $A$ состоит из $k$
+элементарных исходов:
+\begin{equation}
+    A = \set{ \omega_{i_1}, \omega_{i_2}, \dots, \omega_{i_k}}.
+\end{equation}
+Мы знаем, что вероятностная мера $P$ обладает свойством аддитивности --- если два события $B$ и $C$ несовместны, то вероятности суммы событий есть сумма вероятностей:
+\begin{equation}
+    B \cap C = \emptyset : \; \probability{B + C} = \probability{B} + \probability{C}.
+\end{equation}
+
+Представим событие $A$ в виде объединения:
+\begin{equation}
+    A = \underbrace{\set{\omega_{i_1}}}_B \cup \underbrace{\set{\omega_{i_2}, \dots, \omega_{i_k}}}_C
+\end{equation}
+и воспользуемся свойством аддитивности меры $P$:
+\begin{equation}
+    \probability{A} = \probability{\set{\omega_{i_1}}} + \probability{\set{\omega_{i_2}, \dots, \omega_{i_k}}} .
+\end{equation}
+Поступая далее аналогичным образом, в итоге получим:
+\begin{equation}
+    \probability{A} = \probability{\set{\omega_{i_1}}} + \probability{\set{\omega_{i_2}}} + \dots + \probability{\set{\omega_{i_k}}} .
+\end{equation}
+Поскольку все элементарные исходы $\omega_{i_j}$ имеют одинаковые вероятности, то:
+\begin{equation}
+    \probability{A}
+    = \underbrace{\frac{1}{\modulus{\Omega}} + \frac{1}{\modulus{\Omega}} + \dots + \frac{1}{\modulus{\Omega}}}_k
+    = \frac{\modulus{A}}{\modulus{\Omega}} .
+\end{equation}
+
+Таким образом, вероятность определяется количествами элементарных исходов в событии $A$ и во всём множестве элементарных исходов $\Omega$.
+
+\section*{Задача 18.66}
+
+В магазин поступило 30 новых цветных телевизоров, среди которых 5 имеют скрытые дефекты. Наудачу отбирается один телевизор для проверки. Какова вероятность, что он не имеет
+скрытых дефектов?
+
+\subsection*{Решение:}
+
+Пусть событие $A = \event{\text{выбранный телевизор не имеет дефектов}}$. Количество телевизоров, не имеющих скрытые дефекты, $30-5=25$, значит
+\begin{equation}
+    \modulus{A} = 25 .
+\end{equation}
+Всего телевизоров 30, значит
+\begin{equation}
+    \modulus{\Omega} = 30 .
+\end{equation}
+Таким образом, вероятность события $A$:
+\begin{equation}
+    \probability{A}
+    = \frac{\modulus{A}}{\modulus{\Omega}}
+    = \frac{25}{30}
+    = \frac{5}{6}
+    .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{5}{6}$.
+
+\section*{Задача [18.70]}
+
+Подбрасываются два кубика. Фиксируются количества очков, выпавших на первом и втором кубиках. Найти вероятности событий
+\begin{enumerate}
+    \item $A = \event{\text{сумма очков нечётна}}$,
+    \item $B = \event{\text{произведение очков чётно}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+
+\begin{enumerate}
+    \item
+    Множество элементарных исходов $\Omega = \set{(i, j): i, j \in \left \{ 1, 2, 3, 4, 5, 6\right \}}$ содержит 36 элементарных исходов:
+    \begin{equation}
+        \modulus{\Omega} = 6 \cdot 6 = 36.
+    \end{equation}
+
+    \item
+    Для подсчёта количества элементарных исходов в событии $A$ составим таблицу суммы:
+    \begin{center}
+        \begin{tabular}{c|c|c|c|c|c|c|}
+            $i$, $j$ & 1 & 2 & 3 & 4  & 5  & 6  \\
+            \hline
+            1        & 2 & 3 & 4 & 5  & 6  & 7  \\
+            \hline
+            2        & 3 & 4 & 5 & 6  & 7  & 8  \\
+            \hline
+            3        & 4 & 5 & 6 & 7  & 8  & 9  \\
+            \hline
+            4        & 5 & 6 & 7 & 8  & 9  & 10 \\
+            \hline
+            5        & 6 & 7 & 8 & 9  & 10 & 11 \\
+            \hline
+            6        & 7 & 8 & 9 & 10 & 11 & 12 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    Теперь подсчитаем количество клеток с нечетными числами (по диагоналям):
+    \begin{equation}
+        \modulus{A} = 2 + 4 + 6 + 4 + 2 = 18 .
+    \end{equation}
+    Таким образом, вероятность
+    \begin{equation}
+        \probability{A} = \frac{\modulus{A}}{\modulus{\Omega}} = \frac{18}{36} = \frac{1}{2} .
+    \end{equation}
+
+    При подсчёте количества элементарных исходов в событии $A$ можно было рассуждать и следующим образом: для получения нечётной суммы достаточно чтобы
+    \begin{itemize}
+        \item на первом кубике выпало нечётное число, а на втором --- чётное,
+        \item на первом кубике выпало чётное число, а на втором --- нечётное.
+    \end{itemize}
+    Поскольку нечётных очков $\set{1, 3, 5}$ всего 3, и четных $\set{2, 4, 6}$ тоже 3, то
+    \begin{equation}
+        \modulus{A} = 3 \cdot 3 + 3 \cdot 3 = 18.
+    \end{equation}
+
+    \item
+    Для подсчёта количества элементарных исходов в событии $B$ составим таблицу произведения:
+    \begin{center}
+        \begin{tabular}{c|c|c|c|c|c|c|}
+            $i$, $j$ & 1 & 2  & 3  & 4  & 5  & 6  \\
+            \hline
+            1        & 1 & 2  & 3  & 4  & 5  & 6  \\
+            \hline
+            2        & 2 & 4  & 6  & 8  & 10 & 12 \\
+            \hline
+            3        & 3 & 6  & 9  & 12 & 15 & 18 \\
+            \hline
+            4        & 4 & 8  & 12 & 16 & 20 & 24 \\
+            \hline
+            5        & 5 & 10 & 15 & 20 & 25 & 30 \\
+            \hline
+            6        & 6 & 12 & 18 & 24 & 30 & 36 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    Подсчёт по строкам количества клеток с чётным числом приводит результату:
+    \begin{equation}
+        \modulus{B} = 3 + 6 + 3 + 6 + 3 + 6 = 27 .
+    \end{equation}
+    Таким образом, вероятность
+    \begin{equation}
+        \probability{B} = \frac{\modulus{B}}{\modulus{\Omega}} = \frac{27}{36} = \frac{3}{4} .
+    \end{equation}
+
+    Количество элементарных исходов в $B$ можно было подсчитать и следующим образом: для получения чётного произведения достаточно чтобы
+    \begin{itemize}
+        \item на первом кубике выпало нечётное число, а на втором --- чётное,
+        \item на первом кубике выпало чётное число, а на втором --- любое.
+    \end{itemize}
+    Таким образом,
+    \begin{equation}
+        \modulus{B} = 3 \cdot 3 + 3 \cdot 6 = 9 + 18 = 27 .
+    \end{equation}
+\end{enumerate}
+
+\section*{Ответ:}
+
+$\probability{A} = \frac{1}{2}$, $\probability{B} = \frac{3}{4}$.
+
+\section*{Задача 18.73}
+
+Первого сентября на первом курсе одного из факультетов запланировано по расписанию три лекции по разным предметам. Всего на первом курсе изучается десять предметов. Студент,
+не успевший ознакомится с расписанием, пытается его угадать. Какова вероятность успеха в данном эксперименте, если считать, что любое расписание из трех предметов равновозможно?
+
+\subsection*{Решение:}
+
+Подсчитаем количество возможных вариантов расписания (элементарных исходов). Количество вариантов выбора предметов:
+\begin{itemize}
+    \item для первой лекции --- 10 (всего предметов 10),
+    \item для второй лекции --- 9 (поскольку предметы разные, и один предмет уже нельзя выбрать),
+    \item для третьей лекции --- 8 (поскольку предметы разные и уже два предмета выбрать нельзя).
+\end{itemize}
+Таким образом, мощность множества $\Omega$ элементарных исходов:
+\begin{equation}
+    \modulus{\Omega} = A_{10}^3 = 10 \cdot 9 \cdot 8 = 720 .
+\end{equation}
+
+Угадать расписание значит угадать все три предмета, то есть количество исходов в этом событии лишь одно, поэтому вероятность угадать расписание $P_s$:
+\begin{equation}
+    P_s = \frac{1}{\modulus{\Omega}} = \frac{1}{720} .
+\end{equation}
+
+\subsection*{Ответ:}
+$\frac{1}{720}$.
+
+\section*{Задача 18.80}
+
+Среди кандидатов в студенческий совет факультета 3 первокурсника, 5 второкурсников и 7 третьекурсников. Из этого состава наудачу выбирают 5 человек на предстоящую конференцию.
+Найти вероятности следующих событий:
+\begin{enumerate}
+    \item $A = \event{\text{будут выбраны одни третьекурсники}}$,
+    \item $B = \event{\text{все первокурсники попадут на конференцию}}$,
+    \item $C = \event{\text{не будет выбрано ни одного второкурсника}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+\begin{enumerate}
+    \item
+    Подсчитаем количество всех возможных вариантов выбора. Общее количество студентов $3+5+7=15$, из них нужно отобрать $5$, поэтому всего вариантов:
+    \begin{equation}
+        \modulus{\Omega} = C_{15}^5 .
+    \end{equation}
+
+    \item
+    Событие $A$ содержит варианты, в которых выбирают 5 третьекурсников. Количество вариантов равняется числу сочетаний:
+    \begin{equation}
+        \modulus{A} = C_7^5 .
+    \end{equation}
+    Вероятность события $A$:
+    \begin{multline}
+        \probability{A}
+        = \frac{\modulus{A}}{\modulus{\Omega}}
+        = \frac{C_7^5}{C_{15}^5}
+        = \frac{\frac{7!}{5!2!}}{\frac{15!}{5!10!}}
+        = \frac{\frac{7!}{2!}}{\frac{15!}{10!}} = \\
+        %
+        = \frac{7 \cdot 6 \cdot 5 \cdot 4 \cdot 3}{15 \cdot 14 \cdot 13 \cdot 12 \cdot 11}
+        = \frac{7 \cdot 6 \cdot 4}{14 \cdot 13 \cdot 12 \cdot 11}
+        = \frac{6 \cdot 2}{13 \cdot 12 \cdot 11}
+        = \frac{1}{13 \cdot 11}
+        = \frac{1}{130 + 13}
+        = \frac{1}{143} .
+    \end{multline}
+
+    \item
+    Событие $B$ содержит варианты, в которых выбирают 3 первокурсника, это можно сделать единственным образом, а остальных 2 студентов можно выбрать произвольным образом
+    из второкурсников и третьекурсников, их всего $5+7 = 12$, поэтому количество вариантов:
+    \begin{equation}
+        \modulus{B}
+        = C_3^3 \cdot C_{12}^2
+        = 1 \cdot C_{12}^2
+    \end{equation}
+    Вероятность события $B$:
+    \begin{multline}
+        \probability{B}
+        = \frac{\modulus{B}}{\modulus{\Omega}}
+        = \frac{C_{12}^2}{C_{15}^5}
+        = \frac{\frac{12!}{2!10!}}{\frac{15!}{5!10!}}
+        = \frac{12! \cdot 5!}{2! \cdot 15!} = \\
+        %
+        = \frac{5 \cdot 4 \cdot 3}{15 \cdot 14 \cdot 13}
+        = \frac{4}{14 \cdot 13}
+        = \frac{2}{7 \cdot 13}
+        = \frac{2}{70 + 21}
+        = \frac{2}{91} .
+    \end{multline}
+
+    \item
+    Событие $C$ содержит варианты, в которых не выбирают второкурсников, значит нужно набрать 5 студентов из первокурсников и третьекурсников, их всего $3 + 7 = 10$, поэтому
+    количество вариантов:
+    \begin{equation}
+        \modulus{C} = C_{10}^5 .
+    \end{equation}
+    Вероятность события $C$:
+    \begin{multline}
+        \probability{C}
+        = \frac{\modulus{C}}{\modulus{\Omega}}
+        = \frac{C_{10}^5}{C_{15}^5}
+        = \frac{\frac{10!}{5!5!}}{\frac{15!}{5!10!}}
+        = \frac{\frac{10!}{5!}}{\frac{15!}{10!}} = \\
+        %
+        = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{15 \cdot 14 \cdot 13 \cdot 12 \cdot 11}
+        = \frac{5 \cdot 2 \cdot 3 \cdot 3 \cdot 8 \cdot 7 \cdot 6}{15 \cdot 14 \cdot 13 \cdot 12 \cdot 11}
+        = \frac{2 \cdot 3 \cdot 8 \cdot 7 \cdot 6}{14 \cdot 13 \cdot 12 \cdot 11}
+        = \frac{3 \cdot 8 \cdot 6}{13 \cdot 12 \cdot 11} = \\
+        %
+        = \frac{3 \cdot 2 \cdot 4 \cdot 6}{13 \cdot 12 \cdot 11}
+        = \frac{3 \cdot 4}{13 \cdot 11}
+        = \frac{12}{13 \cdot 11}
+        = \frac{12}{130 + 13}
+        = \frac{12}{143} .
+    \end{multline}
+\end{enumerate}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{A} = \frac{1}{143}$,
+    \item $\probability{B} = \frac{2}{91}$,
+    \item $\probability{C} = \frac{12}{143}$.
+\end{enumerate}
+
+\section*{Задача 18.88}
+
+Цифры 1, 2, \dots, 9 записываются в случайном порядке. Найти вероятности событий:
+\begin{enumerate}
+    \item $B = \event{\text{цифры 1 и 2 будут стоять рядом и в порядке возрастания}}$,
+    \item $C = \event{\text{цифры 3, 6 и 9 будут стоять рядом}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+\begin{enumerate}
+    \item
+    Подсчитаем количество возможных вариантов записи цифр (элементарных исходов): первую позицию может занимать любая из 9 цифр, вторую позицию --- любая из оставшихся 8 цифр,
+    третью позицию --- любая из оставшихся 7 цифр, и так далее, для последней позиции останется 1 цифра. Таким образом, всего вариантов записи цифр:
+    \begin{equation}
+        \modulus{\Omega} = 9 \cdot 8 \cdot 7 \cdot \dots \cdot 1 = 9!
+    \end{equation}
+
+    \item
+    Считаем количество вариантов записи цифр в событии $B$.
+    \begin{equation}
+        \begin{array}{ccccccccccr}
+            1        & 2        & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & | 7! \\
+            \diamond & 1        & 2        & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & | 7! \\
+            \diamond & \diamond & 1        & 2        & \diamond & \diamond & \diamond & \diamond & \diamond & | 7! \\
+            \dots    &          &          &          &          &          &          &          &          &      \\
+            \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & 1        & 2        & | 7! \\
+        \end{array}
+    \end{equation}
+
+    Всего 8 вариантов расположения цифр 1 и 2, и на каждый вариант приходится еще $7!$ вариантов записи остальных цифр. Итого,
+    \begin{equation}
+        \modulus{B} = 8 \cdot 7! = 8!
+    \end{equation}
+    Вероятность события $B$
+    \begin{equation}
+        \probability{B} = \frac{\modulus{B}}{\modulus{\Omega}} = \frac{8!}{9!} = \frac{1}{9} .
+    \end{equation}
+
+    \item
+    Считаем количество вариантов записи цифр в событии $C$.
+    \begin{equation}
+        \begin{array}{lccccccccccr}
+            & 3        & 6        & 9        & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & | 6! \\
+            3! | & \dots    &          &          &          &          &          &          &          &          &      \\
+            & 9        & 6        & 3        & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & | 6! \\
+            & \diamond & 3        & 6        & 9        & \diamond & \diamond & \diamond & \diamond & \diamond & | 6! \\
+            3! | & \dots    &          &          &          &          &          &          &          &          &      \\
+            & \diamond & 9        & 6        & 3        & \diamond & \diamond & \diamond & \diamond & \diamond & | 6! \\
+            & \dots    &          &          &          &          &          &          &          &          &      \\
+            & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & 3        & 6        & 9        & | 6! \\
+            3! | & \dots    &          &          &          &          &          &          &          &          &      \\
+            & \diamond & \diamond & \diamond & \diamond & \diamond & \diamond & 9        & 6        & 3        & | 6! \\
+        \end{array}
+    \end{equation}
+    Группа цифр $\left \{ 3, 6, 9 \right \}$ может занимать 7 различных местоположений, на каждое местоположение приходится $3!$ вариантов расположения цифр $\left \{ 3, 6, 9 \right \}$ внутри группы,
+    и на каждый такой вариант еще $6!$ вариантов расположения остальных шести цифр. Таким образом,
+    \begin{equation}
+        \modulus{C} = 7 \cdot 3! \cdot 6! = 3! \cdot 7!
+    \end{equation}
+    Вероятность события $C$:
+    \begin{equation}
+        \probability{C}
+        = \frac{\modulus{C}}{\modulus{\Omega}}
+        = \frac{3! \cdot 7!}{9!}
+        = \frac{3!}{9 \cdot 8}
+        = \frac{3 \cdot 2}{9 \cdot 8}
+        = \frac{1}{3 \cdot 4}
+        = \frac{1}{12} .
+    \end{equation}
+\end{enumerate}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{B} = \frac{1}{9}$,
+    \item $\probability{C} = \frac{1}{12}$.
+\end{enumerate}
+
+\section*{Задача 18.100}
+
+Бросается 10 одинаковых игральных кубиков. Вычислить вероятности событий:
+\begin{enumerate}
+    \item $A = \event{\text{ни на одном кубике не выпадет 6}}$,
+    \item $B = \event{\text{хотя бы на одном кубике выпадет 6}}$,
+    \item $C = \event{\text{ровно на 3 кубиках выпадет 6}}$.
+\end{enumerate}
+
+\subsection*{Решение:}
+\begin{enumerate}
+    \item
+    Каждый элементарный исход будет представлять в виде вектора из 10 компонент: $i$-ая компонента обозначает число очков на кубике с номером $i$.
+    Общее количество всех таких векторов:
+    \begin{equation}
+        \modulus{\Omega} = \underbrace{6 \cdot 6 \cdot \dots 6}_{10} = 6^{10}.
+    \end{equation}
+
+    \item
+    Событие $A$ образовано элементарными исходами (векторами), в которых нет 6, то есть количество допустимых очков для каждого кубика всего 5,
+    поэтому количество элеметарных исходов в событии $A$:
+    \begin{equation}
+        \modulus{A} = \underbrace{5 \cdot 5 \cdot \dots 5}_{10} = 5^{10}.
+    \end{equation}
+    Вероятность события $A$:
+    \begin{equation}
+        \probability{A}
+        = \frac{\modulus{A}}{\modulus{\Omega}}
+        = \frac{5^{10}}{6^{10}}
+        = \left ( \frac{5}{6} \right )^{10} .
+    \end{equation}
+
+    \item
+    Для вычисления вероятности события $B$ заметим, что событие $B$, в котором выпадает хотя бы одна 6, является противоположным событию $A$,
+    в котором не выпадает ни одной 6:
+    \begin{equation}
+        B = \overline{A} .
+    \end{equation}
+    В силу известного свойства о вероятности противоположного события:
+    \begin{equation}
+        \probability{B} = \probability{\overline{A}} = 1 - \probability{A} = 1 - \left ( \frac{5}{6} \right )^{10} .
+    \end{equation}
+
+    \item
+    Событие $C$ образовано элементарными исходами (векторами), в которых 3 любые компоненты равны 6, а остальные компоненты ---
+    не равны 6. Значит нужно выбрать 3 компоненты из 10, которые будут равны 6, --- это можно сделать количеством способов, равным $C_{10}^3$,
+    в остальных 7 компонентах нельзя выбирать число очков равное 6, значит для каждой осталось только 5 вариантов:
+    \begin{equation}
+        \modulus{C} = C_{10}^3 \cdot 5^7 .
+    \end{equation}
+    Вероятность события $C$:
+    \begin{multline}
+        \probability{C}
+        = \frac{\modulus{C}}{\modulus{\Omega}}
+        = \frac{C_{10}^3 \cdot 5^7}{6^{10}}
+        = \frac{\frac{10!}{3!7!} \cdot 5^7}{6^{10}} = \\
+        %
+        = \frac{\frac{10 \cdot 9 \cdot 8}{3 \cdot 2}  \cdot 5^7}{6^{10}}
+        = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 6^3} \cdot \left ( \frac{5}{6} \right )^7
+        = \frac{10 \cdot 3 \cdot 4}{6 \cdot 6 \cdot 6} \cdot \left ( \frac{5}{6} \right )^7
+        = \frac{2 \cdot 5 \cdot 3 \cdot 2 \cdot 2}{2 \cdot 3 \cdot 2 \cdot 3 \cdot 2 \cdot 3} \cdot \left ( \frac{5}{6} \right )^7 = \\
+        %
+        = \frac{5}{3 \cdot 3} \cdot \left ( \frac{5}{6} \right )^7
+        = \frac{5}{9} \cdot \left ( \frac{5}{6} \right )^7 .
+    \end{multline}
+\end{enumerate}
+
+\subsection*{Ответ:}
+\begin{enumerate}
+    \item $\probability{A} = \left ( \frac{5}{6} \right )^{10}$,
+    \item $\probability{B} = 1 - \left ( \frac{5}{6} \right )^{10}$,
+    \item $\probability{C} = \frac{5}{9} \cdot \left ( \frac{5}{6} \right )^7$.
+\end{enumerate}
+
+\section*{Задачи для самостоятельного решения}
+
+Из раздела 18 сборника задач Ефимова и Поспелова.
+\begin{enumerate}
+    \item На занятии: 69, 76, 92, 103.
+    \item Дома: 74, 85, 93, 97, 98, 105, 110, 128.
+\end{enumerate}
+
+Из сборника задач типового расчёта Чудесенко: 1, 2, 3, 4.
