@@ -1,4 +1,4 @@
-\chapter{Сопряженный оператор}
+\chapter{Отношение Релея}
 
 
 \section{Унитарные пространства}
@@ -15,8 +15,9 @@
     \item $\alpha (\beta u) = (\alpha \beta) u$,
     \item $u = 1 \cdot u$.
 \end{enumerate}
+Множество $\mathcal{U}$ с определенными на нём операциями сложения векторов и умножения на число называется \definition{линейным (векторным) пространством}.
 
-Пусть на множестве всех пар векторов пространства $\mathcal{U}$ определена функция $\scalarproduct{\cdot}{\cdot}$, называемая скалярным произведением, обладающая
+Пусть на множестве всех пар векторов пространства $\mathcal{U}$ определена функция $\scalarproduct{\cdot}{\cdot}$, называемая \definition{скалярным произведением}, обладающая
 следующими свойствами для любых $u, v \in \mathcal{U}$ и числа $\lambda \in \mathbb{C}$:
 \begin{enumerate}
     \item $\scalarproduct{u}{u} \ge 0$,
@@ -40,7 +41,7 @@
     = \overline{\lambda} \scalarproduct{u}{v} .
 \end{gather*}
 
-Если в линейном пространстве $\mathcal{U}$ задано скалярное произведение $\scalarproduct{\cdot}{\cdot}$, то такое пространство называется унитарным.
+Если в линейном пространстве $\mathcal{U}$ задано скалярное произведение $\scalarproduct{\cdot}{\cdot}$, то такое пространство называется \definition{унитарным}.
 
 С помощью скалярного произведения можно определить норму $\norm{\cdot}$ векторов:
 \[
@@ -53,15 +54,16 @@
     \item $\norm{\lambda u} = \modulus{\lambda} \norm{u}$,
     \item $\norm{u + v} \le \norm{u} + \norm{v}$.
 \end{enumerate}
+Пространство с определенной для его элементов нормой называют \definition{нормированным пространством}.
 
 
-\section{Операторы}
+\section{Сопряженный оператор}
 
 Пусть $\mathcal{U}$ является унитарным пространством со скалярным произведением $\scalarproduct{\cdot}{\cdot}_\mathcal{U}$ и $\mathcal{V}$ тоже унитарное пространство
 со своим скалярным произведением $\scalarproduct{\cdot}{\cdot}_\mathcal{V}$.
 
 Пусть $\mathcal{A} : \mathcal{U} \rightarrow \mathcal{V}$ --- оператор, действующий из пространства $\mathcal{U}$ в пространство $\mathcal{V}$.
-Оператор $\mathcal{A}^*$ называется сопряженным к $\mathcal{A}$, если:
+Оператор $\mathcal{A}^*$ называется \definition{сопряженным} к $\mathcal{A}$, если:
 \begin{gather}
     \scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}} = \scalarproduct{u}{\mathcal{A}^* v}_{\mathcal{U}}
     \label{rayleigh:operator:scalars_equality}, \\
@@ -70,9 +72,9 @@
 \end{gather}
 
 Возникает вопрос об условиях существовании сопряженного оператора $\mathcal{A}^*$. Как будет показано далее, при некоторых условиях сопряженный оператор существует,
-более того его можно построить.
+более того его можно построить в явном виде.
 
-Пусть оператор $\mathcal{A}$ является линейным, то есть для любых $u_1, u_2 \in \mathcal{U}$ и любого числа $\lambda \in \mathbb{C}$ выполняются равенства:
+Пусть оператор $\mathcal{A}$ является \definition{линейным}, то есть для любых $u_1, u_2 \in \mathcal{U}$ и любого числа $\lambda \in \mathbb{C}$ выполняются равенства:
 \begin{enumerate}
     \item $\mathcal{A}(u_1 + u_2) = \mathcal{A}(u_1) + \mathcal{A}(u_2)$,
     \item $\mathcal{A}(\lambda u_1) = \lambda \mathcal{A}(u_1)$.
@@ -92,101 +94,207 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 
 При построении сопряженного оператора $\mathcal{A}^*$ можно использовать такой же способ его определения.
 
-Пусть пространства $\mathcal{U}$ и $\mathcal{V}$ являются конечномерными и набор векторов $e = \{ e_1, \dots, e_n \}$ является ортонормированными базисом
-в пространстве $U$, а набор векторов $f = \{f_1, \dots, f_m \}$ является ортономированным базисом в пространстве $\mathcal{V}$. Пусть
-$A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей оператора $\mathcal{A}$ в базисах $e$ и $f$, тогда:
-\[
-    \mathcal{A} e_j = a_{1j} f_1 + \dots + a_{mj} f_m,
-\]
-тем самым определено действие оператора $\mathcal{A}$ на базисные векторы $e_j$.
+\begin{statement}
+    Пусть $\mathcal{U}$ и $\mathcal{V}$ --- унитарные конечномерные пространства и $\mathcal{A} : \mathcal{U} \rightarrow \mathcal{V}$ --- линейный оператор, тогда
+    \begin{enumerate}
+        \item существует сопряженный к $\mathcal{A}$ оператор $\mathcal{A}^*$,
+        \item если $A$ --- матрица оператора $\mathcal{A}$ в ортогональных базисах пространств $\mathcal{U}$ и $\mathcal{V}$, тогда матрица $A^*$ сопряженного оператора
+        $\mathcal{A^*}$:
+        \[
+            A^* = \overline{A}^T .
+        \]
+    \end{enumerate}
+\end{statement}
+\begin{proof}
+    Пусть набор векторов $e = \{ e_1, \dots, e_n \}$ является ортонормированными базисом в пространстве $\mathcal{U}$, а набор векторов $f = \{f_1, \dots, f_m \}$
+    является ортономированным базисом в пространстве $\mathcal{V}$. Пусть $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей оператора $\mathcal{A}$ в базисах
+    $e$ и $f$, тогда:
+    \[
+        \mathcal{A} e_j = a_{1j} f_1 + \dots + a_{mj} f_m,
+    \]
+    тем самым определено действие оператора $\mathcal{A}$ на базисные векторы $e_j$.
 
-Попробуем определить оператор $\mathcal{B}$ так, чтобы равенство \eqref{rayleigh:operator:scalars_equality} выполнялось для набора векторов $e$ и $f$:
-\begin{equation}
-    \label{rayleigh:operator:basis_scalars_equality}
-    \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} .
-\end{equation}
-Поскольку $\mathcal{B} f_i \in \mathcal{U}$, то:
-\[
-    \mathcal{B} f_i = b_{1i} e_1 + \dots + b_{ni} e_n ,
-\]
-причём коэффициенты $b_{ji}$ следует выбирать таким образом, чтобы выполнялось равенство \eqref{rayleigh:operator:basis_scalars_equality}, которое в силу
-ортонормированности наборов $e$ и $f$ приводит к равенству:
-\begin{align*}
-    \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} , \\
-    \scalarproduct{a_{1j} f_1 + \dots + a_{mj} f_m}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{b_{1i} e_1 + \dots + b_{ni} e_n}_\mathcal{U} , \\
-    a_{1j} \scalarproduct{f_1}{f_i}_\mathcal{V} + \dots + a_{mj} \scalarproduct{f_m}{f_i}_\mathcal{V} & = \overline{b_{1i}} \scalarproduct{e_j}{e_1}_\mathcal{U} + \dots + \overline{b_{ni}} \scalarproduct{e_j}{e_n}_\mathcal{U} , \\
-    a_{ij} \scalarproduct{f_i}{f_i}_\mathcal{V} & = \overline{b_{ji}} \scalarproduct{e_j}{e_j}_\mathcal{U} , \\
-    a_{ij} & = \overline{b_{ji}} , \\
-    \overline{a_{ij}} & = b_{ji} .
-\end{align*}
-Таким образом, определено действие оператора $\mathcal{B}$ на базисные векторы $f_i$:
-\begin{equation}
-    \label{rayleigh:operator:basis_images}
-    \mathcal{B} f_i = \overline{a_{i1}} e_1 + \dots + \overline{a_{in}} e_n .
-\end{equation}
+    Попробуем определить оператор $\mathcal{B}$ так, чтобы равенство \eqref{rayleigh:operator:scalars_equality} выполнялось для набора векторов $e$ и $f$:
+    \begin{equation}
+        \label{rayleigh:operator:basis_scalars_equality}
+        \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} .
+    \end{equation}
+    Поскольку $\mathcal{B} f_i \in \mathcal{U}$, то:
+    \[
+        \mathcal{B} f_i = b_{1i} e_1 + \dots + b_{ni} e_n ,
+    \]
+    причём коэффициенты $b_{ji}$ следует выбирать таким образом, чтобы выполнялось равенство \eqref{rayleigh:operator:basis_scalars_equality}, которое в силу
+    ортонормированности наборов $e$ и $f$ приводит к равенству:
+    \begin{align*}
+        \scalarproduct{\mathcal{A} e_j}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{\mathcal{B} f_i}_\mathcal{U} , \\
+        \scalarproduct{a_{1j} f_1 + \dots + a_{mj} f_m}{f_i}_\mathcal{V} & = \scalarproduct{e_j}{b_{1i} e_1 + \dots + b_{ni} e_n}_\mathcal{U} , \\
+        a_{1j} \scalarproduct{f_1}{f_i}_\mathcal{V} + \dots + a_{mj} \scalarproduct{f_m}{f_i}_\mathcal{V} & = \overline{b_{1i}} \scalarproduct{e_j}{e_1}_\mathcal{U} + \dots + \overline{b_{ni}} \scalarproduct{e_j}{e_n}_\mathcal{U} , \\
+        a_{ij} \scalarproduct{f_i}{f_i}_\mathcal{V} & = \overline{b_{ji}} \scalarproduct{e_j}{e_j}_\mathcal{U} , \\
+        a_{ij} & = \overline{b_{ji}} , \\
+        \overline{a_{ij}} & = b_{ji} .
+    \end{align*}
+    Таким образом, определено действие оператора $\mathcal{B}$ на базисные векторы $f_i$:
+    \begin{equation}
+        \label{rayleigh:operator:basis_images}
+        \mathcal{B} f_i = \overline{a_{i1}} e_1 + \dots + \overline{a_{in}} e_n .
+    \end{equation}
 
-Теперь распространим действие оператора $\mathcal{B}$ на все векторы $v \in \mathcal{V}$, сделав оператор $\mathcal{B}$ линейным, пусть
+    Теперь распространим действие оператора $\mathcal{B}$ на все векторы $v \in \mathcal{V}$, сделав оператор $\mathcal{B}$ линейным, пусть
+    \[
+        v = v_1 f_1 + \dots + v_m f_m,
+    \]
+    тогда
+    \[
+        \mathcal{B} v = v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m .
+    \]
+    Проверим, что при таком определении оператор $\mathcal{B}$ оказывается сопряженным к оператору $\mathcal{A}$. Пусть $u \in \mathcal{U}$ --- произвольный вектор
+    пространства $U$:
+    \[
+        u = u_1 e_1 + \dots + u_n e_n,
+    \]
+    тогда
+    \begin{multline*}
+        \scalarproduct{\mathcal{A} u}{v}_\mathcal{V}
+        = \scalarproduct{\mathcal{A} (u_1 e_1 + \dots + u_n e_n)}{v}_\mathcal{V}
+        = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v}_\mathcal{V} = \\
+        %
+        = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v_1 f_1 + \dots + v_m f_m}_\mathcal{V} = \\
+        %
+        = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{\mathcal{A} e_i}{f_j}_\mathcal{V}
+        = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{e_i}{\mathcal{B} f_j}_\mathcal{U} = \\
+        %
+        = \scalarproduct{u_1 e_i + \dots + u_n e_n}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U} = \\
+        %
+        = \scalarproduct{u}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U}
+        = \scalarproduct{u}{\mathcal{B} (v_1 f_1 + \dots + v_m f_m)}_\mathcal{U}
+        = \scalarproduct{u}{\mathcal{B} v}_\mathcal{U} .
+    \end{multline*}
+    Таким образом, $\mathcal{B}$ является сопряженным к $\mathcal{A}$:
+    \[
+        \mathcal{A}^* = \mathcal{B}.
+    \]
+    Кроме того, из равенства \eqref{rayleigh:operator:basis_images} следует, что матрица $B$ оператора $\mathcal{B}$ в базисах $f$ и $e$:
+    \[
+        B =
+        \begin{pmatrix}
+            \overline{a_{11}} & \overline{a_{21}} & \dots  & \overline{a_{m1}} \\
+            \overline{a_{12}} & \overline{a_{22}} & \dots  & \overline{a_{m2}} \\
+            \vdots            & \vdots            & \ddots & \vdots            \\
+            \overline{a_{1n}} & \overline{a_{2n}} & \dots  & \overline{a_{mn}}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            \overline{a_{11}} & \overline{a_{12}} & \dots  & \overline{a_{1n}} \\
+            \overline{a_{21}} & \overline{a_{22}} & \dots  & \overline{a_{2n}} \\
+            \vdots            & \vdots            & \ddots & \vdots            \\
+            \overline{a_{n1}} & \overline{a_{n2}} & \dots  & \overline{a_{nm}}
+        \end{pmatrix}^T
+        = \overline{A}^T .
+    \]
+    То есть матрица $A^*$ сопряженного оператора $\mathcal{A}^*$:
+    \[
+        A^* = \overline{A}^T .
+    \]
+\end{proof}
+
+Выделим некоторые свойства сопряженного оператора.
+\begin{enumerate}
+    \item У сопряженного оператора $\mathcal{A}^*$ тоже есть сопряженный оператор $(\mathcal{A}^*)^*$, который совпадает с исходным оператором $\mathcal{A}$,
+    действительно:
+    \begin{align*}
+        \scalarproduct{\mathcal{A}^* v}{u}
+        & = \scalarproduct{v}{(\mathcal{A}^*)^* u} , \\
+        %
+        \scalarproduct{\mathcal{A}^* v}{u}
+        & = \overline{\scalarproduct{u}{\mathcal{A}^* v}}
+        = \overline{\scalarproduct{\mathcal{A} u}{v}}
+        = \scalarproduct{v}{\mathcal{A} u}.
+    \end{align*}
+    Таким образом, для всех $v \in \mathcal{V}$ и $u \in \mathcal{U}$:
+    \begin{align*}
+        \scalarproduct{v}{(\mathcal{A}^*)^* u} & = \scalarproduct{v}{\mathcal{A} u}, \\
+        \scalarproduct{v}{(\mathcal{A}^*)^* u} - \scalarproduct{v}{\mathcal{A} u} & = 0, \\
+        \scalarproduct{v}{((\mathcal{A}^*)^* - \mathcal{A} ) u} & = 0, \\
+        ((\mathcal{A}^*)^* - \mathcal{A} ) u & = 0 \\
+        ((\mathcal{A}^*)^* - \mathcal{A} ) & = 0 \\
+        (\mathcal{A}^*)^* & = \mathcal{A} .
+    \end{align*}
+
+    \item Сопряженным к оператору $\alpha \mathcal{A}$ является оператор $\overline{\alpha} \mathcal{A}^*$:
+    \[
+        \scalarproduct{\alpha \mathcal{A} u}{v}
+        = \alpha \scalarproduct{\mathcal{A} u}{v}
+        = \alpha \scalarproduct{u}{\mathcal{A}^* v}
+        = \scalarproduct{u}{\overline{\alpha} \mathcal{A}^* v} .
+    \]
+
+    \item Сопряженным к оператору $\mathcal{A} + \mathcal{B}$ является оператор $\mathcal{A}^* + \mathcal{B}^*$:
+    \begin{multline*}
+        \scalarproduct{(\mathcal{A} + \mathcal{B}) u}{v}
+        = \scalarproduct{\mathcal{A} u + \mathcal{B} u}{v}
+        = \scalarproduct{\mathcal{A} u}{v} + \scalarproduct{\mathcal{B} u}{v} = \\
+        %
+        = \scalarproduct{u}{\mathcal{A}^* v} + \scalarproduct{u}{\mathcal{B}^* v}
+        = \scalarproduct{u}{\mathcal{A}^* v + \mathcal{B}^* v}
+        = \scalarproduct{u}{(\mathcal{A}^* + \mathcal{B}^*) v} .
+    \end{multline*}
+
+    \item Сопряженным к оператору $\mathcal{A} \mathcal{B}$ является оператор $\mathcal{B}^* \mathcal{A}^*$:
+    \[
+        \scalarproduct{\mathcal{A} \mathcal{B} u}{v}
+        = \scalarproduct{\mathcal{B} u}{\mathcal{A}^* v}
+        = \scalarproduct{u}{\mathcal{B}^* \mathcal{A}^* v} .
+    \]
+\end{enumerate}
+
+Из последнего свойства следует:
 \[
-    v = v_1 f_1 + \dots + v_m f_m,
+    \left ( \mathcal{A}^n \right )^* = \left ( \mathcal{A}^* \right )^n ,
 \]
-тогда
+действительно:
 \[
-    \mathcal{B} v = v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m .
-\]
-Проверим, что при таком определении оператор $\mathcal{B}$ оказывается сопряженным к оператору $\mathcal{A}$. Пусть $u \in \mathcal{U}$ --- произвольный вектор
-пространства $U$:
-\[
-    u = u_1 e_1 + \dots + u_n e_n,
-\]
-тогда
-\begin{multline*}
-    \scalarproduct{\mathcal{A} u}{v}_\mathcal{V}
-    = \scalarproduct{\mathcal{A} (u_1 e_1 + \dots + u_n e_n)}{v}_\mathcal{V}
-    = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v}_\mathcal{V} = \\
-    %
-    = \scalarproduct{u_1 \mathcal{A} e_1 + \dots + u_n \mathcal{A} e_n}{v_1 f_1 + \dots + v_m f_m}_\mathcal{V} = \\
-    %
-    = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{\mathcal{A} e_i}{f_j}_\mathcal{V}
-    = \sum_{i=1}^n u_i \sum_{j=1}^m \overline{v_j} \scalarproduct{e_i}{\mathcal{B} f_j}_\mathcal{U} = \\
-    %
-    = \scalarproduct{u_1 e_i + \dots + u_n e_n}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U} = \\
-    %
-    = \scalarproduct{u}{v_1 \mathcal{B} f_1 + \dots + v_m \mathcal{B} f_m}_\mathcal{U}
-    = \scalarproduct{u}{\mathcal{B} (v_1 f_1 + \dots + v_m f_m)}_\mathcal{U}
-    = \scalarproduct{u}{\mathcal{B} v}_\mathcal{U} .
-\end{multline*}
-Таким образом, $\mathcal{B}$ является сопряженным к $\mathcal{A}$:
-\[
-    \mathcal{A}^* = \mathcal{B}.
-\]
-Кроме того, из равенства \eqref{rayleigh:operator:basis_images} следует, что матрица $B$ оператора $\mathcal{B}$ в базисах $f$ и $e$:
-\[
-    B =
-    \begin{pmatrix}
-        \overline{a_{11}} & \overline{a_{21}} & \dots  & \overline{a_{m1}} \\
-        \overline{a_{12}} & \overline{a_{22}} & \dots  & \overline{a_{m2}} \\
-        \vdots            & \vdots            & \ddots & \vdots            \\
-        \overline{a_{1n}} & \overline{a_{2n}} & \dots  & \overline{a_{mn}}
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-        \overline{a_{11}} & \overline{a_{12}} & \dots  & \overline{a_{1n}} \\
-        \overline{a_{21}} & \overline{a_{22}} & \dots  & \overline{a_{2n}} \\
-        \vdots            & \vdots            & \ddots & \vdots            \\
-        \overline{a_{n1}} & \overline{a_{n2}} & \dots  & \overline{a_{nm}}
-    \end{pmatrix}^T
-    = \overline{A}^T .
-\]
-То есть матрица $A^*$ сопряженного оператора $\mathcal{A}^*$:
-\[
-    A^* = \overline{A}^T .
+    \left ( \mathcal{A}^n \right )^*
+    = \left ( \mathcal{A}^{n-1} \mathcal{A} \right )^*
+    = \mathcal{A}^* \left ( \mathcal{A}^{n-1} \right )^*
+    = \dots
+    = \mathcal{A}^* \mathcal{A}^* \dots \mathcal{A}^*
+    = \left ( \mathcal{A}^* \right )^n .
 \]
 
+\begin{example}
+    Найти сопряженный оператор к оператору $\alpha \mathcal{A}^3 + \beta \mathcal{B}^2 \mathcal{C}$.
 
-\section{Спектральное разложение}
+    Используя доказанные свойства, получим:
+    \[
+        \left ( \alpha \mathcal{A}^3 + \beta \mathcal{B}^2 \mathcal{C} \right )^*
+        = \left ( \alpha \mathcal{A}^3 \right )^* + \left ( \beta \mathcal{B}^2 \mathcal{C} \right )^*
+        = \overline{\alpha} \left ( \mathcal{A}^* \right )^3 + \overline{\beta} \mathcal{C}^* \left ( \mathcal{B}^* \right )^2 .
+    \]
+\end{example}
 
-Пусть $A$ --- матрица оператора $\mathcal{A}$ в ортонормированных базисах пространств $\mathcal{U}$ и $\mathcal{V}$. Согласно теореме Шура любая матрицы $A$
-унитарно подобна верхнетреугольной матрице, то есть существует унитарная матрица $U$:
+Выделяют следующие классы операторов, которые имеют полезные свойства.
+
+Оператор $\mathcal{A}$ называется \definition{нормальным}, если:
+\[
+    \mathcal{A} \mathcal{A}^* = \mathcal{A}^* \mathcal{A}.
+\]
+
+Оператор $\mathcal{A}$ называется \definition{самоспоряженным} или \definition{эрмитовым}, если:
+\[
+    \mathcal{A}^* = \mathcal{A}.
+\]
+
+Оператор $\mathcal{A}$ называется \definition{унитарным}, если:
+\[
+    \mathcal{A}^* = \mathcal{A}^{-1}.
+\]
+
+Аналогичные определения вводятся и для матриц, которые называют \definition{нормальными}, \definition{самосопряженными} или \definition{эрмитовыми}, \definition{унитарными}.
+
+
+\section{Теорема Шура}
+
+Согласно теореме Шура любая квадратная матрица $A$ унитарно подобна верхнетреугольной матрице, то есть существует унитарная матрица $U$:
 \[
     U^* U = I,
 \]
@@ -204,7 +312,108 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
     \label{rayleigh:normal:schur_decomposition}
 \end{align}
 
-Оператор $\mathcal{A}$ называется нормальным, если:
+\begin{example}
+    Для матрицы $A$:
+    \[
+        A = \begin{pmatrix}
+                3 & 2 \\
+                1 & 4
+        \end{pmatrix}
+    \]
+    необходимо найти унитарную матрицу $U$ и верхнетреугольную матрицу $R$. Для матрицы $U$ выполняется равенство:
+    \[
+        U^* A U = R.
+    \]
+    В качестве $U^*$ возьмем матрицу вращения, пусть $c = \cos \alpha$ и $s = \sin \alpha$:
+    \[
+        U
+        = \begin{pmatrix}
+              c  & s \\
+              -s & c
+        \end{pmatrix} ,
+    \]
+    тогда
+    \[
+        U^* A U
+        = \begin{pmatrix}
+              c & - s \\
+              s & c
+        \end{pmatrix}
+        \begin{pmatrix}
+            3 & 2 \\
+            1 & 4
+        \end{pmatrix}
+        \begin{pmatrix}
+            c   & s \\
+            - s & c
+        \end{pmatrix}
+        = \begin{pmatrix}
+              r_{11} & r_{12} \\
+              r_{21} & r_{22}
+        \end{pmatrix} .
+    \]
+    Нужно выбрать величину $\alpha$ так, чтобы элемент $r_{12}$ оказался равен нулю. Вычисляем матрицу в правой части:
+    \begin{multline*}
+        \begin{pmatrix}
+            3 c - 1 s & 2 c - 4 s \\
+            3 s + 1 c & 2 s + 4 c
+        \end{pmatrix}
+        \begin{pmatrix}
+            c   & s \\
+            - s & c
+        \end{pmatrix}
+        = \\
+        %
+        = \begin{pmatrix}
+              3 c^2 - c s - 2 c s + 4 s^2 & 3 c s - s^2 + 2 c^2 - 4 c s \\
+              3 c s + c^2 - 2 s^2 - 4 c s & 3 s^2 + c s + 2 c s + 4 c^2
+        \end{pmatrix}
+        = \\
+        %
+        = \begin{pmatrix}
+              3 c^2 - 3 c s + 4 s^2 & - s^2 + 2 c^2 - c s   \\
+              c^2 - 2 s^2 - c s     & 3 s^2 + 3 c s + 4 c^2
+        \end{pmatrix}
+    \end{multline*}
+    Необходимо выполнение равенства:
+    \begin{gather*}
+        c^2 - c s - 2 s^2 = 0 , \\
+        \left ( \frac{c}{s} \right )^2 - \frac{c}{s} - 2 = 0 , \\
+        \frac{c}{s} = \frac{1 \pm \sqrt{1 + 4 \cdot 2}}{2} , \\
+        \frac{c}{s} = \frac{1 \pm 3}{2} , \\
+        \frac{c}{s} = \frac{1 - 3}{2} = \frac{-2}{2} = -1 .
+    \end{gather*}
+    Пусть
+    \begin{gather*}
+        c = \frac{1}{\sqrt{2}}, s = - \frac{1}{\sqrt{2}} , \\
+        c = \cos \left ( - \frac{\pi}{4} \right ), s = \sin \left ( - \frac{\pi}{4} \right ) .
+    \end{gather*}
+    Таким образом, матрица $U$:
+    \[
+        U
+        = \begin{pmatrix}
+              \frac{1}{\sqrt{2}} & - \frac{1}{\sqrt{2}} \\
+              \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+        \end{pmatrix}.
+    \]
+    и матрица $R$:
+    \[
+        R
+        = \begin{pmatrix}
+              3 \cdot \frac{1}{2} + 3 \cdot \frac{1}{2} + 4 \cdot \frac{1}{2} & - \frac{1}{2} + 2 \cdot \frac{1}{2} + \frac{1}{2}               \\
+              \frac{1}{2} - 2 \cdot \frac{1}{2} + \frac{1}{2}                 & 3 \cdot \frac{1}{2} - 3 \cdot \frac{1}{2} + 4 \cdot \frac{1}{2}
+        \end{pmatrix}
+        = \begin{pmatrix}
+              5 & 1 \\
+              0 & 2
+        \end{pmatrix} .
+    \]
+\end{example}
+
+
+\section{Спектральное разложение}
+
+Оператор $\mathcal{A}$ называется \definition{нормальным}, если:
 \[
     \mathcal{A}^* \mathcal{A} = \mathcal{A} \mathcal{A}^* .
 \]
@@ -236,6 +445,208 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
     A U = U \Lambda,
 \]
 откуда следует, что столбцы матрицы $U$ определяют собственные векторы, а элементы матрицы $\Lambda$ являются собственными числами.
+
+\begin{example}
+    Найти спектральное разложение для матрицы $A$:
+    \[
+        A
+        = \begin{pmatrix}
+              -7          & -5 \sqrt{3} \\
+              -5 \sqrt{3} & 3
+        \end{pmatrix}
+    \]
+    Находим собственные числа, с помощью характеристического полинома:
+    \begin{multline*}
+        \det \left ( A - \lambda E \right )
+        = \begin{vmatrix}
+              -7 - \lambda & -5 \sqrt{3} \\
+              -5 \sqrt{3}  & 3 - \lambda
+        \end{vmatrix}
+        = (-7 - \lambda)(3 - \lambda) - 25 \cdot 3 = \\
+        %
+        = \lambda^2 + 4 \lambda - 21 - 75
+        = \lambda^2 + 4 \lambda - 96.
+    \end{multline*}
+    Откуда корни характеристического полинома:
+    \begin{gather*}
+        \lambda_{1,2} = -2 \pm \sqrt{4 + 96} = -2 \pm 10 , \\
+        \lambda_1 = -12, \lambda_2 = 8.
+    \end{gather*}
+    Таким образом, матрица $\Lambda$:
+    \[
+        \Lambda
+        = \begin{pmatrix}
+              -12 & 0 \\
+              0   & 8
+        \end{pmatrix}
+    \]
+    Столбцы матрицы $U$ являются собственными векторами, пусть $u_{ij}$ обозначают элементы матрицы $U$:
+    \[
+        U
+        = \begin{pmatrix}
+              u_{11} & u_{12} \\
+              u_{21} & u_{22}
+        \end{pmatrix} ,
+    \]
+    тогда
+    \begin{gather*}
+        A
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = \lambda_1
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix} , \\
+        %
+        \left ( A - \lambda_1 E \right )
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = 0 , \\
+        %
+        \begin{pmatrix}
+            -7 + 12     & -5 \sqrt{3} \\
+            -5 \sqrt{3} & 3 + 12
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = 0 , \\
+        %
+        \begin{pmatrix}
+            5           & -5 \sqrt{3} \\
+            -5 \sqrt{3} & 15
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = 0 , \\
+        \begin{pmatrix}
+            1          & - \sqrt{3} \\
+            - \sqrt{3} & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = 0 , \\
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = \begin{pmatrix}
+              \sqrt{3} c \\
+              c
+        \end{pmatrix} ,
+    \end{gather*}
+    где постоянная $c$ выбирается из условия нормировки:
+    \begin{gather*}
+        u_{11}^2 + u_{21}^2 = 1 , \\
+        3 c^2 + c^2 = 1 , \\
+        4 c^2 = 1 , \\
+        c = \pm \frac{1}{2} .
+    \end{gather*}
+    Таким образом:
+    \[
+        \begin{pmatrix}
+            u_{11} \\
+            u_{21}
+        \end{pmatrix}
+        = \pm \begin{pmatrix}
+                  \frac{\sqrt{3}}{2} \\
+                  \frac{1}{2}
+        \end{pmatrix}
+    \]
+    Аналогично
+    \begin{gather*}
+        A
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = \lambda_2
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix} , \\
+        %
+        \left ( A - \lambda_2 E \right )
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = 0 , \\
+        %
+        \begin{pmatrix}
+            -7 - 8      & -5 \sqrt{3} \\
+            -5 \sqrt{3} & 3 - 8
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{12} \\
+            u_{21}
+        \end{pmatrix}
+        = 0 , \\
+        %
+        \begin{pmatrix}
+            -15         & -5 \sqrt{3} \\
+            -5 \sqrt{3} & -5
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = 0 , \\
+        \begin{pmatrix}
+            3        & \sqrt{3} \\
+            \sqrt{3} & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = 0 , \\
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = \begin{pmatrix}
+              c \\
+              - \sqrt{3}  c
+        \end{pmatrix} ,
+    \end{gather*}
+    где постоянная $c$ выбирается из условия нормировки:
+    \begin{gather*}
+        u_{12}^2 + u_{12}^2 = 1 , \\
+        c^2 + 3 c^2 = 1 , \\
+        4 c^2 = 1 , \\
+        c = \pm \frac{1}{2} .
+    \end{gather*}
+    Таким образом:
+    \[
+        \begin{pmatrix}
+            u_{12} \\
+            u_{22}
+        \end{pmatrix}
+        = \pm \begin{pmatrix}
+                  \frac{1}{2} \\
+                  - \frac{\sqrt{3}}{2}
+        \end{pmatrix}
+    \]
+    и один из вариантов матрицы $U$:
+    \[
+        U
+        = \begin{pmatrix}
+              \frac{\sqrt{3}}{2} & \frac{1}{2}          \\
+              \frac{1}{2}        & - \frac{\sqrt{3}}{2}
+        \end{pmatrix} .
+    \]
+\end{example}
 
 
 \section{Эрмитовый оператор}
@@ -322,6 +733,57 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
 \]
 квадратный корень из эрмитовой матрицы $A$.
 
+\begin{example}
+    Пусть матрица $A$ имеет вид:
+    \[
+        A
+        = \begin{pmatrix}
+              43          & -7 \sqrt{3} \\
+              -7 \sqrt{3} & 57
+        \end{pmatrix} .
+    \]
+    Спектральное разложение матрицы $A$ имеет вид:
+    \[
+        A
+        =
+        \underbrace{
+            \begin{pmatrix}
+                \frac{\sqrt{3}}{2} & \frac{1}{2}         \\
+                \frac{1}{2}        & -\frac{\sqrt{3}}{2}
+            \end{pmatrix}
+        }_{U}
+        \underbrace{
+            \begin{pmatrix}
+                36 & 0  \\
+                0  & 64
+            \end{pmatrix}
+        }_{\Lambda}
+        \underbrace{
+            \begin{pmatrix}
+                \frac{\sqrt{3}}{2} & \frac{1}{2}         \\
+                \frac{1}{2}        & -\frac{\sqrt{3}}{2}
+            \end{pmatrix}
+        }_{U^*} .
+    \]
+    Откуда квадратный корень
+    \[
+        A^\frac{1}{2}
+        =
+        \underbrace{
+            \begin{pmatrix}
+                \frac{\sqrt{3}}{2} & \frac{1}{2}         \\
+                \frac{1}{2}        & -\frac{\sqrt{3}}{2}
+            \end{pmatrix}
+        }_{U}
+        \underbrace{
+            \begin{pmatrix}
+                6 & 0  \\
+                0  & 8
+            \end{pmatrix}
+        }_{\Lambda^\frac{1}{2}} .
+    \]
+\end{example}
+
 
 \section{Вещественные квадратичные формы}
 
@@ -394,6 +856,17 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
 \]
 где $A$ и $B$ --- эрмитовы матрицы и $B > 0$.
 
+Заметим, что отношение Релея зависит только от направления вектора $x$, но не зависит от величины вектора $x$, действительно:
+\begin{equation}
+    \label{rayleight:ration:homogenity}
+    \rho(\alpha x)
+    = \frac{\alpha^* x^* A \alpha x}{ \alpha^* x^* B \alpha x}
+    = \frac{\modulus{\alpha}^2 \cdot x^* A x}{ \modulus{\alpha}^2 \cdot x^* B x}
+    = \frac{x^* A x}{x^* B x}
+    = \rho(x) ,
+\end{equation}
+поэтому при анализе значений отношения Релея можно ограничится рассмотрением векторов $x$ единичной нормы $\norm{x} = 1$.
+
 Для положительно определенной матрицы $B > 0$ существует квадратный корень $B^\frac{1}{2}$:
 \begin{gather*}
     B = B^\frac{1}{2} ( B^\frac{1}{2} )^* , \\
@@ -408,7 +881,13 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
     = 1 \cdot \det D_B^\frac{1}{2}
     > 0 ,
 \]
-поэтому существует обратная матрица $B^{-\frac{1}{2}}$.
+поэтому существует обратная матрица $B^{-\frac{1}{2}}$:
+\[
+    B^{-\frac{1}{2}}
+    = \left ( U_B D_B^\frac{1}{2} \right )^{-1}
+    = \left ( D_B^\frac{1}{2} \right )^{-1} U_B^{-1}
+    = \left ( D_B^\frac{1}{2} \right )^{-1} U_B^* .
+\]
 
 Отношение Релея $\rho(x)$ можно представить в виде:
 \begin{gather*}
@@ -449,17 +928,10 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
     z = U_C^* y
 \end{gather*}
 
-Отношение Релея не зависит от величины вектора $z$, а только от его направления, поскольку для вектора $\alpha z$:
-\[
-    \rho(\alpha z)
-    = \frac{\alpha^* z^* D_C \alpha z}{ \alpha^* z^* \alpha z}
-    = \frac{\modulus{\alpha}^2 \cdot z^* D_C z}{ \modulus{\alpha}^2 \cdot z^* z}
-    = \frac{z^* D_C z}{z^* z}
-    = \rho(z) .
-\]
-Таким образом, можно ограничится рассмотрением векторов $z$, для которых:
+Согласно равенству \eqref{rayleight:ration:homogenity} отношение Релея не зависит от величины вектора $z$, а только от его направления, можно ограничится рассмотрением векторов $z$,
+для которых:
 \begin{gather*}
-    z^* z = 1 , \\
+    \norm{z} = 1 , \\
     %
     \rho(z) = z^* D_C z .
 \end{gather*}
@@ -527,5 +999,5 @@ $A = [a_{ij}] \in \Cspace{m \times n}$ является матрицей опе�
 \]
 которому соответствует вектор $x_{min}$:
 \[
-    x_{min} = U_B D_B^{-\frac{1}{2}} U_C z_{min}
+    x_{min} = U_B D_B^{-\frac{1}{2}} U_C z_{min} .
 \]
