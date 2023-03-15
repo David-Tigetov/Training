@@ -1,3 +1,20 @@
+% окружение Matlab
+\newenvironment{Matlab}{\par \vspace{0.2cm}}{\vspace{0.2cm} \par}
+% команда внутри окружения
+\newcommand{\Mcommand}[1]{\noindent \texttt{> #1} \par}
+% команда в Matlab
+\newcommand{\matlab}[1]{\begin{Matlab} \Mcommand{#1} \end{Matlab}}
+
+% определяемое понятие
+\newcommand{\definition}[1]{\textit{#1}}
+
+% утверждение
+\newenvironment{statement}{\par \textbf{Утверждение.} \itshape \par}{\par}
+% доказательство
+\newenvironment{proof}{\textbf{Доказательство.} \par}{\par $\blacksquare$}
+% пример
+\newenvironment{example}{\textbf{Пример.} \par}{\par $\blacksquare$}
+
 % линейное комплексное пространство
 \newcommand{\Cspace}[1]{\mathbb{C}^{#1}}
 
