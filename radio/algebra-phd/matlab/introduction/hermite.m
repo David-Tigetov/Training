@@ -18,5 +18,5 @@ function H = hermite( definition )
     D = diag ( diagonal );
 
     % вычисляем эрмитову матрицу
-    H = U' * D * U;
+    H = U * D * U';
 end
