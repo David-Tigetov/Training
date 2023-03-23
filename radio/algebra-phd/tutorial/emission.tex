@@ -1,7 +1,9 @@
-\chapter{Излучатель}
+\chapter{Излучение}
 
 
-\section{Модель излучателя}
+\section{Двухканальный излучатель}
+
+\subsection{Модель}
 
 Рассматривается излучатель с двумя каналами поляризации и двумя входами, соответствующим этим двум каналам. Возникающие физические явления описываются только
 линейными выражениями, а нелинейные эффекты не учитываются.
@@ -34,29 +36,35 @@
           s_{21} & s_{22}
     \end{pmatrix},
 \end{gather*}
-где $S$ --- матрица рассеяния. Неотраженные части сигналов формируют электромагнитные волны, электрические колебания которых характеризуются огибающими $e$:
-\begin{gather*}
-    e
-    = \begin{pmatrix}
-          e_\theta \\
-          e_\varphi
-    \end{pmatrix}
-    = \begin{pmatrix}
-          t_{1, \theta} a_1 + t_{2, \theta} a_2 \\
-          t_{1, \varphi} a_1 + t_{2, \varphi} a_2
-    \end{pmatrix}
-    = T a, \\
-    %
-    T
-    = \begin{pmatrix}
-          t_{1, \theta}  & t_{2, \theta}  \\
-          t_{1, \varphi} & t_{2, \varphi}
-    \end{pmatrix} .
-\end{gather*}
-где $T$ --- матрица коэффициентов передачи со входов в волноводы.
+где $S$ --- матрица рассеяния.
 
+        {
+    \color{red}
+    Может это исключить?
 
-\section{Диаграмма направленности}
+    Неотраженные части сигналов формируют электромагнитные волны, электрические колебания которых характеризуются огибающими $e$:
+    \begin{gather*}
+        e
+        = \begin{pmatrix}
+              e_\theta \\
+              e_\varphi
+        \end{pmatrix}
+        = \begin{pmatrix}
+              t_{1, \theta} a_1 + t_{2, \theta} a_2 \\
+              t_{1, \varphi} a_1 + t_{2, \varphi} a_2
+        \end{pmatrix}
+        = T a, \\
+        %
+        T
+        = \begin{pmatrix}
+              t_{1, \theta}  & t_{2, \theta}  \\
+              t_{1, \varphi} & t_{2, \varphi}
+        \end{pmatrix} .
+    \end{gather*}
+    где $T$ --- матрица коэффициентов передачи со входов в волноводы.
+}
+
+\subsection{Диаграмма направленности}
 
 Из волноводов происходит излучение электромагнитной волны в пространство, излучение является неоднородным и его характеристики зависят от рассматриваемого направления.
 Если с излучателем связана сферическая система координат (с началом отсчёта в конце волноводов), то направление можно задать с помощью волнового вектора $w$,
@@ -70,7 +78,8 @@
     E = E(w, R, a).
 \]
 В дальней зоне при больших расстояниях $R$ напряженность $E$ можно приближенно представить линейной частью по огибающим сигналов $a$:
-\begin{equation} \label{emission:emitter:diagram:tension}
+\begin{equation}
+    \label{emission:emitter:diagram:tension}
     E(w,R)
     \approx F(w) a \cdot \frac{e^{i \modulus{w} R}}{R} ,
 \end{equation}
@@ -101,7 +110,7 @@
 \end{equation}
 
 
-\section{Энергетическое ограничение}
+\subsection{Энергетическое ограничение}
 
 Для излучателя выполняется закон сохранения энергии --- суммарная мощность входных сигналов $P_{inp}$ совпадает с суммой мощности отраженных сигналов $P_{ref}$,
 мощности излучения $P_{rad}$ и мощности $P_{dis}$ дисспативных потерь:
@@ -141,12 +150,13 @@
     a^* Q a = a^* ( I - S^* S ) a - P_{dis} .
 \end{gather*}
 Откуда
-\begin{gather*} \label{emission:emitter:power:inequality}
+\begin{gather*}
+    \label{emission:emitter:power:inequality}
     a^* Q a \le a^* ( I - S^* S ) a \le a^* a.
 \end{gather*}
 
 
-\section{Коэффициент усиления}
+\subsection{Коэффициент усиления}
 
 Реализованный коэффициент усиления $G(w)$ определяет относительную величину плотности потока $\Pi(\theta, \varphi)$ мощности в дальней зоне в
 направлении $w$:
@@ -165,7 +175,7 @@
     = \frac{\norm{F(w) a}^2}{P_{inp}}
     = \frac{a^* F^*(w) F(w) a}{a^* a}
 \]
-и возникает вопрос, каким образом нужно сформировать огибающие входных сигналов $a$ чтобы отношение $\rho(a)$ и коэффициент усиления в заданном направлении $\vec{w}$
+и возникает вопрос, каким образом нужно сформировать огибающие входных сигналов $a$ чтобы отношение $\rho(a)$ и коэффициент усиления в заданном направлении $w$
 оказался наибольшим?
 
 Отношение $\rho(a)$ является отношением Релея: числитель --- квадратичная форма с эрмитовой матрией $F^*(w) F(w)$, знаменатель --- квадрат нормы $a$.
@@ -176,43 +186,43 @@
 достигается в направлении $a_{max}$, совпадающим с направлением собственных векторов, соответствующих наибольшему собственному значению $\lambda_{max}$.
 Вектор $a_{max}$ и число $\lambda_{max}$ удовлетворяют уравнению:
 \[
-    F^*(\vec{w}) F(\vec{w}) a_{max} = \lambda_{max} a_{max}
+    F^*(w) F(w) a_{max} = \lambda_{max} a_{max}
 \]
-Домножим левую и правую части уравнения на $F(\vec{w})$ слева:
+Домножим левую и правую части уравнения на $F(w)$ слева:
 \[
-    F(\vec{w}) F^*(\vec{w}) F(\vec{w}) a_{max} = \lambda_{max} F(\vec{w}) a_{max} .
+    F(w) F^*(w) F(w) a_{max} = \lambda_{max} F(w) a_{max} .
 \]
 Объединяя два уравнения получим систему:
 \begin{gather}
     \left \{
     \begin{array}{c}
-        F^*(\vec{w}) F(\vec{w}) a_{max} = \lambda_{max} a_{max} \\
-        F(\vec{w}) F^*(\vec{w}) p_{max} = \lambda_{max} p_{max}
+        F^*(w) F(w) a_{max} = \lambda_{max} a_{max} \\
+        F(w) F^*(w) p_{max} = \lambda_{max} p_{max}
     \end{array}
     \right .
     \label{emission:emitter:gain:system}, \\
-    p_{max} = F(\vec{w}) a_{max} \notag.
+    p_{max} = F(w) a_{max} \notag.
 \end{gather}
 
 Пусть
 \[
     B
-    = F(\vec{w}) F^*(\vec{w})
+    = F(w) F^*(w)
     = \begin{pmatrix}
           f_\theta f_\theta^*  & f_{\theta} f_\varphi^* \\
           f_\varphi f_\theta^* & f_\varphi f_\varphi^*
     \end{pmatrix} ,
 \]
-где $f_\theta$ и $f_\varphi$ --- строки матрицы $F(\vec{w})$:
+где $f_\theta$ и $f_\varphi$ --- строки матрицы $F(w)$:
 \begin{gather*}
     f_\theta
     = \begin{pmatrix}
-          \vec{f}_{1,\theta}(\vec{w}) & \vec{f}_{2,\theta}(\vec{w})
+          f_{1,\theta}(w) & f_{2,\theta}(w)
     \end{pmatrix}, \\
     %
     f_\varphi
     = \begin{pmatrix}
-          \vec{f}_{1,\varphi}(\vec{w}) & \vec{f}_{n,\varphi}(\vec{w})
+          f_{1,\varphi}(w) & f_{2,\varphi}(w)
     \end{pmatrix} .
 \end{gather*}
 
@@ -240,25 +250,25 @@
 \end{gather*}
 Можно выбрать решение, для которого $\norm{p_{max}} = 1$. Далее вектор $a_{max}$ находим из первого уравнения системы \eqref{emission:emitter:gain:system}:
 \begin{align*}
-    F^*(\vec{w}) F(\vec{w}) a_{max}                         & = \lambda_{max} a_{max} , \\
-    \frac{1}{\lambda_{max}} F^*(\vec{w}) F(\vec{w}) a_{max} & = a_{max} , \\
-    \frac{1}{\lambda_{max}} F^*(\vec{w}) p_{max}            & = a_{max} .
+    F^*(w) F(w) a_{max}                         & = \lambda_{max} a_{max} , \\
+    \frac{1}{\lambda_{max}} F^*(w) F(w) a_{max} & = a_{max} , \\
+    \frac{1}{\lambda_{max}} F^*(w) p_{max}            & = a_{max} .
 \end{align*}
 Наибольший коэффициент усиления $G_{max}$:
 \begin{multline*}
     G_{max}
-    = \frac{a_{max}^* F^*(\vec{w}) F(\vec{w}) a_{max}}{a_{max}^* a_{max}} = \\
+    = \frac{a_{max}^* F^*(w) F(w) a_{max}}{a_{max}^* a_{max}} = \\
     %
-    = \frac{p_{max}^* F(\vec{w}) \left ( \frac{1}{\lambda_{max}} \right )^* F^*(\vec{w}) F(\vec{w}) \frac{1}{\lambda_{max}} F^*(\vec{w}) p_{max}}{ p_{max}^* F(\vec{w}) \left ( \frac{1}{\lambda_{max}} \right )^* \frac{1}{\lambda_{max}} F^*(\vec{w}) p_{max}} = \\
+    = \frac{p_{max}^* F(w) \left ( \frac{1}{\lambda_{max}} \right )^* F^*(w) F(w) \frac{1}{\lambda_{max}} F^*(w) p_{max}}{ p_{max}^* F(w) \left ( \frac{1}{\lambda_{max}} \right )^* \frac{1}{\lambda_{max}} F^*(w) p_{max}} = \\
     %
-    = \frac{\modulus{\frac{1}{\lambda_{max}}}^2 p_{max}^* F(\vec{w}) F^*(\vec{w}) F(\vec{w}) F^*(\vec{w}) p_{max}}{ \modulus{\frac{1}{\lambda_{max}}}^2 p_{max}^* F(\vec{w}) F^*(\vec{w}) p_{max}}
-    = \frac{\norm{F(\vec{w}) F^*(\vec{w}) p_{max}}^2}{ \norm{F^*(\vec{w}) p_{max}}^2} .
+    = \frac{\modulus{\frac{1}{\lambda_{max}}}^2 p_{max}^* F(w) F^*(w) F(w) F^*(w) p_{max}}{ \modulus{\frac{1}{\lambda_{max}}}^2 p_{max}^* F(w) F^*(w) p_{max}}
+    = \frac{\norm{F(w) F^*(w) p_{max}}^2}{ \norm{F^*(w) p_{max}}^2} .
 \end{multline*}
 
 
-\section{Коэффициент полезного действия}
+\subsection{Коэффициент полезного действия}
 
-\subsection{Для излучателя}
+\subsubsection{Для излучателя}
 
 Коэффициент полезного действия показывает долю излучённой мощности:
 \[
@@ -282,7 +292,7 @@
     =
     \sqrt{Q_{jj}}
     \cdot
-    \frac{\iint \limits_{4 \pi} f_j^*(\vec{w}) f_k(\vec{w}) d \Omega}{\sqrt{Q_{jj}} \sqrt{Q_{kk}}}
+    \frac{\iint \limits_{4 \pi} f_j^*(w) f_k(w) d \Omega}{\sqrt{Q_{jj}} \sqrt{Q_{kk}}}
     \cdot
     \sqrt{Q_{kk}} ,
 \]
@@ -294,8 +304,8 @@
 \[
     \sqrt{D}
     = \begin{pmatrix}
-          \sqrt{Q_{11}} & 0          \\
-          0          & \sqrt{Q_{22}} \\
+          \sqrt{Q_{11}} & 0             \\
+          0             & \sqrt{Q_{22}} \\
     \end{pmatrix} ,
     \;
     %
@@ -371,4 +381,212 @@
 Таким образом, величина $Q_{jj}$ совпадает с коэффициентом полезного действия канала поляризации, и:
 \[
     \min \{ \eta_1, \eta_2 \} \le \frac{1}{1 + \modulus{R_{12}}} .
+\]
+
+\section{Антенна}
+
+\subsection{Модель антенны}
+
+Рассматривается декартова система координат, в которой имеются $n$ излучателей, образующих антенну. Заданы местоположения излучателей $r_k$, и вектор огибающих
+сигналов на входах излучателей:
+\[
+    a
+    = \begin{pmatrix}
+          a_1 \\\
+          \dots \\\
+          a_n
+    \end{pmatrix} .
+\]
+Можно считать, что у каждого излучателя только один канал поляризации, в случае двух и более каналов необходимо в точку $r_k$ поместить ещё один или более
+излучателей с другими поляризациями.
+
+Напряженность электрического поля $E(w,R)$, создаваемого антенной, в дальней зоне будет приближённо равна:
+\[
+    E(w,R,a) = \widetilde{F}_a(w,a) \cdot \frac{e^{i \modulus{w} R}}{R} ,
+\]
+где $\widetilde{F}(w,a)$ --- диаграмма направленности антенны при огибающих $a$:
+\[
+    \widetilde{F}_a(w,a) = \sum_{k=1}^n f_k(w) a_k e^{i \scalarproduct{\vec{r}_k}{w}} ,
+\]
+где $f_k(w)$ --- парциальная диаграмма направленности $k$-го излучателя в составе антенны:
+\[
+    f_k(w) =
+    \begin{pmatrix}
+        f_{k,\theta}(w) \\
+        f_{k,\varphi}(w)
+    \end{pmatrix}
+    ,
+\]
+и множитель $e^{i \scalarproduct{\vec{r}_k}{w}}$ соответствует смещению фазы при приведении напряжённостей поля излучателей к общему началу отсчёта.
+
+Если парциальные диаграммы $f(w)$ и смещения фаз собрать в матрицу $f(w)$:
+\begin{gather*}
+    F_a(w) =
+    \begin{pmatrix}
+        f_{1,\theta}(w) e^{i \scalarproduct{\vec{r}_1}{w}}  & \dots & f_{n,\theta}(w) e^{i \scalarproduct{\vec{r}_n}{w}}  \\
+        f_{1,\varphi}(w) e^{i \scalarproduct{\vec{r}_1}{w}} & \dots & f_{n,\varphi}(w) e^{i \scalarproduct{\vec{r}_n}{w}}
+    \end{pmatrix} ,
+\end{gather*}
+тогда диаграмма направленности $\widetilde{F}_a(w,a)$ будет иметь вид:
+\[
+    \widetilde{F}_a(w,a) = F_a(w) a.
+\]
+Таким образом, напряженность имеет вид:
+\[
+    E = F_a(w) a \cdot \frac{e^{i \modulus{w} R}}{R} .
+\]
+
+\section{Диаграммообразующая схема}
+
+Пусть $a_\alpha$ и $b_\alpha$ --- векторы огибающих сигналов сечения входа схемы и $a$ и $b$ --- векторы огибащих сигналов сечения выхода схемы. У схемы два входа ---
+$a_\alpha$ и $b$ и два выхода --- $a$ и $b_\alpha$, которые связаны со входами:
+\begin{gather}
+    a        = S_{\beta \alpha} a_\alpha + S_{\beta \beta} b
+    \label{emission:power:upper_output}, \\
+    b_\alpha = S_{\alpha \alpha} a_\alpha + S_{\alpha \beta} b
+    \label{emission:power:lower_output}
+\end{gather}
+Причем $a$ и $b$ ---  огибающие сигналов в сечении входа антенны, для которых справедливо равенство:
+\begin{equation}
+    \label{emission:power:antenna:reflections}
+    b = S_\beta a ,
+\end{equation}
+где $S_\beta$ --- матрица рассеяния антенны.
+
+Согласно равенствам \eqref{emission:power:upper_output} и \eqref{emission:power:antenna:reflections} вектор огибающих входа антенны $a$:
+\begin{align}
+    a & = S_{\beta \alpha} a_\alpha + S_{\beta \beta} b , \notag \\
+    a & = S_{\beta \alpha} a_\alpha + S_{\beta \beta} S_\beta a , \notag \\
+    a - S_{\beta \beta} S_\beta a & = S_{\beta \alpha} a_\alpha , \notag \\
+    ( I - S_{\beta \beta} S_\beta ) a & = S_{\beta \alpha} a_\alpha , \notag \\
+    a & = ( I - S_{\beta \beta} S_\beta )^{-1} S_{\beta \alpha} a_\alpha , \label{emission:power:antenna:input}
+\end{align}
+тогда линейная часть диаграммы направленности антенны с диаграммообразующей схемой:
+\[
+    \widetilde{F}_s(w, a_\alpha)
+    = F_a(w) a(a_\alpha)
+    = F_a(w) ( I - S_{\beta \beta} S_\beta )^{-1} S_{\beta \alpha} a_\alpha
+    = F_s(w) a_\alpha,
+\]
+где
+\[
+    F_s(w) = F_a(\vec{w}) ( I - S_{\beta \beta} S_\beta )^{-1} S_{\beta \alpha} .
+\]
+
+Из равенств \eqref{emission:power:upper_output}, \eqref{emission:power:antenna:reflections} и \eqref{emission:power:antenna:input} вектор огибающих выхода
+диаграммообразующей схемы:
+\begin{align*}
+    b_\alpha & = S_{\alpha \alpha} a_\alpha + S_{\alpha \beta} b , \\
+    b_\alpha & = S_{\alpha \alpha} a_\alpha + S_{\alpha \beta} S a , \\
+    b_\alpha & = S_{\alpha \alpha} a_\alpha + S_{\alpha \beta} S ( I - S_{\beta \beta} S )^{-1} S_{\beta \alpha} a_\alpha , \\
+    b_\alpha & = ( S_{\alpha \alpha} + S_{\alpha \beta} S ( I - S_{\beta \beta} S )^{-1} S_{\beta \alpha} ) a_\alpha ,
+\end{align*}
+откуда матрица рассеяния для диаграммообразующей схемы:
+\begin{equation}
+    \label{emission:power:scheme:reflections}
+    S_\alpha = S_{\alpha \alpha} + S_{\alpha \beta} S ( I - S_{\beta \beta} S )^{-1} S_{\beta \alpha} .
+\end{equation}
+
+
+\subsection{Рассеяние мощности с диаграммообразующей схемой}
+
+Для диаграммообразующей схемы справедливо неравенство, аналогичное неравенству \eqref{emission:emitter:power:inequality}:
+\begin{align}
+    a_\alpha^* Q_\alpha a_\alpha & \le a_\alpha^* a_\alpha , \label{emission:power:scheme:inequality}
+\end{align}
+где $Q_\alpha$ --- матрица, составленная из элементов, характеризующих степень ортогональности лучей диаграммообразующей схемы:
+\[
+    Q_{\alpha,jk} = \frac{1}{4 \pi} \iint \limits_{4 \pi} g_{j}^*(\vec{w}) g_{k}(\vec{w}) d \Omega
+\]
+Введем величины нормы:
+\[
+    h_j = \frac{1}{4 \pi} \iint \limits_{4 \pi} g_{j}^*(\vec{w}) g_{j}(\vec{w}) d \Omega ,
+\]
+и преобразуем элементы матрицы $Q_\alpha$ к виду:
+\[
+    Q_{\alpha,jk}
+    =
+    \sqrt{h_j}
+    \cdot
+    \frac{\frac{1}{4 \pi} \iint \limits_{4 \pi} g_j^*(\vec{w}) g_k(\vec{w}) d \Omega}{\sqrt{h_j} \sqrt{h_k}}
+    \cdot
+    \sqrt{h_k} ,
+\]
+тогда
+\[
+    Q_\alpha = \sqrt{H} R \sqrt{H} ,
+\]
+где
+\[
+    \sqrt{H}
+    = \begin{pmatrix}
+          \sqrt{h_1} & 0          & 0          & \dots  & 0          \\
+          0          & \sqrt{h_2} & 0          & \dots  & 0          \\
+          0          & 0          & \sqrt{h_3} & \dots  & 0          \\
+          \vdots     & \vdots     & \vdots     & \ddots & \vdots     \\
+          0          & 0          & 0          & \dots  & \sqrt{h_n} \\
+    \end{pmatrix} ,
+    \;
+    %
+    R_{jk} = \frac{\frac{1}{4 \pi} \iint \limits_{4 \pi} g_j^*(\vec{w}) g_k(\vec{w}) d \Omega}{\sqrt{h_j} \sqrt{h_k}}
+\]
+
+Таким образом, неравенство \eqref{emission:power:scheme:inequality} имеет вид:
+\[
+    a_\alpha^* \sqrt{H} R \sqrt{H} a_\alpha \le a_\alpha^* a_\alpha ,
+\]
+Пусть $x = \sqrt{H} a_\alpha$, тогда:
+\begin{align*}
+    x^* R x & \le x^* (\sqrt{H}^{-1})^* (\sqrt{H}^{-1}) x , \\
+    x^* R x & \le x^* H^{-1} x , \\
+\end{align*}
+Пусть $r_{max}$ --- наибольшее собственное значение матрицы $R$ и $x_{max}$ --- соответствующей этому числу собственный вектор, а $h_{min}$ --- наименьшее из
+значений $h_k$, тогда:
+\begin{align*}
+    x_{max}^* R x_{max} & \le x_{max}^* H^{-1} x_{max} , \\
+    x_{max}^* r_{max} x_{max} & \le \sum_{k=1}^n \frac{1}{h_k} x_{max,k}^* x_{max,k} , \\
+    r_{max} \norm{x_{max}}^2 & \le \sum_{k=1}^n \frac{1}{h_k} \modulus{x_{max,k}}^2 , \\
+    r_{max} \norm{x_{max}}^2 & \le \sum_{k=1}^n \frac{1}{h_{min}} \modulus{x_{max,k}}^2 , \\
+    r_{max} \norm{x_{max}}^2 & \le \frac{1}{h_{min}} \sum_{k=1}^n \modulus{x_{max,k}}^2 , \\
+    r_{max} \norm{x_{max}}^2 & \le \frac{1}{h_{min}} \norm{x_{max}}^2 , \\
+    r_{max} & \le \frac{1}{h_{min}} , \\
+    h_{min} & \le \frac{1}{r_{max}} .
+\end{align*}
+
+
+\subsection{Двухлучевая диаграммообразующая схема}
+
+Пусть в диаграммообразующей схеме два входа, тогда матрица $R$ имеет вид:
+\[
+    R
+    = \begin{pmatrix}
+          1        & R_{12} \\
+          R_{12}^* & 1
+    \end{pmatrix} ,
+\]
+где
+\[
+    R_{12}
+    =
+    \frac
+    {\frac{1}{4 \pi} \iint \limits_{4 \pi} g_1^*(\vec{w}) g_2(\vec{w}) d \Omega}
+    {\sqrt{\frac{1}{4 \pi} \iint \limits_{4 \pi} g_1^*(\vec{w}) g_1(\vec{w}) d \Omega} \cdot \sqrt{\frac{1}{4 \pi} \iint \limits_{4 \pi} g_2^*(\vec{w}) g_2(\vec{w}) d \Omega}}
+    = \frac
+    {\iint \limits_{4 \pi} g_1^*(\vec{w}) g_2(\vec{w}) d \Omega}
+    {\sqrt{\iint \limits_{4 \pi} \norm{g_1}^2 d \Omega} \cdot \sqrt{\frac{1}{4 \pi} \iint \limits_{4 \pi} \norm{g_2}^2 d \Omega}}
+\]
+и наибольшее собственное значение имеет вид:
+\begin{multline*}
+    r_{max}
+    = \frac{\tr(R) + \sqrt{\tr^2(R) - 4 \det(R)}}{2} = \\
+    %
+    = \frac{2 + \sqrt{2^2 - 4 (1 - \modulus{R_{12}}^2)}}{2}
+    = \frac{2 + \sqrt{4 - 4 + 4 \modulus{R_{12}}^2)}}{2} = \\
+    %
+    = \frac{2 + 2 \modulus{R_{12}}}{2}
+    = 1 + \modulus{R_{12}} .
+\end{multline*}
+Таким образом,
+\[
+    h_{min} \le \frac{1}{1 + \modulus{R_{12}}} .
 \]

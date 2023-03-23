@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper,12pt]{book}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -20,30 +20,25 @@
 
     \tableofcontents
 
+    % план занятий
     \include{schedule}
 
+    % отношение Релея
     \include{rayleigh}
 
-    \part{Введение}
-    \include{introduction/complex}
+    % комплексная огибающая
+    \include{complex}
+    % излучение сигналов
+    \include{emission}
+
     \include{introduction/wave}
 
-
-    \part{Излучение сигналов}
-    \include{emission/emitter}
-    \include{emission/array}
-    \include{emission/scheme}
-
-
-    \part{Приём сигналов}
     \include{jammers/receivers}
     \include{jammers/search/problems}
     \include{jammers/search/theory}
     \include{jammers/search/methods}
     \include{jammers/adaptation/problems}
     \include{jammers/estimate}
-
-    \include{systems}
 
     \include{appendix/dependence}
 
