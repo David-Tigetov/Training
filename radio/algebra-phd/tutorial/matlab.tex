@@ -1,0 +1,64 @@
+\chapter{Операции в Matlab}
+
+\section{Вычислительные}
+
+\subsection{Арифметические}
+
+Вектор--строка:
+\matlab{x = [1 2 3]}
+
+Вектор--столбец:
+\matlab{y = [1; 2; 3]}
+
+Матрица:
+\matlab{A = [1 2 3; 4 5 6]}
+
+Сложение:
+\begin{Matlab}
+    \Mcommand{B = [-2 -5 8; 3 1 -8]}
+    \Mcommand{C = A + B}
+\end{Matlab}
+
+Умножение вектора на матрицу:
+\matlab{z = A * y}
+
+Сопряжение (транспонирование)
+\matlab{Ac = A'}
+
+Вычисление собственных чисел и векторов:
+\begin{Matlab}
+    \Mcommand{A = [-3 2; 3 -5];}
+    \Mcommand{[V, D] = eig(A);}
+\end{Matlab}
+
+\subsection{Поэлементные}
+
+Поэлементное умножение матриц:
+\begin{Matlab}
+    \Mcommand{A = [1 2 3; 4 5 6];}
+    \Mcommand{B = [-2 -5 8; 3 1 -8];}
+    \Mcommand{C = A .* B;}
+\end{Matlab}
+
+Поэлементное возведение в квадрат:
+\begin{Matlab}
+    \Mcommand{x = [1 3 5 7];}
+    \Mcommand{y = x.$\hat{}$ 2;}
+\end{Matlab}
+
+\section{Графические}
+
+График функции в 2D:
+\begin{Matlab}
+    \Mcommand{x = -1:0.1:1;}
+    \Mcommand{y = x.$\hat{}$ 3;}
+    \Mcommand{plot(x,y)}
+\end{Matlab}
+
+График кривой в 3D:
+\begin{Matlab}
+    \Mcommand{a = [ 0:0.1:2*pi 2*pi];}
+    \Mcommand{x = cos(2*a);}
+    \Mcommand{y = sin(2*a);}
+    \Mcommand{z = a;}
+\end{Matlab}
