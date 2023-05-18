@@ -1,10 +1,4 @@
-function diagram = diagram_f( elevations )
+function diagram = diagram_f( ~, elevation )
 %DIAGRAM_F парциальная диаграмма первого канала
-    diagram = [ ...
-            cos(elevations); ...
-            zeros(1, length(elevations)) ...
-        ];
-    % нормировка
-    diagram = diagram / (4*pi)^0.5;    
+    diagram = 0.25 * [ cos(elevation); 0 ];
 end
-

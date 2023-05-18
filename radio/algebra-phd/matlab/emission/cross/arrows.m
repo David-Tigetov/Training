@@ -25,8 +25,8 @@ for azimuth = azimuths
     for elevation = elevations
         % вычисляем орты
         [ ua, ue ] = units(azimuth, elevation);
-        % вычисляем диаграмму первого канала
-        F = diagram_f(elevation);
+        % вычисляем диаграммы каналов
+        F = diagram_f(azimuth, elevation);
         S = diagram_s(azimuth, elevation);
         for radius = radii
             f1(:, number) = [ue, ua] * F / radius;

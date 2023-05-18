@@ -13,8 +13,6 @@ function diagram = diagram_s( azimuth, elevation )
             dot(f2_cartesian, ue);
             dot(f2_cartesian, ua)
         ];
-
-%    diagram = [ cos(elevation); 0 ];
-    % нормировка
-    diagram = diagram / (4*pi)^0.5;
+    % уменьшаем диаграмму
+    diagram = 0.3 * diagram;
 end

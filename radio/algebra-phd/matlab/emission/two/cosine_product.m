@@ -1,4 +1,4 @@
-function result = c_product ( F1, F2, azimuths, elevations )
+function result = cosine_product ( F1, F2, azimuths, elevations )
 %PRODUCT вычисление скалярных произведений, умноженных на косинус угла места
     result = zeros(size(azimuths));
 

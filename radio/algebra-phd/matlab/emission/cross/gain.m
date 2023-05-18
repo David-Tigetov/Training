@@ -7,7 +7,7 @@ radius = 2;
 O = point(azimuth, elevation, radius);
 
 % диаграмма направленности
-F = [ diagram_f(elevation) , diagram_s(azimuth, elevation) ];
+F = [ diagram_f(azimuth, elevation) , diagram_s(azimuth, elevation) ];
 % вычисляем собственные числа и векторы
 [V, D] = eig(F*F');
 % оптимальные огибающие
