@@ -63,5 +63,20 @@ classdef Receivers
             % вычисляем направление
             vector = exp((0:1:(receivers.count-1)).' * phase_shift * 1i);
         end
+
+        % ковариационная матрица
+        function result = covariance ( receivers, jammers )
+            % матрица направлений помех
+            directions = zeros ( receivers . count, size ( jammers, 1 ) );
+            for number = 1 : 1 : size ( jammers, 1 )
+                % вычисляем направление
+                directions ( :, number ) = receivers . direction ( jammers ( number, 1 ) );
+            end
+
+            % ковариационная матрица
+            result = ...
+                receivers . noise_power * eye ( receivers . count ) ...
+                + directions * diag ( jammers ( :, 2 ) ) * directions';
+        end
     end
 end

@@ -1,5 +1,5 @@
 % приёмники
-receivers = Receivers ( 3, 0.5, 1 );
+receivers = Receivers ( 5, 0.5, 1 );
 
 % углы источников
 jammers . angles = [ 15 -30 ];
