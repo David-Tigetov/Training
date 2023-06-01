@@ -250,7 +250,7 @@ $X$:
     \label{jammers:single:direction_self_product}
     \breve{X}_1^* \breve{X}_1
     = \sum_{k=0}^{n-1} \overline{e^{i k \Delta \varphi}} \cdot e^{i k \Delta \varphi}
-    = \sum_{k=0}^{n-1} \modulus{e^{i k \Delta \varphi}}
+    = \sum_{k=0}^{n-1} \modulus{e^{i k \Delta \varphi}}^2
     = \sum_{k=0}^{n-1} 1
     = n ,
 \end{equation}
@@ -274,7 +274,6 @@ $X$:
 \[
     \spectrum{\variance{X}} = \set{\sigma_0^2, \sigma_0^2 + \sigma_1^2 n}
 \]
-\textcolor{red}{Почему нет других собственных значений?}
 
 Если выполняется условие
 \begin{equation}
@@ -300,11 +299,20 @@ $X$:
 для выполнения условия \eqref{jammers:single:powers_relation}.
 
 Для решения задачи пеленгации необходимо найти собственный вектор, соответствующий собственному значению $\sigma_0^2 + \sigma_1^2 n$, таким собственным вектором
-является вектор $c \cdot \breve{X}_1$ ($c \in \mathbb{C}$). Используя этот вектор, точнее его вторую компоненту $c \cdot e^{i \Delta \varphi}$, можно найти смещение фазы
-$\Delta \varphi$ и вычислить угол $\alpha$ между нормалью решётки и направлением на источник излучения из равенства \eqref{jammers:single:phase_shift}:
+является вектор $c \cdot \breve{X}_1$ ($c \in \mathbb{C}$):
+\[
+    c \cdot \breve{X}_1
+    = \begin{pmatrix}
+          c \\
+          c \cdot e^{i \Delta \varphi} \\
+          ... \\
+    \end{pmatrix}
+\]
+Отношение второй компоненты к первой будет равно величине $e^{i \Delta \varphi}$, аргумент этой величины совпадает с разностью фаз, а разность фаз позволит вычислить угол $\alpha$
+между нормалью решётки и направлением на источник излучения из равенства \eqref{jammers:single:phase_shift}:
 \begin{gather}
-    \Delta \varphi = \arg \left ( c \cdot e^{i \Delta \varphi} \right ), \notag \\
-    \sin \alpha = \frac{2 \pi}{\Delta \varphi} \cdot \frac{\lambda}{d} \label{jammers:single:angle}.
+    \Delta \varphi = \arg \left ( e^{i \Delta \varphi} \right ), \notag \\
+    \sin \alpha = \frac{\Delta \varphi}{2 \pi} \cdot \frac{\lambda}{d} \label{jammers:single:angle}.
 \end{gather}
 
 \subsection{Пример}

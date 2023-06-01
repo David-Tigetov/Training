@@ -55,24 +55,19 @@ classdef Receivers
         end
 
         % комплексный вектор направления
-        function vector = direction ( receivers, angle )
+        function vector = directions ( receivers, angles )
             % вычисляем синус угла
-            sine = sin ( angle / 180 * pi );
+            sines = sin ( angles / 180 * pi );
             % вычисляем сдвиг фазы между соседними приёмниками
-            phase_shift = - 2 * pi * receivers . distance * sine;
+            phase_shifts = 2 * pi * receivers . distance * sines;
             % вычисляем направление
-            vector = exp((0:1:(receivers.count-1)).' * phase_shift * 1i);
+            vector = exp((0:1:(receivers.count-1)).' * phase_shifts * 1i);
         end
 
         % ковариационная матрица
         function result = covariance ( receivers, jammers )
             % матрица направлений помех
-            directions = zeros ( receivers . count, size ( jammers, 1 ) );
-            for number = 1 : 1 : size ( jammers, 1 )
-                % вычисляем направление
-                directions ( :, number ) = receivers . direction ( jammers ( number, 1 ) );
-            end
-
+            directions = receivers . directions ( jammers ( :, 1 )' );
             % ковариационная матрица
             result = ...
                 receivers . noise_power * eye ( receivers . count ) ...
