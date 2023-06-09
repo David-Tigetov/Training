@@ -54,24 +54,44 @@ classdef Receivers
             result = receivers . noise_power_;
         end
 
-        % комплексный вектор направления
-        function vector = directions ( receivers, angles )
+        % векторы направлений
+        function vectors = directions ( receivers, angles )
             % вычисляем синус угла
             sines = sin ( angles / 180 * pi );
             % вычисляем сдвиг фазы между соседними приёмниками
             phase_shifts = 2 * pi * receivers . distance * sines;
             % вычисляем направление
-            vector = exp((0:1:(receivers.count-1)).' * phase_shifts * 1i);
+            vectors = exp((0:1:(receivers.count-1)).' * phase_shifts * 1i);
         end
 
-        % ковариационная матрица
+        % ковариационная матрица шумов и источников излучения
         function result = covariance ( receivers, jammers )
-            % матрица направлений помех
-            directions = receivers . directions ( jammers ( :, 1 )' );
-            % ковариационная матрица
-            result = ...
-                receivers . noise_power * eye ( receivers . count ) ...
-                + directions * diag ( jammers ( :, 2 ) ) * directions';
+            % инициализируем дисперсиями шумов
+            result = receivers . noise_power * eye ( receivers . count );
+
+            % если есть источники излучения
+            if size ( jammers, 1 ) > 0 
+                % матрица направлений помех
+                directions = receivers . directions ( jammers ( :, 1 )' );
+                % добавляем дисперсии помех
+                result = result + directions * diag ( jammers ( :, 2 ) ) * directions';
+            end
+        end
+
+        % выборка комплексных огибающих
+        function result = sampling ( receivers, jammers, volume )
+            % инициализируем шумовыми огибающими
+            result = ( randn ( receivers . count_, volume ) + 1i * randn ( receivers . count_, volume ) ) * ( 0.5 * receivers . noise_power_ )^0.5;
+
+            % добавляем огибающие источников излучения
+            for number = 1 : size ( jammers, 1 )
+                % вектор направления
+                direction = receivers . directions ( jammers ( number, 1 ) );
+                % случайные огибающие с мощностью источника излучения
+                signals = ( randn ( 1, volume ) + 1i * randn ( 1, volume ) ) * ( 0.5 * jammers ( number, 2 ) )^0.5;
+                % добавляем внешнее произведение
+                result = result +  direction * signals;
+            end
         end
     end
 end

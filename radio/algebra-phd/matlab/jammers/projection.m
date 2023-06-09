@@ -1,24 +1,26 @@
-function projection(receivers, angle)
+function projection ( receivers, angle )
 % PROJECTION модуль проекции
+%   receivers - набор источников излучения
+%   angle - угол направления источника излучения
 
     % фиксированное направление
-    X = receivers.direction(angle);
+    X = receivers . directions ( angle );
 
     % углы
     angles = -90 : 1 : 90;
     % модули проекций
-    projections = zeros(1, length(angles));
-    for number = 1 : length(angles)
+    projections = zeros (1, length ( angles ) );
+    for number = 1 : length ( angles )
         % вектор направления для текущего значения угла
-        Y = receivers.direction(angles(number));
+        Y = receivers . directions ( angles ( number ) );
         % модуль проекции
-        projections(number) = abs(Y'*X);
+        projections ( number ) = abs ( Y' * X );
     end
     figure
     hold on
     % график модуля проекции
-    plot(angles, projections);
+    plot ( angles, projections );
     % линия фиксированного угла
-    plot([angle angle], [0 receivers.count()], '-r' );
+    plot ( [ angle angle ], [ 0 receivers . count( ) ], '-r' );
     hold off
     grid on
