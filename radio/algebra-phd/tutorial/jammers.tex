@@ -88,13 +88,13 @@
 и дисперсия
 \begin{multline*}
     \variance{e_k}
-    = \expectation{\left ( e_k - \expectation{e_k} \right ) \left ( e_k - \expectation{e_k} \right )^*}
+    = \expectation{\left( e_k - \expectation{e_k} \right) \left( e_k - \expectation{e_k} \right)^*}
     = \expectation{e_k e_k^*} = \\
     %
-    = \expectation{\left ( \real{e_k} + i \image{e_k} \right ) \left ( \real{e_k} - i \image{e_k} \right )}
-    = \expectation{\left ( \real{e_k} \right )^2 + \left ( \image{e_k} \right )^2} = \\
+    = \expectation{\left( \real{e_k} + i \image{e_k} \right) \left( \real{e_k} - i \image{e_k} \right)}
+    = \expectation{\left( \real{e_k} \right)^2 + \left( \image{e_k} \right)^2} = \\
     %
-    = \expectation{\left ( \real{e_k} \right )^2} + \expectation{\left ( \image{e_k} \right )^2}
+    = \expectation{\left( \real{e_k} \right)^2} + \expectation{\left( \image{e_k} \right)^2}
     = \frac{1}{2} \sigma_0^2 + \frac{1}{2} \sigma_0^2
     = \sigma_0^2 .
 \end{multline*}
@@ -110,7 +110,7 @@
 Будем считать, что величины $e_k$ некоррелированы, тогда ковариационная матрица
 \[
     \variance{E}
-    = \expectation{\left ( E - \expectation{E} \right ) \left ( E - \expectation{E} \right )^*}
+    = \expectation{\left( E - \expectation{E} \right) \left( E - \expectation{E} \right)^*}
     = \expectation{E E^*}
     = \begin{pmatrix}
           \sigma_0^2 & 0          & \dots  & 0          \\
@@ -216,12 +216,12 @@ $X$:
 и ковариационная матрица $X$:
 \begin{multline*}
     \variance{X}
-    = \expectation{\left ( X - \expectation{X} \right ) \left ( X - \expectation{X} \right )^*}
+    = \expectation{\left( X - \expectation{X} \right) \left( X - \expectation{X} \right)^*}
     = \expectation{X X^*} = \\
     %
-    = \expectation{\left ( E + \breve{X}_1 s_1 \right ) \left ( E + \breve{X}_1 s_1 \right )^*} = \\
+    = \expectation{\left( E + \breve{X}_1 s_1 \right) \left( E + \breve{X}_1 s_1 \right)^*} = \\
     %
-    = \expectation{E E^* + E \left ( \breve{X}_1 s_1 \right ) + \left ( \breve{X}_1 s_1 \right ) E^* + \left ( \breve{X}_1 s_1 \right ) \left ( \breve{X}_1 s_1 \right )^*} = \\
+    = \expectation{E E^* + E \left( \breve{X}_1 s_1 \right) + \left( \breve{X}_1 s_1 \right) E^* + \left( \breve{X}_1 s_1 \right) \left( \breve{X}_1 s_1 \right)^*} = \\
     %
     = \expectation{E E^*} + \breve{X}_1 \expectation{E s_1} + \breve{X}_1 \expectation{s_1 E^*} + \breve{X}_1 \expectation{s_1 \overline{s}_1} \breve{X}_1^* = \\
     %
@@ -239,11 +239,11 @@ $X$:
 которое изменило спектр матрицы и набор собственных векторов. Одним из собственных векторов является вектор направления $\breve{X}_1$:
 \begin{multline*}
     \variance{X} \breve{X}_1
-    = \left ( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right ) \breve{X}_1
+    = \left( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right) \breve{X}_1
     = \sigma_0^2 I_n \breve{X}_1 + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \breve{X}_1 = \\
     %
-    = \sigma_0^2 \breve{X}_1 + \sigma_1^2 \left ( \breve{X}_1^* \breve{X}_1 \right ) \breve{X}_1
-    = \left ( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right ) \breve{X}_1 ,
+    = \sigma_0^2 \breve{X}_1 + \sigma_1^2 \left( \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1
+    = \left( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1 ,
 \end{multline*}
 где в соответствии с определением \eqref{jammers:single:direction} вектора направления $\breve{X}_1$:
 \begin{equation}
@@ -257,15 +257,15 @@ $X$:
 поэтому
 \[
     \variance{X} \breve{X}_1
-    = \left ( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right ) \breve{X}_1
-    = \left ( \sigma_0^2 + \sigma_1^2 n \right ) \breve{X}_1 .
+    = \left( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1
+    = \left( \sigma_0^2 + \sigma_1^2 n \right) \breve{X}_1 .
 \]
 Таким образом, вектор $\breve{X}_1$ соответствует собственному значению $\sigma_0^2 + \sigma_1^2 n$.
 
 Другим собственным значением является $\sigma_0^2$, поскольку для любого вектора $Y \perp \breve{X}_1$, то есть $\breve{X}_1^* Y = 0$:
 \[
     \variance{X} Y
-    = \left ( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right ) Y
+    = \left( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right) Y
     = \sigma_0^2 I_n Y + \sigma_1^2 \breve{X}_1 \breve{X}_1^* Y
     = \sigma_0^2 I_n Y + \sigma_1^2 \breve{X}_1 \cdot 0
     = \sigma_0^2 Y .
@@ -311,20 +311,20 @@ $X$:
 Отношение второй компоненты к первой будет равно величине $e^{i \Delta \varphi}$, аргумент этой величины совпадает с разностью фаз, а разность фаз позволит вычислить угол $\alpha$
 между нормалью решётки и направлением на источник излучения из равенства \eqref{jammers:single:phase_shift}:
 \begin{gather}
-    \Delta \varphi = \arg \left ( e^{i \Delta \varphi} \right ), \notag \\
+    \Delta \varphi = \arg \left( e^{i \Delta \varphi} \right), \notag \\
     \sin \alpha = \frac{\Delta \varphi}{2 \pi} \cdot \frac{\lambda}{d} \label{jammers:single:angle}.
 \end{gather}
 
 \subsubsection{Пример}
 
 Мощность источника излучения мала:
-\matlab{detection(Receivers(5, 0.5, 1), [15 0.001])}
+\matlab{detection(Receivers(5, 0.5, 1), [15 0.001], 0)}
 
-Мощность источник излучения в десять раз меньше собственных шумов:
-\matlab{detection(Receivers(5, 0.5, 1), [15 0.1])}
+Мощность источника излучения в десять раз меньше собственных шумов:
+\matlab{detection(Receivers(5, 0.5, 1), [15 0.1], 0)}
 
 Мощность источника излучения в четыре раза больше собственных шумов:
-\matlab{detection(Receivers(5, 0.5, 1), [15 4])}
+\matlab{detection(Receivers(5, 0.5, 1), [15 4], 0)}
 
 \subsection{Несколько источников излучения}
 
@@ -411,9 +411,9 @@ $X$:
 Ковариационная матрица $X$:
 \begin{multline*}
     \variance{X}
-    = \expectation{\left ( X - \expectation{X} \right ) \left ( X - \expectation{X} \right )^*}
+    = \expectation{\left( X - \expectation{X} \right) \left( X - \expectation{X} \right)^*}
     = \expectation{X X^*}
-    = \expectation{\left ( E + \breve{X} S \right ) \left ( E + \breve{X} S \right )^*} = \\
+    = \expectation{\left( E + \breve{X} S \right) \left( E + \breve{X} S \right)^*} = \\
     %
     = \expectation{E E^* + E S^* \breve{X}_k^* + \breve{X} S E^* + \breve{X} S S^* \breve{X}^*} = \\
     %
@@ -501,32 +501,32 @@ $m < n$:
 Векторы направлений $\breve{X}_j$ являются близкими к собственным векторам ковариационной матрицы $\variance{X}$:
 \begin{multline*}
     \variance{X} \breve{X}_j
-    = \left ( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right ) \breve{X_j}
-    = \left ( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right ) \breve{X}_j
+    = \left( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right) \breve{X_j}
+    = \left( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right) \breve{X}_j
     = \sigma_0^2 \breve{X}_j + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \breve{X}_j = \\
     %
-    = \sigma_0^2 \breve{X}_j + \left ( \sigma_j^2 \breve{X}_j^* \breve{X}_j \right ) \breve{X}_j + \sum_{k \neq j} \left ( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right ) \breve{X}_k = \\
+    = \sigma_0^2 \breve{X}_j + \left( \sigma_j^2 \breve{X}_j^* \breve{X}_j \right) \breve{X}_j + \sum_{k \neq j} \left( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right) \breve{X}_k = \\
     %
-    = \left ( \sigma_0^2 + \sigma_j^2 \breve{X}_j^* \breve{X}_j \right ) \breve{X}_j + \sum_{k \neq j} \left ( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right ) \breve{X}_k
-    = \left ( \sigma_0^2 + \sigma_j^2 n \right ) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k ,
+    = \left( \sigma_0^2 + \sigma_j^2 \breve{X}_j^* \breve{X}_j \right) \breve{X}_j + \sum_{k \neq j} \left( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right) \breve{X}_k
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k ,
 \end{multline*}
 причём коэффициент при $\breve{X}_j$ растет пропорционально $n$, то есть с ростом $n$ вектор $\breve{X}_j$ будет приближаться к собственному, потому что сумма состоит из $m$
 слагаемых и коэффициенты при $\breve{X}_k$ в сумме не растут с ростом $n$. Таким образом, можно находить собственные векторы ковариационной матрицы $\variance{X}$ и по каждому
 из них определять направление, \textcolor{red}{хотя вполне возможно, что собственные векторы ковариационной матрицы $\variance{X}$ и не являются векторами направлений}.
 
 Приближение может получатся не очень точным при недостаточно большом количестве приёмников:
-\matlab{detection(Receivers(5, 0.5, 1), [-15 4; 30 7])}
+\matlab{detection(Receivers(5, 0.5, 1), [-15 4; 30 7], 0)}
 \noindent но точность повышается с ростом количества приёмников $n$:
-\matlab{detection(Receivers(1000, 0.5, 1), [-15 4; 30 7])}
+\matlab{detection(Receivers(1000, 0.5, 1), [-15 4; 30 7], 0)}
 \noindent хотя количество приёмников может оказаться очень большим, поэтому попробуем найти другой способ пеленгации.
 
 Заметим, что квадратичная форма:
 \begin{multline*}
     \breve{X}_j^* \variance{X} \breve{X}_j
-    = \breve{X}_j^* \left ( \left ( \sigma_0^2 + \sigma_j^2 n \right ) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k \right ) = \\
+    = \breve{X}_j^* \left( \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k \right) = \\
     %
-    = \left ( \sigma_0^2 + \sigma_j^2 n \right ) \breve{X}_j^* \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_j^* \breve{X}_k
-    = \left ( \sigma_0^2 + \sigma_j^2 n \right ) n + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \overline{\delta_{kj}} = \\
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j^* \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_j^* \breve{X}_k
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) n + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \overline{\delta_{kj}} = \\
     %
     = \sigma_0^2 n + \sigma_j^2 n^2 + \sum_{k \neq j} \sigma_k^2 \modulus{\delta_{kj}}^2
     < \sigma_0^2 n + \sigma_j^2 n^2 + (m-1) \max \limits_{k \neq j} \sigma_k^2 \modulus{\delta}^2 .
@@ -554,11 +554,11 @@ $m < n$:
 \begin{multline}
     \label{jammers:multiple:quadric}
     \breve{Y}^* \variance{X} \breve{Y}
-    = \breve{Y}^* \left ( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right ) \breve{Y}
-    = \breve{Y}^* \left ( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right ) \breve{Y} = \\
+    = \breve{Y}^* \left( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right) \breve{Y}
+    = \breve{Y}^* \left( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right) \breve{Y} = \\
     %
     = \sigma_0^2 \breve{Y}^* \breve{Y} + \sum_{k=1}^m \sigma_k^2 \breve{Y}^* \breve{X}_k \breve{X}_k^* \breve{Y}
-    = \sigma_0^2 n + \sum_{k=1}^m \sigma_k^2 \breve{Y}^* \breve{X}_k \left ( \breve{Y}^* \breve{X}_k \right )^* = \\
+    = \sigma_0^2 n + \sum_{k=1}^m \sigma_k^2 \breve{Y}^* \breve{X}_k \left( \breve{Y}^* \breve{X}_k \right)^* = \\
     %
     = \sigma_0^2 n + \sum_{k=1}^m \sigma_k^2 \modulus{\breve{Y}^* \breve{X}_k}^2 ,
 \end{multline}
@@ -623,23 +623,22 @@ $\Delta \varphi$, определяющей вектор $Y$, представл�
 направлений $\breve{X}_k$ имеет локальные максимумы в окрестности векторов направлений $\breve{X}_k$ и достигает значений, примерно равных $\sigma_0^2 n + \sigma_k^2 n^2$. Тем не менее,
 направления локальных максимумов не обязательно совпадают с направлениями источников излучения.
 
-\begin{Matlab}
-    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], "direct"{}, 1)}
-\end{Matlab}
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 0, "direct"{}, 1)}
+
 \textcolor{blue}{Рисунок с разделёнными локальными максимумами.}
 
 Если некоторые векторы направлений $\breve{X}_k$ оказываются "близкими"{}, то возникает один локальный максимум квадратичной формы в окрестности "близких"{} векторов направлений.
 
 \begin{Matlab}
-    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 15 7], "direct"{}, 1)}
-    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 10 7], "direct"{}, 1)}
-    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], "direct"{}, 1)}
-    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 0 7], "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 15 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 10 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 0 7], 0, "direct"{}, 1)}
 \end{Matlab}
 \textcolor{blue}{Рисунки с локальными максимумами.}
 
 Однако,  при увеличении количества приёмников повышается "разрешение"{}.
-\matlab{quadric(Receivers(10, 0.5, 1), [-15 4; 0 7], "direct"{}, 1)}
+\matlab{quadric(Receivers(10, 0.5, 1), [-15 4; 0 7], 0, "direct"{}, 1)}
 
 Таким образом, нахождение смещений фазы $\Delta \varphi$ и векторов направлений $Y$, при которых наблюдается локальный максимум квадратичной формы
 $Y^* \variance{X} Y$, позволяет находить направления "близкие"{} к направлениям на источники излучений $\breve{X}_k$.
@@ -659,17 +658,17 @@ $Y^* \variance{X} Y$, позволяет находить направления
 \]
 
 Нет различения близких источников:
-\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], "direct"{}, 1)}
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "direct"{}, 1)}
 
 Есть различение близких источников
-\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], "inverse"{}, 1)}
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "inverse"{}, 1)}
 
 Можно рассматривать максимум обратной величины:
 \[
     \frac{1}{\breve{Y}^* \variance{X}^{-1} \breve{Y}} \rightarrow max
 \]
 Уменьшение ширины в окрестности локального максимума:
-\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], "inverse"{}, -1)}
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "inverse"{}, -1)}
 
 \textcolor{red}{Здесь нужны пояснения. Почему так происходит?}
 
@@ -706,8 +705,8 @@ $Y^* \variance{X} Y$, позволяет находить направления
 Таким образом,
 \[
     \mathcal{F}_W(Y)
-    = W^* \left ( X + \breve{U} \cdot z \right )
-    = W^* X + W^* \breve{U} \cdot z
+    = W^* \left( X + \breve{U} \cdot u \right)
+    = W^* X + W^* \breve{U} \cdot u
 \]
 Желательно чтобы
 \begin{gather*}
@@ -775,26 +774,48 @@ $Y^* \variance{X} Y$, позволяет находить направления
 поэтому имеет ранг 1, отсюда следует, что у матрицы $C$ есть только одно отличное от нуля собственное значение $\lambda_{max}$, и этому собственному значению соответствует вектор
 $R^{-\frac{1}{2}} \breve{U}$, действительно:
 \[
-    C \left ( R^{-\frac{1}{2}} \breve{U} \right )
-    = R^{-\frac{1}{2}} \breve{U} \left ( R^{-\frac{1}{2}} \breve{U} \right )^* R^{-\frac{1}{2}} \breve{U}
+    C \left( R^{-\frac{1}{2}} \breve{U} \right)
+    = R^{-\frac{1}{2}} \breve{U} \left( R^{-\frac{1}{2}} \breve{U} \right)^* R^{-\frac{1}{2}} \breve{U}
     = R^{-\frac{1}{2}} \breve{U} \norm{R^{-\frac{1}{2}} \breve{U}}^2
     = \norm{R^{-\frac{1}{2}} \breve{U}}^2 \cdot R^{-\frac{1}{2}} \breve{U} .
 \]
-Отсюда же следует, что
-\[
-    \max \limits_W \rho(W) = \lambda_{max} = \norm{R^{-\frac{1}{2}} \breve{U}}^2 .
-\]
 Таким образом, вектор $Z_{max}$, при котором достигается наибольшее значение отношения Релея $\rho(Z)$:
 \[
-    Z_{max} = R^{-\frac{H}{2}} \breve{U} ,
+    Z_{max} = R^{-\frac{1}{2}} \breve{U} ,
 \]
-а исходный вектор $W_{max}$:
-\begin{align*}
-    W_{max} & = \left( R^{-\frac{1}{2}} \right)^* Z_{max} , \\
-    W_{max} & = \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} \breve{U} , \\
-    W_{max} & = \left( \left ( R^{\frac{1}{2}} \right)^* R^{\frac{1}{2}} \right )^{-1} \breve{U} , \\
-    W_{max} & = R^{-1} \breve{U} .
-\end{align*}
+исходный вектор $W_{max}$:
+\[
+    W_{max}
+    = \left( R^{-\frac{1}{2}} \right)^* Z_{max}
+    = \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} \breve{U} .
+\]
+Заметим, что
+\[
+    \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} R
+    = \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} R^\frac{1}{2} \left( R^\frac{1}{2} \right)^*
+    = \left( R^{-\frac{1}{2}} \right)^* \left( R^\frac{1}{2} \right)^*
+    = \left( R^\frac{1}{2} R^{-\frac{1}{2}} \right)^*
+    = I^*
+    = I ,
+\]
+поэтому
+\[
+    \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}}
+    = R^{-1}
+\]
+и оптимальный весовой вектор
+\[
+    W_{max}
+    = R^{-1} \breve{U} .
+\]
+Наибольшее значение отношения Релея $\rho(Z)$ равно собственному числу $\norm{R^{-\frac{1}{2}} \breve{U}}^2$:
+\[
+    \max \limits_W \rho(W)
+    = \norm{R^{-\frac{1}{2}} \breve{U}}^2
+    = \breve{U}^* \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} \breve{U}
+    = \breve{U}^* R^{-1} \breve{U}
+    = \breve{U}^* W_{max} .
+\]
 
 \subsection{Отсутствие источников излучения}
 
@@ -819,21 +840,21 @@ $R^{-\frac{1}{2}} \breve{U}$, действительно:
 \subsection{Пример}
 
 Если один источник помех и разнесены направления:
-\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4], 10)}
+\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4], 0, 10)}
 
 Если два источника помех и разнесены направления:
-\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4; 40 7], 10)}
+\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4; 40 7], 0, 10)}
 
 По мере приближения источника к направлению полезного сигнала:
 \begin{Matlab}
-    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 30 7], 10)}
-    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 20 7], 10)}
+    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 30 7], 0, 10)}
+    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 20 7], 0, 10)}
 \end{Matlab}
 \noindent уменьшается мощность в направлении полезного сигнала, возрастают мощности с боковых направлений.
 
 Уменьшение мощности боковых направлений за счёт увеличения количества приёмников:
 \begin{Matlab}
-    \Mcommand{adaptation(Receivers(10, 0.5 ,1), [-15 4; 20 7], 10)}
+    \Mcommand{adaptation(Receivers(10, 0.5 ,1), [-15 4; 20 7], 0, 10)}
 \end{Matlab}
 
 
@@ -858,7 +879,7 @@ $R^{-\frac{1}{2}} \breve{U}$, действительно:
 Ковариация двух компонент $x_i$ и $x_j$:
 \[
     \covariance{x_i}{x_j}
-    = \expectation{\left ( x_i - \expectation{x_i} \right ) \left ( x_j - \expectation{x_j} \right )^*}
+    = \expectation{\left( x_i - \expectation{x_i} \right) \left( x_j - \expectation{x_j} \right)^*}
     = \expectation{ x_i x_j^*},
 \]
 поскольку $\expectation{x_k} = 0$.
@@ -921,18 +942,16 @@ $R^{-\frac{1}{2}} \breve{U}$, действительно:
 Обнаружение и пеленгация по спектру:
 \begin{Matlab}
     \Mcommand{detection(Receivers(5, 0.5, 1), [-15 4], 10)}
-    \Mcommand{detection(Receivers(5, 0.5, 1), [-15 4], 500)}
+    \Mcommand{detection(Receivers(5, 0.5, 1), [-15 4], 10000)}
 \end{Matlab}
-
+c
 Пеленгация по рельефу (запустить несколько раз для объёма выборки 5, поскольку оценка ковариационной матрицы сильно меняется):
 \matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 5, "direct"{}, 1)}
 \noindent при увеличении объёма выборки оценка ковариационной матрицы становится более точной, решение улучшается:
 \matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 1000, "direct"{}, 1)}
 
 Адаптация (запустить несколько раз для объёма выборки 5, поскольку оценка ковариационной матрицы сильно меняется):
-\begin{Matlab}
-    \Mcommand{adaptation(Receivers(5, 0.5, 1), [-15 4; 30 7], 5, 10)}
-\end{Matlab}
+\matlab{adaptation(Receivers(5, 0.5, 1), [-15 4; 30 7], 5, 10)}
 \noindent при увеличении объёма выборки оценка ковариационной матрицы становится более точной, решение улучшается:
 \matlab{adaptation(Receivers(5, 0.5, 1), [-15 4; 30 7], 1000, 10)}
 
@@ -942,7 +961,7 @@ $R^{-\frac{1}{2}} \breve{U}$, действительно:
 
 Пусть $\Phi$ является преобразованием, ортогонализующим строки матрицы $Y$, то есть строки матрицы $\Phi Y$ являются взаимно ортогональными:
 \[
-    \left ( \Phi Y \right ) \left ( \Phi Y \right )^* = I_n ,
+    \left( \Phi Y \right) \left( \Phi Y \right)^* = I_n ,
 \]
 отсюда
 \begin{gather*}
@@ -958,14 +977,14 @@ $R^{-\frac{1}{2}} \breve{U}$, действительно:
 
 Вычисление квадратичной формы:
 \[
-    V^* \widehat{R}^{-1} V
-    = V^* \Phi^* \Phi V
-    = \left ( \Phi V \right )^* \Phi V
-    = \norm{\Phi V}^2 .
+    \breve{V}^* \widehat{R}^{-1} \breve{V}
+    = \breve{V}^* \Phi^* \Phi \breve{V}
+    = \left( \Phi \breve{V} \right)^* \Phi \breve{V}
+    = \norm{\Phi \breve{V}}^2 .
 \]
 Вычисление оптимального весового вектора:
 \[
     W_{max}
-    = \widehat{R}^{-1} U
-    = \Phi^* \Phi U .
+    = \widehat{R}^{-1} \breve{U}
+    = \Phi^* \Phi \breve{U} .
 \]
