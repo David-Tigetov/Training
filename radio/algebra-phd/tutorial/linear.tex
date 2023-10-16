@@ -6,7 +6,7 @@
 Дискретные сигналы будем представлять в виде бесконечных последовательностей $x$. Элемент дискретного сигнала $x$ с номером $k \in \mathbb{Z}$ будет обозначать $x[k]$.
 Номера $k$ будет считать моментами дискретного времени.
 
-На основе множестве дискретных сигналов построим линейное пространство с поэлементным сложением сигналов и умножением на вещественные числа:
+На основе множества дискретных сигналов построим линейное пространство с поэлементным сложением сигналов и умножением на вещественные числа:
 \[
     z = x + h \cdot y \Rightarrow z[k] = x[k] + h \cdot y[k].
 \]
@@ -24,7 +24,7 @@ $y[k]$ сигнала $y$.
 Рассматриваемые системы считаем стационарными: характеристики систем не изменяются во времени. Если входной сигнал $x$ сдвинуть на несколько моментов $s$ вправо или влево
 на оси дискретного времени, то выходной сигнал системы также сдвинется на такое же количество моментов $s$:
 \begin{align*}
-    \widetilde{x}[k+s]              & = x[k] , \\
+    \widetilde{x}[k+s]              & = x[k] ,                        \\
     \mathcal{L}(\widetilde{x})[k+s] & = \mathcal{L}(\widetilde{x})[k]
 \end{align*}
 
@@ -102,8 +102,6 @@ $y[k]$ сигнала $y$.
 \end{equation}
 Выходной сигнал представляет собой свёртку входного сигнала $x$ и импульсной характеристики $h$ системы $\mathcal{L}$.
 
-\textcolor{red}{Рисунок: перевёрнутая импульсная характеристика "едет"{} вдоль сигнала.}
-
 \subsection{Свёртка}
 
 В силу свойства физической реализуемости системы $\mathcal{L}$:
@@ -126,6 +124,9 @@ $y[k]$ сигнала $y$.
     = \mathcal{L}(x)[s]
     = \sum_{i=s-(n-1)}^s x[i] h[s-i] .
 \]
+
+\textcolor{red}{Рисунок: перевёрнутая импульсная характеристика "едет"{} вдоль сигнала.}
+
 Выпишем компонент $y[n-1]$:
 \begin{multline*}
     y[n-1]
@@ -141,8 +142,8 @@ $y[k]$ сигнала $y$.
         y[n-1]
     \end{pmatrix}
     = \begin{pmatrix}
-          \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
-          h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
     \end{pmatrix}
     \begin{pmatrix}
         x[0]   \\
@@ -173,8 +174,8 @@ $y[k]$ сигнала $y$.
 \]
 И в выражении для $y[n-2]$ можно заменить $x[-1]$:
 \[
-    y[n-1]
-    = x[n-1] h[n-1] + x[0] h[n-2] + x[1] h[n-3] + \dots + x[n-3] h[1] + x[n-2] h[0] .
+    y[n-2]
+    = x[n-1] h[n-1] + x[0] h[n-2] + x[1] h[n-3] + \dots + x[n-3] h[1] + x[n-2] h[0] ,
 \]
 тогда в матричной форме:
 \[
@@ -184,9 +185,9 @@ $y[k]$ сигнала $y$.
         y[n-1]
     \end{pmatrix}
     = \begin{pmatrix}
-          \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
-          h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
-          h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
     \end{pmatrix}
     \begin{pmatrix}
         x[0]   \\
@@ -208,12 +209,12 @@ $y[k]$ сигнала $y$.
         y[n-1]
     \end{pmatrix}
     = \begin{pmatrix}
-          h[0]   & h[n-1] & h[n-2] & \dots  & h[2]   & h[1]   \\
-          h[1]   & h[0]   & h[n-1] & \dots  & h[3]   & h[2]   \\
-          h[2]   & h[1]   & h[0]   & \dots  & h[4]   & h[3]   \\
-          \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
-          h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
-          h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+        h[0]   & h[n-1] & h[n-2] & \dots  & h[2]   & h[1]   \\
+        h[1]   & h[0]   & h[n-1] & \dots  & h[3]   & h[2]   \\
+        h[2]   & h[1]   & h[0]   & \dots  & h[4]   & h[3]   \\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
     \end{pmatrix}
     \begin{pmatrix}
         x[0]   \\
@@ -237,26 +238,26 @@ $y[k]$ сигнала $y$.
 \[
     y
     = \begin{pmatrix}
-          y_0    \\
-          y_1    \\
-          \vdots \\
-          y_{n-1}
+        y_0    \\
+        y_1    \\
+        \vdots \\
+        y_{n-1}
     \end{pmatrix}
     , \;
     h
     = \begin{pmatrix}
-          h_0    \\
-          h_1    \\
-          \vdots \\
-          h_{n-1}
+        h_0    \\
+        h_1    \\
+        \vdots \\
+        h_{n-1}
     \end{pmatrix}
     , \;
     x
     = \begin{pmatrix}
-          x_0    \\
-          x_1    \\
-          \vdots \\
-          x_{n-1}
+        x_0    \\
+        x_1    \\
+        \vdots \\
+        x_{n-1}
     \end{pmatrix}
     .
 \]
@@ -270,12 +271,12 @@ $y[k]$ сигнала $y$.
     \label{linear:circulant}
     C(h)
     = \begin{pmatrix}
-          h_0     & h_{n-1} & h_{n-2} & \dots  & h_2    & h_1     \\
-          h_1     & h_0     & h_{n}   & \dots  & h_3    & h_2     \\
-          h_2     & h_1     & h_{0}   & \dots  & h_4    & h_3     \\
-          \vdots  & \vdots  & \vdots  & \vdots & \vdots & \vdots  \\
-          h_{n-2} & h_{n-3} & h_{n-4} & \dots  & h_0    & h_{n-1} \\
-          h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_1    & h_0
+        h_0     & h_{n-1} & h_{n-2} & \dots  & h_2    & h_1     \\
+        h_1     & h_0     & h_{n-1} & \dots  & h_3    & h_2     \\
+        h_2     & h_1     & h_{0}   & \dots  & h_4    & h_3     \\
+        \vdots  & \vdots  & \vdots  & \vdots & \vdots & \vdots  \\
+        h_{n-2} & h_{n-3} & h_{n-4} & \dots  & h_0    & h_{n-1} \\
+        h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_1    & h_0
     \end{pmatrix}
     .
 \end{equation}
@@ -361,7 +362,7 @@ $y[k]$ сигнала $y$.
     \end{pmatrix} = \\
     %
     = \begin{pmatrix}
-          \lambda(\delta) & \delta \lambda(\delta) & \delta^2 \lambda(\delta) & \dots & \delta^{n-1} \lambda(\delta)
+        \lambda(\delta) & \delta \lambda(\delta) & \delta^2 \lambda(\delta) & \dots & \delta^{n-1} \lambda(\delta)
     \end{pmatrix} = \\
     %
     = \lambda(\delta)
@@ -388,7 +389,7 @@ $y[k]$ сигнала $y$.
     \right.
     ,
 \]
-которые образовывали базис, по которому раскладывались сигналы. Это не единственный вариант базиса, есть алтернативные варианты, и этих вариантов достаточно много.
+которые образовывали базис, по которому раскладывались сигналы. Это не единственный вариант базиса, есть альтернативные варианты, и этих вариантов достаточно много.
 
 Поскольку теперь рассматриваются периодические сигналы, которые повторяются через каждые $n$ моментов времени, то вполне допустимым было бы ввести базис, образованный периодическими
 сигналами. Например, можно определить сигнал $\xi_1$, у которого на протяжении $n$ моментов укладывается один период гармонического колебания:
@@ -415,11 +416,11 @@ $y[k]$ сигнала $y$.
 \[
     \xi_1
     = \begin{pmatrix}
-          \varepsilon^0 \\
-          \varepsilon^1 \\
-          \varepsilon^2 \\
-          \vdots        \\
-          \varepsilon^{n-1}
+        \varepsilon^0 \\
+        \varepsilon^1 \\
+        \varepsilon^2 \\
+        \vdots        \\
+        \varepsilon^{n-1}
     \end{pmatrix} .
 \]
 
@@ -433,19 +434,19 @@ $y[k]$ сигнала $y$.
     = e^{i \frac{2 \cdot 2 \pi}{n} k}, \\
     %
     z_2[k]
-    = \left( e^{- i \frac{2 \cdot 2 \pi}{n}} \right)^k
-    = \left( \left( e^{- i \frac{2 \pi}{n}} \right)^2 \right)^k
+    = \left( e^{i \frac{2 \cdot 2 \pi}{n}} \right)^k
+    = \left( \left( e^{i \frac{2 \pi}{n}} \right)^2 \right)^k
     = \left( \varepsilon^2 \right)^k
 \end{gather*}
 Первые $n$ значений соберем в вектор
 \[
     \xi_2
     = \begin{pmatrix}
-          \varepsilon^{2 \cdot 0} \\
-          \varepsilon^{2 \cdot 1} \\
-          \varepsilon^{2 \cdot 2} \\
-          \vdots                  \\
-          \varepsilon^{2 \cdot (n-1)}
+        \varepsilon^{2 \cdot 0} \\
+        \varepsilon^{2 \cdot 1} \\
+        \varepsilon^{2 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{2 \cdot (n-1)}
     \end{pmatrix}
 \]
 
@@ -467,11 +468,11 @@ $y[k]$ сигнала $y$.
 \[
     \xi_m
     = \begin{pmatrix}
-          \varepsilon^{m \cdot 0} \\
-          \varepsilon^{m \cdot 1} \\
-          \varepsilon^{m \cdot 2} \\
-          \vdots                  \\
-          \varepsilon^{m \cdot (n-1)}
+        \varepsilon^{m \cdot 0} \\
+        \varepsilon^{m \cdot 1} \\
+        \varepsilon^{m \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{m \cdot (n-1)}
     \end{pmatrix} .
 \]
 
@@ -490,11 +491,11 @@ $y[k]$ сигнала $y$.
 \[
     \xi_n
     = \begin{pmatrix}
-          1      \\
-          1      \\
-          1      \\
-          \vdots \\
-          1
+        1      \\
+        1      \\
+        1      \\
+        \vdots \\
+        1
     \end{pmatrix}
     = \xi_0.
 \]
@@ -512,41 +513,41 @@ $y[k]$ сигнала $y$.
 \[
     \xi_0
     = \begin{pmatrix}
-          \varepsilon^{0 \cdot 0} \\
-          \varepsilon^{0 \cdot 1} \\
-          \varepsilon^{0 \cdot 2} \\
-          \vdots                  \\
-          \varepsilon^{0 \cdot (n-1)}
+        \varepsilon^{0 \cdot 0} \\
+        \varepsilon^{0 \cdot 1} \\
+        \varepsilon^{0 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{0 \cdot (n-1)}
     \end{pmatrix} ,
     \;
     %
     \xi_1
     = \begin{pmatrix}
-          \varepsilon^{1 \cdot 0} \\
-          \varepsilon^{1 \cdot 1} \\
-          \varepsilon^{1 \cdot 2} \\
-          \vdots                  \\
-          \varepsilon^{1 \cdot (n-1)}
+        \varepsilon^{1 \cdot 0} \\
+        \varepsilon^{1 \cdot 1} \\
+        \varepsilon^{1 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{1 \cdot (n-1)}
     \end{pmatrix} ,
     \;
     \xi_2
     = \begin{pmatrix}
-          \varepsilon^{2 \cdot 0} \\
-          \varepsilon^{2 \cdot 1} \\
-          \varepsilon^{2 \cdot 2} \\
-          \vdots                  \\
-          \varepsilon^{2 \cdot (n-1)}
+        \varepsilon^{2 \cdot 0} \\
+        \varepsilon^{2 \cdot 1} \\
+        \varepsilon^{2 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{2 \cdot (n-1)}
     \end{pmatrix} ,
     \;
     \dots ,
     \;
     \xi_{n-1}
     = \begin{pmatrix}
-          \varepsilon^{(n-1) \cdot 0} \\
-          \varepsilon^{(n-1) \cdot 1} \\
-          \varepsilon^{(n-1) \cdot 2} \\
-          \vdots                      \\
-          \varepsilon^{(n-1) \cdot (n-1)}
+        \varepsilon^{(n-1) \cdot 0} \\
+        \varepsilon^{(n-1) \cdot 1} \\
+        \varepsilon^{(n-1) \cdot 2} \\
+        \vdots                      \\
+        \varepsilon^{(n-1) \cdot (n-1)}
     \end{pmatrix} .
 \]
 Векторы $\xi_m$ можно рассматривать как элементы линейного пространства $\mathbb{C}^n$, в котором введём скалярное прозведение:
@@ -630,16 +631,16 @@ $y[k]$ сигнала $y$.
 \[
     X
     = \begin{pmatrix}
-          \scalarproduct{x}{\xi_0}     \\
-          \scalarproduct{x}{\xi_1}     \\
-          \vdots                       \\
-          \scalarproduct{x}{\xi_{n-1}} \\
+        \scalarproduct{x}{\xi_0}     \\
+        \scalarproduct{x}{\xi_1}     \\
+        \vdots                       \\
+        \scalarproduct{x}{\xi_{n-1}} \\
     \end{pmatrix}
     = \begin{pmatrix}
-          \xi_0^* x     \\
-          \xi_1^* x     \\
-          \vdots        \\
-          \xi_{n-1}^* x \\
+        \xi_0^* x     \\
+        \xi_1^* x     \\
+        \vdots        \\
+        \xi_{n-1}^* x \\
     \end{pmatrix}
     = F_n x ,
 \]
@@ -654,24 +655,24 @@ $y[k]$ сигнала $y$.
     \end{pmatrix}
     =
     \begin{pmatrix}
-        \overline{\varepsilon^{0 \cdot 0}}     & \overline{\varepsilon^{0 \cdot 1}}     & \overline{\varepsilon^{0 \cdot 2}}     & \dots  & \overline{\varepsilon^{0 \cdot (n-1)}} \\
-        \overline{\varepsilon^{1 \cdot 0}}     & \overline{\varepsilon^{1 \cdot 1}}     & \overline{\varepsilon^{1 \cdot 2}}     & \dots  & \overline{\varepsilon^{1 \cdot (n-1)}} \\
+        \overline{\varepsilon^{0 \cdot 0}}     & \overline{\varepsilon^{0 \cdot 1}}     & \overline{\varepsilon^{0 \cdot 2}}     & \dots  & \overline{\varepsilon^{0 \cdot (n-1)}}     \\
+        \overline{\varepsilon^{1 \cdot 0}}     & \overline{\varepsilon^{1 \cdot 1}}     & \overline{\varepsilon^{1 \cdot 2}}     & \dots  & \overline{\varepsilon^{1 \cdot (n-1)}}     \\
         \vdots                                 & \vdots                                 & \vdots                                 & \ddots & \vdots                                     \\
         \overline{\varepsilon^{(n-1) \cdot 0}} & \overline{\varepsilon^{(n-1) \cdot 1}} & \overline{\varepsilon^{(n-1) \cdot 2}} & \dots  & \overline{\varepsilon^{(n-1) \cdot (n-1)}} \\
     \end{pmatrix} = \\
     %
     = \begin{pmatrix}
-          \varepsilon^{- 0 \cdot 0}     & \varepsilon^{- 0 \cdot 1}     & \varepsilon^{- 0 \cdot 2}     & \dots  & \varepsilon^{- 0 \cdot (n-1)}     \\
-          \varepsilon^{- 1 \cdot 0}     & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 1 \cdot 2}     & \dots  & \varepsilon^{- 1 \cdot (n-1)}     \\
-          \vdots                        & \vdots                        & \vdots                        & \ddots & \vdots                            \\
-          \varepsilon^{- (n-1) \cdot 0} & \varepsilon^{- (n-1) \cdot 1} & \varepsilon^{- (n-1) \cdot 2} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)} \\
+        \varepsilon^{- 0 \cdot 0}     & \varepsilon^{- 0 \cdot 1}     & \varepsilon^{- 0 \cdot 2}     & \dots  & \varepsilon^{- 0 \cdot (n-1)}     \\
+        \varepsilon^{- 1 \cdot 0}     & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 1 \cdot 2}     & \dots  & \varepsilon^{- 1 \cdot (n-1)}     \\
+        \vdots                        & \vdots                        & \vdots                        & \ddots & \vdots                            \\
+        \varepsilon^{- (n-1) \cdot 0} & \varepsilon^{- (n-1) \cdot 1} & \varepsilon^{- (n-1) \cdot 2} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)} \\
     \end{pmatrix} = \\
     %
     = \begin{pmatrix}
-          1      & 1                             & 1                             & \dots  & 1                                 \\
-          1      & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 2 \cdot 1}     & \dots  & \varepsilon^{- (n-1) \cdot 1}     \\
-          \vdots & \vdots                        & \vdots                        & \ddots & \vdots                            \\
-          1      & \varepsilon^{- 1 \cdot (n-1)} & \varepsilon^{- 2 \cdot (n-1)} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)}
+        1      & 1                             & 1                             & \dots  & 1                                 \\
+        1      & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 2 \cdot 1}     & \dots  & \varepsilon^{- (n-1) \cdot 1}     \\
+        \vdots & \vdots                        & \vdots                        & \ddots & \vdots                            \\
+        1      & \varepsilon^{- 1 \cdot (n-1)} & \varepsilon^{- 2 \cdot (n-1)} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)}
     \end{pmatrix}
     ,
 \end{multline*}
@@ -755,7 +756,7 @@ $y[k]$ сигнала $y$.
 \[
     \xi_k^*
     = \begin{pmatrix}
-          \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
+        \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
     \end{pmatrix}
 \]
 которые образованы степенями корней из единицы $\varepsilon^{-k}$ (действительно, $\left ( \varepsilon^{-k} \right )^n = \left ( \varepsilon^n \right )^{-k} = 1^{-k} = 1$).
@@ -764,7 +765,7 @@ $y[k]$ сигнала $y$.
 \[
     \xi_k^* C(h)
     = \lambda ( \varepsilon^{-k} ) \begin{pmatrix}
-                                       \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
+        \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
     \end{pmatrix}
     = \lambda ( \varepsilon^{-k} ) \xi_k^*
 \]
@@ -871,16 +872,16 @@ $y[k]$ сигнала $y$.
 Таким образом, для вычисления выходного сигнала $y$ существует два способа:
 \begin{enumerate}
     \item прямое вычисление:
-    \[
-        y = C(h) x,
-    \]
+          \[
+              y = C(h) x,
+          \]
     \item через вычисление спектров:
-    \begin{gather*}
-        H = F_n h, \\
-        X = F_n x, \\
-        Y_k = H_k \cdot X_k, \\
-        y = \frac{1}{n} F_n^* Y_k .
-    \end{gather*}
+          \begin{gather*}
+              H = F_n h, \\
+              X = F_n x, \\
+              Y_k = H_k \cdot X_k, \\
+              y = \frac{1}{n} F_n^* Y_k .
+          \end{gather*}
 \end{enumerate}
 Второй способ требует больше вычислительных операций, но в силу особой структуры матрицы Фурье для вычисления спектров есть быстрый метод, поэтому в некоторых случаях второй способ
 оказывается быстрее первого.
@@ -892,285 +893,52 @@ $y[k]$ сигнала $y$.
 \[
     F_n(\delta)
     = \begin{pmatrix}
-          1      & 1            & 1               & 1               & \dots  & 1                   \\
-          1      & \delta       & \delta^2        & \delta^3        & \dots  & \delta^{n-1}        \\
-          1      & \delta^2     & \delta^4        & \delta^6        & \dots  & \delta^{2(n-1)}     \\
-          1      & \delta^3     & \delta^6        & \delta^9        & \dots  & \delta^{3(n-1)}     \\
-          \vdots & \vdots       & \vdots          & \vdots          & \ddots & \vdots              \\
-          1      & \delta^{n-1} & \delta^{2(n-1)} & \delta^{3(n-1)} & \dots  & \delta^{(n-1)(n-1)}
+        1      & 1            & 1               & 1               & \dots  & 1                   \\
+        1      & \delta       & \delta^2        & \delta^3        & \dots  & \delta^{n-1}        \\
+        1      & \delta^2     & \delta^4        & \delta^6        & \dots  & \delta^{2(n-1)}     \\
+        1      & \delta^3     & \delta^6        & \delta^9        & \dots  & \delta^{3(n-1)}     \\
+        \vdots & \vdots       & \vdots          & \vdots          & \ddots & \vdots              \\
+        1      & \delta^{n-1} & \delta^{2(n-1)} & \delta^{3(n-1)} & \dots  & \delta^{(n-1)(n-1)}
     \end{pmatrix}.
 \]
 В случае умножения на матрицу $F_n(\delta)$ требуется примерно $(n-1) \cdot (n-1)$ умножений, но в силу особого вида матриц $F_n(\delta)$ количество умножений можно сократить,
-если $n$ --- составное число.
-
-\subsection{6 и 3, факторизация}
-
-Матрица степеней
+если $n$ --- составное число. Можно показать, что если $n = k \cdot m$, то преобразование $F_n(\delta)$ разлагается в суперпозицию:
+\begin{enumerate}
+    \item $m$ преобразований $F_k(\delta^m)$ порядка $k$,
+    \item $m-1$ умножение $D_{m-1}$,
+    \item $k$ преобразований $F_m(\delta^k)$ порядка $m$.
+\end{enumerate}
+Символически суперпозицию можно записать в виде:
 \[
-    F_6
-    = \begin{pmatrix}
-          1 & 1        & 1           & 1           & 1           & 1           \\
-          1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
-          1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
-          1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
-          1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
-          1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
-    \end{pmatrix}
+    F_n(\delta) = m \cdot F_k(\delta^m) \otimes D_{m-1} \otimes k \cdot F_m(\delta^k)
 \]
-Перестановка строк ($P_6$ --- обратная перестановка строк):
+Пусть $S_*(p)$ обозначает количество умножений в преобразовании $F_p(\delta)$, тогда количество умножений в левой части:
 \[
-    F_6
-    =
-    \underbrace{
-        \begin{pmatrix}
-            1 & 0 & 0 & 0 & 0 & 0 \\
-            0 & 0 & 1 & 0 & 0 & 0 \\
-            0 & 0 & 0 & 0 & 1 & 0 \\
-            0 & 1 & 0 & 0 & 0 & 0 \\
-            0 & 0 & 0 & 1 & 0 & 0 \\
-            0 & 0 & 0 & 0 & 0 & 1 \\
-        \end{pmatrix}
-    }_{P_6}
-    \begin{pmatrix}
-        1 & 1        & 1           & 1           & 1           & 1           \\
-        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
-        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
-        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
-        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
-        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
-    \end{pmatrix}
+    S_*(n)
+    = (n-1) \cdot (n-1)
+    = n^2 - 2 n + 1
+    = k^2 m^2 - 2 k m + 1
+    = k m ( k m - 2 ) + 1,
 \]
-Выделение блоков:
-\[
-    F_6
-    = P_6
-    \begin{pmatrix}
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1        & 1        \\
-            \delta^6 & \delta^9
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1           & 1           \\
-            \delta^{12} & \delta^{15}
-        \end{pmatrix}
-        \\
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            1 & 0      \\
-            0 & \delta
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1        & 1        \\
-            \delta^6 & \delta^9
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^2 & 0        \\
-            0        & \delta^3
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1           & 1           \\
-            \delta^{12} & \delta^{15}
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^4 & 0        \\
-            0        & \delta^5
-        \end{pmatrix}
-        \\
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            1 & 0        \\
-            0 & \delta^2
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1        & 1        \\
-            \delta^6 & \delta^9
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^4 & 0        \\
-            0        & \delta^6
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1           & 1           \\
-            \delta^{12} & \delta^{15}
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^8 & 0           \\
-            0        & \delta^{10}
-        \end{pmatrix}
-    \end{pmatrix}
-\]
-Сокращение степени:
-\[
-    F_6
-    = P_6
-    \begin{pmatrix}
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \\
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            1 & 0      \\
-            0 & \delta
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^2 & 0        \\
-            0        & \delta^3
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^4 & 0        \\
-            0        & \delta^5
-        \end{pmatrix}
-        \\
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            1 & 0        \\
-            0 & \delta^2
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^4 & 0        \\
-            0        & \delta^6
-        \end{pmatrix}
-        &
-        \begin{pmatrix}
-            1 & 1        \\
-            1 & \delta^3
-        \end{pmatrix}
-        \begin{pmatrix}
-            \delta^8 & 0           \\
-            0        & \delta^{10}
-        \end{pmatrix}
-    \end{pmatrix}
-\]
-Пусть
-\[
-    F_2(\delta)
-    = \begin{pmatrix}
-          1 & 1      \\
-          1 & \delta
-    \end{pmatrix}
-\]
---- матрица Фурье размера 2, тогда:
-\[
-    F_6
-    = P_6
-    \begin{pmatrix}
-        F_2(\delta^3) & 0             & 0             \\
-        0             & F_2(\delta^3) & 0             \\
-        0             & 0             & F_2(\delta^3)
-    \end{pmatrix}
-    \begin{pmatrix}
-        1 & 0        & 1        & 0        & 1        & 0           \\
-        0 & 1        & 0        & 1        & 0        & 1           \\
-        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
-        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
-        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
-        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
-    \end{pmatrix}
-\]
-Матрица слева преобразуется перестановкой строк и столбцов к матрице (причём той же матрицей $P_6$!):
+а в правой части:
 \begin{multline*}
-    \begin{pmatrix}
-        1 & 0        & 1        & 0        & 1        & 0           \\
-        0 & 1        & 0        & 1        & 0        & 1           \\
-        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
-        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
-        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
-        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
-    \end{pmatrix}
-    = P_6^T
-    \begin{pmatrix}
-        1 & 1        & 1        & 0        & 0        & 0           \\
-        1 & \delta^2 & \delta^4 & 0        & 0        & 0           \\
-        1 & \delta^4 & \delta^8 & 0        & 0        & 0           \\
-        0 & 0        & 0        & 1        & 1        & 1           \\
-        0 & 0        & 0        & \delta   & \delta^3 & \delta^5    \\
-        0 & 0        & 0        & \delta^2 & \delta^6 & \delta^{10}
-    \end{pmatrix}
-    P_6 = \\
+    m \cdot S_*(k) + m-1 + k \cdot S_*(m) = \\
     %
-    = P_6^T
-    \begin{pmatrix}
-        1 & 0 & 0 & 0 & 0      & 0        \\
-        0 & 1 & 0 & 0 & 0      & 0        \\
-        0 & 0 & 1 & 0 & 0      & 0        \\
-        0 & 0 & 0 & 1 & 0      & 0        \\
-        0 & 0 & 0 & 0 & \delta & 0        \\
-        0 & 0 & 0 & 0 & 0      & \delta^2 \\
-    \end{pmatrix}
-    \begin{pmatrix}
-        F_3(\delta^2) & 0             \\
-        0             & F_3(\delta^2) \\
-    \end{pmatrix}
-    P_6
+    = m \cdot (k-1) \cdot (k-1) + m-1 + k \cdot (m-1) \cdot (m-1) = \\
+    %
+    = m (k^2 - 2 k + 1) + m-1 + k (m^2 - 2 m + 1) = \\
+    %
+    = m k^2 - 2 m k + 1 + m-1 + k m^2 - 2 k m + k = \\
+    %
+    = m k^2 + k m^2 - 4 k m + m + k = \\
+    %
+    = k m ( k + m - 4 ) + m + k .
 \end{multline*}
-Таким образом,
+Уменьшение количества умножений:
 \[
-    F_6
-    = P_6
-    \begin{pmatrix}
-        F_2(\delta^3) & 0             & 0             \\
-        0             & F_2(\delta^3) & 0             \\
-        0             & 0             & F_2(\delta^3)
-    \end{pmatrix}
-    P_6^T
-    \begin{pmatrix}
-        I_3 & 0   \\
-        0   & D_3
-    \end{pmatrix}
-    \begin{pmatrix}
-        F_3(\delta^2) & 0             \\
-        0             & F_3(\delta^2) \\
-    \end{pmatrix}
-    P_6
+    \frac{k m ( k m - 2 ) + 1}{k m ( k + m - 4 ) + m + k}
+    \approx \frac{k m ( k m - 2 )}{k m ( k + m - 4 )}
+    \approx \frac{k m}{k + m} .
 \]
 
 \subsection{6 и 3, с таблицами}
@@ -1188,12 +956,12 @@ $H$ --- спектр сигнала $h$:
         H_5
     \end{pmatrix}
     = \begin{pmatrix}
-          1 & 1        & 1           & 1           & 1           & 1           \\
-          1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
-          1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
-          1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
-          1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
-          1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
     \end{pmatrix}
     \begin{pmatrix}
         h_0 \\
@@ -1221,9 +989,9 @@ $H$ --- спектр сигнала $h$:
         \begin{pmatrix}
             1 & 1        & 1           & 1           & 1           & 1           \\
             1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
-            1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
             1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
             1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+            1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
             1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
         \end{pmatrix}
     }_{\widetilde{F}_6}
@@ -1245,12 +1013,12 @@ $H$ --- спектр сигнала $h$:
             1 & 1        \\
             1 & \delta^3
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1        & 1        \\
             \delta^6 & \delta^9
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1           & 1           \\
             \delta^{12} & \delta^{15}
@@ -1264,7 +1032,7 @@ $H$ --- спектр сигнала $h$:
             1 & 0      \\
             0 & \delta
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1        & 1        \\
             \delta^6 & \delta^9
@@ -1273,7 +1041,7 @@ $H$ --- спектр сигнала $h$:
             \delta^2 & 0        \\
             0        & \delta^3
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1           & 1           \\
             \delta^{12} & \delta^{15}
@@ -1291,7 +1059,7 @@ $H$ --- спектр сигнала $h$:
             1 & 0        \\
             0 & \delta^2
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1        & 1        \\
             \delta^6 & \delta^9
@@ -1300,7 +1068,7 @@ $H$ --- спектр сигнала $h$:
             \delta^4 & 0        \\
             0        & \delta^6
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1           & 1           \\
             \delta^{12} & \delta^{15}
@@ -1317,12 +1085,12 @@ $H$ --- спектр сигнала $h$:
             1 & 1        \\
             1 & \delta^3
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1336,7 +1104,7 @@ $H$ --- спектр сигнала $h$:
             1 & 0      \\
             0 & \delta
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1345,7 +1113,7 @@ $H$ --- спектр сигнала $h$:
             \delta^2 & 0        \\
             0        & \delta^3
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1363,7 +1131,7 @@ $H$ --- спектр сигнала $h$:
             1 & 0        \\
             0 & \delta^2
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1372,7 +1140,7 @@ $H$ --- спектр сигнала $h$:
             \delta^4 & 0        \\
             0        & \delta^6
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1389,24 +1157,24 @@ $H$ --- спектр сигнала $h$:
             1 & 1        \\
             1 & \delta^3
         \end{pmatrix}
-        &
+         &
         0
-        &
+         &
         0
         \\
         0
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
         \end{pmatrix}
-        &
+         &
         0
         \\
         0
-        &
+         &
         0
-        &
+         &
         \begin{pmatrix}
             1 & 1        \\
             1 & \delta^3
@@ -1440,8 +1208,8 @@ $H$ --- спектр сигнала $h$:
 \[
     F_2(\delta^3)
     = \begin{pmatrix}
-          1 & 1        \\
-          1 & \delta^3
+        1 & 1        \\
+        1 & \delta^3
     \end{pmatrix}
 \]
 Таким образом,
@@ -1616,9 +1384,9 @@ $H$ --- спектр сигнала $h$:
 \[
     F_3(\delta^2)
     = \begin{pmatrix}
-          1 & 1        & 1        \\
-          1 & \delta^2 & \delta^4 \\
-          1 & \delta^4 & \delta^8 \\
+        1 & 1        & 1        \\
+        1 & \delta^2 & \delta^4 \\
+        1 & \delta^4 & \delta^8 \\
     \end{pmatrix} .
 \]
 Таким образом,
@@ -1649,16 +1417,20 @@ $H$ --- спектр сигнала $h$:
         \widetilde{H}_1 & \widetilde{H}_3 & \widetilde{H}_5
     \end{pmatrix}
     =
+    \left (
     \begin{pmatrix}
-        1 & 1      & 1        \\
-        1 & \delta & \delta^2
+        1 & 1        \\
+        1 & \delta   \\
+        1 & \delta^2
     \end{pmatrix}
     \circ
-    \begin{pmatrix}
-        h_0 & h_2 & h_4 \\
-        h_1 & h_3 & h_5
-    \end{pmatrix}
     F_3(\delta^2)
+    \begin{pmatrix}
+        h_0 & h_1 \\
+        h_2 & h_3 \\
+        h_4 & h_5
+    \end{pmatrix}
+    \right )^T ,
 \]
 и всё вместе:
 \[
@@ -1668,18 +1440,382 @@ $H$ --- спектр сигнала $h$:
     \end{pmatrix}
     =
     F_2(\delta^3)
-    \left(
+    \left (
     \begin{pmatrix}
-        1 & 1      & 1        \\
-        1 & \delta & \delta^2
+        1 & 1        \\
+        1 & \delta   \\
+        1 & \delta^2
     \end{pmatrix}
     \circ
-    \begin{pmatrix}
-        h_0 & h_2 & h_4 \\
-        h_1 & h_3 & h_5
-    \end{pmatrix}
     F_3(\delta^2)
-    \right)
+    \begin{pmatrix}
+        h_0 & h_1 \\
+        h_2 & h_3 \\
+        h_4 & h_5
+    \end{pmatrix}
+    \right )^T .
+\]
+
+Полученное выражение можно обобщить на случай $n=2 \cdot m$:
+\[
+    \begin{pmatrix}
+        H_0 & H_1     & H_2     & \dots & H_{m-1}  \\
+        H_m & H_{m+1} & H_{m+2} & \dots & H_{2m-1}
+    \end{pmatrix}
+    =
+    F_2(\delta^{m})
+    \left (
+    \begin{pmatrix}
+        1      & 1        \\
+        1      & \delta   \\
+        1      & \delta^2 \\
+        \vdots & \vdots   \\
+        1      & \delta^{m-1}
+    \end{pmatrix}
+    \circ
+    F_m(\delta^2)
+    \begin{pmatrix}
+        h_0        & h_1      \\
+        h_2        & h_3      \\
+        h_4        & h_5      \\
+        \vdots     & \vdots   \\
+        h_{2m - 2} & h_{2m-1}
+    \end{pmatrix}
+    \right )^T ,
+\]
+где
+\begin{gather*}
+    \delta^m
+    = \delta^\frac{n}{2}
+    = \left ( e^{i \frac{2 \pi}{n}}\right )^\frac{n}{2}
+    = e^{i \pi}
+    = -1 , \\
+    %
+    F_2(\delta^m)
+    = \begin{pmatrix}
+        1 & 1 \\
+        1 & \delta^m
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix} ,
+\end{gather*}
+и преобразование $F_2(\delta^m)$ состоит всего из двух операций: одного сложения и одного вычитания. Таким образом, для преобразование $F_n(\delta)$
+порядка $n$ нужно сделать два преобразования $F_m(\delta^2)$ порядка $m$, выполнить $m-1$ умножение, для простоты будем считать $m$ умножений, и 
+умножить вектор размера $2 \times m$ на матрицу $F_2(\delta^m)$, выполнив одно сложение и одно вычитание на каждый из $m$ столбцов. Таким образом,
+если $S_*(n)$ --- количество умножений в преобразовании $F_n(\delta)$ и $S_\pm(n)$ --- количество сложений-вычитаний в преобразовании $F_n(\delta)$,
+то 
+\begin{gather*}
+    S_*(n)
+    = m + 2 S_*(m)
+    = \frac{n}{2} + 2 S_* \left( \frac{n}{2} \right) , \\
+    %
+    S_\pm(n)
+    = 2 m + 2 S_\pm(m)
+    = n + 2 S_\pm \left( \frac{n}{2} \right)
+\end{gather*}
+Таким образом, при редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений и $n$ сложений-вычитаний и решить две задачи размера $\frac{n}{2}$.
+
+Пусть теперь $n = 2^L$, тогда $L = \log_2 n$, тогда можно продолжить цепочку равенств:
+\begin{gather*}
+    %
+    S_*(n)
+    = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-1} \frac{n}{2^{L-1} \cdot 2}
+    = \frac{n}{2} + \frac{n}{2} + \frac{n}{2} + \dots + \frac{n}{2}
+    = \frac{n}{2} \cdot L
+    = \frac{1}{2} n \log_2 n , \\
+\end{gather*}
+
+Выражение для $S_*(n)$ получается следующим образом: для редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений,
+в результате получатся 2 задачи размера $\frac{n}{2}$, каждая из которых при редукции потребует
+$\frac{\frac{n}{2}}{2}$ умножений, поэтому для редукции двух задач размера $\frac{n}{2}$ потребуется $2 \frac{n}{2 \cdot 2}$ умножений,
+далее образуется уже 4 задачи размера $\frac{n}{4}$, редукция которых требует $4 \frac{n}{4 \cdot 2}$ умножений и так далее пока не достигнем размера
+задачи 2, таких задач будет $2^{L-1}$ и в каждой будет $\frac{n}{2^{L-1} \cdot 2} = \frac{2^L}{2^{L-1} \cdot 2} = 1$ умножение. 
+
+Аналогично для $S_\pm(n)$: редукция задачи размера $n$ требует $n$ сложений-вычитаний, получаются 2 задачи, редукция каждой из которых требует
+$\frac{n}{2}$ сложений-вычитаний, далее получаются 4 задачи, редукция каждой из которых требует $\frac{n}{4}$ сложений-вычитаний, и так далее пока не будет
+достигнут размер задачи 4, таких задач $2^{L-2}$ и каждая потребует для редукции $\frac{n}{2^{L-2}} = 2$ сложения-вычитания и решения двух задач
+размера 2, каждая из которых потребует $2$ сложения-вычитания.
+
+\begin{multline*}
+    S_\pm(n)
+    = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-2} \left ( \frac{n}{2^{L-2}} + 2 \cdot 2 \right ) = \\
+    %
+    = \underbrace{n + n + n + \dots + n}_{L-1} + 2^{L-2+1+1}
+    = \underbrace{n + n + n + \dots + n}_{L-1} + n
+    = n \cdot L
+    = n \log_2 n .
+\end{multline*}
+
+\subsection{6 и 3, факторизация}
+
+Матрица степеней
+\[
+    F_6
+    = \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Перестановка строк ($P_6$ --- обратная перестановка строк):
+\[
+    F_6
+    =
+    \underbrace{
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1 \\
+        \end{pmatrix}
+    }_{P_6}
+    \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Выделение блоков:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Сокращение степени:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Пусть
+\[
+    F_2(\delta)
+    = \begin{pmatrix}
+        1 & 1      \\
+        1 & \delta
+    \end{pmatrix}
+\]
+--- матрица Фурье размера 2, тогда:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
+    \end{pmatrix}
+\]
+Матрица слева преобразуется перестановкой строк и столбцов к матрице (причём той же матрицей $P_6$!):
+\begin{multline*}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
+    \end{pmatrix}
+    = P_6^T
+    \begin{pmatrix}
+        1 & 1        & 1        & 0        & 0        & 0           \\
+        1 & \delta^2 & \delta^4 & 0        & 0        & 0           \\
+        1 & \delta^4 & \delta^8 & 0        & 0        & 0           \\
+        0 & 0        & 0        & 1        & 1        & 1           \\
+        0 & 0        & 0        & \delta   & \delta^3 & \delta^5    \\
+        0 & 0        & 0        & \delta^2 & \delta^6 & \delta^{10}
+    \end{pmatrix}
+    P_6 = \\
+    %
+    = P_6^T
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 & 0      & 0        \\
+        0 & 1 & 0 & 0 & 0      & 0        \\
+        0 & 0 & 1 & 0 & 0      & 0        \\
+        0 & 0 & 0 & 1 & 0      & 0        \\
+        0 & 0 & 0 & 0 & \delta & 0        \\
+        0 & 0 & 0 & 0 & 0      & \delta^2 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    P_6
+\end{multline*}
+Таким образом,
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    P_6^T
+    \begin{pmatrix}
+        I_3 & 0   \\
+        0   & D_3
+    \end{pmatrix}
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    P_6
 \]
 
 \subsection{6 и 2}
@@ -1688,12 +1824,12 @@ $H$ --- спектр сигнала $h$:
 \[
     F_6
     = \begin{pmatrix}
-          1 & 1        & 1           & 1           & 1           & 1           \\
-          1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
-          1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
-          1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
-          1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
-          1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
     \end{pmatrix}
 \]
 Перестановка строк ($P_6$ --- обратная перестановка строк):
@@ -1719,7 +1855,7 @@ $H$ --- спектр сигнала $h$:
             1 & \delta^2 & \delta^4 \\
             1 & \delta^4 & \delta^8
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1           & 1           & 1           \\
             \delta^6    & \delta^8    & \delta^{10} \\
@@ -1736,7 +1872,7 @@ $H$ --- спектр сигнала $h$:
             0 & \delta & 0        \\
             0 & 0      & \delta^2
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1           & 1           & 1           \\
             \delta^6    & \delta^8    & \delta^{10} \\
@@ -1759,7 +1895,7 @@ $H$ --- спектр сигнала $h$:
             1 & \delta^2 & \delta^4 \\
             1 & \delta^4 & \delta^8
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        & 1        \\
             1 & \delta^2 & \delta^4 \\
@@ -1776,7 +1912,7 @@ $H$ --- спектр сигнала $h$:
             0 & \delta & 0        \\
             0 & 0      & \delta^2
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        & 1        \\
             1 & \delta^2 & \delta^4 \\
@@ -1819,7 +1955,7 @@ $H$ --- спектр сигнала $h$:
             1 & \delta^2 & \delta^4 \\
             1 & \delta^4 & \delta^8
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1        & 1        \\
             1 & \delta^2 & \delta^4 \\
@@ -1836,7 +1972,7 @@ $H$ --- спектр сигнала $h$:
             0 & \delta & 0        \\
             0 & 0      & \delta^2
         \end{pmatrix}
-        &
+         &
         -
         \begin{pmatrix}
             1 & 1        & 1        \\
@@ -1854,16 +1990,16 @@ $H$ --- спектр сигнала $h$:
 \[
     F_3(\delta^2)
     = \begin{pmatrix}
-          1 & 1        & 1        \\
-          1 & \delta^2 & \delta^4 \\
-          1 & \delta^4 & \delta^8
+        1 & 1        & 1        \\
+        1 & \delta^2 & \delta^4 \\
+        1 & \delta^4 & \delta^8
     \end{pmatrix},
     \;
     D_3
     = \begin{pmatrix}
-          1 & 0      & 0        \\
-          0 & \delta & 0        \\
-          0 & 0      & \delta^2
+        1 & 0      & 0        \\
+        0 & \delta & 0        \\
+        0 & 0      & \delta^2
     \end{pmatrix} ,
 \]
 где $F_3(\delta)$ --- матрица Фурье размера 3, тогда
@@ -1906,26 +2042,26 @@ $H$ --- спектр сигнала $h$:
 \[
     F_4(\varepsilon)
     = \begin{pmatrix}
-          1 & 1                & 1                & 1                \\
-          1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6} \\
-          1 & \varepsilon^{-3} & \varepsilon^{-6} & \varepsilon^{-9}
+        1 & 1                & 1                & 1                \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6} & \varepsilon^{-9}
     \end{pmatrix}
     = \begin{pmatrix}
-          1 & 1                & 1                                 & 1                                 \\
-          1 & \varepsilon^{-1} & \varepsilon^{-2}                  & \varepsilon^{-3}                  \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4}                  & \varepsilon^{-4} \varepsilon^{-2} \\
-          1 & \varepsilon^{-3} & \varepsilon^{-4} \varepsilon^{-2} & \varepsilon^{-4} \varepsilon^{-5}
+        1 & 1                & 1                                 & 1                                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}                  & \varepsilon^{-3}                  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}                  & \varepsilon^{-4} \varepsilon^{-2} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-4} \varepsilon^{-2} & \varepsilon^{-4} \varepsilon^{-5}
     \end{pmatrix}
 \]
 Сокращение степени с учётом $\varepsilon^{-4} = 1$:
 \[
     F_4(\varepsilon)
     = \begin{pmatrix}
-          1 & 1                & 1                & 1                \\
-          1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
-          1 & \varepsilon^{-2} & 1                & \varepsilon^{-2} \\
-          1 & \varepsilon^{-3} & \varepsilon^{-2} & \varepsilon^{-5}
+        1 & 1                & 1                & 1                \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
+        1 & \varepsilon^{-2} & 1                & \varepsilon^{-2} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-2} & \varepsilon^{-5}
     \end{pmatrix}
 \]
 Перестановка строк, сперва все нечётные строки, затем все чётные:
@@ -1946,33 +2082,33 @@ $H$ --- спектр сигнала $h$:
 \[
     F_4(\varepsilon)
     = P_4 \begin{pmatrix}
-              \begin{pmatrix}
-                  1 & 1                \\
-                  1 & \varepsilon^{-2}
-              \end{pmatrix}
-              &
-              \begin{pmatrix}
-                  1 & 1                \\
-                  1 & \varepsilon^{-2}
-              \end{pmatrix} \\
-              \begin{pmatrix}
-                  1 & 1                \\
-                  1 & \varepsilon^{-2}
-              \end{pmatrix}
-              \begin{pmatrix}
-                  1 & 0                \\
-                  0 & \varepsilon^{-1}
-              \end{pmatrix}
-              &
-              \varepsilon^{-2}
-              \begin{pmatrix}
-                  1 & 1                \\
-                  1 & \varepsilon^{-2}
-              \end{pmatrix}
-              \begin{pmatrix}
-                  1 & 0                \\
-                  0 & \varepsilon^{-1}
-              \end{pmatrix}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix} \\
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-1}
+        \end{pmatrix}
+         &
+        \varepsilon^{-2}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-1}
+        \end{pmatrix}
     \end{pmatrix} ,
 \]
 где
@@ -1996,14 +2132,14 @@ $H$ --- спектр сигнала $h$:
 \[
     F_2(\delta)
     = \begin{pmatrix}
-          1 & 1           \\
-          1 & \delta^{-1}
+        1 & 1           \\
+        1 & \delta^{-1}
     \end{pmatrix} ,
     \;
     D_2
     = \begin{pmatrix}
-          1 & 0                \\
-          0 & \varepsilon^{-1}
+        1 & 0                \\
+        0 & \varepsilon^{-1}
     \end{pmatrix} .
 \]
 Представим, что нужно умножить матрицу $F_4(\varepsilon)$ на некоторый вектор $h$ (как для вычисления спектра), и посмотрим как будет выглядеть умножение:
@@ -2045,7 +2181,7 @@ $H$ --- спектр сигнала $h$:
         \end{pmatrix}
     \end{pmatrix}
     = \\
-%
+    %
     = P_4
     \begin{pmatrix}
         F_2(\varepsilon^2)
@@ -2073,7 +2209,7 @@ $H$ --- спектр сигнала $h$:
         \end{pmatrix}
         \right)
     \end{pmatrix} = \\
-%
+    %
     = P_4
     \begin{pmatrix}
         F_2(\varepsilon^2) \\
@@ -2109,33 +2245,6 @@ $H$ --- спектр сигнала $h$:
         h_3
     \end{pmatrix}
 \end{multline*}
-Для умножения на матрицу $F_4(\varepsilon)$ необходимо сделать $\frac{n}{2}$ сложений ($I_2 + I_2$), $\frac{n}{2}$ вычитаний ($I_2 - I_2$), $\frac{n}{2}$ умножений на элементы
-диагональной матрицы $D_2$ и потом дважды умножить на матрицу $F_2(\varepsilon^2)$ размерности $\frac{n}{2}$.
-
-Пусть $n = 2^L$, тогда $L = \log_2 n$, пусть $S_\pm(n)$ --- общее количество сложений и вычитаний и $S_*(n)$ --- общее количество умножений, тогда:
-\begin{gather*}
-    S_\pm(n)
-    = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-1} \frac{n}{2^{L-1}}
-    = n + n + n + \dots + n
-    = n \cdot L
-    = n \log_2 n, \\
-%
-    S_*(n)
-    = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-1} \frac{n}{2^{L-1} \cdot 2}
-    = \frac{n}{2} + \frac{n}{2} + \frac{n}{2} + \dots + \frac{n}{2}
-    = \frac{n}{2} \cdot L
-    = \frac{1}{2} n \log_2 n .
-\end{gather*}
-
-Выражение для $S_\pm(n)$ получается следующим образом: для редукции задачи размера $n$ нужно сделать $\frac{n}{2} + \frac{n}{2} = n$ сложений-вычитаний,
-в результате получатся 2 задачи размера $\frac{n}{2}$, каждая из которых при редукции потребует $\frac{\frac{n}{2}}{2} + \frac{\frac{n}{2}}{2} = \frac{n}{2}$, поэтому для редукции
-двух задач размера $\frac{n}{2}$ потребуется $2 \frac{n}{2}$ сложений-вычитаний, далее образуется уже 4 задачи размера $\frac{n}{4}$, редукция которых требует $4 \frac{n}{4}$
-сложений-вычитаний и так далее пока не достигнем размера задачи 2, таких задачи будет $2^{L-1}$ и они будут заключаться в умножении на матрицу Фурье $F_2$, при котором нужно будет
-сделать два сложения, или $\frac{n}{2^{L-1}} = \frac{2^L}{2^{L-1}} = 2$.
-
-Аналогично для $S_*(n)$: редукция задачи размера $n$ требует $\frac{n}{2}$ умножений, получаются 2 задачи, редукция каждой из которых требует $\frac{\frac{n}{2}}{2}$ умножений, далее
-получаются 4 задачи, редукция каждой из которых требует $\frac{\frac{n}{4}}{2}$ умножений, и так далее пока не будет достигнут размер задачи 2, таких задач $2^{L-1}$ и в силу
-вида матрицы $F_2$ потребуется только одно умножение, $\frac{n}{2^{L-1} \cdot 2} = \frac{2^L}{2^{L-1} \cdot 2} = 1$.
 
 \subsection{8 и 2}
 
@@ -2143,14 +2252,14 @@ $H$ --- спектр сигнала $h$:
 \[
     F_8
     = \begin{pmatrix}
-          1 & 1                & 1                 & 1                 & 1                 & 1                 & 1                 & 1                 \\
-          1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4}  & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7} \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & \varepsilon^{-8}  & \varepsilon^{-10} & \varepsilon^{-12} & \varepsilon^{-14} \\
-          1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-12} & \varepsilon^{-15} & \varepsilon^{-18} & \varepsilon^{-21} \\
-          1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & \varepsilon^{-16} & \varepsilon^{-20} & \varepsilon^{-24} & \varepsilon^{-28} \\
-          1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-20} & \varepsilon^{-25} & \varepsilon^{-30} & \varepsilon^{-35} \\
-          1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & \varepsilon^{-24} & \varepsilon^{-30} & \varepsilon^{-36} & \varepsilon^{-42} \\
-          1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-28} & \varepsilon^{-35} & \varepsilon^{-42} & \varepsilon^{-49}
+        1 & 1                & 1                 & 1                 & 1                 & 1                 & 1                 & 1                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4}  & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & \varepsilon^{-8}  & \varepsilon^{-10} & \varepsilon^{-12} & \varepsilon^{-14} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-12} & \varepsilon^{-15} & \varepsilon^{-18} & \varepsilon^{-21} \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & \varepsilon^{-16} & \varepsilon^{-20} & \varepsilon^{-24} & \varepsilon^{-28} \\
+        1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-20} & \varepsilon^{-25} & \varepsilon^{-30} & \varepsilon^{-35} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & \varepsilon^{-24} & \varepsilon^{-30} & \varepsilon^{-36} & \varepsilon^{-42} \\
+        1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-28} & \varepsilon^{-35} & \varepsilon^{-42} & \varepsilon^{-49}
     \end{pmatrix}
 \]
 
@@ -2158,14 +2267,14 @@ $H$ --- спектр сигнала $h$:
 \[
     F_8
     = \begin{pmatrix}
-          1 & 1                & 1                 & 1                 & 1                & 1                 & 1                 & 1                 \\
-          1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7} \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6} \\
-          1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-4} & \varepsilon^{-7}  & \varepsilon^{-10} & \varepsilon^{-13} \\
-          1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & 1                & \varepsilon^{-4}  & \varepsilon^{-8}  & \varepsilon^{-12} \\
-          1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-4} & \varepsilon^{-9}  & \varepsilon^{-14} & \varepsilon^{-19} \\
-          1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & 1                & \varepsilon^{-6}  & \varepsilon^{-12} & \varepsilon^{-18} \\
-          1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-4} & \varepsilon^{-11} & \varepsilon^{-18} & \varepsilon^{-25}
+        1 & 1                & 1                 & 1                 & 1                & 1                 & 1                 & 1                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-4} & \varepsilon^{-7}  & \varepsilon^{-10} & \varepsilon^{-13} \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & 1                & \varepsilon^{-4}  & \varepsilon^{-8}  & \varepsilon^{-12} \\
+        1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-4} & \varepsilon^{-9}  & \varepsilon^{-14} & \varepsilon^{-19} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & 1                & \varepsilon^{-6}  & \varepsilon^{-12} & \varepsilon^{-18} \\
+        1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-4} & \varepsilon^{-11} & \varepsilon^{-18} & \varepsilon^{-25}
     \end{pmatrix}
 \]
 
@@ -2175,10 +2284,10 @@ $H$ --- спектр сигнала $h$:
     = P_8
     \begin{pmatrix}
         1 & 1                & 1                 & 1                 & 1                & 1                 & 1                 & 1                 \\
-        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6} \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6}  \\
         1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & 1                & \varepsilon^{-4}  & \varepsilon^{-8}  & \varepsilon^{-12} \\
         1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & 1                & \varepsilon^{-6}  & \varepsilon^{-12} & \varepsilon^{-18} \\
-        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7} \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
         1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-4} & \varepsilon^{-7}  & \varepsilon^{-10} & \varepsilon^{-13} \\
         1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-4} & \varepsilon^{-9}  & \varepsilon^{-14} & \varepsilon^{-19} \\
         1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-4} & \varepsilon^{-11} & \varepsilon^{-18} & \varepsilon^{-25}
@@ -2189,67 +2298,66 @@ $H$ --- спектр сигнала $h$:
 \[
     F_8
     = \begin{pmatrix}
-          \begin{pmatrix}
-              1 & 1                & 1                 & 1                 \\
-              1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
-              1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
-              1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
-          \end{pmatrix}
-          &
-          \begin{pmatrix}
-              1 & 1                & 1                 & 1                 \\
-              1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
-              1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
-              1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
-          \end{pmatrix} \\
-%
-          \begin{pmatrix}
-              1 & 1                & 1                 & 1                 \\
-              1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
-              1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
-              1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
-          \end{pmatrix}
-          \begin{pmatrix}
-              1 & 0                & 0                & 0                \\
-              0 & \varepsilon^{-1} & 0                & 0                \\
-              0 & 0                & \varepsilon^{-2} & 0                \\
-              0 & 0                & 0                & \varepsilon^{-3} \\
-          \end{pmatrix}
-          &
-          \varepsilon^{-4}
-          \begin{pmatrix}
-              1 & 1                & 1                 & 1                 \\
-              1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
-              1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
-              1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
-          \end{pmatrix}
-          \begin{pmatrix}
-              1 & 0                & 0                & 0                \\
-              0 & \varepsilon^{-1} & 0                & 0                \\
-              0 & 0                & \varepsilon^{-2} & 0                \\
-              0 & 0                & 0                & \varepsilon^{-3} \\
-          \end{pmatrix}
-
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix} \\
+        %
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                & 0                & 0                \\
+            0 & \varepsilon^{-1} & 0                & 0                \\
+            0 & 0                & \varepsilon^{-2} & 0                \\
+            0 & 0                & 0                & \varepsilon^{-3} \\
+        \end{pmatrix}
+         &
+        \varepsilon^{-4}
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                & 0                & 0                \\
+            0 & \varepsilon^{-1} & 0                & 0                \\
+            0 & 0                & \varepsilon^{-2} & 0                \\
+            0 & 0                & 0                & \varepsilon^{-3} \\
+        \end{pmatrix}
     \end{pmatrix}
 \]
 Матрица Фурье порядка 4
 \[
     F_4(\varepsilon^2)
     = \begin{pmatrix}
-          1 & 1                & 1                 & 1                 \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
-          1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
-          1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        1 & 1                & 1                 & 1                 \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
     \end{pmatrix}
 \]
 Сокращение степени:
 \[
     F_4(\varepsilon^2)
     = \begin{pmatrix}
-          1 & 1                & 1                & 1                 \\
-          1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6}  \\
-          1 & \varepsilon^{-4} & 1                & \varepsilon^{-4}  \\
-          1 & \varepsilon^{-6} & \varepsilon^{-4} & \varepsilon^{-10} \\
+        1 & 1                & 1                & 1                 \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-4} & 1                & \varepsilon^{-4}  \\
+        1 & \varepsilon^{-6} & \varepsilon^{-4} & \varepsilon^{-10} \\
     \end{pmatrix}
 \]
 Перестановка строк ($P_4$ --- матрица обратной перестановки).
@@ -2274,7 +2382,7 @@ $H$ --- спектр сигнала $h$:
             1 & 1                \\
             1 & \varepsilon^{-4}
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1                \\
             1 & \varepsilon^{-4}
@@ -2284,21 +2392,21 @@ $H$ --- спектр сигнала $h$:
             1 & \varepsilon^{-2} \\
             1 & \varepsilon^{-6}
         \end{pmatrix}
-        &
+         &
         \varepsilon^{-4}
         \begin{pmatrix}
             1 & \varepsilon^{-2} \\
             1 & \varepsilon^{-6} \\
         \end{pmatrix}
     \end{pmatrix} = \\
-%
+    %
     = P_4
     \begin{pmatrix}
         \begin{pmatrix}
             1 & 1                \\
             1 & \varepsilon^{-4}
         \end{pmatrix}
-        &
+         &
         \begin{pmatrix}
             1 & 1                \\
             1 & \varepsilon^{-4}
@@ -2312,7 +2420,7 @@ $H$ --- спектр сигнала $h$:
             1 & 0                \\
             0 & \varepsilon^{-2}
         \end{pmatrix}
-        &
+         &
         \varepsilon^{-4}
         \begin{pmatrix}
             1 & 1                \\
@@ -2325,98 +2433,39 @@ $H$ --- спектр сигнала $h$:
     \end{pmatrix} .
 \end{multline*}
 
+\section{Фильтр нижних частот}
 
-\section{Фильтр с конечной импульсной характеристикой}
+Пусть $X$, $H$ и $Y$ --- спектры входного сигнала, импульсной характеристики и выходного сигнала соответственно. Равенство:
+\[
+    Y_k = H_k \cdot X_k
+\]
+открывает широкие возможности для модификации спектра входного сигнала $X$: если элемент спектра $X_k$ входного сигнала не нулевой, то путем умножения на
+$H_k$ в спектре выходного сигнала элемент $Y_k$ можно сделать любым. Это означает, что если во входном сигнале есть гармоника с частотой $\frac{2 \pi}{n} k$,
+то её аплитуду можно увеличить и уменьшить в произвольное число раз (и, конечно, обнулить).
 
-В частном случае линейная система может выполнять преобразование свертки дискретного сигнала $x$ с некоторым вектором $h = ( h_0, h_1, \dots, h_{m-1})$ длины $m$
-(как правило, $m < n$). Получающийся на выходе сигнал $y_i$ формируется по правилу:
-$$
-y_i = \sum_{j=0}^{m-1} h_j x_{i - j}.
-$$
-Например, для $n=7$ и $h=3$:
-\begin{align*}
-    y_0 & = h_0 x_0 + h_1 x_{-1}  + h_2 x_{-2} = h_0 x_0 + h_1 x_{n-1}  + h_2 x_{n-2}, \\
-    y_1 & = h_0 x_1 + h_1 x_0 + h_2 x_{-1} = h_0 x_1 + h_1 x_0 + h_2 x_{n-1}, \\
-    y_2 & = h_0 x_2 + h_1 x_1 + h_2 x_0, \\
-    \dots \\
-    y_n & = h_0 x_n + h_1 x_{n-1} + h_2 x_{n-2}.
-\end{align*}
+Предположим, что нужно спроектировать фильтр нижних частот, то есть такой фильтр, который пропускает (увеличивает или незначительно уменьшает амплитуды
+гармоник с нижними частотами), и не пропускает (значительно уменьшает амплитуды с верхними частотами). Далее нужно отделить "нижние"{} частоты от
+"верхних"{}, пусть частота среза (cut frequency) $f_c = \frac{2 \pi}{n} k_c$, все частоты не больше $f_c$ будем считать нижними, а все частоты больше $f_c$
+будем считать верхними.
 
-Удобно считать, что вектор $h$ имеет длину $n$ и ненулевыми только первые $m$ элементов. В этом случае
-$$
-y = L x ,
-$$
-где матрица системы $L$:
-$$
-L =
-\begin{pmatrix}
-    h_0     & h_{n-1} & h_{n-2} & \dots  & h_3    & h_2    & h_1    \\
-    h_1     & h_0     & h_{n-1} & \dots  & h_4    & h_3    & h_2    \\
-    h_2     & h_1     & h_0     & \dots  & h_5    & h_4    & h_3    \\
-    \vdots  & \vdots  & \vdots  & \ddots & \vdots & \vdots & \vdots \\
-    h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_2    & h_1    & h_0
-\end{pmatrix}
-.
-$$
-Например, для $n=7$ и $h=3$:
-$$
-L =
-\begin{pmatrix}
-    h_0 & 0   & 0   & 0   & 0   & h_2 & h_1 \\
-    h_1 & h_0 & 0   & 0   & 0   & 0   & h_2 \\
-    h_2 & h_1 & h_0 & 0   & 0   & 0   & 0   \\
-    0   & h_2 & h_1 & h_0 & 0   & 0   & 0   \\
-    0   & 0   & h_2 & h_1 & h_0 & 0   & 0   \\
-    0   & 0   & 0   & h_2 & h_1 & h_0 & 0   \\
-    0   & 0   & 0   & 0   & h_2 & h_1 & h_0
-\end{pmatrix}
-.
-$$
-
-Легко видеть, что матрица $L$ является циркулянтом, поэтому если $\vec{Y}$,  $\vec{X}$ и $\vec{H}$ обозначают спектры сигналов $y$, $x$ и вектора $h$:
-$$
-\vec{Y} = F y, \; \vec{X} = F x, \; \vec{H} = F h,
-$$
-тогда из равенства \eqref{equation:Fourier:spectra-product}:
-\begin{equation}
-    \label{equation:finite-filter:output-spectrum}
-    Y_k = H_k \cdot X_k.
-\end{equation}
-Равенство \eqref{equation:finite-filter:output-spectrum} показывает, что спектр входного сигнала $\vec{X}$ может быть модифицирован произвольным образом, путем умножения на
-разные числа $H_i$. После формирования вектора $\vec{H}$ путем обратного дискретного преобразования Фурье \eqref{equation:Fourier:inverse} можно вычислить вектор $h$:
-$$
-h = \frac{1}{n} F_n^* \vec{H}.
-$$
-
-\subsection{Фильтр нижних частот}
-
-Равенство \eqref{equation:finite-filter:output-spectrum} показывает, что если элемент спектра $X_k$ входного сигнала не нулевой, то путем умножения на $H_k$ в спектре
-выходного сигнала элемент $Y_k$ можно сделать любым. Это означает, что если во входном сигнале есть гармоника с частотой $k \frac{f_s}{n}$, то её аплитуду можно увеличить и
-уменьшить в произвольное число раз (и, конечно, обнулить).
-
-Предположим, что нужно спроектировать фильтр нижних частот, то есть такой фильтр, который пропускает (увеличивает или незначительно уменьшает амплитуды гармоник с нижними
-частотами), и не пропускает (значительно уменьшает амплитуды с верхними частотами). Во избежание наложений спектров, вызваемых периодичностью дискретных спектров, частоту
-дискретизации $f_s$ нужно выбрать такой большой, чтобы самая верхняя частота сигнала была меньше половины частоты дискретизации $f_s$. Далее нужно отделить "нижние"{}
-частоты от "верхних"{}, пусть частота среза (cut frequency) $f_c = k_c \frac{f_s}{n}$, все частоты не больше $f_c$ будем считать нижними, а все частоты больше $f_c$ будем
-считать верхними.
-
-Теперь можно задать спектр $\vec{H}$ таким образом (спектр действительного вектора $h$ всегда симметричен):
+Теперь можно задать спектр $H$ таким образом:
 \begin{enumerate}
-    \item $H_0 = \dots = H_{k_c} = 1$,
-    \item $H_{k_c + 1} = \dots = H_{n - k_c - 1} = 0$,
-    \item $H_{n - k_c - 1} = \dots = H_{n-1} = 1$
+    \item $H_0 = 1$ --- сохраняем величину постоянной,
+    \item $H_1 = \dots = H_{k_c} = 1$ --- сохраняем гармоники от 1 до $k_c$,
+    \item $H_{k_c + 1} = \dots = H_{n - k_c - 1} = 0$ --- удаляем промежуточные частоты,
+    \item $H_{n - k_c} = \dots = H_{n-1} = 1$ --- сохраняем "симметричные"{} гармоники.
 \end{enumerate}
-Спектр $\vec{H}$ равен единице по "краям"{} и нулю в "середине"{} (как на рисунке \ref{figure:finite-filter:low-frequencies:system-spectrum}).
+Спектр $H$ равен единице по "краям"{} и нулю в "середине"{} (как на рисунке \ref{figure:finite-filter:low-frequencies:system-spectrum}).
 
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
-% ось X
+        % ось X
         \draw [->] ( -0.1, 0 ) -- ( 7, 0 ) node [below] ( 7, 0 ) {$N$};
-% ось Y
+        % ось Y
         \draw [->] ( 0, -0.1 ) -- ( 0, 1.5 ) node [left] ( 0, 1.5 ) {$\vec{H}$};
 
-% осчеты
+        % осчеты
         \draw [-] ( 0, 0.1 ) -- ( 0, -0.1 ) node [below ] ( 0, -0.1 ) {$0$};
         \draw [-] ( 1, 0.1 ) -- ( 1, -0.1 ) node [below ] ( 1, -0.1 ) {$1$};
         \draw [-] ( 2, 0.1 ) -- ( 2, -0.1 ) node [below ] ( 2, -0.1 ) {$2$};
@@ -2425,49 +2474,23 @@ $$
         \draw [-] ( 5, 0.1 ) -- ( 5, -0.1 ) node [below ] ( 5, -0.1 ) {$5$};
         \draw [-] ( 6, 0.1 ) -- ( 6, -0.1 ) node [below ] ( 6, -0.1 ) {$6$};
 
-% спектр
+        % спектр
         \draw [fill=black] ( 0, 1 ) circle [radius=0.05];
         \draw [fill=black] ( 1, 1 ) circle [radius=0.05];
-        \draw [fill=black] ( 2, 0 ) circle [radius=0.05];
+        \draw [fill=black] ( 2, 1 ) circle [radius=0.05];
         \draw [fill=black] ( 3, 0 ) circle [radius=0.05];
         \draw [fill=black] ( 4, 0 ) circle [radius=0.05];
         \draw [fill=black] ( 5, 1 ) circle [radius=0.05];
         \draw [fill=black] ( 6, 1 ) circle [radius=0.05];
     \end{tikzpicture}
-    \caption{Спектр $\vec{H}$ для $n=7$ и $k_c=1$.}
+    \caption{Спектр $H$ для $n=7$ и $k_c=2$.}
     \label{figure:finite-filter:low-frequencies:system-spectrum}
 \end{figure}
 
 В результате обратного дискретного преобразования Фурье получится импульсная характеристика $h$:
 $$
-h = \frac{1}{n} F_n^* \vec{H}
+    h = \frac{1}{n} F_n^* H .
 $$
-которая будет иметь вид как на рисунке \ref{figure:finite-filter:low-frequences:impulse}.
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}
-        \draw [domain=0.01:3.14,samples=100] plot (\x, {2 * sin(7 * \x r)/ ( 7 * \x )});
-        \draw [-] ( 3.14, 0 ) -- ( 5, 0);
-        \draw [domain=5:8.13,samples=100] plot (\x, {2 * sin(7 * ( 8.14 - \x ) r)/ ( 7 * ( 8.14 - \x ))});
-
-    \end{tikzpicture}
-    \caption{Импульсная характеристика $h$.}
-    \label{figure:finite-filter:low-frequences:impulse}
-\end{figure}
-
-
-\section{Декомпозиция}
-
-Существует много вариантов декомпозиции --- разложение по базису.
-
-Разложение по базису требует решения системы линейных уравнений.
-Если базис ортогонализован, то коэффициенты разложения легко вычисляются.
-
-
-\section{Декомпозиция Фурье}
-
-Базис Фурье --- частный случай базиса степеней первообразного корня из единицы.
-Базис Фурье имеет простую физическую интерпретацию.
-Линейные системы могут только изменить амлитуду и фазу.
-Базис Фурье ортогональный.
+Пример фильтрации:
+\matlab{low\_pass}
