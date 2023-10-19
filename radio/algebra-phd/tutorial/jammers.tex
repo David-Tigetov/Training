@@ -1,0 +1,990 @@
+\chapter{Помехи}
+
+
+\section{Обнаружение и пеленгация источников}
+
+\subsection{\textcolor{red}{Задачи}}
+
+Рассматривается антенная решётка, образованная некоторым количеством приёмников, состояния которых описываются комплексными огибающими.
+
+При отсутствии источников излучения комплексные огибающие приёмников определяются внутренними шумами, которые носят случайный и хаотичный характер.
+
+При появлении источника излучения возникает упорядоченность в наборе комплексных огибающих приёмников. Воздействие источника излучения на каждый приёмник
+в отдельности является случайным, но воздействие источника излучения на совокупность приёмников имеет вполне регулярный характер, который
+определяется местоположением источника излучения.
+
+Конечно, собственные шумы приёмников не исчезают при появлении источника излучения, поэтому комплексные огибающие приёмников определяются
+суперпозицией собственных шумов и воздействием источника излучения, а при наличии нескольких источников излучения, суммарным воздействием всех источников излучения.
+
+Если дополнительно совокупность приёмников выполняет приём отраженного сигнала, то к комплексным огибающим приёмников дополнительно примешивается и
+воздействие отраженного сигнала, которое так же имеет случайный, но направленный характер.
+
+Анализируя комплексные огибающие всех приёмников, необходимо решить следующие задачи:
+\begin{itemize}
+    \item обнаружения - определить наличие источников излучения или оценить их количество,
+    \item пеленгации - определить направления на источники излучения,
+    \item адаптации - уменьшить воздействие источников излучения.
+\end{itemize}
+
+\subsection{Приёмники}
+
+Рассмотрим антенную решётку, состоящую из $n$ приемников, расположенных на одной прямой через равные расстояния (эквидистантная решётка). Состояние каждого
+приёмника в фиксированный момент времени определяется комплексной огибающей $x_k$, а состояние всей антенной решётки определяется вектором $X$:
+\[
+    X =
+    \begin{pmatrix}
+        x_1   \\
+        \dots \\
+        x_n
+    \end{pmatrix}
+    .
+\]
+
+\subsection{Отсутствие источников излучения}
+
+Если источники излучения отсутствуют, то комплексные огибающие приёмников определяются их внутренними шумами:
+\[
+    X = E,
+\]
+где
+\[
+    E =
+    \begin{pmatrix}
+        e_1   \\
+        \dots \\
+        e_n
+    \end{pmatrix}
+\]
+--- случайный вектор, компоненты которого $e_k$ --- комплексные случайные величины:
+\begin{gather*}
+    \expectation{
+        \begin{pmatrix}
+            \real{e_k} \\ \image{e_k}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        0 \\
+        0
+    \end{pmatrix} , \\
+    %
+    \variance{
+        \begin{pmatrix}
+            \real{e_k} \\ \image{e_k}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        \frac{1}{2} \sigma_0^2 & 0                      \\
+        0                      & \frac{1}{2} \sigma_0^2
+    \end{pmatrix} ,
+\end{gather*}
+где $\sigma_0^2$ --- мощность собственных шумов. Отсюда математическое ожидание
+\[
+    \expectation{e_k}
+    = \expectation{\real{e_k} + i \image{e_k}}
+    = \expectation{\real{e_k}} + i \expectation{\image{e_k}}
+    = 0 + i \cdot 0
+    = 0
+\]
+и дисперсия
+\begin{multline*}
+    \variance{e_k}
+    = \expectation{\left( e_k - \expectation{e_k} \right) \left( e_k - \expectation{e_k} \right)^*}
+    = \expectation{e_k e_k^*} = \\
+    %
+    = \expectation{\left( \real{e_k} + i \image{e_k} \right) \left( \real{e_k} - i \image{e_k} \right)}
+    = \expectation{\left( \real{e_k} \right)^2 + \left( \image{e_k} \right)^2} = \\
+    %
+    = \expectation{\left( \real{e_k} \right)^2} + \expectation{\left( \image{e_k} \right)^2}
+    = \frac{1}{2} \sigma_0^2 + \frac{1}{2} \sigma_0^2
+    = \sigma_0^2 .
+\end{multline*}
+Таким образом, для вектора $E$ математическое ожидание:
+\[
+    \expectation{E}
+    = \begin{pmatrix}
+          0     \\
+          \dots \\
+          0
+    \end{pmatrix} .
+\]
+Будем считать, что величины $e_k$ некоррелированы, тогда ковариационная матрица
+\[
+    \variance{E}
+    = \expectation{\left( E - \expectation{E} \right) \left( E - \expectation{E} \right)^*}
+    = \expectation{E E^*}
+    = \begin{pmatrix}
+          \sigma_0^2 & 0          & \dots  & 0          \\
+          0          & \sigma_0^2 & \dots  & 0          \\
+          \vdots     & \vdots     & \ddots & \vdots     \\
+          0          & 0          & \dots  & \sigma_0^2
+    \end{pmatrix}
+    = \sigma_0^2 I_n ,
+\]
+где $I_n$ --- единичная матрица.
+
+Вектор $X$ имеет такие же характеристики, что и вектор $E$:
+\begin{gather*}
+    \expectation{X} = 0, \\
+    \variance{X} = \sigma_0^2 I_n ,
+\end{gather*}
+при этом спектр ковариационной матрицы состоит из одного значения:
+\[
+    \spectrum{\variance{X}} = \set{\sigma_0^2}.
+\]
+
+\subsection{Один источник излучения}
+
+\subsubsection{Состояние приёмников}
+
+Пусть с некоторого направления производится излучение сигнала одним источником излучения, и на приёмники падает плоская волна. Пусть $\alpha$
+угол между осью ординат и волновым вектором, $\lambda$ --- длина волны сигнала источника излучения и $d$ --- шаг расстановки приёмников, тогда расстояние между
+приёмником с номером $k$ и первым приёмником равно $(k-1) d$, а смещение фазы в $k$-ом приёмнике:
+\begin{gather}
+    \Delta \varphi_k
+    = (k-1) \cdot \Delta \varphi, \notag \\
+    %
+    \Delta \varphi
+    = 2 \pi \frac{d}{\lambda} \sin \alpha
+    \label{jammers:single:phase_shift}
+\end{gather}
+где $\Delta \varphi$ --- изменение фазы между соседними приёмниками.
+
+Пусть в первом приёмнике комплексная огибающая сигнала источника излучения равна $s_1$ (в некоторый фиксированный момент времени), тогда из-за смещения фазы в
+$k$-ом приёмнике на величину $(k-1) \Delta \varphi$, комплексная огибающая сигнала источника излучения будет равна $s_1 e^{i (k-1) \Delta \varphi}$. Если все
+множители $e^{i (k-1) \Delta \varphi}$ собрать в вектор $\breve{X}_1$:
+\begin{equation}
+    \label{jammers:single:direction}
+    \breve{X}_1
+    =
+    \begin{pmatrix}
+        1                      \\
+        e^{i \Delta \varphi}   \\
+        e^{i 2 \Delta \varphi} \\
+        \dots                  \\
+        e^{i (n-1) \Delta \varphi}
+    \end{pmatrix} ,
+\end{equation}
+тогда вектор комплексных огибающих сигнала источника излучения для всех приёмников будет иметь простой вид --- $s_1 \breve{X}_1$.
+
+Поскольку на принимаемый сигнал источника излучения накладываются собственные шумы приёмников, то вектор комплексных огибающих приёмников будет иметь вид суммы:
+\begin{equation}
+    \label{jammers:single:state}
+    X = E + \breve{X}_1 s_1.
+\end{equation}
+В произведении $\breve{X}_1 s_1$ можно выделить регулярную составляющую в виде неслучайного вектора $\breve{X}_1$, который определяется направлением на источник излучения,
+и случайную составляющую в виде комплексной огибающей $s_1$. Таким образом, при наличии источника излучения в состоянии $X$:
+\begin{enumerate}
+    \item появляется регулярная структура, задаваемая вектором $\breve{X}_1$, которая определяется местоположением источника излучения,
+    \item возникает смещение на случайную величину $s_1$.
+\end{enumerate}
+Комплексная огибающая $s_1$ является комплексной случайной величиной, для которой:
+\begin{gather*}
+    \expectation{
+        \begin{pmatrix}
+            \real{s_1} \\ \image{s_1}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        0 \\
+        0
+    \end{pmatrix} , \\
+    %
+    \variance{
+        \begin{pmatrix}
+            \real{s_1} \\ \image{s_1}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        \frac{1}{2} \sigma_1^2 & 0                      \\
+        0                      & \frac{1}{2} \sigma_1^2
+    \end{pmatrix} .
+\end{gather*}
+Дополнительно считается, что $s_1$ некоррелированна с величинами комплексных огибающих собственных шумов $e_k$:
+\begin{gather*}
+    \covariance{s_1}{e_l} = 0 , \\
+    l = \overline{1, n}.
+\end{gather*}
+
+Характеристики состояния $X$ изменяются при наличии источника излучения и, в соответствии с представлением \eqref{jammers:single:state}, математическое ожидание
+$X$:
+\[
+    \expectation{X}
+    = \expectation{E} + \breve{X}_k \expectation{s_k}
+    = 0 + \breve{X}_k \cdot 0
+    = 0,
+\]
+и ковариационная матрица $X$:
+\begin{multline*}
+    \variance{X}
+    = \expectation{\left( X - \expectation{X} \right) \left( X - \expectation{X} \right)^*}
+    = \expectation{X X^*} = \\
+    %
+    = \expectation{\left( E + \breve{X}_1 s_1 \right) \left( E + \breve{X}_1 s_1 \right)^*} = \\
+    %
+    = \expectation{E E^* + E \left( \breve{X}_1 s_1 \right) + \left( \breve{X}_1 s_1 \right) E^* + \left( \breve{X}_1 s_1 \right) \left( \breve{X}_1 s_1 \right)^*} = \\
+    %
+    = \expectation{E E^*} + \breve{X}_1 \expectation{E s_1} + \breve{X}_1 \expectation{s_1 E^*} + \breve{X}_1 \expectation{s_1 \overline{s}_1} \breve{X}_1^* = \\
+    %
+    = \sigma_0^2 I_n + 0 + 0 + \expectation{\modulus{s_1}^2} \breve{X}_1 \breve{X}_1^*
+    = \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^*
+    .
+\end{multline*}
+
+\subsubsection{Обнаружение и пеленгация}
+
+Заметим, что при появлении источника излучения в ковариационной матрице $\variance{X}$ появилось слагаемое $\sigma_1^2 \breve{X}_1 \breve{X}_1^*$:
+\[
+    \sigma_0^2 I_n \rightarrow \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* ,
+\]
+которое изменило спектр матрицы и набор собственных векторов. Одним из собственных векторов является вектор направления $\breve{X}_1$:
+\begin{multline*}
+    \variance{X} \breve{X}_1
+    = \left( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right) \breve{X}_1
+    = \sigma_0^2 I_n \breve{X}_1 + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \breve{X}_1 = \\
+    %
+    = \sigma_0^2 \breve{X}_1 + \sigma_1^2 \left( \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1
+    = \left( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1 ,
+\end{multline*}
+где в соответствии с определением \eqref{jammers:single:direction} вектора направления $\breve{X}_1$:
+\begin{equation}
+    \label{jammers:single:direction_self_product}
+    \breve{X}_1^* \breve{X}_1
+    = \sum_{k=0}^{n-1} \overline{e^{i k \Delta \varphi}} \cdot e^{i k \Delta \varphi}
+    = \sum_{k=0}^{n-1} \modulus{e^{i k \Delta \varphi}}^2
+    = \sum_{k=0}^{n-1} 1
+    = n ,
+\end{equation}
+поэтому
+\[
+    \variance{X} \breve{X}_1
+    = \left( \sigma_0^2 + \sigma_1^2 \breve{X}_1^* \breve{X}_1 \right) \breve{X}_1
+    = \left( \sigma_0^2 + \sigma_1^2 n \right) \breve{X}_1 .
+\]
+Таким образом, вектор $\breve{X}_1$ соответствует собственному значению $\sigma_0^2 + \sigma_1^2 n$.
+
+Другим собственным значением является $\sigma_0^2$, поскольку для любого вектора $Y \perp \breve{X}_1$, то есть $\breve{X}_1^* Y = 0$:
+\[
+    \variance{X} Y
+    = \left( \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* \right) Y
+    = \sigma_0^2 I_n Y + \sigma_1^2 \breve{X}_1 \breve{X}_1^* Y
+    = \sigma_0^2 I_n Y + \sigma_1^2 \breve{X}_1 \cdot 0
+    = \sigma_0^2 Y .
+\]
+Таким образом, при наличии источника излучения спектр ковариационной матрицы $\variance{X}$:
+\[
+    \spectrum{\variance{X}} = \set{\sigma_0^2, \sigma_0^2 + \sigma_1^2 n}
+\]
+
+Если выполняется условие
+\begin{equation}
+    \label{jammers:single:powers_relation}
+    \sigma_1^2 n \gg \sigma_0^2 ,
+\end{equation}
+то можно сформировать правило обнаружения:
+\begin{enumerate}
+    \item вычислить наибольшее собственное значение ковариационной матрицы $\variance{X}$:
+    \[
+        \sigma_0^2 + \sigma_1^2 n = \max \spectrum{\variance{X}}
+    \]
+    \item сравнить величины $\sigma_0^2 + \sigma_1^2 n$ и $\sigma_0^2$, если первая величина существенно больше второй, то принять решение о наличии источника
+    излучения, в противном случае считать, что источник излучения отсутствует.
+\end{enumerate}
+
+Условие \eqref{jammers:single:powers_relation}, при котором появляется возможность формирования процедуры обнаружения, выполняется, если, например, мощность
+сигнала источника излучения $\sigma_1^2$ существенно больше мощности собственных шумов $\sigma_0^2$:
+\[
+    \sigma_1^2 \gg \sigma_0^2 ,
+\]
+но даже если это условие не выполняется, то есть сигнал источника излучения имеет малую мощность, то можно набрать достаточно большое количество приёмников $n$
+для выполнения условия \eqref{jammers:single:powers_relation}.
+
+Для решения задачи пеленгации необходимо найти собственный вектор, соответствующий собственному значению $\sigma_0^2 + \sigma_1^2 n$, таким собственным вектором
+является вектор $c \cdot \breve{X}_1$ ($c \in \mathbb{C}$):
+\[
+    c \cdot \breve{X}_1
+    = \begin{pmatrix}
+          c                            \\
+          c \cdot e^{i \Delta \varphi} \\
+          ...                          \\
+    \end{pmatrix}
+\]
+Отношение второй компоненты к первой будет равно величине $e^{i \Delta \varphi}$, аргумент этой величины совпадает с разностью фаз, а разность фаз позволит вычислить угол $\alpha$
+между нормалью решётки и направлением на источник излучения из равенства \eqref{jammers:single:phase_shift}:
+\begin{gather}
+    \Delta \varphi = \arg \left( e^{i \Delta \varphi} \right), \notag \\
+    \sin \alpha = \frac{\Delta \varphi}{2 \pi} \cdot \frac{\lambda}{d} \label{jammers:single:angle}.
+\end{gather}
+
+\subsubsection{Пример}
+
+Мощность источника излучения мала:
+\matlab{detection(Receivers(5, 0.5, 1), [15 0.001], 0)}
+
+Мощность источника излучения в десять раз меньше собственных шумов:
+\matlab{detection(Receivers(5, 0.5, 1), [15 0.1], 0)}
+
+Мощность источника излучения в четыре раза больше собственных шумов:
+\matlab{detection(Receivers(5, 0.5, 1), [15 4], 0)}
+
+\subsection{Несколько источников излучения}
+
+При наличии $m$ источников излучения, где $1 \le m < n$, будем считать, что направления действия источников различны: углы $\alpha_k$ между нормалью решётки и направлениями
+на источники излучения являются различными, отсюда различными являются и смещения фаз $\Delta \varphi_k$.
+
+\subsubsection{Состояние приёмников}
+
+У каждого $k$-го источника свой угол $\alpha_k$, определяемый направлением на источник излучения, сдвиг фазы $\Delta \varphi_k$, комплексная огибающая $s_k$ и
+вектор направления $\breve{X}_k$:
+\[
+    \breve{X}_k =
+    \begin{pmatrix}
+        1                        \\
+        e^{i \Delta \varphi_k}   \\
+        e^{i 2 \Delta \varphi_k} \\
+        \dots                    \\
+        e^{i (n-1) \Delta \varphi_k}
+    \end{pmatrix}
+\]
+При одновременном приёме сигналов от всех источников в каждом $l$-ом приёмнике комплексные огибающие складываются и на сумму накладывается собственный шум приёмника:
+\[
+    e_l + s_1 e^{i l \Delta \varphi_1} + s_2 e^{i l \Delta \varphi_2} + \dots + s_m e^{i l \Delta \varphi_m}
+\]
+Общее состояние всех приёмников задается суммой:
+\[
+    X
+    = E + s_1 \breve{X}_1 + \dots + s_m \breve{X}_m
+    = E + \breve{X} S,
+\]
+где $\breve{X}$ --- матрица, столцы которой являются векторами направлений $\breve{X}_k$, и $s$ --- вектор, составленный из огибающих $s_k$:
+\begin{gather*}
+    \breve{X} =
+    \begin{pmatrix}
+        \breve{X}_1 & \breve{X}_2 & \dots & \breve{X}_m \\
+    \end{pmatrix}, \\
+    %
+    S = \begin{pmatrix}
+            s_1   \\
+            s_2   \\
+            \dots \\
+            s_m
+    \end{pmatrix} .
+\end{gather*}
+Комплексные огибающие $s_k$ являются случайными величинами:
+\begin{gather*}
+    \expectation{
+        \begin{pmatrix}
+            \real{s_k} \\
+            \image{s_k}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        0 \\
+        0
+    \end{pmatrix} , \\
+    %
+    \variance{
+        \begin{pmatrix}
+            \real{s_k} \\
+            \image{s_k}
+        \end{pmatrix}
+    } =
+    \begin{pmatrix}
+        \frac{1}{2} \sigma_k^2 & 0                      \\
+        0                      & \frac{1}{2} \sigma_k^2
+    \end{pmatrix} ,
+\end{gather*}
+и величины $s_1$, \dots, $s_m$ считаются некоррелированными:
+\begin{gather*}
+    \covariance{s_k}{s_j} = 0 , \\
+    \covariance{s_k}{e_l} = 0 , \\
+    k,j = \overline{1,m}, k \neq j, \\
+    l = \overline{1, n} .
+\end{gather*}
+
+Математическое ожидание вектора состояния приёмников $X$:
+\[
+    \expectation{X}
+    = \expectation{E} + \breve{X} \expectation{S}
+    = 0 + \breve{X} \cdot 0 .
+\]
+
+Ковариационная матрица $X$:
+\begin{multline*}
+    \variance{X}
+    = \expectation{\left( X - \expectation{X} \right) \left( X - \expectation{X} \right)^*}
+    = \expectation{X X^*}
+    = \expectation{\left( E + \breve{X} S \right) \left( E + \breve{X} S \right)^*} = \\
+    %
+    = \expectation{E E^* + E S^* \breve{X}_k^* + \breve{X} S E^* + \breve{X} S S^* \breve{X}^*} = \\
+    %
+    = \expectation{E E^*} + \expectation{E S^*} \breve{X}^* + \breve{X} \expectation{S E^*} + \breve{X}_k \expectation{S S^*} \breve{X}_k^*
+    = \sigma_0^2 I_n + \breve{X}_k \variance{S} \breve{X}_k^*
+\end{multline*}
+где
+\begin{gather*}
+    \variance{S} =
+    \begin{pmatrix}
+        \sigma_1^2 & 0          & \dots  & 0          \\
+        0          & \sigma_2^2 & \dots  & 0          \\
+        \vdots     & \vdots     & \ddots & \vdots     \\
+        0          & 0          & \dots  & \sigma_m^2
+    \end{pmatrix} .
+\end{gather*}
+
+\subsubsection{Обнаружение}
+
+Как и в случае одного источника излучения ковариационная матрица $\variance{X}$ вектора состояния $X$ изменяется аналогичным образом:
+\[
+    \sigma_0^2 I_n \rightarrow \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^*
+\]
+при этом также изменяется и спектр ковариационной матрицы $\variance{X}$.
+
+Заметим, что векторы $\breve{X}_1$, \dots, $\breve{X}_m$ являются линейно независимыми, поскольку все сдвиги фаз $\Delta \varphi_k$ различны, поэтому ранг матрицы
+$\breve{X} S \breve{X}^*$ равен количеству векторов $m$:
+\[
+    \rank{\breve{X} \variance{S} \breve{X}^*} = m
+\]
+и в спектре матрицы $\breve{X} S \breve{X}^*$ есть $m$ ненулевых собственных значений $\lambda_1$, \dots, $\lambda_m$ и нулевое значение, поскольку
+$m < n$:
+\begin{gather*}
+    \spectrum{\breve{X} \variance{S} \breve{X}^*} = \set{0, \lambda_1, \dots, \lambda_m}, \\
+    \lambda_k \neq 0, \\
+    \lambda_1 \le \dots \le \lambda_m .
+\end{gather*}
+Поскольку матрица $\breve{X} \variance{S} \breve{X}^*$ является неотрицательно определённой:
+\[
+    \breve{X} \variance{S} \breve{X}^* \ge 0 ,
+\]
+то собственные значения также неотрицательны:
+\[
+    \lambda_k \ge 0,
+\]
+а поскольку собственные значения отличны от нуля, то:
+\[
+    0 < \lambda_1 \le \dots \le \lambda_m
+\]
+\textcolor{red}{и при этом различны}:
+\[
+    0 < \lambda_1 < \dots < \lambda_m .
+\]
+
+Добавление матрицы $\sigma_0^2 I_n$ приводит к смещению спектра на величину $\sigma_0^2$:
+\[
+    \spectrum{\variance{X}}
+    = \spectrum{\sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^*}
+    = \set{\sigma_0^2, \sigma_0^2 + \lambda_1, \dots, \sigma_0^2 + \lambda_m}
+\]
+
+\textcolor{red}{Как связаны величины $\lambda_1$, \dots, $\lambda_m$ и $\sigma_1^2$, \dots, $\sigma_m^2$?}
+
+Поскольку $\lambda_1 > 0$, то можно сформулировать правило обнаружения источников излучения и определения их количества:
+\begin{enumerate}
+    \item вычислить наибольшее собственное значение $\lambda_{max}$ ковариационной матрицы $\variance{X}$,
+    \item сравнить $\lambda_{max}$ с $\sigma_0^2$, если $\lambda_{max} > \sigma_0^2$, то принять решение о наличии источников излучения, в противном случае
+    считать, что источники излучения осутствуют,
+    \item при наличии источников излучения последовательно находить собственные значения $\sigma_0^2 + \lambda_k$ до тех пор, пока не будет получено собственное
+    значение $\sigma_0^2$ для определения количества источников излучения.
+\end{enumerate}
+
+\subsubsection{Пеленгация}
+
+Предварительно рассмотрим простой случай, в котором векторы направлений $\breve{X}_1$, \dots, $\breve{X}_m$ являются почти ортогональными:
+\begin{gather*}
+    \breve{X}_k^* \breve{X}_k = n, \\
+    \breve{X}_k^* \breve{X}_j = \delta_{kj}, \\
+    \modulus{\delta_{kj}} < \delta \ll n, \\
+    k \neq j .
+\end{gather*}
+На практике векторы направлений $\breve{X}_k$ почти ортогональны, если направления на источники излучения в достаточной мере разнесены по углу, то есть являются
+различимыми. Угловая мера различимости зависит от количества приёмников $n$.
+
+Векторы направлений $\breve{X}_j$ являются близкими к собственным векторам ковариационной матрицы $\variance{X}$:
+\begin{multline*}
+    \variance{X} \breve{X}_j
+    = \left( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right) \breve{X_j}
+    = \left( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right) \breve{X}_j
+    = \sigma_0^2 \breve{X}_j + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \breve{X}_j = \\
+    %
+    = \sigma_0^2 \breve{X}_j + \left( \sigma_j^2 \breve{X}_j^* \breve{X}_j \right) \breve{X}_j + \sum_{k \neq j} \left( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right) \breve{X}_k = \\
+    %
+    = \left( \sigma_0^2 + \sigma_j^2 \breve{X}_j^* \breve{X}_j \right) \breve{X}_j + \sum_{k \neq j} \left( \sigma_k^2 \breve{X}_k^* \breve{X}_j \right) \breve{X}_k
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k ,
+\end{multline*}
+причём коэффициент при $\breve{X}_j$ растет пропорционально $n$, то есть с ростом $n$ вектор $\breve{X}_j$ будет приближаться к собственному, потому что сумма состоит из $m$
+слагаемых и коэффициенты при $\breve{X}_k$ в сумме не растут с ростом $n$. Таким образом, можно находить собственные векторы ковариационной матрицы $\variance{X}$ и по каждому
+из них определять направление, \textcolor{red}{хотя вполне возможно, что собственные векторы ковариационной матрицы $\variance{X}$ и не являются векторами направлений}.
+
+Приближение может получатся не очень точным при недостаточно большом количестве приёмников:
+\matlab{detection(Receivers(5, 0.5, 1), [-15 4; 30 7], 0)}
+\noindent но точность повышается с ростом количества приёмников $n$:
+\matlab{detection(Receivers(1000, 0.5, 1), [-15 4; 30 7], 0)}
+\noindent хотя количество приёмников может оказаться очень большим, поэтому попробуем найти другой способ пеленгации.
+
+Заметим, что квадратичная форма:
+\begin{multline*}
+    \breve{X}_j^* \variance{X} \breve{X}_j
+    = \breve{X}_j^* \left( \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_k \right) = \\
+    %
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) \breve{X}_j^* \breve{X}_j + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \breve{X}_j^* \breve{X}_k
+    = \left( \sigma_0^2 + \sigma_j^2 n \right) n + \sum_{k \neq j} \sigma_k^2 \delta_{kj} \overline{\delta_{kj}} = \\
+    %
+    = \sigma_0^2 n + \sigma_j^2 n^2 + \sum_{k \neq j} \sigma_k^2 \modulus{\delta_{kj}}^2
+    < \sigma_0^2 n + \sigma_j^2 n^2 + (m-1) \max \limits_{k \neq j} \sigma_k^2 \modulus{\delta}^2 .
+\end{multline*}
+\textcolor{blue}{Квадратичная форма растет пропорционально $n^2$ по отношению к фактору "неортогональности"{} векторов направлений.}
+
+В некотором приближении можно считать, что
+\begin{gather*}
+    \breve{X}_j^* \variance{X} \breve{X}_j \approx \sigma_0^2 n + \sigma_j^2 n^2 , \\
+    j = \overline{1,m} ,
+\end{gather*}
+и оказывается, что значения в правой части являются близкими к локальным максимумам квадратичной формы с
+ковариационной матрицей $\variance{X}$. Если взять произвольный вектор направления $\breve{Y}(\Delta \varphi)$ как функцию смещения фазы $\Delta \varphi$:
+\[
+    \breve{Y}(\Delta \varphi) =
+    \begin{pmatrix}
+        1                      \\
+        e^{i \Delta \varphi}   \\
+        e^{i 2 \Delta \varphi} \\
+        \dots                  \\
+        e^{i (n-1) \Delta \varphi}
+    \end{pmatrix} ,
+\]
+то квадратичная форма
+\begin{multline}
+    \label{jammers:multiple:quadric}
+    \breve{Y}^* \variance{X} \breve{Y}
+    = \breve{Y}^* \left( \sigma_0^2 I_n + \breve{X} \variance{S} \breve{X}^* \right) \breve{Y}
+    = \breve{Y}^* \left( \sigma_0^2 I_n + \sum_{k=1}^m \sigma_k^2 \breve{X}_k \breve{X}_k^* \right) \breve{Y} = \\
+    %
+    = \sigma_0^2 \breve{Y}^* \breve{Y} + \sum_{k=1}^m \sigma_k^2 \breve{Y}^* \breve{X}_k \breve{X}_k^* \breve{Y}
+    = \sigma_0^2 n + \sum_{k=1}^m \sigma_k^2 \breve{Y}^* \breve{X}_k \left( \breve{Y}^* \breve{X}_k \right)^* = \\
+    %
+    = \sigma_0^2 n + \sum_{k=1}^m \sigma_k^2 \modulus{\breve{Y}^* \breve{X}_k}^2 ,
+\end{multline}
+где произведения
+\begin{multline*}
+    \breve{Y}^* \breve{X}_k
+    =
+    \begin{pmatrix}
+        1                       &
+        e^{- i \Delta \varphi}   &
+        e^{- i 2 \Delta \varphi} &
+        \dots                   &
+        e^{- i (n-1) \Delta \varphi}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1                        \\
+        e^{i \Delta \varphi_k}   \\
+        e^{i 2 \Delta \varphi_k} \\
+        \dots                    \\
+        e^{i (n-1) \Delta \varphi_k}
+    \end{pmatrix}
+    = \\
+    %
+    = 1 + e^{i (\Delta \varphi_k - \Delta \varphi )} + e^{i 2 (\Delta \varphi_k - \Delta \varphi )} + \dots + e^{i (n-1) (\Delta \varphi_k - \Delta \varphi )} .
+\end{multline*}
+Представление о полученной сумме и её модуле можно получить, рассматривая сумму чисел вида $e^{i l (\Delta \varphi_k - \Delta \varphi )}$ на комплексной
+плоскости: к 1 прибавляется единичный вектор $e^{i (\Delta \varphi_k - \Delta \varphi )}$, повёрнутый на угол $\Delta \varphi_k - \Delta \varphi$, соответствующий разности,
+далее прибавляется единичный вектор, повёрнутый на два угла $\Delta \varphi_k - \Delta \varphi$, на три и так далее.
+
+Заметим, что
+\begin{multline*}
+    \modulus{\breve{Y}^* \breve{X}_k}
+    = \modulus{1 + e^{i (\Delta \varphi_k - \Delta \varphi )} + e^{i 2 (\Delta \varphi_k - \Delta \varphi )} + \dots + e^{i (n-1) (\Delta \varphi_k - \Delta \varphi )}} \le \\
+    %
+    \le 1 + \modulus{e^{i (\Delta \varphi_k - \Delta \varphi )}} + \modulus{e^{i 2 (\Delta \varphi_k - \Delta \varphi )}} + \dots + \modulus{e^{i (n-1) (\Delta \varphi_k - \Delta \varphi )}}
+    = 1 + 1 + 1 + \dots + 1
+    = n .
+\end{multline*}
+Если направления совпадают, $\breve{Y} = \breve{X}_k$, то фазы равны, $\Delta \varphi = \Delta \varphi_k$, тогда величина модуля:
+\[
+    \modulus{\breve{Y}^* \breve{X}_k}
+    = \modulus{1 + e^{i \cdot 0} + e^{i \cdot 0} + \dots + e^{i \cdot 0}}
+    = \modulus{1 + 1 + 1 + \dots + 1}
+    = n .
+\]
+Таким образом, модуль $\modulus{\breve{Y}^* \breve{X}_k}$ достигает наибольшего значения, когда направления совпадают. Модуль $\modulus{Y^* X_k}$ как функция смещения фазы
+$\Delta \varphi$, определяющей вектор $Y$, представляет собой осцилирующую "убывающую"{} функцию с пиком в точке $\Delta \varphi = \Delta \varphi_k$, соответствующей вектору
+направления $\breve{X}_k$.
+
+Рисунки функции \texttt{jammers/projection.m}:
+\begin{Matlab}
+    \Mcommand{projection(Receivers(5, 0.5, 1), 0)}
+    \Mcommand{projection(Receivers(5, 0.5, 1), 15)}
+    \Mcommand{projection(Receivers(5, 0.5, 1), 25)}
+    \Mcommand{projection(Receivers(5, 0.5, 1), 50)}
+    \Mcommand{projection(Receivers(5, 0.5, 1), 85)}
+    \Mcommand{projection(Receivers(10, 0.5, 1), 25)}
+    \Mcommand{projection(Receivers(10, 0.5, 1), 85)}
+\end{Matlab}
+
+Сумма в квадратичной форме \eqref{jammers:multiple:quadric} представляет собой суперпозицию функций-модулей $\modulus{Y^* X_k}$, которая в случае достаточного разделения векторов
+направлений $\breve{X}_k$ имеет локальные максимумы в окрестности векторов направлений $\breve{X}_k$ и достигает значений, примерно равных $\sigma_0^2 n + \sigma_k^2 n^2$. Тем не менее,
+направления локальных максимумов не обязательно совпадают с направлениями источников излучения.
+
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 0, "direct"{}, 1)}
+
+\textcolor{blue}{Рисунок с разделёнными локальными максимумами.}
+
+Если некоторые векторы направлений $\breve{X}_k$ оказываются "близкими"{}, то возникает один локальный максимум квадратичной формы в окрестности "близких"{} векторов направлений.
+
+\begin{Matlab}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 15 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 10 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "direct"{}, 1)}
+    \Mcommand{quadric(Receivers(5, 0.5, 1), [-15 4; 0 7], 0, "direct"{}, 1)}
+\end{Matlab}
+\textcolor{blue}{Рисунки с локальными максимумами.}
+
+Однако,  при увеличении количества приёмников повышается "разрешение"{}.
+\matlab{quadric(Receivers(10, 0.5, 1), [-15 4; 0 7], 0, "direct"{}, 1)}
+
+Таким образом, нахождение смещений фазы $\Delta \varphi$ и векторов направлений $Y$, при которых наблюдается локальный максимум квадратичной формы
+$Y^* \variance{X} Y$, позволяет находить направления "близкие"{} к направлениям на источники излучений $\breve{X}_k$.
+
+У данного метода пеленгации несколько проблем: различение близких источников излучения, смещение максимумов квадратичной формы относительно направлений на источники излучения
+и точность определения направлений, которая некоторым образом связана с "шириной"{} графика квадратичной формы в окрестностях локальных максимумов. Ситуация улучшается при
+увеличении количества приёмников, но требуемое количество может оказаться слишком большим.
+
+\subsubsection{Альтернативная пеленгация}
+
+Существует несколько альтернативных методов определения направлений на источники излучения, связанных с поиском экстремумов функций от направления.
+
+Поскольку квадратичная форма с матрицей $\variance{X}$ имеет локальные максимумы в направлении источников излучения, то квадратичная форма с обратной матрицей $\variance{X}^{-1}$
+имеет локальные минимумы в этих направлениях:
+\[
+    \breve{Y}^* \variance{X}^{-1} \breve{Y} \rightarrow min
+\]
+
+Нет различения близких источников:
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "direct"{}, 1)}
+
+Есть различение близких источников
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "inverse"{}, 1)}
+
+Можно рассматривать максимум обратной величины:
+\[
+    \frac{1}{\breve{Y}^* \variance{X}^{-1} \breve{Y}} \rightarrow max
+\]
+Уменьшение ширины в окрестности локального максимума:
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 5 7], 0, "inverse"{}, -1)}
+
+\textcolor{red}{Здесь нужны пояснения. Почему так происходит?}
+
+
+\section{Адаптация}
+
+\subsection{Состояние приёмников}
+
+Дополнительно к собственным шумам и источникам излучения добавляется полезный сигнал, соответствующий вектору направления $\breve{U}$. Состояние приёмников описывается
+вектором комплексных огибающих:
+\begin{gather*}
+    Y = X + \breve{U} \cdot u ,
+\end{gather*}
+где $X = E + \breve{X} S$ --- комплексные огибающие собственных шумов и сигналов источников излучения, $u$ --- комплексная огибающая полезного сигнала.
+
+\subsection{Критерий обработки}
+
+Нужно разработать преобразование вектора $Y$, которое выделяет огибающую $u$ полезного сигнала, причём это преобразование должно быть простым. Одним из вариантов такого
+преобразования является линейное преобразование $\mathcal{F}_W(Y)$:
+\[
+    \mathcal{F}_W(Y)
+    = w_1^* y_1 + w_2^* y_2 + \dots + w_n^* y_n
+    = W^* Y,
+\]
+где $W$ --- весовой вектор:
+\[
+    W =
+    \begin{pmatrix}
+        w_1   \\
+        \dots \\
+        w_n
+    \end{pmatrix}.
+\]
+Таким образом,
+\[
+    \mathcal{F}_W(Y)
+    = W^* \left( X + \breve{U} \cdot u \right)
+    = W^* X + W^* \breve{U} \cdot u
+\]
+Желательно чтобы
+\begin{gather*}
+    \modulus{W^* X} \ll \modulus{W^* \breve{U}} , \\
+    \modulus{W^* X}^2 \ll \modulus{W^* \breve{U}}^2
+\end{gather*}
+Поскольку слева стоит случайная величина, то будем ориентироваться на её среднее значение:
+\[
+    \expectation{\modulus{W^* X}^2} \ll \modulus{W^* \breve{U}}^2 .
+\]
+Более точно, будем стараться выбирать вектор $W$ так, чтобы наибольшим было отношение $\rho$:
+\[
+    \rho ( W ) = \frac{\modulus{W^* \breve{U}}^2}{\expectation{\modulus{W^* X}^2}} .
+\]
+Отношение $\rho$ показывает отношение мощности полезного сигнала $\modulus{W^* \breve{U}}^2$ к средней мощности шумов и мешающих сигналов источников излучения $\modulus{W^* X}^2$:
+\[
+    \expectation{\modulus{W^* X}^2}
+    = \expectation{W^* X X^* W}
+    = W^* \expectation{X X^*} W
+    = W^* \variance{X} W .
+\]
+Таким образом,
+\[
+    \rho ( W )
+    = \frac{\modulus{W^* \breve{U}}^2}{W^* \variance{X} W}
+    = \frac{W^* \breve{U} \breve{U}^* W}{W^* R W} ,
+\]
+где введено обозначение
+\[
+    R = \variance{X} .
+\]
+Необходимо найти оптимальный весовой вектор $W_{max}$, при котором отношение $\rho(W)$ достигает наибольшего значения.
+\[
+    \rho(W_{max}) = \max \limits_W \rho(W) .
+\]
+
+\subsection{Оптимальный весовой вектор}
+
+Отношение $\rho(W)$ является отношением Релея, для которого известен способ нахождения наибольшего значения и направления $W_{max}$, в котором он достигается, рассмотренный
+в разделе \ref{rayleigh:extrema}. Раскладываем ковариационную матрицу на произведение корней:
+\[
+    R = R^\frac{1}{2} \cdot \left( R^\frac{1}{2} \right)^*
+\]
+подставляем в отношение
+\[
+    \rho ( W )
+    = \frac{W^* \breve{U} \breve{U}^* W}{W^* R^\frac{1}{2} \cdot \left( R^\frac{1}{2} \right)^* W}
+\]
+вводим новую переменную $Z$
+\begin{align*}
+    Z & = \left( R^\frac{1}{2} \right)^* W , \\
+    \left( R^{-\frac{1}{2}} \right)^* Z & = W ,
+\end{align*}
+тогда отношение:
+\begin{gather*}
+    \rho(Z)
+    = \frac{Z^* R^{-\frac{1}{2}} \breve{U} \breve{U}^* \left( R^{-\frac{1}{2}} \right)^* Z}{Z^* Z}
+    = \frac{Z^* C Z}{Z^* Z}, \\
+    %
+    C
+    = R^{-\frac{1}{2}} \breve{U} \breve{U}^* \left( R^{-\frac{1}{2}} \right)^*
+    = R^{-\frac{1}{2}} \breve{U} \left( R^{-\frac{1}{2}} \breve{U} \right)^*.
+\end{gather*}
+Наибольшее значение отношение Релея $\rho(Z)$ равно наибольшему собственному значению матрицы $C$. Матрица $C$ является внешним произведением одного вектора $R^{-\frac{1}{2}} \breve{U}$,
+поэтому имеет ранг 1, отсюда следует, что у матрицы $C$ есть только одно отличное от нуля собственное значение $\lambda_{max}$, и этому собственному значению соответствует вектор
+$R^{-\frac{1}{2}} \breve{U}$, действительно:
+\[
+    C \left( R^{-\frac{1}{2}} \breve{U} \right)
+    = R^{-\frac{1}{2}} \breve{U} \left( R^{-\frac{1}{2}} \breve{U} \right)^* R^{-\frac{1}{2}} \breve{U}
+    = R^{-\frac{1}{2}} \breve{U} \norm{R^{-\frac{1}{2}} \breve{U}}^2
+    = \norm{R^{-\frac{1}{2}} \breve{U}}^2 \cdot R^{-\frac{1}{2}} \breve{U} .
+\]
+Таким образом, вектор $Z_{max}$, при котором достигается наибольшее значение отношения Релея $\rho(Z)$:
+\[
+    Z_{max} = R^{-\frac{1}{2}} \breve{U} ,
+\]
+исходный вектор $W_{max}$:
+\[
+    W_{max}
+    = \left( R^{-\frac{1}{2}} \right)^* Z_{max}
+    = \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} \breve{U} .
+\]
+Заметим, что
+\[
+    \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} R
+    = \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} R^\frac{1}{2} \left( R^\frac{1}{2} \right)^*
+    = \left( R^{-\frac{1}{2}} \right)^* \left( R^\frac{1}{2} \right)^*
+    = \left( R^\frac{1}{2} R^{-\frac{1}{2}} \right)^*
+    = I^*
+    = I ,
+\]
+поэтому
+\[
+    \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}}
+    = R^{-1}
+\]
+и оптимальный весовой вектор
+\[
+    W_{max}
+    = R^{-1} \breve{U} .
+\]
+Наибольшее значение отношения Релея $\rho(Z)$ равно собственному числу $\norm{R^{-\frac{1}{2}} \breve{U}}^2$:
+\[
+    \max \limits_W \rho(W)
+    = \norm{R^{-\frac{1}{2}} \breve{U}}^2
+    = \breve{U}^* \left( R^{-\frac{1}{2}} \right)^* R^{-\frac{1}{2}} \breve{U}
+    = \breve{U}^* R^{-1} \breve{U}
+    = \breve{U}^* W_{max} .
+\]
+
+\subsection{Отсутствие источников излучения}
+
+Выделение полезного сигнала $u$ с помощью проецирующего преобразования $\mathcal{F}_W(Y)$ с оптимальным весовым вектором $W_{max}$ можно использовать и при отсутствии источников
+излучения, для адаптации к собственным шумам приёмников. При отсутствии источников излучения вектор "мешающих"{} сигналов $X$ образован огибающими собственных шумов приёмников:
+\[
+    X = E .
+\]
+Ковариационная матрица
+\begin{gather*}
+    R = \variance{X} = \sigma_0^2 I_n , \\
+    %
+    R^{-1} = \frac{1}{\sigma_0^2} I_n .
+\end{gather*}
+Оптимальный весовой вектор $W_{max}$:
+\[
+    W_{max}
+    = R^{-1} \breve{U}
+    = \frac{1}{\sigma_0^2} \breve{U} .
+\]
+
+\subsection{Пример}
+
+Если один источник помех и разнесены направления:
+\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4], 0, 10)}
+
+Если два источника помех и разнесены направления:
+\matlab{adaptation(Receivers(5, 0.5 ,1), [-15 4; 40 7], 0, 10)}
+
+По мере приближения источника к направлению полезного сигнала:
+\begin{Matlab}
+    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 30 7], 0, 10)}
+    \Mcommand{adaptation(Receivers(5, 0.5 ,1), [-15 4; 20 7], 0, 10)}
+\end{Matlab}
+\noindent уменьшается мощность в направлении полезного сигнала, возрастают мощности с боковых направлений.
+
+Уменьшение мощности боковых направлений за счёт увеличения количества приёмников:
+\begin{Matlab}
+    \Mcommand{adaptation(Receivers(10, 0.5 ,1), [-15 4; 20 7], 0, 10)}
+\end{Matlab}
+
+
+\section{Оценка ковариационной матрицы}
+
+\subsection{Оценивание}
+
+Ковариационная матрица $\variance{X}$ неизвестна, но её можно оценить --- нужно взять $m$ моментов времени и в каждый из моментов определить состояние приёмников $X_k$
+($k = \overline{1,m}$):
+\[
+    X_k =
+    \begin{pmatrix}
+        x_{1,1} \\
+        \dots   \\
+        x_{i,k} \\
+        \dots   \\
+        x_{j,k} \\
+        \dots   \\
+        x_{n,k}
+    \end{pmatrix} .
+\]
+Ковариация двух компонент $x_i$ и $x_j$:
+\[
+    \covariance{x_i}{x_j}
+    = \expectation{\left( x_i - \expectation{x_i} \right) \left( x_j - \expectation{x_j} \right)^*}
+    = \expectation{ x_i x_j^*},
+\]
+поскольку $\expectation{x_k} = 0$.
+
+В качестве оценки используем выражение:
+\begin{multline*}
+    \widehat{\covariance{x_i}{x_j}}
+    = \frac{1}{p} \sum_{k=1}^p x_{i,k} x_{j,k}^*
+    = \sum_{k=1}^p \frac{1}{\sqrt{p}} x_{i,k} \frac{1}{\sqrt{p}} x_{j,k}^* = \\
+    %
+    = \frac{1}{\sqrt{p}}
+    \begin{pmatrix}
+        x_{i,1} & x_{i,2} & \dots & x_{i,p}
+    \end{pmatrix}
+    \frac{1}{\sqrt{p}}
+    \begin{pmatrix}
+        x_{j,1}^* \\
+        x_{j,2}^* \\
+        \dots     \\
+        x_{j,p}^*
+    \end{pmatrix} .
+\end{multline*}
+Все оценки ковариаций можно получить умножением матриц:
+\[
+    \widehat{R} =
+    \frac{1}{\sqrt{p}}
+    \begin{pmatrix}
+        x_{1,1} & x_{1,2} & \dots  & x_{1,p} \\
+        x_{2,1} & x_{2,2} & \dots  & x_{2,p} \\
+        \vdots  & \vdots  & \ddots & \vdots  \\
+        x_{n,1} & x_{n,2} & \dots  & x_{n,p}
+    \end{pmatrix}
+    \frac{1}{\sqrt{p}}
+    \begin{pmatrix}
+        x_{1,1}^* & x_{2,1}^* & \dots  & x_{n,1}^* \\
+        x_{1,2}^* & x_{2,2}^* & \dots  & x_{n,2}^* \\
+        \vdots    & \vdots    & \ddots & \vdots    \\
+        x_{1,p}^* & x_{2,p}^* & \dots  & x_{n,p}^*
+    \end{pmatrix}
+    .
+\]
+Правая матрица является сопряженной к левой матрице, поэтому если:
+\[
+    Y =
+    \frac{1}{\sqrt{p}}
+    \begin{pmatrix}
+        x_{1,1} & x_{1,2} & \dots  & x_{1,p} \\
+        x_{2,1} & x_{2,2} & \dots  & x_{2,p} \\
+        \vdots  & \vdots  & \ddots & \vdots  \\
+        x_{n,1} & x_{n,2} & \dots  & x_{n,p}
+    \end{pmatrix} ,
+\]
+тогда
+\[
+    \widehat{R} = Y Y^* .
+\]
+
+\subsubsection{Пример}
+
+Обнаружение и пеленгация по спектру:
+\begin{Matlab}
+    \Mcommand{detection(Receivers(5, 0.5, 1), [-15 4], 10)}
+    \Mcommand{detection(Receivers(5, 0.5, 1), [-15 4], 10000)}
+\end{Matlab}
+c
+Пеленгация по рельефу (запустить несколько раз для объёма выборки 5, поскольку оценка ковариационной матрицы сильно меняется):
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 5, "direct"{}, 1)}
+\noindent при увеличении объёма выборки оценка ковариационной матрицы становится более точной, решение улучшается:
+\matlab{quadric(Receivers(5, 0.5, 1), [-15 4; 30 7], 1000, "direct"{}, 1)}
+
+Адаптация (запустить несколько раз для объёма выборки 5, поскольку оценка ковариационной матрицы сильно меняется):
+\matlab{adaptation(Receivers(5, 0.5, 1), [-15 4; 30 7], 5, 10)}
+\noindent при увеличении объёма выборки оценка ковариационной матрицы становится более точной, решение улучшается:
+\matlab{adaptation(Receivers(5, 0.5, 1), [-15 4; 30 7], 1000, 10)}
+
+\subsection{Ортогонализация и обращение}
+
+Матрица $\widehat{R}$ является факторизованной, поэтому можно найти факторизацию обратной матрицы $\widehat{R}^{-1}$.
+
+Пусть $\Phi$ является преобразованием, ортогонализующим строки матрицы $Y$, то есть строки матрицы $\Phi Y$ являются взаимно ортогональными:
+\[
+    \left( \Phi Y \right) \left( \Phi Y \right)^* = I_n ,
+\]
+отсюда
+\begin{gather*}
+    \Phi Y Y^* \Phi^* = I_n , \\
+    \Phi \widehat{R} \Phi^* = I_n , \\
+    \Phi \widehat{R} = \left(\Phi^* \right)^{-1}, \\
+    \widehat{R} = \Phi^{-1} \left(\Phi^* \right)^{-1}, \\
+    \widehat{R} = \left(\Phi^* \Phi \right)^{-1}, \\
+    \widehat{R}^{-1} = \Phi^* \Phi .
+\end{gather*}
+
+\subsection{Вычисления}
+
+Вычисление квадратичной формы:
+\[
+    \breve{V}^* \widehat{R}^{-1} \breve{V}
+    = \breve{V}^* \Phi^* \Phi \breve{V}
+    = \left( \Phi \breve{V} \right)^* \Phi \breve{V}
+    = \norm{\Phi \breve{V}}^2 .
+\]
+Вычисление оптимального весового вектора:
+\[
+    W_{max}
+    = \widehat{R}^{-1} \breve{U}
+    = \Phi^* \Phi \breve{U} .
+\]

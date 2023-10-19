@@ -1,0 +1,2496 @@
+\chapter{Стационарные линейные системы}
+
+
+\section{Системы}
+
+Дискретные сигналы будем представлять в виде бесконечных последовательностей $x$. Элемент дискретного сигнала $x$ с номером $k \in \mathbb{Z}$ будет обозначать $x[k]$.
+Номера $k$ будет считать моментами дискретного времени.
+
+На основе множества дискретных сигналов построим линейное пространство с поэлементным сложением сигналов и умножением на вещественные числа:
+\[
+    z = x + h \cdot y \Rightarrow z[k] = x[k] + h \cdot y[k].
+\]
+
+Дискретные сигналы будем преобразовывать с помощью операторов $\mathcal{L}$:
+\[
+    y = \mathcal{L}(x).
+\]
+Будем считать, что оператор соответствует действию системы, на вход которой последовательно подаются компоненты $x[k]$ сигнала $x$, и с выхода системы записываются компоненты
+$y[k]$ сигнала $y$.
+
+Далее рассматриваются только физически реализуемые системы, у которых на компонент $y[k]$ выходного сигнала могут влиять только компоненты $x[m]$, которые были получены системой
+до момента $k$ включительно, то есть $m \le k$.
+
+Рассматриваемые системы считаем стационарными: характеристики систем не изменяются во времени. Если входной сигнал $x$ сдвинуть на несколько моментов $s$ вправо или влево
+на оси дискретного времени, то выходной сигнал системы также сдвинется на такое же количество моментов $s$:
+\begin{align*}
+    \widetilde{x}[k+s]              & = x[k] ,                        \\
+    \mathcal{L}(\widetilde{x})[k+s] & = \mathcal{L}(\widetilde{x})[k]
+\end{align*}
+
+Предполагаем, что системы являются линейными:
+\begin{gather*}
+    \mathcal{L}(x + h \cdot y)
+    = \mathcal{L}(x) + \mathcal{L}(h \cdot y)
+    = \mathcal{L}(x) + h \cdot \mathcal{L}(y) , \\
+    %
+    \mathcal{L}(x + h \cdot y)[k]
+    = \mathcal{L}(x)[k] + h \cdot \mathcal{L}(y)[k] .
+\end{gather*}
+
+\subsection{Декомпозиция}
+
+Свойство линейности позволяет анализировать действие оператора $\mathcal{L}$ на "сложные"{} сигналы, если "сложный"{} сигнал $x$ разложить на "простые"{} сигналы $e_i$:
+\[
+    x = h_1 \cdot e_1 + \dots + h_n \cdot e_n ,
+\]
+тогда
+\[
+    \mathcal{L}(x) = h_1 \cdot \mathcal{L}(e_1) + \dots + h_n \cdot \mathcal{L}(e_n) .
+\]
+
+В качестве элементов $e_i$ можно выбирать единичные импульсы (но это не единственный возможный вариант). Рассмотрим сигнал $\delta$ в виде единичного импульса, помещенного в
+момент времени 0:
+\[
+    \delta[k]
+    = \left \{
+    \begin{array}{rr}
+        1 & \text{, если } k = 0 ,  \\
+        0 & \text{, если } k \neq 0
+    \end{array}
+    \right .
+\]
+В качестве элементов $e_i$ выберем сдвинутые единичные импульсы:
+\[
+    e_i[k+i]
+    = \delta[k] ,
+\]
+тогда любой сигнал $x$ можно представить в виде:
+\[
+    x
+    = \sum_{i} x[i] e_i .
+\]
+
+\subsection{Импульсная характеристика}
+
+Реакция системы на сигнал $x$ оказывается равной:
+\[
+    y
+    = \mathcal{L}(x)
+    = \mathcal{L} \left ( \sum_{i} x[i] e_i \right )
+    = \sum_{i} \mathcal{L} \left ( x[i] e_i \right )
+    = \sum_{i} x[i] \mathcal{L} \left ( e_i \right )
+\]
+Значит необходимо выяснить выходные сигналы системы при подаче на вход системы импульсов $e_i$:
+\[
+    \mathcal{L} \left ( e_i \right )[k+i] = \mathcal{L}(\delta)[k]
+\]
+и эти выходные сигналы оказываются сдвигами выходного сигнала системы, если на вход системы подаётся единичный импульс $\delta$. Обозначим этот сигнал $h$:
+\[
+    h = \mathcal{L}(\delta).
+\]
+Сигнал $h$ называется импульсной характеристикой системы $\mathcal{L}$.
+
+Таким образом, элемент $s$ выходного сигнала системы при входном сигнале $x$ представляется суммой:
+\begin{equation}
+    ~\label{linear:impulse:convolution}
+    y[s]
+    = \mathcal{L}(x)[s]
+    = \sum_{i} x[i] \mathcal{L} \left ( e_i \right )[s]
+    = \sum_{i} x[i] \mathcal{L} \left ( \delta \right )[s-i]
+    = \sum_{i} x[i] h[s-i] .
+\end{equation}
+Выходной сигнал представляет собой свёртку входного сигнала $x$ и импульсной характеристики $h$ системы $\mathcal{L}$.
+
+\subsection{Свёртка}
+
+В силу свойства физической реализуемости системы $\mathcal{L}$:
+\[
+    k < 0 : h[k] = 0 .
+\]
+Будем дополнительно считать, что импульсная характеристика является конечной, то есть существует число $n>0$:
+\[
+    k > n-1 : h[k] = 0 ,
+\]
+тогда в свёртке \eqref{linear:impulse:convolution} останется конечное число слагаемых, поскольку одновременно должны выполняться равенства:
+\begin{gather*}
+    0 \le s - i \le n-1 , \\
+    -(n - 1) \le i - s \le 0 , \\
+    s - (n - 1) \le i \le s .
+\end{gather*}
+Таким образом,
+\[
+    y[s]
+    = \mathcal{L}(x)[s]
+    = \sum_{i=s-(n-1)}^s x[i] h[s-i] .
+\]
+
+\textcolor{red}{Рисунок: перевёрнутая импульсная характеристика "едет"{} вдоль сигнала.}
+
+Выпишем компонент $y[n-1]$:
+\begin{multline*}
+    y[n-1]
+    = \mathcal{L}(x)[n-1]
+    = \sum_{i=0}^{n-1} x[i] h[s-i] = \\
+    %
+    = x[0] h[n-1] + x[1] h[n-2] + x[2] h[n-3] + \dots + x[n-2] h[1] + x[n-1] h[0] .
+\end{multline*}
+Можно представить в виде умножения матрицы и столбца:
+\[
+    \begin{pmatrix}
+        \vdots \\
+        y[n-1]
+    \end{pmatrix}
+    = \begin{pmatrix}
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+    \end{pmatrix}
+    \begin{pmatrix}
+        x[0]   \\
+        x[1]   \\
+        x[2]   \\
+        \vdots \\
+        x[n-2] \\
+        x[n-1]
+    \end{pmatrix}
+\]
+
+Выпишем компонент $y[n-2]$:
+\begin{multline*}
+    y[n-2]
+    = \mathcal{L}(x)[n-2]
+    = \sum_{i=-1}^{n-2} x[i] h[s-i] = \\
+    %
+    = x[-1] h[n-1] + x[0] h[n-2] + x[1] h[n-3] + \dots + x[n-3] h[1] + x[n-2] h[0] .
+\end{multline*}
+Появился компонент $x[-1]$. Поскольку далее будут использоваться периодические дискретные сигналы, то будем считать, что на отрезке от 0 до $n-1$ помещается натуральное количество
+периодов сигнала $x$ (число $n$ всегда можно увеличить до ближайшей границы периода справа) и для всех $s$ выполняется
+\[
+    x[s] = x[s+n] ,
+\]
+тогда в силу принятой периодичности:
+\[
+    x[-1] = x[-1+n] = x[n-1].
+\]
+И в выражении для $y[n-2]$ можно заменить $x[-1]$:
+\[
+    y[n-2]
+    = x[n-1] h[n-1] + x[0] h[n-2] + x[1] h[n-3] + \dots + x[n-3] h[1] + x[n-2] h[0] ,
+\]
+тогда в матричной форме:
+\[
+    \begin{pmatrix}
+        \vdots \\
+        y[n-2] \\
+        y[n-1]
+    \end{pmatrix}
+    = \begin{pmatrix}
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+    \end{pmatrix}
+    \begin{pmatrix}
+        x[0]   \\
+        x[1]   \\
+        x[2]   \\
+        \vdots \\
+        x[n-2] \\
+        x[n-1]
+    \end{pmatrix}
+\]
+Продолжая аналогичным образом, с учётом периодичности сигнала $x$, получим:
+\[
+    \begin{pmatrix}
+        y[0]   \\
+        y[1]   \\
+        y[2]   \\
+        \vdots \\
+        y[n-2] \\
+        y[n-1]
+    \end{pmatrix}
+    = \begin{pmatrix}
+        h[0]   & h[n-1] & h[n-2] & \dots  & h[2]   & h[1]   \\
+        h[1]   & h[0]   & h[n-1] & \dots  & h[3]   & h[2]   \\
+        h[2]   & h[1]   & h[0]   & \dots  & h[4]   & h[3]   \\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        h[n-2] & h[n-3] & h[n-4] & \dots  & h[0]   & h[n-1] \\
+        h[n-1] & h[n-2] & h[n-3] & \dots  & h[1]   & h[0]
+    \end{pmatrix}
+    \begin{pmatrix}
+        x[0]   \\
+        x[1]   \\
+        x[2]   \\
+        \vdots \\
+        x[n-2] \\
+        x[n-1] \\
+    \end{pmatrix} .
+\]
+
+\subsection{Циркулянты}
+
+Далее в силу принятой периодичности сигналов будем рассматривать не сами сигналы (бесконечные последовательности), а векторы длины $n$. Введём обозначения для значений сигналов:
+\begin{gather*}
+    y_k = y[k] , \\
+    h_k = h[k] , \\
+    x_k = x[k]
+\end{gather*}
+и векторов:
+\[
+    y
+    = \begin{pmatrix}
+        y_0    \\
+        y_1    \\
+        \vdots \\
+        y_{n-1}
+    \end{pmatrix}
+    , \;
+    h
+    = \begin{pmatrix}
+        h_0    \\
+        h_1    \\
+        \vdots \\
+        h_{n-1}
+    \end{pmatrix}
+    , \;
+    x
+    = \begin{pmatrix}
+        x_0    \\
+        x_1    \\
+        \vdots \\
+        x_{n-1}
+    \end{pmatrix}
+    .
+\]
+Таким образом,
+\begin{equation}
+    \label{linear:transformation}
+    y = C(h) x ,
+\end{equation}
+где матрица $C(h)$:
+\begin{equation}
+    \label{linear:circulant}
+    C(h)
+    = \begin{pmatrix}
+        h_0     & h_{n-1} & h_{n-2} & \dots  & h_2    & h_1     \\
+        h_1     & h_0     & h_{n-1} & \dots  & h_3    & h_2     \\
+        h_2     & h_1     & h_{0}   & \dots  & h_4    & h_3     \\
+        \vdots  & \vdots  & \vdots  & \vdots & \vdots & \vdots  \\
+        h_{n-2} & h_{n-3} & h_{n-4} & \dots  & h_0    & h_{n-1} \\
+        h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_1    & h_0
+    \end{pmatrix}
+    .
+\end{equation}
+Строки матрицы $C(h)$ образованы циклическим сдвигом первой строки и столбцы образованы циклическим сдвигом первого столбца. Такие матрицы называются циркулянтными матрицами или просто
+циркулянтами.
+
+У циркулянтов имеется интересное свойство. Пусть $\delta \in \mathbb{C}$ --- комплексный корень из единицы степени $n$:
+\[
+    \delta^n = 1 .
+\]
+Образуем строку из степеней числа $\delta$ и умножим на циркулянт $C(h)$ слева:
+\[
+    \begin{pmatrix}
+        \delta^0 & \delta^1 & \delta^2 & \dots & \delta^{n-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0     & h_{n-1} & h_{n-2} & \dots  & h_2    & h_1     \\
+        h_1     & h_0     & h_{n}   & \dots  & h_3    & h_2     \\
+        h_2     & h_1     & h_{0}   & \dots  & h_4    & h_3     \\
+        \vdots  & \vdots  & \vdots  & \vdots & \vdots & \vdots  \\
+        h_{n-2} & h_{n-3} & h_{n-4} & \dots  & h_0    & h_{n-1} \\
+        h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_1    & h_0
+    \end{pmatrix}
+\]
+
+В результате умножения строки на первый столбец $C(h)$ получим выражение:
+\[
+    \begin{pmatrix}
+        \delta^0 & \delta^1 & \delta^2 & \dots & \delta^{n-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0   \\
+        h_1   \\
+        h_2   \\
+        \dots \\
+        h_{n-1}
+    \end{pmatrix}
+    =
+    h_0 \delta^0 + h_1 \delta^1 + h_2 \delta^2 + \dots + h_{n-1} \delta^{n-1} = \lambda(\delta) ,
+\]
+представляющее собой значение полинома $\lambda(z)$ при $z = \delta$:
+\[
+    \lambda(z) = h_0 z^0 + h_1 z^1 + h_2 z^2 + \dots + h_{n-1} z^{n-1} .
+\]
+При умножении строки на второй столбец получим:
+\begin{multline*}
+    \begin{pmatrix}
+        \delta^0 & \delta^1 & \delta^2 & \dots & \delta^{n-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_{n-1} \\
+        h_0     \\
+        h_1     \\
+        h_2     \\
+        \dots   \\
+        h_{n-2}
+    \end{pmatrix} = \\
+    %
+    = h_{n-1} \delta^0 + h_0 \delta^1 + h_1 \delta^2 + \dots + h_{n-2} \delta^{n-1} = \\
+    %
+    = h_{n-1} 1 + h_0 \delta^1 + h_1 \delta^2 + \dots + h_{n-2} \delta^{n-1} = \\
+    %
+    = h_{n-1} \delta^n + h_0 \delta^1 + h_1 \delta^2 + \dots + h_{n-2} \delta^{n-1} = \\
+    %
+    = h_0 \delta^1 + h_1 \delta^2 + \dots + h_{n-2} \delta^{n-1} + h_{n-1} \delta^n = \\
+    %
+    = \delta \left( h_0 \delta^0 + h_1 \delta^1 + \dots + h_{n-2} \delta^{n-2} + h_{n-1} \delta^{n-1} \right) = \\
+    %
+    = \delta \lambda(\delta) .
+\end{multline*}
+
+Аналогичным образом получаются результаты умножения строки на все остальные столбцы матрицы $C$, в итоге получим:
+\begin{multline*}
+    \begin{pmatrix}
+        \delta^0 & \delta^1 & \delta^2 & \dots & \delta^{n-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0     & h_{n-1} & h_{n-2} & \dots  & h_3    & h_2    & h_1    \\
+        h_1     & h_0     & h_{n-1} & \dots  & h_4    & h_3    & h_2    \\
+        h_2     & h_1     & h_0     & \dots  & h_5    & h_4    & h_3    \\
+        \vdots  & \vdots  & \vdots  & \ddots & \vdots & \vdots & \vdots \\
+        h_{n-1} & h_{n-2} & h_{n-3} & \dots  & h_2    & h_1    & h_0
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        \lambda(\delta) & \delta \lambda(\delta) & \delta^2 \lambda(\delta) & \dots & \delta^{n-1} \lambda(\delta)
+    \end{pmatrix} = \\
+    %
+    = \lambda(\delta)
+    \begin{pmatrix}
+        \delta^0 & \delta^1 & \delta^2 & \dots & \delta^{n-1}
+    \end{pmatrix}
+    .
+\end{multline*}
+
+
+\section{Дискретное преобразование Фурье}
+
+\subsection{Базис}
+
+Ранее для представления сигналов использовались единичные импульсы $e_i$:
+\[
+    e_i[k]
+    =
+    \left\{
+    \begin{array}{ll}
+        1, & k = i    \\
+        0, & k \neq i
+    \end{array}
+    \right.
+    ,
+\]
+которые образовывали базис, по которому раскладывались сигналы. Это не единственный вариант базиса, есть альтернативные варианты, и этих вариантов достаточно много.
+
+Поскольку теперь рассматриваются периодические сигналы, которые повторяются через каждые $n$ моментов времени, то вполне допустимым было бы ввести базис, образованный периодическими
+сигналами. Например, можно определить сигнал $\xi_1$, у которого на протяжении $n$ моментов укладывается один период гармонического колебания:
+\[
+    x_1[k]
+    = \cos \frac{2 \pi}{n} k
+\]
+Далее будет удобно работать с комплексными величинами, поэтому дополним сигнал мнимой частью:
+\[
+    z_1[k]
+    = \cos \frac{2 \pi}{n} k + i \sin \frac{2 \pi}{n} k
+    = e^{i \frac{2 \pi}{n} k} .
+\]
+и заметим, что все значения сигнала являются степенями одного числа $\varepsilon$:
+\begin{gather*}
+    z_1[k]
+    = \left( e^{i \frac{2 \pi}{n}} \right)^k
+    = \varepsilon^k, \\
+    %
+    \varepsilon = e^{i \frac{2 \pi}{n}} .
+\end{gather*}
+
+Соберём первые $n$ значений сигнала $z_1$ в вектор:
+\[
+    \xi_1
+    = \begin{pmatrix}
+        \varepsilon^0 \\
+        \varepsilon^1 \\
+        \varepsilon^2 \\
+        \vdots        \\
+        \varepsilon^{n-1}
+    \end{pmatrix} .
+\]
+
+Возьмем теперь сигнал, у которого на протяжении $n$ моментов времени укладывается два периода гармонических колебаний:
+\begin{gather*}
+    x_2[k]
+    = \cos \frac{2 \cdot 2 \pi}{n} k , \\
+    %
+    z_2[k]
+    = \cos \frac{2 \cdot 2 \pi}{n} k + i \sin \frac{2 \cdot 2 \pi}{n} k
+    = e^{i \frac{2 \cdot 2 \pi}{n} k}, \\
+    %
+    z_2[k]
+    = \left( e^{i \frac{2 \cdot 2 \pi}{n}} \right)^k
+    = \left( \left( e^{i \frac{2 \pi}{n}} \right)^2 \right)^k
+    = \left( \varepsilon^2 \right)^k
+\end{gather*}
+Первые $n$ значений соберем в вектор
+\[
+    \xi_2
+    = \begin{pmatrix}
+        \varepsilon^{2 \cdot 0} \\
+        \varepsilon^{2 \cdot 1} \\
+        \varepsilon^{2 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{2 \cdot (n-1)}
+    \end{pmatrix}
+\]
+
+Аналогично, можно рассматривать сигнал, у которого на протяжении $n$ моментов времени укладывается $m$ периодов гармонических колебаний:
+\begin{gather*}
+    x_m[k]
+    = \cos \frac{m \cdot 2 \pi}{n} k , \\
+    %
+    z_m[k]
+    = \cos \frac{m \cdot 2 \pi}{n} k + i \sin \frac{m \cdot 2 \pi}{n} k
+    = e^{i \frac{m \cdot 2 \pi}{n} k}, \\
+    %
+    z_m[k]
+    = \left( e^{i \frac{m \cdot 2 \pi}{n}} \right)^k
+    = \left( \left( e^{i \frac{2 \pi}{n}} \right)^m \right)^k
+    = \left( \varepsilon^m \right)^k
+\end{gather*}
+и сформируем вектор
+\[
+    \xi_m
+    = \begin{pmatrix}
+        \varepsilon^{m \cdot 0} \\
+        \varepsilon^{m \cdot 1} \\
+        \varepsilon^{m \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{m \cdot (n-1)}
+    \end{pmatrix} .
+\]
+
+До каких пор можно увеличивать $m$? Оказывается, что при $m = n$:
+\[
+    x_n[k]
+    = \cos \frac{n \cdot 2 \pi}{n} k
+    = \cos 2 \pi k
+    = 1
+    = \cos 0 \cdot k
+    = \cos \frac{0 \cdot 2 \pi}{n} k
+    = x_0[k]
+    , \\
+\]
+поэтому вектор
+\[
+    \xi_n
+    = \begin{pmatrix}
+        1      \\
+        1      \\
+        1      \\
+        \vdots \\
+        1
+    \end{pmatrix}
+    = \xi_0.
+\]
+Если же $m > n$, то сигналы повторяются:
+\begin{multline*}
+    x_m[k]
+    = \cos \frac{m \cdot 2 \pi}{n} k
+    = \cos \frac{((m-n) + n) \cdot 2 \pi}{n} k = \\
+    %
+    = \cos \left( \frac{(m-n) \cdot 2 \pi}{n} + 2 \pi  \right) k
+    = \cos \frac{(m-n) \cdot 2 \pi}{n} k
+    = x_{m-n}[k].
+\end{multline*}
+Таким образом, мы исчерпали все возможные варианты и получили набор векторов $\xi_m$, образованные степенями $\varepsilon^{m \cdot k}$:
+\[
+    \xi_0
+    = \begin{pmatrix}
+        \varepsilon^{0 \cdot 0} \\
+        \varepsilon^{0 \cdot 1} \\
+        \varepsilon^{0 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{0 \cdot (n-1)}
+    \end{pmatrix} ,
+    \;
+    %
+    \xi_1
+    = \begin{pmatrix}
+        \varepsilon^{1 \cdot 0} \\
+        \varepsilon^{1 \cdot 1} \\
+        \varepsilon^{1 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{1 \cdot (n-1)}
+    \end{pmatrix} ,
+    \;
+    \xi_2
+    = \begin{pmatrix}
+        \varepsilon^{2 \cdot 0} \\
+        \varepsilon^{2 \cdot 1} \\
+        \varepsilon^{2 \cdot 2} \\
+        \vdots                  \\
+        \varepsilon^{2 \cdot (n-1)}
+    \end{pmatrix} ,
+    \;
+    \dots ,
+    \;
+    \xi_{n-1}
+    = \begin{pmatrix}
+        \varepsilon^{(n-1) \cdot 0} \\
+        \varepsilon^{(n-1) \cdot 1} \\
+        \varepsilon^{(n-1) \cdot 2} \\
+        \vdots                      \\
+        \varepsilon^{(n-1) \cdot (n-1)}
+    \end{pmatrix} .
+\]
+Векторы $\xi_m$ можно рассматривать как элементы линейного пространства $\mathbb{C}^n$, в котором введём скалярное прозведение:
+\[
+    \scalarproduct{x}{y} = y^* x .
+\]
+Вычислим скалярное произведение двух векторов:
+\[
+    \scalarproduct{\xi_j}{\xi_k}
+    = \xi_k^* \xi_j
+    = \sum_{l=0}^{n-1} \overline{\varepsilon^{k \cdot l}} \varepsilon^{j \cdot l}
+\]
+Заметим, что для любой степени $p$
+\begin{equation}
+    ~\label{linear:Fourier:conjugation}
+    \overline{\varepsilon^{p}}
+    = \frac{\overline{\varepsilon^{p}} \varepsilon^{p}}{\varepsilon^{p}}
+    = \frac{\modulus{\varepsilon^{p}}^2}{\varepsilon^{p}}
+    = \frac{\left ( \modulus{\varepsilon}^{p} \right )^2}{\varepsilon^{p}}
+    = \frac{\left ( 1^{p} \right )^2}{\varepsilon^{p}}
+    = \frac{1}{\varepsilon^{p}}
+    = \varepsilon^{- p}
+    .
+\end{equation}
+Таким образом,
+\[
+    \scalarproduct{\xi_j}{\xi_k}
+    = \sum_{l=0}^{n-1} \varepsilon^{- k \cdot l} \varepsilon^{j \cdot l}
+    = \sum_{l=0}^{n-1} \varepsilon^{(j - k) \cdot l}
+\]
+Если $j = k$, то сразу получается норма векторов $\xi_j$, порождаемая скалярным произведением:
+\[
+    \norm{\xi_j}^2
+    = \scalarproduct{\xi_j}{\xi_j}
+    = \sum_{l=0}^{n-1} \varepsilon^{( j - j ) \cdot l}
+    = \sum_{l=0}^{n-1} \varepsilon^0
+    = \sum_{j=0}^{n-1} 1
+    = n .
+\]
+Если $j \neq k$, то в сумме, стоящей справа легко увидеть геометрическую прогрессию со знаменателем $\varepsilon^{j - k}$, её сумма:
+\[
+    \scalarproduct{\xi_j}{\xi_k}
+    = \frac{1 - \left( \varepsilon^{(j-k)} \right)^{n-1+1}}{1 - \varepsilon^{j - k}}
+    = \frac{1 - \left( \varepsilon^{(j-k)} \right)^n}{1 - \varepsilon^{j - k}}
+    = \frac{1 - \left( \varepsilon^n \right)^{j-k}}{1 - \varepsilon^{j - k}}
+    = \frac{1 - 1^{j-k}}{1 - \varepsilon^{j - k}}
+    = \frac{1 - 1}{1 - \varepsilon^{j - k}}
+    = 0 ,
+\]
+поскольку
+\[
+    \varepsilon^n
+    = \left( e^{- i \frac{2 \pi}{n}} \right)^n
+    = e^{- i \frac{2 \pi}{n} \cdot n}
+    = e^{- i 2 \pi}
+    = 1.
+\]
+
+\subsection{Спектр}
+
+Таким образом, векторы $\xi_j$ является ортогональными, поэтому они являются линейно независимыми. Их количество $n$ совпадает с размерностью пространства $\mathbb{C}^n$,
+поэтому векторы $\xi_j$ образуют базис в пространстве $\mathbb{C}^n$ и любой вектор $x \in \mathbb{C}^n$ можно разложить по базису $\xi_j$:
+\[
+    x = \sum_{j=0}^{n-1} X_j \xi_j.
+\]
+Координаты $X_k$ легко вычислить, поскольку векторы $\xi_k$ ортогональны, то нужно вычислить скалярное произведение:
+\[
+    \scalarproduct{x}{\xi_k}
+    = \scalarproduct{\sum_{j=0}^{n-1} X_j \xi_j}{\xi_k}
+    = \sum_{j=0}^{n-1} X_j \scalarproduct{\xi_j}{\xi_k}
+    = X_k \scalarproduct{\xi_k}{\xi_k}
+    = X_k \norm{\xi_k}^2
+    = X_k n
+    .
+\]
+Вектор $X = \left ( n X_0, n X_1, \dots, n X_{n-1} \right )$ называют спектром сигнала $x$.
+
+\subsection{Прямое преобразование}
+
+Вектор $X$ можно получить умножением на матрицу $F_n$:
+\[
+    X
+    = \begin{pmatrix}
+        \scalarproduct{x}{\xi_0}     \\
+        \scalarproduct{x}{\xi_1}     \\
+        \vdots                       \\
+        \scalarproduct{x}{\xi_{n-1}} \\
+    \end{pmatrix}
+    = \begin{pmatrix}
+        \xi_0^* x     \\
+        \xi_1^* x     \\
+        \vdots        \\
+        \xi_{n-1}^* x \\
+    \end{pmatrix}
+    = F_n x ,
+\]
+где
+\begin{multline*}
+    F_n =
+    \begin{pmatrix}
+        \xi_0^* \\
+        \xi_1^* \\
+        \dots   \\
+        \xi_{n-1}^*
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \overline{\varepsilon^{0 \cdot 0}}     & \overline{\varepsilon^{0 \cdot 1}}     & \overline{\varepsilon^{0 \cdot 2}}     & \dots  & \overline{\varepsilon^{0 \cdot (n-1)}}     \\
+        \overline{\varepsilon^{1 \cdot 0}}     & \overline{\varepsilon^{1 \cdot 1}}     & \overline{\varepsilon^{1 \cdot 2}}     & \dots  & \overline{\varepsilon^{1 \cdot (n-1)}}     \\
+        \vdots                                 & \vdots                                 & \vdots                                 & \ddots & \vdots                                     \\
+        \overline{\varepsilon^{(n-1) \cdot 0}} & \overline{\varepsilon^{(n-1) \cdot 1}} & \overline{\varepsilon^{(n-1) \cdot 2}} & \dots  & \overline{\varepsilon^{(n-1) \cdot (n-1)}} \\
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        \varepsilon^{- 0 \cdot 0}     & \varepsilon^{- 0 \cdot 1}     & \varepsilon^{- 0 \cdot 2}     & \dots  & \varepsilon^{- 0 \cdot (n-1)}     \\
+        \varepsilon^{- 1 \cdot 0}     & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 1 \cdot 2}     & \dots  & \varepsilon^{- 1 \cdot (n-1)}     \\
+        \vdots                        & \vdots                        & \vdots                        & \ddots & \vdots                            \\
+        \varepsilon^{- (n-1) \cdot 0} & \varepsilon^{- (n-1) \cdot 1} & \varepsilon^{- (n-1) \cdot 2} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)} \\
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        1      & 1                             & 1                             & \dots  & 1                                 \\
+        1      & \varepsilon^{- 1 \cdot 1}     & \varepsilon^{- 2 \cdot 1}     & \dots  & \varepsilon^{- (n-1) \cdot 1}     \\
+        \vdots & \vdots                        & \vdots                        & \ddots & \vdots                            \\
+        1      & \varepsilon^{- 1 \cdot (n-1)} & \varepsilon^{- 2 \cdot (n-1)} & \dots  & \varepsilon^{- (n-1) \cdot (n-1)}
+    \end{pmatrix}
+    ,
+\end{multline*}
+последнее равенство получено в силу сопряжения \eqref{linear:Fourier:conjugation}.
+
+Матрица $F_n$ является матрицей Фурье (матрицей прямого дискретного преобразования Фурье).
+
+\subsection{Обратное преобразование}
+
+В силу ортогональности векторов $\xi_k$ для матрицы $F_n$ правой обратной матрицей будет $\frac{1}{n} F_n^*$:
+\[
+    \frac{1}{n} F_n^*
+    =
+    \frac{1}{n}
+    \begin{pmatrix}
+        \xi_0 & \xi_1 & \dots & \xi_{n-1}
+    \end{pmatrix}
+    =
+    \frac{1}{n}
+    \begin{pmatrix}
+        \varepsilon^{0 \cdot 0}     & \varepsilon^{1 \cdot 0}     & \dots  & \varepsilon^{(n-1) \cdot 0}     \\
+        \varepsilon^{0 \cdot 1}     & \varepsilon^{1 \cdot 1}     & \dots  & \varepsilon^{(n-1) \cdot 1}     \\
+        \vdots                      & \vdots                      & \ddots & \vdots                          \\
+        \varepsilon^{0 \cdot (n-1)} & \varepsilon^{1 \cdot (n-1)} & \dots  & \varepsilon^{(n-1) \cdot (n-1)}
+    \end{pmatrix}
+    ,
+\]
+действительно:
+\begin{multline*}
+    F_n \frac{1}{n} F_n^*
+    =
+    \begin{pmatrix}
+        \xi_0^* \\
+        \xi_1^* \\
+        \dots   \\
+        \xi_{n-1}^*
+    \end{pmatrix}
+    \frac{1}{n}
+    \begin{pmatrix}
+        \xi_0 & \xi_1 & \dots & \xi_{n-1}
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{n}
+    \begin{pmatrix}
+        \scalarproduct{\xi_0}{\xi_0}     & \scalarproduct{\xi_0}{\xi_1}     & \dots  & \scalarproduct{\xi_0}{\xi_{n-1}}     \\
+        \scalarproduct{\xi_1}{\xi_0}     & \scalarproduct{\xi_1}{\xi_1}     & \dots  & \scalarproduct{\xi_1}{\xi_{n-1}}     \\
+        \vdots                           & \vdots                           & \ddots & \vdots                               \\
+        \scalarproduct{\xi_{n-1}}{\xi_0} & \scalarproduct{\xi_{n-1}}{\xi_1} & \dots  & \scalarproduct{\xi_{n-1}}{\xi_{n-1}}
+    \end{pmatrix}
+    = \frac{1}{n}
+    \begin{pmatrix}
+        \norm{\xi_0}^2 & 0              & \dots  & 0              \\
+        0              & \norm{\xi_1}^2 & \dots  & 0              \\
+        \vdots         & \vdots         & \ddots & \vdots         \\
+        0              & 0              & \dots  & \norm{\xi_n}^2
+    \end{pmatrix}
+    = \\
+    %
+    = \frac{1}{n}
+    \begin{pmatrix}
+        n      & 0      & \dots  & 0      \\
+        0      & n      & \dots  & 0      \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0      & 0      & \dots  & n
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1      & 0      & \dots  & 0      \\
+        0      & 1      & \dots  & 0      \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0      & 0      & \dots  & 1
+    \end{pmatrix}
+    .
+\end{multline*}
+
+Известно, что правая обратная матрица является и левой обратной.
+
+\subsection{Преобразование свёртки}
+
+Теперь обратим внимание, что строки матрицы прямого преобразования Фурье $F_n$ являются векторами $\xi_k^*$:
+\[
+    \xi_k^*
+    = \begin{pmatrix}
+        \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
+    \end{pmatrix}
+\]
+которые образованы степенями корней из единицы $\varepsilon^{-k}$ (действительно, $\left ( \varepsilon^{-k} \right )^n = \left ( \varepsilon^n \right )^{-k} = 1^{-k} = 1$).
+
+Пусть $h$ --- произвольный вектор и $C(h)$ --- циркулянт \eqref{linear:circulant}, тогда в результате умножения одной строки матрицы Фурье $F_n$:
+\[
+    \xi_k^* C(h)
+    = \lambda ( \varepsilon^{-k} ) \begin{pmatrix}
+        \varepsilon^{- 0 \cdot k} & \varepsilon^{- 1 \cdot k} & \varepsilon^{- 2 \cdot k} & \dots & \varepsilon^{- (n-1) \cdot k}
+    \end{pmatrix}
+    = \lambda ( \varepsilon^{-k} ) \xi_k^*
+\]
+откуда для произведения
+\begin{multline*}
+    F_n C(h)
+    =
+    \begin{pmatrix}
+        \lambda ( \varepsilon^{-0} ) \xi_0^* \\
+        \lambda ( \varepsilon^{-1} ) \xi_1^* \\
+        \lambda ( \varepsilon^{-2} ) \xi_2^* \\
+        \dots                                \\
+        \lambda ( \varepsilon^{-(n-1)} ) \xi_{n-1}^*
+    \end{pmatrix} = \\
+    %
+    =
+    \begin{pmatrix}
+        \lambda ( \varepsilon^{-0} ) & 0                            & 0                            & \dots  & 0                                \\
+        0                            & \lambda ( \varepsilon^{-1} ) & 0                            & \dots  & 0                                \\
+        0                            & 0                            & \lambda ( \varepsilon^{-2} ) & \dots  & 0                                \\
+        \vdots                       & \vdots                       & \ddots                       & \ddots & 0                                \\
+        0                            & 0                            & 0                            & \dots  & \lambda ( \varepsilon^{-(n-1)} )
+    \end{pmatrix}
+    \begin{pmatrix}
+        \xi_0^* \\
+        \xi_1^* \\
+        \xi_2^* \\
+        \dots   \\
+        \xi_{n-1}^*
+    \end{pmatrix}
+    = \\
+    %
+    =
+    \begin{pmatrix}
+        \xi_0^* h & 0         & 0         & \dots  & 0             \\
+        0         & \xi_1^* h & 0         & \dots  & 0             \\
+        0         & 0         & \xi_2^* h & \dots  & 0             \\
+        \vdots    & \vdots    & \ddots    & \ddots & 0             \\
+        0         & 0         & 0         & \dots  & \xi_{n-1}^* h
+    \end{pmatrix}
+    \begin{pmatrix}
+        \xi_0^* \\
+        \xi_1^* \\
+        \xi_2^* \\
+        \dots   \\
+        \xi_{n-1}^*
+    \end{pmatrix}
+\end{multline*}
+поскольку
+\[
+    \lambda ( \varepsilon^{-k} )
+    = h_0 \varepsilon^{- 0 \cdot k} + h_1 \varepsilon^{- 1 \cdot k} + h_2 \varepsilon^{- 2 \cdot k} + \dots + h_{n-1} \varepsilon^{- (n-1) \cdot k} .
+\]
+
+Далее легко видеть, что на диагонали располагаются элементы спектра $H$ вектора $h$:
+\[
+    H
+    =
+    \begin{pmatrix}
+        \xi_0^* h \\
+        \xi_1^* h \\
+        \xi_2^* h \\
+        \dots     \\
+        \xi_{n-1}^* h
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \xi_0^* \\
+        \xi_1^* \\
+        \xi_2^* \\
+        \dots   \\
+        \xi_{n-1}^*
+    \end{pmatrix}
+    h
+    = F_n h
+\]
+Таким образом,
+\[
+    F_n C(h) = diag \left( H \right) F_n.
+\]
+где $diag \left( H \right)$ обозначает диагональную матрицу с элементами $H_k$ на главной диагонали.
+
+Пусть теперь некоторый сигнал $x$ со спектром $X$ преобразуется в сигнал $y$ линейной системой с импульсной характеристикой $h$ \eqref{linear:transformation}:
+\[
+    y = C(h) x ,
+\]
+тогда спектр $Y$ сигнала $y$:
+\[
+    Y
+    = F_n y
+    = F_n C(h) x
+    = diag \left( H \right) F_n x
+    = diag \left( H \right) X,
+\]
+или
+\[
+    Y_k = H_k \cdot X_k .
+\]
+Используя спектр $Y$, с помощью обратного преобразования получим сигнал $y$:
+\[
+    y = \frac{1}{n} F_n^* Y .
+\]
+
+Таким образом, для вычисления выходного сигнала $y$ существует два способа:
+\begin{enumerate}
+    \item прямое вычисление:
+          \[
+              y = C(h) x,
+          \]
+    \item через вычисление спектров:
+          \begin{gather*}
+              H = F_n h, \\
+              X = F_n x, \\
+              Y_k = H_k \cdot X_k, \\
+              y = \frac{1}{n} F_n^* Y_k .
+          \end{gather*}
+\end{enumerate}
+Второй способ требует больше вычислительных операций, но в силу особой структуры матрицы Фурье для вычисления спектров есть быстрый метод, поэтому в некоторых случаях второй способ
+оказывается быстрее первого.
+
+
+\section{Быстрое преобразование Фурье}
+
+Легко видеть, что прямое и обратное преобразование Фурье связаны с матрицами вида:
+\[
+    F_n(\delta)
+    = \begin{pmatrix}
+        1      & 1            & 1               & 1               & \dots  & 1                   \\
+        1      & \delta       & \delta^2        & \delta^3        & \dots  & \delta^{n-1}        \\
+        1      & \delta^2     & \delta^4        & \delta^6        & \dots  & \delta^{2(n-1)}     \\
+        1      & \delta^3     & \delta^6        & \delta^9        & \dots  & \delta^{3(n-1)}     \\
+        \vdots & \vdots       & \vdots          & \vdots          & \ddots & \vdots              \\
+        1      & \delta^{n-1} & \delta^{2(n-1)} & \delta^{3(n-1)} & \dots  & \delta^{(n-1)(n-1)}
+    \end{pmatrix}.
+\]
+В случае умножения на матрицу $F_n(\delta)$ требуется примерно $(n-1) \cdot (n-1)$ умножений, но в силу особого вида матриц $F_n(\delta)$ количество умножений можно сократить,
+если $n$ --- составное число. Можно показать, что если $n = k \cdot m$, то преобразование $F_n(\delta)$ разлагается в суперпозицию:
+\begin{enumerate}
+    \item $m$ преобразований $F_k(\delta^m)$ порядка $k$,
+    \item $m-1$ умножение $D_{m-1}$,
+    \item $k$ преобразований $F_m(\delta^k)$ порядка $m$.
+\end{enumerate}
+Символически суперпозицию можно записать в виде:
+\[
+    F_n(\delta) = m \cdot F_k(\delta^m) \otimes D_{m-1} \otimes k \cdot F_m(\delta^k)
+\]
+Пусть $S_*(p)$ обозначает количество умножений в преобразовании $F_p(\delta)$, тогда количество умножений в левой части:
+\[
+    S_*(n)
+    = (n-1) \cdot (n-1)
+    = n^2 - 2 n + 1
+    = k^2 m^2 - 2 k m + 1
+    = k m ( k m - 2 ) + 1,
+\]
+а в правой части:
+\begin{multline*}
+    m \cdot S_*(k) + m-1 + k \cdot S_*(m) = \\
+    %
+    = m \cdot (k-1) \cdot (k-1) + m-1 + k \cdot (m-1) \cdot (m-1) = \\
+    %
+    = m (k^2 - 2 k + 1) + m-1 + k (m^2 - 2 m + 1) = \\
+    %
+    = m k^2 - 2 m k + 1 + m-1 + k m^2 - 2 k m + k = \\
+    %
+    = m k^2 + k m^2 - 4 k m + m + k = \\
+    %
+    = k m ( k + m - 4 ) + m + k .
+\end{multline*}
+Уменьшение количества умножений:
+\[
+    \frac{k m ( k m - 2 ) + 1}{k m ( k + m - 4 ) + m + k}
+    \approx \frac{k m ( k m - 2 )}{k m ( k + m - 4 )}
+    \approx \frac{k m}{k + m} .
+\]
+
+\subsection{6 и 3, с таблицами}
+
+$H$ --- спектр сигнала $h$:
+\begin{gather*}
+    H = F_6(\delta) h , \\
+    %
+    \begin{pmatrix}
+        H_0 \\
+        H_1 \\
+        H_2 \\
+        H_3 \\
+        H_4 \\
+        H_5
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3 \\
+        h_4 \\
+        h_5
+    \end{pmatrix}
+\end{gather*}
+
+Нумеруем строки от $0$, \dots, $5$, группируем строки по остаткам: сперва строки с остатком 0, потом строки с остатком 1, и так далее. Перестановка строк приводит к перестановке
+элементов вектора спектра $H$:
+\[
+    \begin{pmatrix}
+        H_0 \\
+        H_3 \\
+        H_1 \\
+        H_4 \\
+        H_2 \\
+        H_5
+    \end{pmatrix}
+    =
+    \underbrace{
+        \begin{pmatrix}
+            1 & 1        & 1           & 1           & 1           & 1           \\
+            1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+            1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+            1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+            1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+            1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+        \end{pmatrix}
+    }_{\widetilde{F}_6}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3 \\
+        h_4 \\
+        h_5
+    \end{pmatrix}
+\]
+Выделение блоков, сокращение степени, вынесение общих множителей в строках:
+\begin{multline*}
+    \widetilde{F}_6
+    =
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix} = \\
+    %
+    =
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix} = \\
+    %
+    =
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        0
+         &
+        0
+        \\
+        0
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        0
+        \\
+        0
+         &
+        0
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10} \\
+    \end{pmatrix} = \\
+    %
+    =
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10} \\
+    \end{pmatrix} ,
+\end{multline*}
+где $F_2(\delta^3)$ --- матрица Фурье размера 2:
+\[
+    F_2(\delta^3)
+    = \begin{pmatrix}
+        1 & 1        \\
+        1 & \delta^3
+    \end{pmatrix}
+\]
+Таким образом,
+\[
+    \begin{pmatrix}
+        H_0 \\
+        H_3 \\
+        H_1 \\
+        H_4 \\
+        H_2 \\
+        H_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3 \\
+        h_4 \\
+        h_5
+    \end{pmatrix}
+\]
+Пусть вектор справа
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 \\
+        \widetilde{H}_1 \\
+        \widetilde{H}_2 \\
+        \widetilde{H}_3 \\
+        \widetilde{H}_4 \\
+        \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3 \\
+        h_4 \\
+        h_5
+    \end{pmatrix}
+\]
+тогда
+\[
+    \begin{pmatrix}
+        H_0 & H_1 & H_2 \\
+        H_3 & H_4 & H_5
+    \end{pmatrix}
+    =
+    F_2(\delta^3)
+    \begin{pmatrix}
+        \widetilde{H}_0 & \widetilde{H}_2 & \widetilde{H}_4 \\
+        \widetilde{H}_1 & \widetilde{H}_3 & \widetilde{H}_5
+    \end{pmatrix} .
+\]
+Вектор слева записан по строкам, а вектор справа по столбцам. Столбцы вектора слева являются преобразованиями Фурье векторов справа.
+
+Нам осталось вычислить вектор $\widetilde{H}$. В его вычислении тоже можно увидеть преобразования Фурье, если переставить строки
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 \\
+        \widetilde{H}_2 \\
+        \widetilde{H}_4 \\
+        \widetilde{H}_1 \\
+        \widetilde{H}_3 \\
+        \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3 \\
+        h_4 \\
+        h_5
+    \end{pmatrix}
+\]
+и переставить столбцы:
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 \\
+        \widetilde{H}_2 \\
+        \widetilde{H}_4 \\
+        \widetilde{H}_1 \\
+        \widetilde{H}_3 \\
+        \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 & 1        & 1        & 0        & 0        & 0           \\
+        1 & \delta^2 & \delta^4 & 0        & 0        & 0           \\
+        1 & \delta^4 & \delta^8 & 0        & 0        & 0           \\
+        0 & 0        & 0        & 1        & 1        & 1           \\
+        0 & 0        & 0        & \delta   & \delta^3 & \delta^5    \\
+        0 & 0        & 0        & \delta^2 & \delta^6 & \delta^{10} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_2 \\
+        h_4 \\
+        h_1 \\
+        h_3 \\
+        h_5
+    \end{pmatrix} .
+\]
+Выносим множители из последних двух строк:
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 \\
+        \widetilde{H}_2 \\
+        \widetilde{H}_4 \\
+        \widetilde{H}_1 \\
+        \widetilde{H}_3 \\
+        \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 & 0      & 0        \\
+        0 & 1 & 0 & 0 & 0      & 0        \\
+        0 & 0 & 1 & 0 & 0      & 0        \\
+        0 & 0 & 0 & 1 & 0      & 0        \\
+        0 & 0 & 0 & 0 & \delta & 0        \\
+        0 & 0 & 0 & 0 & 0      & \delta^2
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 1        & 1        & 0 & 0        & 0        \\
+        1 & \delta^2 & \delta^4 & 0 & 0        & 0        \\
+        1 & \delta^4 & \delta^8 & 0 & 0        & 0        \\
+        0 & 0        & 0        & 1 & 1        & 1        \\
+        0 & 0        & 0        & 1 & \delta^2 & \delta^4 \\
+        0 & 0        & 0        & 1 & \delta^4 & \delta^8 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_2 \\
+        h_4 \\
+        h_1 \\
+        h_3 \\
+        h_5
+    \end{pmatrix} .
+\]
+Видно, что в матрице справа получились два одинаковых блока, которая являются матрицами Фурье размера 3:
+\[
+    F_3(\delta^2)
+    = \begin{pmatrix}
+        1 & 1        & 1        \\
+        1 & \delta^2 & \delta^4 \\
+        1 & \delta^4 & \delta^8 \\
+    \end{pmatrix} .
+\]
+Таким образом,
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 & \widetilde{H}_1 \\
+        \widetilde{H}_2 & \widetilde{H}_3 \\
+        \widetilde{H}_4 & \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 & 1        \\
+        1 & \delta   \\
+        1 & \delta^2
+    \end{pmatrix}
+    \circ
+    F_3(\delta^2)
+    \begin{pmatrix}
+        h_0 & h_1 \\
+        h_2 & h_3 \\
+        h_4 & h_5
+    \end{pmatrix} ,
+\]
+где $\circ$ обозначает поэлементное умножение. Транспонируем для того, чтобы получилось как в правой части вычисления спектра:
+\[
+    \begin{pmatrix}
+        \widetilde{H}_0 & \widetilde{H}_2 & \widetilde{H}_4 \\
+        \widetilde{H}_1 & \widetilde{H}_3 & \widetilde{H}_5
+    \end{pmatrix}
+    =
+    \left (
+    \begin{pmatrix}
+        1 & 1        \\
+        1 & \delta   \\
+        1 & \delta^2
+    \end{pmatrix}
+    \circ
+    F_3(\delta^2)
+    \begin{pmatrix}
+        h_0 & h_1 \\
+        h_2 & h_3 \\
+        h_4 & h_5
+    \end{pmatrix}
+    \right )^T ,
+\]
+и всё вместе:
+\[
+    \begin{pmatrix}
+        H_0 & H_1 & H_2 \\
+        H_3 & H_4 & H_5
+    \end{pmatrix}
+    =
+    F_2(\delta^3)
+    \left (
+    \begin{pmatrix}
+        1 & 1        \\
+        1 & \delta   \\
+        1 & \delta^2
+    \end{pmatrix}
+    \circ
+    F_3(\delta^2)
+    \begin{pmatrix}
+        h_0 & h_1 \\
+        h_2 & h_3 \\
+        h_4 & h_5
+    \end{pmatrix}
+    \right )^T .
+\]
+
+Полученное выражение можно обобщить на случай $n=2 \cdot m$:
+\[
+    \begin{pmatrix}
+        H_0 & H_1     & H_2     & \dots & H_{m-1}  \\
+        H_m & H_{m+1} & H_{m+2} & \dots & H_{2m-1}
+    \end{pmatrix}
+    =
+    F_2(\delta^{m})
+    \left (
+    \begin{pmatrix}
+        1      & 1        \\
+        1      & \delta   \\
+        1      & \delta^2 \\
+        \vdots & \vdots   \\
+        1      & \delta^{m-1}
+    \end{pmatrix}
+    \circ
+    F_m(\delta^2)
+    \begin{pmatrix}
+        h_0        & h_1      \\
+        h_2        & h_3      \\
+        h_4        & h_5      \\
+        \vdots     & \vdots   \\
+        h_{2m - 2} & h_{2m-1}
+    \end{pmatrix}
+    \right )^T ,
+\]
+где
+\begin{gather*}
+    \delta^m
+    = \delta^\frac{n}{2}
+    = \left ( e^{i \frac{2 \pi}{n}}\right )^\frac{n}{2}
+    = e^{i \pi}
+    = -1 , \\
+    %
+    F_2(\delta^m)
+    = \begin{pmatrix}
+        1 & 1 \\
+        1 & \delta^m
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix} ,
+\end{gather*}
+и преобразование $F_2(\delta^m)$ состоит всего из двух операций: одного сложения и одного вычитания. Таким образом, для преобразование $F_n(\delta)$
+порядка $n$ нужно сделать два преобразования $F_m(\delta^2)$ порядка $m$, выполнить $m-1$ умножение, для простоты будем считать $m$ умножений, и 
+умножить вектор размера $2 \times m$ на матрицу $F_2(\delta^m)$, выполнив одно сложение и одно вычитание на каждый из $m$ столбцов. Таким образом,
+если $S_*(n)$ --- количество умножений в преобразовании $F_n(\delta)$ и $S_\pm(n)$ --- количество сложений-вычитаний в преобразовании $F_n(\delta)$,
+то 
+\begin{gather*}
+    S_*(n)
+    = m + 2 S_*(m)
+    = \frac{n}{2} + 2 S_* \left( \frac{n}{2} \right) , \\
+    %
+    S_\pm(n)
+    = 2 m + 2 S_\pm(m)
+    = n + 2 S_\pm \left( \frac{n}{2} \right)
+\end{gather*}
+Таким образом, при редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений и $n$ сложений-вычитаний и решить две задачи размера $\frac{n}{2}$.
+
+Пусть теперь $n = 2^L$, тогда $L = \log_2 n$, тогда можно продолжить цепочку равенств:
+\begin{gather*}
+    %
+    S_*(n)
+    = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-1} \frac{n}{2^{L-1} \cdot 2}
+    = \frac{n}{2} + \frac{n}{2} + \frac{n}{2} + \dots + \frac{n}{2}
+    = \frac{n}{2} \cdot L
+    = \frac{1}{2} n \log_2 n , \\
+\end{gather*}
+
+Выражение для $S_*(n)$ получается следующим образом: для редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений,
+в результате получатся 2 задачи размера $\frac{n}{2}$, каждая из которых при редукции потребует
+$\frac{\frac{n}{2}}{2}$ умножений, поэтому для редукции двух задач размера $\frac{n}{2}$ потребуется $2 \frac{n}{2 \cdot 2}$ умножений,
+далее образуется уже 4 задачи размера $\frac{n}{4}$, редукция которых требует $4 \frac{n}{4 \cdot 2}$ умножений и так далее пока не достигнем размера
+задачи 2, таких задач будет $2^{L-1}$ и в каждой будет $\frac{n}{2^{L-1} \cdot 2} = \frac{2^L}{2^{L-1} \cdot 2} = 1$ умножение. 
+
+Аналогично для $S_\pm(n)$: редукция задачи размера $n$ требует $n$ сложений-вычитаний, получаются 2 задачи, редукция каждой из которых требует
+$\frac{n}{2}$ сложений-вычитаний, далее получаются 4 задачи, редукция каждой из которых требует $\frac{n}{4}$ сложений-вычитаний, и так далее пока не будет
+достигнут размер задачи 4, таких задач $2^{L-2}$ и каждая потребует для редукции $\frac{n}{2^{L-2}} = 2$ сложения-вычитания и решения двух задач
+размера 2, каждая из которых потребует $2$ сложения-вычитания.
+
+\begin{multline*}
+    S_\pm(n)
+    = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-2} \left ( \frac{n}{2^{L-2}} + 2 \cdot 2 \right ) = \\
+    %
+    = \underbrace{n + n + n + \dots + n}_{L-1} + 2^{L-2+1+1}
+    = \underbrace{n + n + n + \dots + n}_{L-1} + n
+    = n \cdot L
+    = n \log_2 n .
+\end{multline*}
+
+\subsection{6 и 3, факторизация}
+
+Матрица степеней
+\[
+    F_6
+    = \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Перестановка строк ($P_6$ --- обратная перестановка строк):
+\[
+    F_6
+    =
+    \underbrace{
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1 \\
+        \end{pmatrix}
+    }_{P_6}
+    \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Выделение блоков:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1        & 1        \\
+            \delta^6 & \delta^9
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           \\
+            \delta^{12} & \delta^{15}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Сокращение степени:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      \\
+            0 & \delta
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^2 & 0        \\
+            0        & \delta^3
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^5
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0        \\
+            0 & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^4 & 0        \\
+            0        & \delta^6
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        \\
+            1 & \delta^3
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^8 & 0           \\
+            0        & \delta^{10}
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Пусть
+\[
+    F_2(\delta)
+    = \begin{pmatrix}
+        1 & 1      \\
+        1 & \delta
+    \end{pmatrix}
+\]
+--- матрица Фурье размера 2, тогда:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
+    \end{pmatrix}
+\]
+Матрица слева преобразуется перестановкой строк и столбцов к матрице (причём той же матрицей $P_6$!):
+\begin{multline*}
+    \begin{pmatrix}
+        1 & 0        & 1        & 0        & 1        & 0           \\
+        0 & 1        & 0        & 1        & 0        & 1           \\
+        1 & 0        & \delta^2 & 0        & \delta^4 & 0           \\
+        0 & \delta   & 0        & \delta^3 & 0        & \delta^5    \\
+        1 & 0        & \delta^4 & 0        & \delta^8 & 0           \\
+        0 & \delta^2 & 0        & \delta^6 & 0        & \delta^{10}
+    \end{pmatrix}
+    = P_6^T
+    \begin{pmatrix}
+        1 & 1        & 1        & 0        & 0        & 0           \\
+        1 & \delta^2 & \delta^4 & 0        & 0        & 0           \\
+        1 & \delta^4 & \delta^8 & 0        & 0        & 0           \\
+        0 & 0        & 0        & 1        & 1        & 1           \\
+        0 & 0        & 0        & \delta   & \delta^3 & \delta^5    \\
+        0 & 0        & 0        & \delta^2 & \delta^6 & \delta^{10}
+    \end{pmatrix}
+    P_6 = \\
+    %
+    = P_6^T
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 & 0      & 0        \\
+        0 & 1 & 0 & 0 & 0      & 0        \\
+        0 & 0 & 1 & 0 & 0      & 0        \\
+        0 & 0 & 0 & 1 & 0      & 0        \\
+        0 & 0 & 0 & 0 & \delta & 0        \\
+        0 & 0 & 0 & 0 & 0      & \delta^2 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    P_6
+\end{multline*}
+Таким образом,
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        F_2(\delta^3) & 0             & 0             \\
+        0             & F_2(\delta^3) & 0             \\
+        0             & 0             & F_2(\delta^3)
+    \end{pmatrix}
+    P_6^T
+    \begin{pmatrix}
+        I_3 & 0   \\
+        0   & D_3
+    \end{pmatrix}
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    P_6
+\]
+
+\subsection{6 и 2}
+
+Матрица степеней
+\[
+    F_6
+    = \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Перестановка строк ($P_6$ --- обратная перестановка строк):
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        1 & 1        & 1           & 1           & 1           & 1           \\
+        1 & \delta^2 & \delta^4    & \delta^6    & \delta^8    & \delta^{10} \\
+        1 & \delta^4 & \delta^8    & \delta^{12} & \delta^{16} & \delta^{20} \\
+        1 & \delta^1 & \delta^2    & \delta^3    & \delta^4    & \delta^5    \\
+        1 & \delta^3 & \delta^6    & \delta^9    & \delta^{12} & \delta^{15} \\
+        1 & \delta^5 & \delta^{10} & \delta^{15} & \delta^{20} & \delta^{25} \\
+    \end{pmatrix}
+\]
+Выделение блоков:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           & 1           \\
+            \delta^6    & \delta^8    & \delta^{10} \\
+            \delta^{12} & \delta^{16} & \delta^{20}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      & 0        \\
+            0 & \delta & 0        \\
+            0 & 0      & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1           & 1           & 1           \\
+            \delta^6    & \delta^8    & \delta^{10} \\
+            \delta^{12} & \delta^{16} & \delta^{20}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^3 & 0        & 0        \\
+            0        & \delta^4 & 0        \\
+            0        & 0        & \delta^5
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Сокращение степени в силу $\delta^6 = 1$:
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      & 0        \\
+            0 & \delta & 0        \\
+            0 & 0      & \delta^2
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \begin{pmatrix}
+            \delta^3 & 0        & 0        \\
+            0        & \delta^4 & 0        \\
+            0        & 0        & \delta^5
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Матрица
+\[
+    \begin{pmatrix}
+        \delta^3 & 0        & 0        \\
+        0        & \delta^4 & 0        \\
+        0        & 0        & \delta^5
+    \end{pmatrix}
+    = \delta^3
+    \begin{pmatrix}
+        1 & 0        & 0        \\
+        0 & \delta^1 & 0        \\
+        0 & 0        & \delta^2
+    \end{pmatrix}
+    = (-1)
+    \begin{pmatrix}
+        1 & 0      & 0        \\
+        0 & \delta & 0        \\
+        0 & 0      & \delta^2
+    \end{pmatrix}
+\]
+Таким образом,
+\[
+    F_6
+    = P_6
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      & 0        \\
+            0 & \delta & 0        \\
+            0 & 0      & \delta^2
+        \end{pmatrix}
+         &
+        -
+        \begin{pmatrix}
+            1 & 1        & 1        \\
+            1 & \delta^2 & \delta^4 \\
+            1 & \delta^4 & \delta^8
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0      & 0        \\
+            0 & \delta & 0        \\
+            0 & 0      & \delta^2
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Пусть
+\[
+    F_3(\delta^2)
+    = \begin{pmatrix}
+        1 & 1        & 1        \\
+        1 & \delta^2 & \delta^4 \\
+        1 & \delta^4 & \delta^8
+    \end{pmatrix},
+    \;
+    D_3
+    = \begin{pmatrix}
+        1 & 0      & 0        \\
+        0 & \delta & 0        \\
+        0 & 0      & \delta^2
+    \end{pmatrix} ,
+\]
+где $F_3(\delta)$ --- матрица Фурье размера 3, тогда
+\begin{multline*}
+    F_6(\delta)
+    = P_6
+    \begin{pmatrix}
+        F_3(\delta^2)     & F_3(\delta^2)      \\
+        F_3(\delta^2) D_3 & -F_3(\delta^2) D_3 \\
+    \end{pmatrix} = \\
+    %
+    = P_6
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_3 & I_3  \\
+        D_3 & -D_3 \\
+    \end{pmatrix} = \\
+    %
+    = P_6
+    \begin{pmatrix}
+        F_3(\delta^2) & 0             \\
+        0             & F_3(\delta^2) \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_3 & 0   \\
+        0   & D_3 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_3 & I_3  \\
+        I_3 & -I_3 \\
+    \end{pmatrix}
+\end{multline*}
+
+\subsection{4 и 2}
+
+Исходная матрица Фурье:
+\[
+    F_4(\varepsilon)
+    = \begin{pmatrix}
+        1 & 1                & 1                & 1                \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6} & \varepsilon^{-9}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 1                & 1                                 & 1                                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}                  & \varepsilon^{-3}                  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}                  & \varepsilon^{-4} \varepsilon^{-2} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-4} \varepsilon^{-2} & \varepsilon^{-4} \varepsilon^{-5}
+    \end{pmatrix}
+\]
+Сокращение степени с учётом $\varepsilon^{-4} = 1$:
+\[
+    F_4(\varepsilon)
+    = \begin{pmatrix}
+        1 & 1                & 1                & 1                \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
+        1 & \varepsilon^{-2} & 1                & \varepsilon^{-2} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-2} & \varepsilon^{-5}
+    \end{pmatrix}
+\]
+Перестановка строк, сперва все нечётные строки, затем все чётные:
+\[
+    F_4(\varepsilon)
+    =
+    P_4
+    \begin{pmatrix}
+        1 & 1                & 1                & 1                \\
+        1 & \varepsilon^{-2} & 1                & \varepsilon^{-2} \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2} & \varepsilon^{-3} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-2} & \varepsilon^{-5}
+    \end{pmatrix} ,
+\]
+где $P_4$ --- матрица, выполняющая обратную перестановку строк.
+
+Выделение подматриц:
+\[
+    F_4(\varepsilon)
+    = P_4 \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix} \\
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-1}
+        \end{pmatrix}
+         &
+        \varepsilon^{-2}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-1}
+        \end{pmatrix}
+    \end{pmatrix} ,
+\]
+где
+\[
+    \varepsilon^{-2}
+    = \left( e^{i \frac{2 \pi}{4}} \right)^2
+    = e^{i \frac{2 \pi}{2}}
+    = e^{i \pi}
+    = -1 ,
+\]
+поэтому
+\[
+    F_4(\varepsilon)
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2)     & F_2(\varepsilon^2)       \\
+        F_2(\varepsilon^2) D_2 & - F_2(\varepsilon^2) D_2
+    \end{pmatrix} ,
+\]
+где $F_2(\delta)$ --- матрица Фурье порядка 2 и $D_2$ --- диагональная матрица:
+\[
+    F_2(\delta)
+    = \begin{pmatrix}
+        1 & 1           \\
+        1 & \delta^{-1}
+    \end{pmatrix} ,
+    \;
+    D_2
+    = \begin{pmatrix}
+        1 & 0                \\
+        0 & \varepsilon^{-1}
+    \end{pmatrix} .
+\]
+Представим, что нужно умножить матрицу $F_4(\varepsilon)$ на некоторый вектор $h$ (как для вычисления спектра), и посмотрим как будет выглядеть умножение:
+\begin{multline*}
+    F_4(\varepsilon) h
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2)     & F_2(\varepsilon^2)       \\
+        F_2(\varepsilon^2) D_2 & - F_2(\varepsilon^2) D_2
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3
+    \end{pmatrix}
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2)
+        \begin{pmatrix}
+            h_0 \\
+            h_1
+        \end{pmatrix}
+        +
+        F_2(\varepsilon^2)
+        \begin{pmatrix}
+            h_2 \\
+            h_3
+        \end{pmatrix} \\
+        F_2(\varepsilon^2) D_2
+        \begin{pmatrix}
+            h_0 \\
+            h_1
+        \end{pmatrix}
+        - F_2(\varepsilon^2) D_2
+        \begin{pmatrix}
+            h_2 \\
+            h_3
+        \end{pmatrix}
+    \end{pmatrix}
+    = \\
+    %
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2)
+        \left(
+        \begin{pmatrix}
+            h_0 \\
+            h_1
+        \end{pmatrix}
+        +
+        \begin{pmatrix}
+            h_2 \\
+            h_3
+        \end{pmatrix}
+        \right) \\
+        F_2(\varepsilon^2) D_2
+        \left(
+        \begin{pmatrix}
+            h_0 \\
+            h_1
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            h_2 \\
+            h_3
+        \end{pmatrix}
+        \right)
+    \end{pmatrix} = \\
+    %
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2) \\
+        F_2(\varepsilon^2) D_2
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_2 & I_2  \\
+        I_2 & -I_2
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3
+    \end{pmatrix}
+    = P_4
+    \begin{pmatrix}
+        F_2(\varepsilon^2) & 0                  \\
+        0                  & F_2(\varepsilon^2)
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_2 & 0   \\
+        0   & D_2
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_2 & I_2  \\
+        I_2 & -I_2
+    \end{pmatrix}
+    \begin{pmatrix}
+        h_0 \\
+        h_1 \\
+        h_2 \\
+        h_3
+    \end{pmatrix}
+\end{multline*}
+
+\subsection{8 и 2}
+
+Матрица Фурье 8.
+\[
+    F_8
+    = \begin{pmatrix}
+        1 & 1                & 1                 & 1                 & 1                 & 1                 & 1                 & 1                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4}  & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & \varepsilon^{-8}  & \varepsilon^{-10} & \varepsilon^{-12} & \varepsilon^{-14} \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-12} & \varepsilon^{-15} & \varepsilon^{-18} & \varepsilon^{-21} \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & \varepsilon^{-16} & \varepsilon^{-20} & \varepsilon^{-24} & \varepsilon^{-28} \\
+        1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-20} & \varepsilon^{-25} & \varepsilon^{-30} & \varepsilon^{-35} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & \varepsilon^{-24} & \varepsilon^{-30} & \varepsilon^{-36} & \varepsilon^{-42} \\
+        1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-28} & \varepsilon^{-35} & \varepsilon^{-42} & \varepsilon^{-49}
+    \end{pmatrix}
+\]
+
+Сокращение степени.
+\[
+    F_8
+    = \begin{pmatrix}
+        1 & 1                & 1                 & 1                 & 1                & 1                 & 1                 & 1                 \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-4} & \varepsilon^{-7}  & \varepsilon^{-10} & \varepsilon^{-13} \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & 1                & \varepsilon^{-4}  & \varepsilon^{-8}  & \varepsilon^{-12} \\
+        1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-4} & \varepsilon^{-9}  & \varepsilon^{-14} & \varepsilon^{-19} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & 1                & \varepsilon^{-6}  & \varepsilon^{-12} & \varepsilon^{-18} \\
+        1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-4} & \varepsilon^{-11} & \varepsilon^{-18} & \varepsilon^{-25}
+    \end{pmatrix}
+\]
+
+Перестановка строк: сперва нечётные, затем чётные ($P_8$ --- матрица обратной перестановки строк).
+\[
+    F_8
+    = P_8
+    \begin{pmatrix}
+        1 & 1                & 1                 & 1                 & 1                & 1                 & 1                 & 1                 \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  & 1                & \varepsilon^{-2}  & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} & 1                & \varepsilon^{-4}  & \varepsilon^{-8}  & \varepsilon^{-12} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} & 1                & \varepsilon^{-6}  & \varepsilon^{-12} & \varepsilon^{-18} \\
+        1 & \varepsilon^{-1} & \varepsilon^{-2}  & \varepsilon^{-3}  & \varepsilon^{-4} & \varepsilon^{-5}  & \varepsilon^{-6}  & \varepsilon^{-7}  \\
+        1 & \varepsilon^{-3} & \varepsilon^{-6}  & \varepsilon^{-9}  & \varepsilon^{-4} & \varepsilon^{-7}  & \varepsilon^{-10} & \varepsilon^{-13} \\
+        1 & \varepsilon^{-5} & \varepsilon^{-10} & \varepsilon^{-15} & \varepsilon^{-4} & \varepsilon^{-9}  & \varepsilon^{-14} & \varepsilon^{-19} \\
+        1 & \varepsilon^{-7} & \varepsilon^{-14} & \varepsilon^{-21} & \varepsilon^{-4} & \varepsilon^{-11} & \varepsilon^{-18} & \varepsilon^{-25}
+    \end{pmatrix}
+\]
+
+Выделение подматриц.
+\[
+    F_8
+    = \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix} \\
+        %
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                & 0                & 0                \\
+            0 & \varepsilon^{-1} & 0                & 0                \\
+            0 & 0                & \varepsilon^{-2} & 0                \\
+            0 & 0                & 0                & \varepsilon^{-3} \\
+        \end{pmatrix}
+         &
+        \varepsilon^{-4}
+        \begin{pmatrix}
+            1 & 1                & 1                 & 1                 \\
+            1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+            1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+            1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                & 0                & 0                \\
+            0 & \varepsilon^{-1} & 0                & 0                \\
+            0 & 0                & \varepsilon^{-2} & 0                \\
+            0 & 0                & 0                & \varepsilon^{-3} \\
+        \end{pmatrix}
+    \end{pmatrix}
+\]
+Матрица Фурье порядка 4
+\[
+    F_4(\varepsilon^2)
+    = \begin{pmatrix}
+        1 & 1                & 1                 & 1                 \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4}  & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-4} & \varepsilon^{-8}  & \varepsilon^{-12} \\
+        1 & \varepsilon^{-6} & \varepsilon^{-12} & \varepsilon^{-18} \\
+    \end{pmatrix}
+\]
+Сокращение степени:
+\[
+    F_4(\varepsilon^2)
+    = \begin{pmatrix}
+        1 & 1                & 1                & 1                 \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-4} & 1                & \varepsilon^{-4}  \\
+        1 & \varepsilon^{-6} & \varepsilon^{-4} & \varepsilon^{-10} \\
+    \end{pmatrix}
+\]
+Перестановка строк ($P_4$ --- матрица обратной перестановки).
+\[
+    F_4(\varepsilon^2)
+    =
+    P_4
+    \begin{pmatrix}
+        1 & 1                & 1                & 1                 \\
+        1 & \varepsilon^{-4} & 1                & \varepsilon^{-4}  \\
+        1 & \varepsilon^{-2} & \varepsilon^{-4} & \varepsilon^{-6}  \\
+        1 & \varepsilon^{-6} & \varepsilon^{-4} & \varepsilon^{-10} \\
+    \end{pmatrix}
+\]
+Выделение подматриц:
+\begin{multline*}
+    F_4(\varepsilon^2)
+    =
+    P_4
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & \varepsilon^{-2} \\
+            1 & \varepsilon^{-6}
+        \end{pmatrix}
+         &
+        \varepsilon^{-4}
+        \begin{pmatrix}
+            1 & \varepsilon^{-2} \\
+            1 & \varepsilon^{-6} \\
+        \end{pmatrix}
+    \end{pmatrix} = \\
+    %
+    = P_4
+    \begin{pmatrix}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+         &
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+        \\
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-2}
+        \end{pmatrix}
+         &
+        \varepsilon^{-4}
+        \begin{pmatrix}
+            1 & 1                \\
+            1 & \varepsilon^{-4}
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & 0                \\
+            0 & \varepsilon^{-2}
+        \end{pmatrix}
+    \end{pmatrix} .
+\end{multline*}
+
+\section{Фильтр нижних частот}
+
+Пусть $X$, $H$ и $Y$ --- спектры входного сигнала, импульсной характеристики и выходного сигнала соответственно. Равенство:
+\[
+    Y_k = H_k \cdot X_k
+\]
+открывает широкие возможности для модификации спектра входного сигнала $X$: если элемент спектра $X_k$ входного сигнала не нулевой, то путем умножения на
+$H_k$ в спектре выходного сигнала элемент $Y_k$ можно сделать любым. Это означает, что если во входном сигнале есть гармоника с частотой $\frac{2 \pi}{n} k$,
+то её аплитуду можно увеличить и уменьшить в произвольное число раз (и, конечно, обнулить).
+
+Предположим, что нужно спроектировать фильтр нижних частот, то есть такой фильтр, который пропускает (увеличивает или незначительно уменьшает амплитуды
+гармоник с нижними частотами), и не пропускает (значительно уменьшает амплитуды с верхними частотами). Далее нужно отделить "нижние"{} частоты от
+"верхних"{}, пусть частота среза (cut frequency) $f_c = \frac{2 \pi}{n} k_c$, все частоты не больше $f_c$ будем считать нижними, а все частоты больше $f_c$
+будем считать верхними.
+
+Теперь можно задать спектр $H$ таким образом:
+\begin{enumerate}
+    \item $H_0 = 1$ --- сохраняем величину постоянной,
+    \item $H_1 = \dots = H_{k_c} = 1$ --- сохраняем гармоники от 1 до $k_c$,
+    \item $H_{k_c + 1} = \dots = H_{n - k_c - 1} = 0$ --- удаляем промежуточные частоты,
+    \item $H_{n - k_c} = \dots = H_{n-1} = 1$ --- сохраняем "симметричные"{} гармоники.
+\end{enumerate}
+Спектр $H$ равен единице по "краям"{} и нулю в "середине"{} (как на рисунке \ref{figure:finite-filter:low-frequencies:system-spectrum}).
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % ось X
+        \draw [->] ( -0.1, 0 ) -- ( 7, 0 ) node [below] ( 7, 0 ) {$N$};
+        % ось Y
+        \draw [->] ( 0, -0.1 ) -- ( 0, 1.5 ) node [left] ( 0, 1.5 ) {$\vec{H}$};
+
+        % осчеты
+        \draw [-] ( 0, 0.1 ) -- ( 0, -0.1 ) node [below ] ( 0, -0.1 ) {$0$};
+        \draw [-] ( 1, 0.1 ) -- ( 1, -0.1 ) node [below ] ( 1, -0.1 ) {$1$};
+        \draw [-] ( 2, 0.1 ) -- ( 2, -0.1 ) node [below ] ( 2, -0.1 ) {$2$};
+        \draw [-] ( 3, 0.1 ) -- ( 3, -0.1 ) node [below ] ( 3, -0.1 ) {$3$};
+        \draw [-] ( 4, 0.1 ) -- ( 4, -0.1 ) node [below ] ( 4, -0.1 ) {$4$};
+        \draw [-] ( 5, 0.1 ) -- ( 5, -0.1 ) node [below ] ( 5, -0.1 ) {$5$};
+        \draw [-] ( 6, 0.1 ) -- ( 6, -0.1 ) node [below ] ( 6, -0.1 ) {$6$};
+
+        % спектр
+        \draw [fill=black] ( 0, 1 ) circle [radius=0.05];
+        \draw [fill=black] ( 1, 1 ) circle [radius=0.05];
+        \draw [fill=black] ( 2, 1 ) circle [radius=0.05];
+        \draw [fill=black] ( 3, 0 ) circle [radius=0.05];
+        \draw [fill=black] ( 4, 0 ) circle [radius=0.05];
+        \draw [fill=black] ( 5, 1 ) circle [radius=0.05];
+        \draw [fill=black] ( 6, 1 ) circle [radius=0.05];
+    \end{tikzpicture}
+    \caption{Спектр $H$ для $n=7$ и $k_c=2$.}
+    \label{figure:finite-filter:low-frequencies:system-spectrum}
+\end{figure}
+
+В результате обратного дискретного преобразования Фурье получится импульсная характеристика $h$:
+$$
+    h = \frac{1}{n} F_n^* H .
+$$
+
+Пример фильтрации:
+\matlab{low\_pass}

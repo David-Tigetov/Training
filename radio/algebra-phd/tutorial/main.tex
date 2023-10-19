@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper,12pt]{book}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -9,43 +9,44 @@
 \usepackage{tikz}
 \usepackage{color}
 \usepackage{amsfonts}
+\usepackage{stmaryrd}
 
 \include{commands}
 
 \begin{document}
 
-    \title{Некоторые приложения алгебры в радиолокации}
+    \title{Прикладные методы линейной алгебры}
     \author{Тигетов Давид Георгиевич}
     \maketitle
 
     \tableofcontents
 
+    % план занятий
     \include{schedule}
 
+    % отношение Релея
     \include{rayleigh}
 
-    \part{Введение}
-    \include{introduction/complex}
-    \include{introduction/wave}
+    % операции в Matlab
+    \include{matlab}
 
+    % сигналы
+    \include{signals}
 
-    \part{Излучение сигналов}
-    \include{emission/emitter}
-    \include{emission/array}
-    \include{emission/scheme}
+    % излучение
+    \include{emission}
 
+    % волны
+    \include{waves}
 
-    \part{Приём сигналов}
-    \include{jammers/receivers}
-    \include{jammers/search/problems}
-    \include{jammers/search/theory}
-    \include{jammers/search/methods}
-    \include{jammers/adaptation/problems}
-    \include{jammers/estimate}
+    % помехи
+    \include{jammers}
 
-    \include{systems}
+    % линейные системы
+    \include{linear}
 
-    \include{appendix/dependence}
+    % зависимость
+    \include{dependence}
 
     \begin{enumerate}
         \item Обусловленность задачи решения системы линейных уравнений.
