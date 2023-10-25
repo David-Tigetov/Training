@@ -1,0 +1,48 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+
+% окружение Matlab
+\newenvironment{Matlab}{\par \vspace{0.2cm}}{\vspace{0.2cm} \par}
+% команда внутри окружения
+\newcommand{\Mcommand}[1]{\noindent \texttt{> #1} \par}
+% команда в Matlab
+\newcommand{\matlab}[1]{\begin{Matlab} \Mcommand{#1} \end{Matlab}}
+
+\begin{document}
+
+\title{Программа зачёта по курсу \\ "Прикладные методы линейной алгебры"}
+\date{}
+\author{}
+\maketitle
+
+\section{Отношение Релея}
+
+\subsection{Задача}
+
+\begin{enumerate}
+    \item Сформируйте эрмитову матрицу $H$ размера 5 -- 10:
+        \matlab{H = hermite(7, "any");}
+        Найдите векторы, при которых квадратичная форма $z^* H z$ достигает наименьшего и наибольшего значений.
+
+    \item Сформируйте произвольную эрмитову матрицу $A$ и положительную матрицу $B$ порядка 5 -- 10:
+    \begin{Matlab}
+        \Mcommand{A = hermite(9, "any");}
+        \Mcommand{B = hermite(9, "positive");}
+    \end{Matlab}
+        Найдите векторы, при которых отношение Релея $\rho(z) = \frac{z^* A z}{z^* B z}$ достигает наименьшего и наибольшего значений.
+\end{enumerate}
+
+\subsection{Вопросы}
+
+\begin{enumerate}
+    \item Сопряжённый оператор.
+    \item Эрмитов оператор и эрмитова матрица.
+    \item Спектральное разложение эрмитовой матрицы.
+    \item Квадратный корень из эрмитовой матрицы.
+    \item Экстремумы квадратичной формы с эрмитовой матрицей.
+    \item Экстремумы отношения Релея.
+\end{enumerate}
+\end{document}
