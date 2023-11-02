@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
 
 % окружение Matlab
 \newenvironment{Matlab}{\par \vspace{0.2cm}}{\vspace{0.2cm} \par}
@@ -10,6 +11,8 @@
 \newcommand{\Mcommand}[1]{\noindent \texttt{> #1} \par}
 % команда в Matlab
 \newcommand{\matlab}[1]{\begin{Matlab} \Mcommand{#1} \end{Matlab}}
+% норма
+\newcommand{\snorm}[1]{\left\| #1 \right\|_2}
 
 \begin{document}
 
@@ -24,15 +27,15 @@
 
 \begin{enumerate}
     \item Сформируйте эрмитову матрицу $H$ размера 5 -- 10:
-        \matlab{H = hermite(7, "any");}
-        Найдите векторы, при которых квадратичная форма $z^* H z$ достигает наименьшего и наибольшего значений.
+          \matlab{H = hermite(7, "any");}
+          Найдите векторы, при которых квадратичная форма $z^* H z$ достигает наименьшего и наибольшего значений если $\snorm{z}=1$.
 
     \item Сформируйте произвольную эрмитову матрицу $A$ и положительную матрицу $B$ порядка 5 -- 10:
-    \begin{Matlab}
-        \Mcommand{A = hermite(9, "any");}
-        \Mcommand{B = hermite(9, "positive");}
-    \end{Matlab}
-        Найдите векторы, при которых отношение Релея $\rho(z) = \frac{z^* A z}{z^* B z}$ достигает наименьшего и наибольшего значений.
+          \begin{Matlab}
+              \Mcommand{A = hermite(9, "any");}
+              \Mcommand{B = hermite(9, "positive");}
+          \end{Matlab}
+          Найдите векторы, при которых отношение Релея $\rho(z) = \frac{z^* A z}{z^* B z}$ достигает наименьшего и наибольшего значений.
 \end{enumerate}
 
 \subsection{Вопросы}
@@ -44,5 +47,70 @@
     \item Квадратный корень из эрмитовой матрицы.
     \item Экстремумы квадратичной формы с эрмитовой матрицей.
     \item Экстремумы отношения Релея.
+\end{enumerate}
+
+\section{Излучение}
+
+\subsection{Задача}
+
+В начало отсчёта сферической системы координат помещены три излучателя, $F(\varphi, \theta)$ --- диаграмма направленности системы этих трёх излучателей:
+\[
+    F(\varphi, \theta)
+    = \begin{pmatrix}
+        f_1(\varphi, \theta) & f_2(\varphi, \theta) & f_3(\varphi, \theta)
+    \end{pmatrix} ,
+\]
+где $\varphi$ и $\theta$ --- углы сферической системы и $f_1$, $f_2$, $f_3$ --- парциальные диаграммы направленности:
+\begin{gather*}
+    f_1(\varphi, \theta) =
+    0.6 \cdot A \left( \varphi + \frac{\pi}{6}, \theta + \frac{\pi}{4} \right)
+    \begin{pmatrix}
+        e^{i \frac{\pi}{3}} \\
+        e^{i \frac{\pi}{4}}
+    \end{pmatrix}, \\
+    %
+    f_2(\varphi, \theta) =
+    0.8 \cdot A \left( \varphi, \theta \right)
+    \begin{pmatrix}
+        e^{i \frac{\pi}{4}} \\
+        e^{i \frac{\pi}{4}}
+    \end{pmatrix}, \\
+    %
+    f_3(\varphi, \theta) =
+    0.7 \cdot A \left( \varphi - \frac{\pi}{6}, \theta - \frac{\pi}{4} \right)
+    \begin{pmatrix}
+        e^{-i \frac{\pi}{3}} \\
+        e^{-i \frac{\pi}{3}}
+    \end{pmatrix} , \\
+    %
+    A \left( \varphi, \theta \right)
+    =
+    \left \{
+    \begin{array}{ll}
+        \cos \left( \frac{3}{2} \varphi \right) \cos \left( 2 \theta \right), & -\frac{\pi}{3} \le \varphi \le \frac{\pi}{3}, -\frac{\pi}{4} \le \theta \le \frac{\pi}{4}, \\
+        0,                                                                    & \text{иначе}
+    \end{array}
+    \right .
+\end{gather*}
+
+\begin{enumerate}
+    \item Постройте поверхности коэффициента усиления каждого излучателя по отдельности и всей системы излучателей
+        в координатах углов $\varphi$, $\theta$.
+    \item Найдите коэффициенты полезного действия каждого излучателя и коэффициенты пересечения диаграмм.
+    \item Для направления $\varphi = \frac{\pi}{12}$, $\theta = -\frac{\pi}{6}$ найдите вектор оптимальных входных сигналов $a_{max}$,
+        при котором достигается наибольший коэффициент усиления. Вычислите достигнутый коэффициент полезного действия при входных сигналах $a_{max}$.
+        Постройте поверхность излучения $\snorm{F(\varphi, \theta) a_{max}}^2$ в координатах углов $\varphi$, $\theta$. 
+    \item Найдите наибольший коэффициент полезного действия системы трёх излучателей и вектор оптимальных входных сигналов $a_{max}$,
+        при котором достигается наибольший коэффициент полезного действия. Постройте поверхность излучения $\snorm{F(\varphi, \theta) a_{max}}^2$
+        в координатах углов $\varphi$, $\theta$.
+\end{enumerate}
+
+\subsection{Вопросы}
+
+\begin{enumerate}
+    \item Комплексная огибающая.
+    \item Диаграмма направленности системы излучателей.
+    \item Коэффициент усиления системы излучателей. Наибольший коэффициент усиления для заданного направления.
+    \item Коэффициент полезного действия системы излучателей, наименьшее и наибольшее значение коэффициента полезного действия.
 \end{enumerate}
 \end{document}
