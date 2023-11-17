@@ -1,5 +1,5 @@
 import numpy
-import scipy.stats as stats
+from scipy import stats
 
 generator = numpy.random.default_rng()
 sample = generator.normal(2.5, 3, size=1000)

@@ -1,5 +1,5 @@
 import numpy
-import scipy.stats as stats
+from scipy import stats
 
 # простая гипотеза принимается
 expected = [50, 30, 20]

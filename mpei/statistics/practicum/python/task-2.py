@@ -1,11 +1,14 @@
 import numpy
+from scipy import stats
 
 generator = numpy.random.default_rng()
-sample = generator.normal(loc=2.5, scale=3.0, size=10)
+sample = generator.normal(loc=2.5, scale=3.0, size=10000)
 print(f'Mean: {sample.mean()}, Std: {sample.std()}')
 
-moment = numpy.sqrt(numpy.sum(numpy.power(sample, 3))/sample.size)
-print(moment)
+deviation = numpy.sqrt(stats.moment(sample, 2))
+skewness = stats.moment(sample, 3)/numpy.power(deviation, 3)
+kurtosis = stats.moment(sample, 4)/numpy.power(deviation, 4)
+print(f'Skewness: {skewness}, kurtosis: {kurtosis}')
 
 print(numpy.histogram(sample, bins=20, density=True))
 
@@ -13,7 +16,7 @@ import pandas
 series = pandas.Series(sample)
 print(series.agg(['min', 'max', 'mean', 'std']))
 
-import matplotlib.pyplot as pyplot
+from matplotlib import pyplot
 
 # диаграмма размаха
 pyplot.figure()
