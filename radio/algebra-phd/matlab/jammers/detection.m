@@ -23,7 +23,7 @@ function bearings = detection ( receivers, jammers, volume )
     % анализируем все собственные векторы
     for number = 1 : length ( eigennumbers )
         % если собственное значение соответствует направлению на источник
-        if ( abs ( eigennumbers ( number, number ) ) > 1.1*receivers . noise_power ( ) )
+        if ( abs ( eigennumbers ( number, number ) ) > 1.1 * receivers . noise_power ( ) )
             % определяем сдвиг фазы между соседними приёмниками
             phase_shift = angle ( eigenvectors ( 2, number ) / eigenvectors ( 1, number ) );
             % вычисляем синус угла
