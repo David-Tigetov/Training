@@ -1,16 +1,7 @@
-classdef Receivers
+classdef Receivers < handle
     %RECEIVERS Приёмники
     
-    properties ( Access = private )
-        % количество приёмников
-        count_
-        % расстояние между соседними приёмниками (в длинах волны)
-        distance_
-        % мощность собственных шумов
-        noise_power_        
-    end
-
-    properties ( Dependent )
+    properties
         % количество приёмников
         count
         % расстояние между соседними приёмниками (в длинах волны)
@@ -18,40 +9,52 @@ classdef Receivers
         % мощность собственных шумов
         noise_power
     end
-    
+
     methods
         % конструктор
         function receivers = Receivers ( count, distance, noise_power )
-            if ( count <= 0 )
-                error ( 'Receivers: non-positive receivers count.' );
-            end
+            receivers . count = count;
+            receivers . distance = distance;
+            receivers . noise_power = noise_power;
+        end
+
+        % установка количества приёмников
+        function set . count ( receivers, count )
             
-            if ( distance <= 0 )
-                error ( 'Receivers: non-positive distance.' );
-            end
-                    
-            if ( noise_power <= 0 )
-                error ( 'Receivers: non-positive noise power' );
-            end
-        
-            receivers . count_ = count;
-            receivers . distance_ = distance;
-            receivers . noise_power_ = noise_power;
+            receivers . count = count;
         end
 
         % получение количества приёмников
         function result = get . count ( receivers )
-            result = receivers . count_;
+            result = receivers . count;
+        end
+
+        % установка расстояния между соседники приёмниками
+        function set . distance ( receivers, distance )
+            if ( distance <= 0 )
+                error ( 'Receivers: non-positive distance.' );
+            end
+
+            receivers . distance = distance;
         end
         
-        % получение расстояния между соседними приёмниками (в длинах волны)
+        % получение расстояния между соседними приёмниками
         function result = get . distance ( receivers )
-            result = receivers . distance_;
+            result = receivers . distance;
         end
-            
+
+        % установка мощности собственных шумов
+        function set . noise_power ( receivers, noise_power )
+            if ( noise_power <= 0 )
+                error ( 'Receivers: non-positive noise power' );
+            end
+
+            receivers . noise_power = noise_power;
+        end
+
         % получение мощности собственных шумов
         function result = get . noise_power ( receivers )
-            result = receivers . noise_power_;
+            result = receivers . noise_power;
         end
 
         % векторы направлений
@@ -81,7 +84,7 @@ classdef Receivers
         % выборка комплексных огибающих
         function result = sampling ( receivers, jammers, volume )
             % инициализируем шумовыми огибающими
-            result = ( randn ( receivers . count_, volume ) + 1i * randn ( receivers . count_, volume ) ) * ( 0.5 * receivers . noise_power_ )^0.5;
+            result = ( randn ( receivers . count, volume ) + 1i * randn ( receivers . count, volume ) ) * ( 0.5 * receivers . noise_power )^0.5;
 
             % добавляем огибающие источников излучения
             for number = 1 : size ( jammers, 1 )
