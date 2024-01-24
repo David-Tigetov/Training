@@ -3,10 +3,35 @@
 Радиолокация --- область науки и техники, объединяющая методы и средства измерения координат объектов и определения их свойств
 с помощью радиоволн.
 
-Радиолокационная станция --- это измерительный прибор (что-то вроде рулетки, только немного сложнее).
+Радиолокационная станция --- это измерительный прибор.
 
 В качестве примера будем рассматривать радиолокацию на плоскости: радиолокационная станция находится в начале полярной системы координат,
 в некоторой точке $A$ с координатами $(\varphi_A, \rho_A)$ находится объект.
+
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}
+        % станция
+        \node [isosceles triangle,
+            isosceles triangle apex angle=60,
+            rotate=90,
+            draw,
+            fill=cyan,
+            minimum size = 0.1cm] (radar) at (0, 0) {};
+
+        % объект
+        \node [rectangle, draw, fill=teal] (object) at (5, 2) {};
+        \node [right] at (object) {$A$};
+
+        % угол
+        \draw [->] (radar) -- (5, 0);
+        \draw [->] (3, 0) arc [start angle = 0, end angle = 22, radius = 3] node [below right] {$\varphi_A$};
+
+        % расстояние
+        \draw (radar) -- node [above] {$\rho_A$} (object);
+    \end{tikzpicture}
+    \caption{Станция и объект.}
+\end{figure}
 
 \subsection{Излучение и приём сигналов}
 
@@ -26,7 +51,27 @@
 \subsection{Цифровая обработка сигналов (ЦОС)}
 
 Обработку отраженных сигналов выполняют специальными методами, которые позволяют сфорировать набор \term{обнаружений} (приближенных
-координат объекта), набор которых образует "облако"{} вокруг объекта.
+координат объекта), которые образуют "облако"{} вокруг объекта.
+
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}
+        % станция
+        \node [isosceles triangle,
+            isosceles triangle apex angle=60,
+            rotate=90,
+            draw,
+            fill=cyan!20,
+            minimum size = 0.1cm] (radar) at (0, 0) {};
+
+        % объект
+        \node [rectangle, draw, fill=teal!20] (object) at (5, 2) {};
+
+        % обнаружения
+        \detections{}
+    \end{tikzpicture}
+    \caption{Обнаружения.}
+\end{figure}
 
 \subsection{Первичная обработка информации (ПОИ)}
 
@@ -35,6 +80,37 @@
 правильно говорить, что объект находится не в точке, а в некоторой области, центр которой --- координатная точка, а размеры определяются
 величинами ошибок. Станция мыслит областями (объёмами) пространства, в которых с некоторой вероятностью находится объект.
 
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}
+        % станция
+        \node [isosceles triangle,
+            isosceles triangle apex angle=60,
+            rotate=90,
+            draw,
+            fill=cyan!20,
+            minimum size = 0.1cm] (radar) at (0, 0) {};
+
+        % объект
+        \node [rectangle, draw, fill=teal!20] (object) at (5, 2) {};
+
+        % обнаружения
+        \detections{!20}
+
+        % координатная точка
+        \node (point) at (5.1, 1.9) {};
+        \filldraw [red] (point) circle (2pt);
+        % эллипс
+        \node [ellipse,
+            draw,
+            color = red,
+            rotate = 40,
+            minimum width = 1cm,
+            minimum height = 2cm] at (point) {};
+    \end{tikzpicture}
+    \caption{Координатная точка.}
+\end{figure}
+
 \subsection{Вторичная обработка информации (ВОИ)}
 
 Если объект движется, то в последующие моменты времени станции нужно искать его уже в другом месте, и для того чтобы понять в каком
@@ -42,11 +118,57 @@
 вероятную область его нахождения в будущем. При анализе координатные точки связываются в \term{траекторию} (\term{трассу}) движения
 объекта.
 
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}
+        % станция
+        \node [isosceles triangle,
+            isosceles triangle apex angle=60,
+            rotate=90,
+            draw,
+            fill=cyan!20,
+            minimum size = 0.1cm] (radar) at (0, 0) {};
+
+        % объект
+        \node [rectangle, draw, fill=teal!20] (object) at (5, 2) {};
+
+        % обнаружения
+        \detections{!20}
+
+        % координатная точка
+        \node (first_point) at (5.1, 1.9) {};
+        \filldraw [red!20] (first_point) circle (2pt);
+        % эллипс
+        \node [ellipse,
+            draw,
+            color = red!20,
+            rotate = 40,
+            minimum width = 1cm,
+            minimum height = 2cm] at (first_point) {};
+
+        % экстраполяция
+        \node (second_point) at (3.9, -1.2) {};
+        \filldraw [orange] (second_point) circle (2pt);
+        % эллипс
+        \node [ellipse,
+            draw,
+            color = orange,
+            rotate = 25,
+            minimum width = 2cm,
+            minimum height = 4cm] at (second_point) {};
+
+        % траектория
+        \draw (1.2, 2.7) to [out=10, in=150] (first_point);
+        \draw [dashed] (first_point) to [out=-30, in=10] (second_point);
+    \end{tikzpicture}
+    \caption{Траектория.}
+\end{figure}
+
 \subsection{Обработка}
 
-Вся обработка сводится к нескольким последовательно выполняемым шагам, представленным на рисунке
+Вся обработка сводится к нескольким последовательно выполняемым процедурам, представленным на рисунке
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \begin{tikzpicture}[stage/.style = {draw, rectangle}]
         \node[stage] (1) {Излучение и приём};
@@ -66,6 +188,8 @@
 Вообще говоря, станция не знает в каком направлении находится объект, поэтому перебирает возможные направления в секторе,
 такие станции называются \term{секторными}, или по кругу, тогда их называют станциями \term{кругового обзора}.
 
-Так работают \term{импульсные} станции, а способ локации называется \term{активным}, поскольку станция сама излучает сигнал. Есть
-и \term{пассивная} локация, когда станция не излучает сигналы, а только принимает, например, когда объет сам является источником сигнала,
-или когда его облучает другая станция, такие системы из нескольких станций называют \term{многопозиционными}.
+Станции, которые излучают сигнал и ждут отраженный сигнал, называются \term{импульсными}. Такой способ локации называется \term{активным},
+поскольку станция сама излучает сигнал. Есть и \term{пассивная} локация, когда станция не излучает сигналы, а только принимает, например,
+когда объет сам является источником сигнала, или когда его облучает другая станция, такие системы из нескольких станций называют
+\term{многопозиционными}.
+
