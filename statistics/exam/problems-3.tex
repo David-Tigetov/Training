@@ -1,0 +1,244 @@
+\chapter{Занятие 3}
+
+\section*{Задача 3.1}
+$X = (X_1, \dots, X_n)$ --- выборка из $\mathcal{N} (\mu, 1)$. Плотность вероятности $X$:
+\begin{equation}
+    p_X(x_1, \dots, x_n | \mu) = \left ( \frac{1}{2 \pi} \right )^{\frac{n}{2}} e^{-\frac{1}{2} \sum_{i=1}^n (x_i - \mu)^2} .
+\end{equation}
+
+Отношение правдоподобия:
+\begin{multline}
+    Z ( X_1, \dots, X_n )
+    = \frac{p_X(X_1, \dots, X_n | 7)}{p_X(X_1, \dots, X_n | 5)}
+    = \frac{\left ( \frac{1}{2 \pi} \right )^{\frac{n}{2}} e^{-\frac{1}{2} \sum_{i=1}^n (X_i - 7)^2}}{\left ( \frac{1}{2 \pi} \right )^{\frac{n}{2}} e^{-\frac{1}{2} \sum_{i=1}^n (X_i - 5)^2}} = \\
+    %
+    = e^{-\frac{1}{2} \sum_{i=1}^n (X_i - 7)^2 + \frac{1}{2} \sum_{i=1}^n (X_i - 5)^2}
+    = e^{-\frac{1}{2} \left ( \sum_{i=1}^n X_i^2 - 2 \cdot 7 \cdot \sum_{i=1}^n X_i + 7^2 n - \sum_{i=1}^n X_i^2 + 2 \cdot 5 \cdot \sum_{i=1}^n X_i - 5^2 n \right )} = \\
+    %
+    = e^{-\frac{1}{2} \left ( - 14 \sum_{i=1}^n X_i + 49 n + 10 \sum_{i=1}^n X_i - 25 n \right )}
+    = e^{-\frac{1}{2} \left ( - 4 \sum_{i=1}^n X_i + 24 n \right )}
+    = e^{ 2 \sum_{i=1}^n X_i - 12n}
+\end{multline}
+
+Равномерно наиболее мощный критерий имеет критическую область:
+\begin{equation}
+    S = \left \{ Z(X_1, \dots, X_n) \ge c \right \}
+\end{equation}
+
+Уровень значимости --- 0.05, мощность --- 0.94:
+\begin{equation}
+    \left \{
+    \begin{array}{c}
+        P_5 \event{Z(X_1, \dots, X_n) \ge c} = 0.05 \\
+        P_7 \event{Z(X_1, \dots, X_n) \ge c} = 0.94
+    \end{array}
+    \right .
+\end{equation}
+
+Вероятности:
+\begin{multline}
+    P_\mu \event{Z(X_1, \dots, X_n) \ge c}
+    = P_\mu \event{e^{ 2 \sum_{i=1}^n X_i - 12n} \ge c}
+    = P_\mu \event{2 \sum_{i=1}^n X_i - 12n \ge \ln c} = \\
+    %
+    = P_\mu \event{\sum_{i=1}^n X_i \ge \frac{1}{2} \ln c + 6 n}
+    = 1 - \Phi \left ( \frac{\frac{1}{2} \ln c + 6 n - \mu n}{\sqrt{n}} \right )
+\end{multline}
+где $\Phi(\cdot)$ --- функция Лапласа:
+\begin{equation}
+    \Phi(x) = \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^x e^{- \frac{t^2}{2}} dt
+\end{equation}
+
+Система:
+\begin{gather}
+    \left \{
+    \begin{array}{c}
+        1 - \Phi \left ( \frac{\frac{1}{2} \ln c + 6 n - 5 n}{\sqrt{n}} \right ) = 0.05 \\
+        1 - \Phi \left ( \frac{\frac{1}{2} \ln c + 6 n - 7 n}{\sqrt{n}} \right ) = 0.94
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{c}
+        \Phi \left ( \frac{\frac{1}{2} \ln c + n}{\sqrt{n}} \right ) = 0.95 \\
+        \Phi \left ( \frac{\frac{1}{2} \ln c - n}{\sqrt{n}} \right ) = 0.06
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{c}
+        \frac{\frac{1}{2} \ln c + n}{\sqrt{n}} = \Phi^{-1}(0.95) \\
+        \frac{\frac{1}{2} \ln c - n}{\sqrt{n}} = \Phi^{-1}(0.06)
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{c}
+        \frac{1}{2} \ln c + n = \Phi^{-1}(0.95) \sqrt{n} \\
+        \frac{1}{2} \ln c - n = \Phi^{-1}(0.06) \sqrt{n}
+    \end{array}
+    \right .
+\end{gather}
+
+Вычитаем из первого равенства второе:
+\begin{gather}
+    2 n = \Phi^{-1}(0.95) \sqrt{n} - \Phi^{-1}(0.06) \sqrt{n} , \\
+    2 \sqrt{n} = \Phi^{-1}(0.95) - \Phi^{-1}(0.06) , \\
+    n = \frac{1}{4} \left ( \Phi^{-1}(0.95) - \Phi^{-1}(0.06) \right )^2 .
+\end{gather}
+Значения берем из таблицы функции Лапласа:
+\begin{gather}
+    \Phi^{-1}(0.95) \approx 1.645 , \\
+    \Phi^{-1}(0.06) \approx -1.555
+\end{gather}
+
+Тогда:
+\begin{equation}
+    n \ge \frac{1}{4} ( 1.645 + 1.555 )^2 = 2.56
+\end{equation}
+
+\subsection*{Ответ}
+3
+
+\section*{Задача 3.2}
+Плотность вероятности $X$:
+\begin{equation}
+    p_X(x) = \frac{1^s x^{s-1}e^{-1 \cdot x}}{\Gamma(s)} .
+\end{equation}
+
+Условное распределение $Y$ относительно $X$:
+\begin{equation}
+    q_{Y|X}(y|x) = \frac{x^y}{y!} e^{-x} .
+\end{equation}
+
+Совместное распределение $X$ и $Y$:
+\begin{equation}
+    p_{X,Y}(x,y) = q_{Y|X}(y|x) \cdot p_X(x) .
+\end{equation}
+
+Безусловное распределение $Y$:
+\begin{multline}
+    q_Y(y)
+    = \int \limits_{0}^{\infty} p_{X,Y}(x,y) dx
+    = \int \limits_{0}^{\infty} q_{Y|X}(y|x) \cdot p_X(x) dx
+    = \int \limits_{0}^{\infty} \frac{x^y}{y!} e^{-x} \frac{1^s x^{s-1}e^{-x}}{\Gamma(s)} dx = \\
+    %
+    = \frac{1}{y!} \frac{1}{\Gamma(s)} \int \limits_{0}^{\infty} x^{s+y-1}e^{-2 x} dx
+    = \frac{1}{y!} \frac{1}{\Gamma(s)} \frac{1}{2^{s+y}} \int \limits_{0}^{\infty} 2^{s+y} x^{s+y-1}e^{-2 x} dx = \\
+    %
+    = \frac{1}{y!} \frac{1}{\Gamma(s)} \frac{1}{2^{s+y}} \Gamma(s+y)
+    = \frac{\Gamma(s+y)}{\Gamma(y+1) \Gamma(s)} \frac{1}{2^{s+y}}
+\end{multline}
+
+\subsection*{Ответ}
+\begin{equation}
+    \frac{\Gamma(s+y)}{\Gamma(y+1) \Gamma(s)} \frac{1}{2^{s+y}}
+\end{equation}
+
+\section*{Задача 3.3}
+Заданная плотность --- сдвинутое экспоненциальное распределение:
+\begin{equation}
+    p_{\alpha, \beta} (x) = \frac{1}{\alpha} e^{- \frac{x - \beta}{\alpha}} I_{[\beta, \infty]}(x)
+\end{equation}
+Если $\eta$ имеет такое распределение, а величина $\xi$ имеет экспоненциальное распределение $E \left ( \frac{1}{\alpha} \right )$, то:
+\begin{equation}
+    \eta = \xi + \beta .
+\end{equation}
+
+Вычисляем моменты $\eta$, используя известные моменты экспоненциального распределения для $\xi$:
+\begin{gather}
+    \expectation{\eta} = \expectation{\xi} + \beta = \alpha + \beta , \\
+    \variance{\eta} = \variance{\xi} = \alpha^2.
+\end{gather}
+
+Пусть $X = \left ( X_1, \dots, X_n \right )$ --- выборка, $\mu(X)$ --- выборочное среднее, $s(X)$ --- исправленная выборочная дисперсия:
+\begin{gather}
+    \mu(X) = \frac{1}{n} \sum_{i=1}^n X_i , \\
+    s(X) = \frac{1}{n-1} \sum_{i=1}^n \left ( X_i - \mu(X) \right )^2 .
+\end{gather}
+
+Оценки $\widehat{\alpha}$ и $\widehat{\beta}$ получим из системы:
+\begin{gather}
+    \left \{
+    \begin{array}{c}
+        \mu(X) = \widehat{\alpha} + \widehat{\beta} \\
+        s(X) = \widehat{\alpha}^2
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{c}
+        \widehat{\beta} = \mu(X) - \widehat{\alpha} \\
+        \widehat{\alpha} = \sqrt{s(X)}
+    \end{array}
+    \right . \\
+    %
+    \left \{
+    \begin{array}{c}
+        \widehat{\beta} = \mu(X) - \sqrt{s(X)} \\
+        \widehat{\alpha} = \sqrt{s(X)}
+    \end{array}
+    \right . \\
+\end{gather}
+
+\subsection*{Ответ}
+Оценка $(\alpha, \beta)$:
+\begin{equation}
+    \begin{pmatrix}
+        \sqrt{s(X)} \\
+        \mu(X) - \sqrt{s(X)}
+    \end{pmatrix} ,
+\end{equation}
+где $\mu(X) = \frac{1}{n} \sum_{i=1}^n X_i$ , $s(X) = \frac{1}{n-1} \sum_{i=1}^n \left ( X_i - \mu(X) \right )^2$.
+
+\section*{Задача 3.4}
+
+\begin{equation}
+    \frac{Z}{Y}
+    \approx \frac{\lambda}{\lambda} + \frac{1}{\lambda} ( Z - \lambda ) - \frac{\lambda}{\lambda^2} ( Y - \lambda )
+    = 1 + \frac{1}{\lambda} ( Z - \lambda ) - \frac{1}{\lambda} ( Y - \lambda )
+    = 1 + \frac{1}{\lambda} ( Z - Y )
+\end{equation}
+
+\begin{equation}
+    \left ( \frac{Z}{Y} \right )^2 = 1 + \frac{2}{\lambda} \left ( Z - Y \right ) + \frac{1}{\lambda^2} \left ( Z - Y \right )^2
+\end{equation}
+
+\begin{gather}
+    \left ( \frac{Z}{Y} \right )^3 = 1 + 3 \frac{1}{\lambda} \left ( Z - Y \right ) + 3 \frac{1}{\lambda^2} \left ( Z - Y \right )^2 + \frac{1}{\lambda^3} \left ( Z - Y \right )^3 , \\
+    \lambda^3 \left ( \left ( \frac{Z}{Y} \right )^3 - 1 \right ) =  3 \lambda^2 \left ( Z - Y \right ) + 3 \lambda \left ( Z - Y \right )^2 + \left ( Z - Y \right )^3
+\end{gather}
+
+\begin{multline}
+    \frac{Z}{Y}
+    = \frac{\overline{X}}{\overline{X^2} - \left ( \overline{X} \right )^2}
+    = \frac{\overline{X}}{- \left ( \overline{X} \right )^2 \left ( \frac{\overline{X^2}}{\left ( \overline{X} \right )^2} - 1 \right )}
+    = - \frac{\frac{1}{\overline{X}}}{1 - \frac{\overline{X^2}}{\left ( \overline{X} \right )^2}}
+\end{multline}
+
+\begin{equation}
+    \lambda^3 = \frac{\lambda^4}{\lambda}
+\end{equation}
+
+\subsection{Вычисление моментов}
+
+Производящая функция моментов распределения Пуассона $Pois(\lambda)$ :
+\begin{equation}
+    E_{\xi}(t) = e^{\lambda ( e^t - 1 )} .
+\end{equation}
+Производные функции моментов:
+\begin{gather}
+    \frac{d}{dt} E_{\xi}(t) = e^{\lambda ( e^t - 1 )} \lambda e^t = \lambda e^{\lambda ( e^t - 1 ) + t}, \\
+    \frac{d^2}{dt^2} E_{\xi}(t) = \lambda e^{\lambda ( e^t - 1 ) + t} \left ( \lambda e^t + 1 \right ) , \\
+    \frac{d^3}{dt^3} E_{\xi}(t) = \lambda e^{\lambda ( e^t - 1 ) + t} \left ( \lambda e^t + 1 \right )^2 + \lambda e^{\lambda ( e^t - 1 ) + t} \lambda e^t .
+\end{gather}
+
+Моменты распределени --- значения производных производящей функции моментов в нуле:
+\begin{gather}
+    m_1 = \lambda, \\
+    m_2 = \lambda ( \lambda + 1 ) = \lambda^2 + \lambda, \\
+    m_3 = \lambda (\lambda + 1)^2 + \lambda \lambda = \lambda ( \lambda^2 + 2 \lambda + 1 ) + \lambda^2 = \lambda^3 + 3 \lambda^2 + \lambda
+\end{gather}
+
+
+\subsection*{Ответ}

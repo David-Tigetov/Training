@@ -1,0 +1,15 @@
+% команды вывода первой частной производной
+\newcommand{\fpd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\fpda}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fpdp}[2]{\fpd{#2} \left ( #1 \right )}
+
+\newcommand{\expectation}[1]{\mathtt{M} \left [ #1 \right ]}
+\newcommand{\conditionalexpectation}[2]{\expectation{ #1 \left | #2 \right .}}
+\newcommand{\variance}[1]{\mathtt{D} \left [ #1 \right ]}
+\newcommand{\covariance}[2]{\mathtt{cov} \left ( #1, #2 \right )}
+
+\newcommand{\modulus}[1]{\left | #1 \right |}
+\newcommand{\norm}[1]{\left \| {#1} \right \|}
+
+\newcommand{\event}[1]{\left \{ #1 \right \} }
+\newcommand{\probability}[1]{P \event{#1}}

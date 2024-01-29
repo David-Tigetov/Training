@@ -1,0 +1,435 @@
+\chapter{Занятие 1}
+
+\section*{Задача 1.2}
+
+\subsection*{Предварительные вычисления}
+
+Эти вычисления можно не записывать. Можно считать, что Вы взяли значения из справочников.
+
+Интегралы, которые потребуются в дальнейшем при вычислении моментов:
+\begin{align}
+    \int \limits_{0}^\infty e^{-\frac{x}{\sigma}} dx
+    = & \left . e^{- \frac{x}{\sigma}} (- \sigma) \right |_0^{\infty}
+    = \sigma , \\
+    %
+    \int \limits_{0}^\infty x e^{-\frac{x}{\sigma}} dx
+    = & \left . x e^{-\frac{x}{\sigma}} ( - \sigma ) \right |_0^{\infty} - \int \limits_{0}^\infty (- \sigma) e^{-\frac{x}{\sigma}} dx
+    = \sigma \int \limits_{0}^\infty e^{-\frac{x}{\sigma}} dx
+    = \sigma^2 , \\
+    %
+    \int \limits_{0}^\infty x^2 e^{-\frac{x}{\sigma}} dx
+    = & \left . x^2 e^{-\frac{x}{\sigma}} ( - \sigma ) \right |_0^{\infty} - \int \limits_{0}^\infty 2 x (- \sigma) e^{-\frac{x}{\sigma}} dx
+    = 2 \sigma \int \limits_{0}^\infty x e^{-\frac{x}{\sigma}} dx
+    = 2 \sigma^3 , \\
+    %
+    \int \limits_{0}^\infty x^3 e^{-\frac{x}{\sigma}} dx
+    = & \left . x^3 e^{-\frac{x}{\sigma}} ( - \sigma ) \right |_0^{\infty} - \int \limits_{0}^\infty 3 x^2 (- \sigma) e^{-\frac{x}{\sigma}} dx
+    = 3 \sigma \int \limits_{0}^\infty x^2 e^{-\frac{x}{\sigma}} dx
+    = 3 \sigma \cdot 2 \sigma^3 = 6 \sigma^4 , \\
+    %
+    \int \limits_{0}^\infty x^4 e^{-\frac{x}{\sigma}} dx
+    = & \left . x^4 e^{-\frac{x}{\sigma}} ( - \sigma ) \right |_0^{\infty} - \int \limits_{0}^\infty 4 x^3 (- \sigma) e^{-\frac{x}{\sigma}} dx
+    = 4 \sigma \int \limits_{0}^\infty x^3 e^{-\frac{x}{\sigma}} dx
+    = 4 \sigma \cdot 6 \sigma^4 = 24 \sigma^5
+\end{align}
+
+Пусть $\xi$ имеет распределение Лапласа с плотностью $p(x) = \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}}$.
+Вычислим моменты величины $\xi$:
+\begin{gather}
+    \expectation{\xi} = \int \limits_{-\infty}^\infty x \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}} dx = 0 , \\
+    %
+    \expectation{\modulus{\xi}}
+    = \int \limits_{-\infty}^\infty \modulus{x} \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}} dx
+    = \frac{1}{2 \sigma} 2 \int \limits_{0}^\infty x e^{-\frac{x}{\sigma}} dx
+    = \frac{1}{\sigma} \sigma^2 = \sigma , \\
+    %
+    \expectation{\xi^2}
+    = \int \limits_{-\infty}^\infty x^2 \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}} dx
+    = \frac{1}{2 \sigma} 2 \int \limits_{0}^\infty x^2 e^{-\frac{x}{\sigma}} dx
+    = \frac{1}{\sigma} 2 \sigma^3 = 2 \sigma^2 , \\
+    %
+    \expectation{\modulus{\xi} \xi^2}
+    = \int \limits_{-\infty}^\infty \modulus{x} x^2 \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}} dx
+    = \frac{1}{2 \sigma} 2 \int \limits_{0}^\infty x^3 e^{-\frac{x}{\sigma}} dx
+    = \frac{1}{\sigma} 6 \sigma^4 = 6 \sigma^3 , \\
+    %
+    \expectation{\xi^4}
+    = \int \limits_{-\infty}^\infty x^4 \frac{1}{2 \sigma} e^{-\frac{\modulus{x}}{\sigma}} dx
+    = \frac{1}{2 \sigma} 2 \int \limits_{0}^\infty x^4 e^{-\frac{x}{\sigma}} dx
+    = \frac{1}{\sigma} 24 \sigma^5 = 24 \sigma^4 .
+\end{gather}
+
+\subsection*{Свойства статистики $Y$}
+
+Случайная величина
+\begin{equation}
+    Y = \frac{1}{n} \sum_{i=1}^n \modulus{X_i}
+\end{equation}
+образована суммой величин $\modulus{X_i}$, имеющих следующие математическое ожидание и дисперсию:
+\begin{gather}
+    \expectation{\modulus{X_i}} = \sigma, \\
+    %
+    \variance{\modulus{X_i}}
+    = \expectation{\modulus{X_i}^2} - \left ( \expectation{\modulus{X_i}} \right )^2
+    = \expectation{X_i^2} - \left ( \expectation{\modulus{X_i}} \right )^2
+    = 2 \sigma^2 - \sigma^2 = \sigma^2
+\end{gather}
+Случайная величина $Y$ имеет асимптотически нормальное распределение $\mathcal{N} \left ( \sigma, \frac{1}{n} \sigma^2 \right )$.
+
+\subsection*{Свойства статистики $Z$}
+
+Случайная величина
+\begin{equation}
+    Z = \frac{1}{n} \sum_{i=1}^n X_i^2
+\end{equation}
+образована суммой величин $X_i^2$, имеющих следующие математическое ожидание и дисперсию:
+\begin{gather}
+    \expectation{X_i^2} = 2 \sigma^2, \\
+    %
+    \variance{X_i^2}
+    = \expectation{X_i^4} - \left ( \expectation{X_i^2} \right )^2
+    = 24 \sigma^4 - \left ( 2 \sigma^2 \right )^2
+    = 24 \sigma^4 - 4 \sigma^4 = 20 \sigma^4
+\end{gather}
+Случайная величина $Z$ имеет асимптотически нормальное распределение $\mathcal{N} \left ( 2 \sigma^2, \frac{1}{n} 20 \sigma^4 \right )$.
+
+\subsection*{Ковариация вектора $(Y, Z)$}
+
+Ковариация $Y$ и $Z$.
+\begin{multline}
+    \expectation{( Y - \expectation{Y} ) ( Z - \expectation{Z}) }
+    = \expectation{ \frac{1}{n} \sum_{i=1}^{n} ( \modulus{X_i} - \sigma ) \cdot \frac{1}{n} \sum_{j=1}^n ( X_j^2 - 2 \sigma^2 ) } = \\
+    %
+    = \expectation{ \frac{1}{n} \frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^n ( \modulus{X_i} - \sigma ) ( X_j^2 - 2 \sigma^2 ) }
+    = \frac{1}{n} \frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^n \expectation{ ( \modulus{X_i} - \sigma ) ( X_j^2 - 2 \sigma^2 ) } .
+\end{multline}
+
+В силу независимости величин $X_i$ и $X_j$ при $i \neq j$:
+\begin{equation}
+    \expectation{ ( \modulus{X_i} - \sigma ) ( X_j^2 - 2 \sigma^2 ) }
+    = \expectation{ ( \modulus{X_i} - \sigma ) } \cdot \expectation{ ( X_j^2 - 2 \sigma^2 ) }
+    = 0 \cdot 0
+    = 0
+\end{equation}
+
+Поэтому ненулевыми будут только слагаемые с $i=j$:
+\begin{multline}
+    \expectation{( Y - \expectation{Y} ) ( Z - \expectation{Z}) }
+    = \frac{1}{n} \frac{1}{n} \sum_{i=1}^{n} \expectation{ ( \modulus{X_i} - \sigma ) ( X_i^2 - 2 \sigma^2 ) } = \\
+    %
+    = \frac{1}{n^2} \sum_{i=1}^{n} \expectation{ ( \modulus{X_i} X_i^2 - \sigma X_i^2 - 2 \sigma^2 \modulus{X_i} + 2 \sigma^3 ) } = \\
+    %
+    = \frac{1}{n^2} \sum_{i=1}^{n} ( \expectation{\modulus{X_i} X_i^2} - \sigma \expectation{X_i^2} - 2 \sigma^2 \expectation{\modulus{X_i}} + 2 \sigma^3 ) = \\
+    %
+    = \frac{1}{n^2} \sum_{i=1}^{n} ( 6 \sigma^3 - \sigma 2 \sigma^2 - 2 \sigma^2 \sigma + 2 \sigma^3 ) = \\
+    %
+    = \frac{1}{n^2} \sum_{i=1}^{n} ( 6 \sigma^3 - 2 \sigma^3 - 2 \sigma^3 + 2 \sigma^3 )
+    = \frac{1}{n^2} \sum_{i=1}^{n} 4 \sigma^3
+    = \frac{1}{n} 4 \sigma^3 .
+\end{multline}
+
+Матрица ковариации двумерного вектора $(Y, Z)$:
+\begin{gather}
+    \Sigma =
+    \begin{pmatrix}
+        \frac{1}{n} \sigma^2   & \frac{1}{n} 4 \sigma^3  \\
+        \frac{1}{n} 4 \sigma^3 & \frac{1}{n} 20 \sigma^4
+    \end{pmatrix}
+\end{gather}
+
+\subsection*{Асимптотическая дисперсия}
+
+Статистика $T = h(Y,Z)$, где функция $h(y,z) = \frac{z^3}{6y^5}$.
+
+Если $(a, b)$ некоторая фиксированная точка, тогда в окрестности точки $(a, b)$:
+\begin{equation}
+    h(y, z) \approx h(a, b) + \fpd{y} h(a, b) ( y - a ) + \fpd{z} h(a, b) (z - b) = \widetilde{h}(y, z)
+\end{equation}
+Функцию $\widetilde{h}(y,z)$ для краткости будем записывать с помощью градиента:
+\begin{gather}
+    \widetilde{h}(y, z) = h(a, b) + \bigtriangledown h(a, b)^T \begin{pmatrix}
+                                                                   y - a \\ z - b
+    \end{pmatrix} , \\
+    \bigtriangledown h(y, z) = \begin{pmatrix}
+                                   \fpd{y} h(y, z) \\ \fpd{z} h(y, z)
+    \end{pmatrix} .
+\end{gather}
+
+Аналогично статистику $T(Y,Z)$  можно разложить в области точки математических ожиданий $\left ( \expectation{Y}, \expectation{Z} \right )$:
+\begin{gather}
+    T(Y, Z) \rightarrow \widetilde{T}(Y, Z) , \\
+    \widetilde{T}(Y, Z) = h( \expectation{Y}, \expectation{Z} ) + \bigtriangledown h(\expectation{Y}, \expectation{Z})^T \begin{pmatrix}
+                                                                                                                             Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix}
+\end{gather}
+
+Моменты статистики $T$ стремятся к моментам статистики $\widetilde{T}$.
+\begin{gather}
+    \expectation{T} \rightarrow \expectation{\widetilde{T}} , \\
+    \variance{T} \rightarrow \variance{\widetilde{T}} .
+\end{gather}
+
+Остаётся вычислить моменты $\widetilde{T}$ (это будут асимптотические моменты $T$):
+\begin{equation}
+    \expectation{\widetilde{T}} =
+    h( \expectation{Y}, \expectation{Z} ) + \bigtriangledown h(\expectation{Y}, \expectation{Z})^T \expectation{ \begin{pmatrix}
+                                                                                                                     Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix} }
+    %
+    = h(\expectation{Y}, \expectation{Z}) .
+\end{equation}
+
+\begin{multline}
+    \variance{\widetilde{T}}
+    = \expectation{\left ( \widetilde{T} - \expectation{\widetilde{T}} \right )^2} = \\
+    %
+    = \expectation{\left ( \bigtriangledown h(\expectation{Y}, \expectation{Z})^T \begin{pmatrix}
+                                                                                      Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix} \right )^2} = \\
+    %
+    = \expectation{\bigtriangledown h(\expectation{Y}, \expectation{Z})^T \begin{pmatrix}
+                                                                              Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix} \left ( \bigtriangledown h(\expectation{Y}, \expectation{Z})^T \begin{pmatrix}
+                                                                                     Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix} \right )^T} = \\
+    %
+    = \expectation{ \bigtriangledown h(\expectation{Y}, \expectation{Z})^T \begin{pmatrix}
+                                                                               Y - \expectation{Y} \\ Z - \expectation{Z}
+    \end{pmatrix} \begin{pmatrix}
+                      Y - \expectation{Y} & Z - \expectation{Z}
+    \end{pmatrix} \bigtriangledown h(\expectation{Y}, \expectation{Z})} = \\
+    %
+    = \expectation{
+        \bigtriangledown h(\expectation{Y}, \expectation{Z})^T
+        \begin{pmatrix}
+            \left ( Y - \expectation{Y} \right )^2                                    & \left ( Y - \expectation{Y} \right ) \left ( Z - \expectation{Z} \right ) \\
+            \left ( Y - \expectation{Y} \right ) \left ( Z - \expectation{Z} \right ) & \left ( Z - \expectation{Z} \right )^2
+        \end{pmatrix}
+        \bigtriangledown h(\expectation{Y}, \expectation{Z})
+    } = \\
+    %
+    = \bigtriangledown h(\expectation{Y}, \expectation{Z})^T
+    \expectation{
+        \begin{pmatrix}
+            \left ( Y - \expectation{Y} \right )^2                                    & \left ( Y - \expectation{Y} \right ) \left ( Z - \expectation{Z} \right ) \\
+            \left ( Y - \expectation{Y} \right ) \left ( Z - \expectation{Z} \right ) & \left ( Z - \expectation{Z} \right )^2
+        \end{pmatrix}
+    }
+    \bigtriangledown h(\expectation{Y}, \expectation{Z})
+\end{multline}
+Градиент функции $h(y,z)$:
+\begin{equation}
+    \bigtriangledown h
+    = \begin{pmatrix}
+          \fpd{y} h(y,z) \\ \fpd{z} h(y,z)
+    \end{pmatrix}
+    = \left ( -5 \cdot \frac{z^3}{6 y^6} , \frac{3 z^2}{6 y^5}\right )
+\end{equation}
+
+Значение градиента в точке математическое ожидания вектора $(Y, Z)$ --- в точке $\left ( \sigma, 2 \sigma^2 \right )$:
+
+\begin{gather}
+    \left . \frac{\partial}{\partial y} h(y,z) \right |_{\left ( \sigma, 2 \sigma^2 \right )}
+    = \left . \left ( -5 \cdot \frac{z^3}{6 y^6} \right ) \right |_{\left ( \sigma, 2 \sigma^2 \right )}
+    = -5 \cdot \frac{8 \sigma^6}{6 \sigma^6}
+    = - \frac{20}{3} , \\
+    %
+    \left . \frac{\partial}{\partial z} h(y,z) \right |_{\left ( \sigma, 2 \sigma^2 \right )}
+    = \left . \left (  \frac{3 z^2}{6 y^5} \right ) \right |_{\left ( \sigma, 2 \sigma^2 \right )}
+    = \frac{ 3 \cdot 4 \sigma^4 }{6 \sigma^5 }
+    = \frac{2}{\sigma} .
+\end{gather}
+
+Асимптотическая дисперсия cтатистики $T$ при $n \rightarrow \infty$:
+\begin{multline}
+    \variance{T} \rightarrow
+    \begin{pmatrix}
+        - \frac{20}{3} &
+        \frac{2}{\sigma}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \frac{1}{n} \sigma^2   & \frac{1}{n} 4 \sigma^3  \\
+        \frac{1}{n} 4 \sigma^3 & \frac{1}{n} 20 \sigma^4
+    \end{pmatrix}
+    \begin{pmatrix}
+        - \frac{20}{3} \\
+        \frac{2}{\sigma}
+    \end{pmatrix} = \\
+    %
+    = - \frac{20}{3} \frac{1}{n} \sigma^2 \left ( - \frac{20}{3} \right )
+    - \frac{20}{3} \frac{1}{n} 4 \sigma^3 \frac{2}{\sigma}
+    - \frac{20}{3} \frac{1}{n} 4 \sigma^3 \frac{2}{\sigma}
+    + \frac{2}{\sigma} \frac{1}{n} 20 \sigma^4 \frac{2}{\sigma} = \\
+    %
+    = \frac{20 \cdot 20}{3 \cdot 3} \frac{1}{n} \sigma^2
+    - \frac{20 \cdot 4 \cdot 2 + 20 \cdot 4 \cdot 2}{3} \frac{1}{n} \sigma^2
+    + 2 \cdot 20 \cdot 2 \frac{1}{n} \sigma^2 = \\
+    %
+    = \frac{1}{n} \left ( \frac{400}{9} - \frac{320}{3} + 80 \right ) \sigma^2
+    = \frac{1}{n} \frac{400 - 960 + 720}{9} \sigma^2
+    = \frac{160}{9 n} \sigma^2
+\end{multline}
+
+\subsection*{Оценка}
+
+Вообще говоря, статистика $T$ не является оценкой $\sigma$.
+
+У величины $Y$ дисперсия $\variance{Y} = \frac{1}{n} \sigma^2$ стремится к нулю при $n \rightarrow \infty$, и по неравенству Чебышева:
+\begin{equation}
+    \forall \varepsilon > 0: \probability{\modulus{Y - \expectation{Y}} \ge \varepsilon} \le \frac{\variance{Y}}{\varepsilon^2} \rightarrow 0.
+\end{equation}
+Это означает сходимость по вероятности:
+\begin{equation}
+    Y \stackrel{P}{\rightarrow} \expectation{Y} = \sigma .
+\end{equation}
+
+Аналогично для величины $Z$:
+\begin{equation}
+    Z \stackrel{P}{\rightarrow} 2 \sigma^2 .
+\end{equation}
+
+Используя свойства сходимости по вероятности:
+\begin{gather}
+    Z^3 \stackrel{P}{\rightarrow} \left ( 2 \sigma^2 \right )^3 , \\
+    Y^5 \stackrel{P}{\rightarrow} \sigma^5 , \\
+    T = \frac{Z^3}{6Y^5} \stackrel{P}{\rightarrow} \frac{\left ( 2 \sigma^2 \right )^3}{6 \sigma^5} = \frac{8 \sigma^6}{6 \sigma^5 } = \frac{8}{6} \sigma .
+\end{gather}
+
+Статистика $T$ не является состоятельной оценкой $\sigma$, потому что сходится к $\frac{8}{6}\sigma$, а не к $\sigma$. В качестве оценки $\sigma$ следовало бы использовать статистику:
+\begin{equation}
+    \widetilde{T} = \frac{Z^3}{8Y^5} .
+\end{equation}
+
+\subsection*{Асимптотическая нормальность}
+
+Вводим центрированные случайные величины:
+\begin{gather}
+    Y_0 = Y - \expectation{Y} \sim \mathcal{N} \left ( 0, \frac{1}{n} \sigma^2 \right ) \text{при } n \rightarrow \infty, \\
+    Z_0 = Z - \expectation{Z} \sim \mathcal{N} \left ( 0, \frac{1}{n} 20 \sigma^4 \right ) \text{при } n \rightarrow \infty .
+\end{gather}
+
+При больших $n$ величины $Y_0$ и $Z_0$ имеют очень малую дисперсию и поэтому с большой вероятностью являются малыми величинами.
+
+Статистику $T$ записываем через центрированные величины:
+\begin{equation}
+    T
+    = \frac{\left ( \expectation{Z} + \left ( Z - \expectation{Z} \right ) \right )^3}{6 \left ( \expectation{Y} + \left ( Y - \expectation{Y} \right ) \right )^5}
+    = \frac{\left ( \expectation{Z} + Z_0 \right )^3}{6 \left ( \expectation{Y} + Y_0 \right )^5}
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \cdot \frac{\left ( 1 + \frac{Z_0}{\expectation{Z}} \right )^3}{\left ( 1 + \frac{Y_0}{\expectation{Y}} \right )^5}
+\end{equation}
+
+При больших $n$ заменяем степени на эквивалентные выражения с точностью до малых более высокого порядка (более высоких степеней $Y_0$ и $Z_0$):
+\begin{equation}
+    T \stackrel{P}{\rightarrow} \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \cdot \frac{1 + 3 \frac{Z_0}{\expectation{Z}}}{1 + 5 \frac{Y_0}{\expectation{Y}}}
+\end{equation}
+
+Заменяем выражение со знаменателем как сумму бесконечной геометрической прогресии и опять оставляем только первую степень, а остальные отбрасываем как малые второго и большего порядков:
+\begin{equation}
+    \frac{1}{1 + 5 \frac{Y_0}{\expectation{Y}}} = \sum_{k=0}^{\infty} \left ( - 5 \frac{Y_0}{\expectation{Y}} \right)^k \stackrel{P}{\rightarrow} 1 - 5 \frac{Y_0}{\expectation{Y}}
+\end{equation}
+
+Возвращаемся к статистике $T$:
+\begin{multline}
+    T
+    \stackrel{P}{\rightarrow} \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + 3 \frac{Z_0}{\expectation{Z}} \right ) \left ( 1 - 5 \frac{Y_0}{\expectation{Y}} \right ) = \\
+    %
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + 3 \frac{Z_0}{\expectation{Z}} - 5 \frac{Y_0}{\expectation{Y}} - 15 \frac{Z_0}{\expectation{Z}} \frac{Y_0}{\expectation{Y}} \right )
+\end{multline}
+
+Последнее слагаемое в скобках отбрасываем как более малое, тогда:
+\begin{equation}
+    T \stackrel{P}{\rightarrow} \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + \frac{3}{\expectation{Z}} Z_0 - \frac{5}{\expectation{Y}} Y_0 \right )
+\end{equation}
+
+Величины $Y_0$ и $Z_0$ являются асимпотически нормальными, и вся случайная величина справа является линейным преобразованием (линейные преобразования не изменяют закона
+распределения), поэтому величина справа так же является асимпотически нормальной и статистика $T$ сходится к ней по вероятности, то есть её вероятностное распределение
+незначительно отличается от нормального.
+
+Кстати, асимпотическое математическое ожидание статистики $T$:
+\begin{multline}
+    \expectation{T}
+    \rightarrow \expectation{\frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + \frac{3}{\expectation{Z}} Z_0 - \frac{5}{\expectation{Y}} Y_0 \right )} = \\
+    %
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \expectation{1 + \frac{3}{\expectation{Z}} Z_0 - \frac{5}{\expectation{Y}} Y_0}
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + \frac{3}{\expectation{Z}} \expectation{Z_0} - \frac{5}{\expectation{Y}} \expectation{Y_0} \right ) = \\
+    %
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}} \left ( 1 + \frac{3}{\expectation{Z}} \cdot 0 - \frac{5}{\expectation{Y}} \cdot 0 \right )
+    = \frac{\expectation{Z}^3}{6 \expectation{Y^5}}
+    = \frac{8 \sigma^6}{6 \sigma^5}
+    = \frac{8}{6} \sigma
+\end{multline}
+
+Таким образом,
+\begin{equation}
+    T \sim \mathcal{N} \left ( \frac{8}{6} \sigma, \frac{160}{9 n} \sigma^2 \right ), \text{при } n \rightarrow \infty.
+\end{equation}
+
+\section*{Задача 1.4}
+
+Записываем плотность распределения выборки $X = \left ( X_1, \dots, X_n \right )$ в точках $\left ( x_1, \dots, x_n \right )$,
+в которых она ненулевая (все $x_i \in [0, 1]$):
+\begin{equation}
+    p_X(x_1, \dots, x_n; \theta)
+    = \prod_{i=1}^n \theta x_i^{\theta - 1}
+    = \theta^n \left ( \prod_{i=1}^n x_i \right )^{\theta - 1}
+\end{equation}
+
+Записываем отношение правдоподобия
+\begin{equation}
+    L(X_1, \dots, X_n; \theta_1, \theta_2)
+    = \frac{p_X(X_1, \dots, X_n; \theta_1)}{p_X(X_1, \dots, X_n; \theta_2)}
+    = \frac{\theta_1^n \left ( \prod_{i=1}^n X_i \right )^{\theta_1 - 1}}{\theta_2^n \left ( \prod_{i=1}^n X_i \right )^{\theta_2 - 1}}
+    = \left ( \frac{\theta_1}{\theta_2} \right )^n \left ( \prod_{i=1}^n X_i \right )^{\theta_1 - \theta_2}
+\end{equation}
+Из полученного равенства видим, что если $\theta_1 > \theta_2$, то отношение правдоподобия является неубывающей (точнее даже возрастающей)
+функцией статистики $T(X_1, \dots, X_n)$:
+\begin{equation}
+    T(X_1, \dots, X_n) = \prod_{i=1}^n X_i
+\end{equation}
+Откуда по теореме 10.1 критическая область S равномерно наиболее мощного критерия имеет вид:
+\begin{equation}
+    S = \left \{ T(X) \ge c \right \} ,
+\end{equation}
+если существует постоянная $c$, удовлетворяющая условию:
+\begin{equation}
+    P_{\theta_0} ( T(X) \ge c ) = \alpha .
+\end{equation}
+Если постоянная $c < 0$ или $c > 1$, то вероятность слева нулевая, поскольку статистика $0 \le T(X) \le 1$, поэтому, конечно,
+искомая постоянная $0 \le c \le 1$.
+
+Значение $T(X)$ больше или равно значению $c$, только в том случае, когда все $X_i$ больше или равны $c$, поскольку $X_i \in [0, 1]$,
+поэтому искомая вероятность:
+\begin{multline}
+    P_{\theta_0} ( T(X) \ge c )
+    = P_{\theta_0} ( X_1 \ge c \text{ и } \dots \text{ и } X_n \ge c )
+    = P_{\theta_0} ( X_1 \ge c ) \cdot ... \cdot P_{\theta_0} ( X_n \ge c ) = \\
+    %
+    = \prod_{i=1}^n P_{\theta_0} ( X_i \ge c )
+    = \left ( P_{\theta_0} ( X_1 \ge c ) \right )^n
+\end{multline}
+Последнее равенство получено с учётом того, что все $X_i$ имеют одинаковое распределение. Теперь остаётся только вычислить вероятность
+(интегрированием плотности):
+\begin{equation}
+    P_{\theta_0} ( X_1 \ge c )
+    = \int \limits_c^1 \theta_0 x^{\theta_0 - 1} dx
+    = \theta_0 \left . \frac{x^{\theta_0}}{\theta_0} \right |_c^1
+    = 1^{\theta_0} - c^{\theta_0}
+    = 1 - c^{\theta_0}
+\end{equation}
+Таким образом, вероятность
+\begin{equation}
+    P_{\theta_0} ( T(X) \ge c ) = \left ( 1 - c^{\theta_0} \right )^n
+\end{equation}
+и постоянная $c$ вычисляется из условия:
+\begin{gather}
+    \left ( 1 - c^{\theta_0} \right )^n = \alpha , \\
+    1 - c^{\theta_0} = \alpha^{\frac{1}{n}} , \\
+    1 - \alpha^{\frac{1}{n}} = c^{\theta_0} , \\
+    \left ( 1 - \alpha^{\frac{1}{n}} \right )^\frac{1}{\theta_0} = c .
+\end{gather}
+
+\subsection*{Ответ}
+Критическая область
+\begin{equation}
+    S = \left \{ \prod_{i=1}^n X_i \ge \left ( 1 - \alpha^{\frac{1}{n}} \right )^\frac{1}{\theta_0} \right \} .
+\end{equation}

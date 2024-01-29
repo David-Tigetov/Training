@@ -1,0 +1,600 @@
+\chapter{Занятие 2}
+
+\section*{Задача 2.2}
+
+Из матрицы ковариаций видно, что ковариация величин $X$ и $Y$ нулевая. По условию $X$ и $Y$ гауссовские, а для гауссовских величин нулевая
+ковариация (некоррелированность) означает независимость. Из независимости $X$ и $Y$ между собой следует:
+\begin{equation}
+    \conditionalexpectation{X \cdot Y}{Z}
+    = \conditionalexpectation{X}{Z} \cdot \conditionalexpectation{Y}{Z}
+\end{equation}
+
+"Одиночные"{} условие математические ожидания легко находятся, поскольку величины $X$, $Y$ и $Z$ являются гауссовскими.
+Аналогично лекциям (страница 42) величину $X$ представляем в виде суммы:
+\begin{equation}
+    X = \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z + \left ( X - \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z \right )
+\end{equation}
+Случайная величина в скобках специально подобрано так, чтобы иметь нулевую ковариацию с $Z$:
+\begin{multline}
+    \covariance{X - \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z}{Z}
+    = \covariance{X}{Z} - \frac{\covariance{X}{Z}}{\variance{Z}} \covariance{Z}{Z} = \\
+    %
+    = \covariance{X}{Z} - \frac{\covariance{X}{Z}}{\variance{Z}} \variance{Z}
+    = \covariance{X}{Z} - \covariance{X}{Z}
+    = 0 .
+\end{multline}
+В силу нулевой ковариации (некоррелированности) и гауссовости величины в скобках и $Z$ следует их независимость, а из независимости
+следует, что условное математическое ожидание величины в сбоках будет равно безусловному математическому ожиданию.
+
+Таким образом, условное математическое ожидание:
+\begin{multline}
+    \conditionalexpectation{X}{Z}
+    = \conditionalexpectation{\frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z + \left ( X - \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z \right )}{Z} = \\
+    %
+    = \frac{\covariance{X}{Z}}{\variance{Z}} \conditionalexpectation{Z}{Z} + \conditionalexpectation{\left ( X - \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z \right )}{Z}
+    = \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z + \expectation{X - \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z} = \\
+    = \frac{\covariance{X}{Z}}{\variance{Z}} \cdot Z + \expectation{X} - \frac{\covariance{X}{Z}}{\variance{Z}} \expectation{Z} = \\
+    %
+    = \expectation{X} + \frac{\covariance{X}{Z}}{\variance{Z}} \left ( Z - \expectation{Z} \right )
+\end{multline}
+
+Подставляем числа:
+\begin{equation}
+    \conditionalexpectation{X}{Z}
+    = 1 + \frac{1}{4} \left ( Z - 0 \right )
+    = 1 + \frac{1}{4} Z .
+\end{equation}
+
+Аналогично
+\begin{equation}
+    \conditionalexpectation{Y}{Z} = 1 + \frac{1}{4} Z .
+\end{equation}
+
+Условное математическое ожидание произведения:
+\begin{equation}
+    \conditionalexpectation{XY}{Z}
+    = \conditionalexpectation{X}{Z} \cdot \conditionalexpectation{Y}{Z}
+    = \left ( 1 + \frac{1}{4} Z \right ) \cdot \left ( 1 + \frac{1}{4} Z \right )
+    = \left ( 1 + \frac{1}{4} Z \right )^2 .
+\end{equation}
+
+\subsection{Ответ}
+\begin{equation}
+    \conditionalexpectation{XY}{Z} = \left ( 1 + \frac{1}{4} Z \right )^2 .
+\end{equation}
+
+\section*{Задача 2.3}
+
+Легко видеть, что у данной плотности вероятности нет дисперсии:
+\begin{equation}
+    D
+    = \int \limits_{-\infty}^{\infty} c \frac{\left ( x - \theta \right )^2}{1 + \modulus{x - \theta}^3} dx
+    = \int \limits_{-\infty}^{\theta} c \frac{\left ( x - \theta \right )^2}{1 - \left ( x - \theta \right )^3} dx
+    + \int \limits_{\theta}^{\infty} c \frac{\left ( x - \theta \right )^2}{1 + \left ( x - \theta \right )^3} dx
+\end{equation}
+поскольку интегралы вида
+\begin{equation}
+    \int \limits_{\theta}^{\infty} \frac{\left ( x - \theta \right )^2}{1 + \left ( x - \theta \right )^3} dx
+    = \frac{1}{3} \ln \left ( 1 + \left ( x - \theta \right )^3 \right ) = \infty
+\end{equation}
+расходятся. И потому построить доверительный интервал на основе асимптотической нормальности суммы $\sum_{i=1}^n X_i$ не
+получится.
+
+Тем не менее, плотность симметрична относительно $\theta$, поэтому слева и справа от $\theta$ сосредоточены равные вероятности, равные
+$\frac{1}{2}$, это значит, что $\theta$ --- квантиль уровня $\frac{1}{2}$.
+
+Пусть $z_{n,0.5}$ --- выборочная квантиль, которая встечалась в методах построения оценок (определение 3.4 страница 22) и мы знаем,
+что $z_{n,0.5}$ является асимптотически нормальной случайной величиной (теорема 3.3 об асимпотической нормальности выборочных квантилей):
+\begin{equation}
+    \sqrt{n} \left ( z_{n,0.5} - \theta \right ) \sim \mathcal{N} \left ( 0, \frac{1}{4 p_\theta^2(\theta)} \right )
+\end{equation}
+
+Откуда функция $\varphi(X, \theta)$ (где $X = \left ( X_1, \dots, X_n \right )$ --- выборка, по которой строится выборочная квантиль $z_{n,0.5}$):
+\begin{equation}
+    \varphi(X, \theta) = \sqrt{n \cdot 4 p_\theta^2(\theta)} \left ( z_{n,0.5} - \theta \right ) \sim \mathcal{N} \left ( 0, 1 \right )
+\end{equation}
+является центральной статистикой (асимпотически, при $n \rightarrow \infty$).
+Кстати, нам повезло --- значение плотности в точки $\theta$ не зависит от параметра $\theta$:
+\begin{gather}
+    p_\theta(\theta) = \frac{c}{1 + \modulus{\theta - \theta}^3} = c , \\
+    \varphi(X, \theta) = 2 c \sqrt{n} \left ( z_{n,0.5} - \theta \right ) .
+\end{gather}
+
+Пусть $u_{\frac{\alpha}{2}}$ и $u_{1 - \frac{\alpha}{2}}$ --- квантили уровня $\frac{\alpha}{2}$ и $1 - \frac{\alpha}{2}$ данного распределения,
+тогда:
+\begin{gather}
+    \probability{u_{\frac{\alpha}{2}} < \varphi(X, \theta) < u_{1 - \frac{\alpha}{2}}} = 1 - \alpha , \\
+    \probability{u_{\frac{\alpha}{2}} < 2 c \sqrt{n} \left ( z_{n,0.5} - \theta \right ) < u_{1 - \frac{\alpha}{2}}} = 1 - \alpha , \\
+    \probability{ \frac{u_{\frac{\alpha}{2}}}{2 c \sqrt{n}} < z_{n,0.5} - \theta < \frac{u_{1 - \frac{\alpha}{2}}}{2 c \sqrt{n}}} = 1 - \alpha , \\
+    \probability{ - \frac{u_{\frac{\alpha}{2}}}{2 c \sqrt{n}} > \theta - z_{n,0.5} > - \frac{u_{1 - \frac{\alpha}{2}}}{2 c \sqrt{n}}} = 1 - \alpha , \\
+    \probability{ z_{n,0.5} - \frac{u_{\frac{\alpha}{2}}}{2 c \sqrt{n}} > \theta > z_{n,0.5} - \frac{u_{1 - \frac{\alpha}{2}}}{2 c \sqrt{n}}} = 1 - \alpha , \\
+\end{gather}
+
+\subsection*{Ответ}
+\begin{equation}
+    \left ( z_{n,0.5} - \frac{u_{1 - \frac{\alpha}{2}}}{2 c \sqrt{n}} ; z_{n,0.5} - \frac{u_{\frac{\alpha}{2}}}{2 c \sqrt{n}} \right )
+\end{equation}
+
+\section*{Задача 2.4}
+
+\subsection*{Оценка $a$ и $b$}
+
+Представим задачу в виде линейной модели, в которой $X = \left ( X_1, \dots, X_{n_1} \right )^T$ --- измерения груза массой $a$, $Y = \left ( Y_1, \dots, Y_{n_2} \right )^T$ ---
+измерения груза массой $b$, $Z = \left ( Z_1, \dots, Z_{n_3} \right )^T$ --- измерения груза массой $a + b$:
+\begin{align*}
+    X_1     & =  a + \varepsilon_1 , \\
+    \dots \\
+    X_{n_1} & = a + \varepsilon_{n_1} , \\
+    %
+    Y_1     & = b + \delta_1 , \\
+    \dots \\
+    Y_{n_2} & = b + \delta_{n_2} , \\
+    %
+    Z_1     & = a + b + \psi_1 , \\
+    \dots \\
+    Z_{n_3} & = a + b + \psi_{n_3} ,
+\end{align*}
+где $\varepsilon_i$, $\delta_i$ и $\psi_i$ --- ошибки измерений. В матричной форме приведенные выше равенства можно записать в видe:
+\begin{equation}
+    \begin{pmatrix}
+        X \\
+        Y \\
+        Z
+    \end{pmatrix}
+    =
+    Z
+    \begin{pmatrix}
+        a \\
+        b
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        \varepsilon \\
+        \delta      \\
+        \psi
+    \end{pmatrix} ,
+\end{equation}
+где $\varepsilon = ( \varepsilon_1, \dots, \varepsilon_{n_1})$, $\delta = ( \delta_1, \dots, \delta_{n_2})$ и $\psi = ( \psi_1, \dots, \psi_{n_3})$, $Z$ --- матрица коэффициентов
+правой части:
+\begin{equation}
+    Z =
+    \begin{pmatrix}
+        1_{n_1} & 0_{n_1} \\
+        0_{n_2} & 1_{n_2} \\
+        1_{n_3} & 1_{n_3} \\
+    \end{pmatrix}
+    ,
+\end{equation}
+где $1_n$ --- вектор-столбец из единиц размера $n$, $0_n$ --- вектор-столбец из нулей размера $n$.
+Оценка по методу наименьших квадратов $(\widehat{a}, \widehat{b})^T$ является решением нормальной системы (вывод системы в следующем разделе):
+\begin{gather}
+    \begin{pmatrix}
+        \frac{1}{\sigma^2} n_1 + \frac{1}{3 \sigma^2} n_3 & \frac{1}{3 \sigma^2} n_3                          \\
+        \frac{1}{3 \sigma^2} n_3                          & \frac{1}{\sigma^2} n_2 + \frac{1}{3 \sigma^2} n_3
+    \end{pmatrix}
+    \begin{pmatrix}
+        \widehat{a} \\
+        \widehat{b}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \frac{1}{\sigma^2} \sum_{i=1}^{n_1} X_i + \frac{1}{3 \sigma^2} \sum_{i=1}^{n_3} Z_i \\
+        \frac{1}{\sigma^2} \sum_{i=1}^{n_2} Y_i + \frac{1}{3 \sigma^2} \sum_{i=1}^{n_3} Z_i
+    \end{pmatrix}
+    .
+\end{gather}
+Сокращаем на $\frac{1}{\sigma^2}$ и решение системы
+\begin{equation}
+    \begin{pmatrix}
+        n_1 + \frac{1}{3} n_3 & \frac{1}{3} n_3       \\
+        \frac{1}{3} n_3       & n_2 + \frac{1}{3} n_3
+    \end{pmatrix}
+    \begin{pmatrix}
+        \widehat{a} \\
+        \widehat{b}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \sum_{i=1}^{n_1} X_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \\
+        \sum_{i=1}^{n_2} Y_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i
+    \end{pmatrix} , \\
+\end{equation}
+находим по методу Крамера:
+\begin{multline}
+    \widehat{a}
+    =
+    \frac{
+        \begin{vmatrix}
+            \sum_{i=1}^{n_1} X_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i & \frac{1}{3} n_3       \\
+            \sum_{i=1}^{n_2} Y_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i & n_2 + \frac{1}{3} n_3
+        \end{vmatrix}
+    }
+    {
+        \begin{vmatrix}
+            n_1 + \frac{1}{3} n_3 & \frac{1}{3} n_3       \\
+            \frac{1}{3} n_3       & n_2 + \frac{1}{3} n_3
+        \end{vmatrix}
+    } = \\
+    %
+    = \frac{
+        \left ( n_2 + \frac{1}{3} n_3 \right ) \left ( \sum_{i=1}^{n_1} X_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \right ) - \frac{1}{3} n_3 \left ( \sum_{i=1}^{n_2} Y_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \right )
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    }
+    = \\
+    %
+    = \frac{
+        \left ( n_2 + \frac{1}{3} n_3 \right ) \sum_{i=1}^{n_1} X_i - \frac{1}{3} n_3 \sum_{i=1}^{n_2} Y_i + \frac{1}{3} n_2 \sum_{i=1}^{n_3} Z_i
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    } ,
+\end{multline}
+\begin{multline}
+    \widehat{b}
+    = \frac{
+        \begin{vmatrix}
+            n_1 + \frac{1}{3} n_3 & \sum_{i=1}^{n_1} X_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \\
+            \frac{1}{3} n_3       & \sum_{i=1}^{n_2} Y_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i
+        \end{vmatrix}
+    }
+    {
+        \begin{vmatrix}
+            n_1 + \frac{1}{3} n_3 & \frac{1}{3} n_3       \\
+            \frac{1}{3} n_3       & n_2 + \frac{1}{3} n_3
+        \end{vmatrix}
+    } = \\
+    %
+    = \frac{
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( \sum_{i=1}^{n_2} Y_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \right ) - \frac{1}{3} n_3 \left ( \sum_{i=1}^{n_1} X_i + \frac{1}{3} \sum_{i=1}^{n_3} Z_i \right )
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    }
+    = \\
+    %
+    = \frac{
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \sum_{i=1}^{n_2} Y_i - \frac{1}{3} n_3 \sum_{i=1}^{n_2} X_i + \frac{1}{3} n_1 \sum_{i=1}^{n_3} Z_i
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    } .
+\end{multline}
+
+\subsection*{Оценка $\sigma^2$}
+
+Несмещенной оценкой $\sigma^2$ является статистика $\widehat{\sigma^2}$ (вывод оценки в следующем разделе):
+\begin{equation}
+    \widehat{\sigma^2}
+    =
+    \frac{1}{n_1 + n_2 + n_3 - 2}
+    \norm{
+        \begin{pmatrix}
+            X \\
+            Y \\
+            Z
+        \end{pmatrix}
+        - Z
+        \begin{pmatrix}
+            \widehat{a} \\
+            \widehat{b}
+        \end{pmatrix}
+    }_{\widetilde{K}^{-1}}^2 ,
+\end{equation}
+где
+\begin{equation}
+    \widetilde{K}^{-1}
+    =
+    \begin{pmatrix}
+        I_{n_1}     & 0_{n_1,n_2}  & 0_{n_1, n_3}        \\
+        0_{n_2,n_1} & I_{n_2}      & 0_{n_1, n_3}        \\
+        0_{n_2,n_1} & 0_{n_1, n_3} & \frac{1}{3} I_{n_3}
+    \end{pmatrix}
+\end{equation}
+
+Подставляя выражение матрицы $Z$, получим:
+\begin{multline}
+    \widehat{\sigma^2}
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \norm{
+        \begin{pmatrix}
+            X \\
+            Y \\
+            Z
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            1_{n_1} & 0_{n_1} \\
+            0_{n_2} & 1_{n_2} \\
+            1_{n_3} & 1_{n_3} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            \widehat{a} \\
+            \widehat{b}
+        \end{pmatrix}
+    }_{\widetilde{K}^{-1}}^2
+    = \\
+    %
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \norm{
+        \begin{pmatrix}
+            X - 1_{n_1} \widehat{a} \\
+            Y - 1_{n_2} \widehat{b} \\
+            Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )
+        \end{pmatrix}
+    }_{\widetilde{K}^{-1}}^2
+    = \\
+    %
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \begin{pmatrix}
+        X - 1_{n_1} \widehat{a} \\
+        Y - 1_{n_2} \widehat{b} \\
+        Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )
+    \end{pmatrix}^T
+    \widetilde{K}^{-1}
+    \begin{pmatrix}
+        X - 1_{n_1} \widehat{a} \\
+        Y - 1_{n_2} \widehat{b} \\
+        Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \begin{pmatrix}
+        X - 1_{n_1} \widehat{a} \\
+        Y - 1_{n_2} \widehat{b} \\
+        Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )
+    \end{pmatrix}^T
+    \begin{pmatrix}
+        I_{n_1}     & 0_{n_1,n_2}  & 0_{n_1, n_3}        \\
+        0_{n_2,n_1} & I_{n_2}      & 0_{n_1, n_3}        \\
+        0_{n_2,n_1} & 0_{n_1, n_3} & \frac{1}{3} I_{n_3}
+    \end{pmatrix}
+    \begin{pmatrix}
+        X - 1_{n_1} \widehat{a} \\
+        Y - 1_{n_2} \widehat{b} \\
+        Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \left (
+    \norm{X - 1_{n_1} \widehat{a}}_2^2
+    + \norm{Y - 1_{n_2} \widehat{b}}_2^2
+    + \frac{1}{3} \norm{Z - 1_{n_3} \left ( \widehat{a} + \widehat{b} \right )}_2^2
+    \right ) = \\
+    %
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \left (
+    \sum_{i=1}^{n_1} \left ( X_i - \widehat{a} \right )^2
+    + \sum_{i=1}^{n_2} \left ( Y_i - \widehat{b} \right )^2
+    + \frac{1}{3} \sum_{i=1}^{n_3} \left ( Z_i - \widehat{a} - \widehat{b} \right )^2
+    \right ) .
+\end{multline}
+
+\subsection*{Вывод нормальной системы}
+
+Введем для краткости обозначения: $\theta = \left ( a, b \right )^T$ --- двумерный параметр, $\eta = \left ( X, Y, Z \right )^T$ --- вектор всех измерений,
+$\zeta = \left ( \varepsilon, \delta, \psi )$ --- вектор всех ошибок. Матрица ковариации $K$ вектора ошибок $\zeta$ согласно условию имеет вид:
+\begin{equation}
+    K
+    =
+    \begin{pmatrix}
+        \sigma^2 I_{n_1} & 0_{n_1,n_2}      & 0_{n_1,n_3}        \\
+        0_{n_2,n_1}      & \sigma^2 I_{n_2} & 0_{n_2,n_3}        \\
+        0_{n_3,n_1}      & 0_{n_3,n_2}      & 3 \sigma^2 I_{n_3}
+    \end{pmatrix} ,
+\end{equation}
+где $I_n$ обозначает единичную матрицу размера $n \times n$, $0_{n,m}$ --- матрицу из нулей размера $n \times m$. Обратная матрица имеет вид:
+\begin{equation}
+    K^{-1}
+    =
+    \begin{pmatrix}
+        \frac{1}{\sigma^2} I_{n_1} & 0_{n_1,n_2}                & 0_{n_1,n_3}                  \\
+        0_{n_2,n_1}                & \frac{1}{\sigma^2} I_{n_2} & 0_{n_2,n_3}                  \\
+        0_{n_3,n_1}                & 0_{n_3,n_2}                & \frac{1}{3 \sigma^2} I_{n_3}
+    \end{pmatrix} .
+\end{equation}
+
+Оценка по методу наименьших квадратов $\widehat{\theta} = \left ( \widehat{a}, \widehat{b} \right )^T$ доставляет минимальное значение отклонению $\Phi(\theta)$:
+\begin{gather}
+    \Phi(\widehat{\theta}) = \min_\theta \Phi(\theta) , \\
+    \Phi(\theta) = \left ( \eta - Z \theta \right )^T K^{-1} \left ( \eta - Z \theta \right ) .
+\end{gather}
+
+Необходимое условие экстремума приводит к нормальной системе:
+\begin{gather}
+    \begin{pmatrix}
+        \fpd{a} \Phi(\widehat{\theta}) \\
+        \fpd{b} \Phi(\widehat{\theta})
+    \end{pmatrix}
+    = - 2 Z^T K^{-1}
+    \left ( \eta - Z \widehat{\theta} \right )
+    = 0 , \\
+    %
+    Z^T K^{-1} Z \widehat{\theta} = Z^T K^{-1} \eta \label{4:normal_system}
+    ,
+\end{gather}
+в которой матрица левой части:
+\begin{multline}
+    Z^T K^{-1} Z
+    =
+    \begin{pmatrix}
+        1_{n_1}^T & 0_{n_2}^T & 1_{n_3}^T \\
+        0_{n_1}^T & 1_{n_2}^T & 1_{n_3}^T
+    \end{pmatrix}
+    \begin{pmatrix}
+        \frac{1}{\sigma^2} I_{n_1} & 0_{n_1,n_2}                & 0_{n_1,n_3}                  \\
+        0_{n_2,n_1}                & \frac{1}{\sigma^2} I_{n_2} & 0_{n_2,n_3}                  \\
+        0_{n_3,n_1}                & 0_{n_3,n_2}                & \frac{1}{3 \sigma^2} I_{n_3}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1_{n_1} & 0_{n_1} \\
+        0_{n_2} & 1_{n_2} \\
+        1_{n_3} & 1_{n_3} \\
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+          \frac{1}{\sigma^2} 1_{n_1}^T I_{n_1} 1_{n_1} + \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} 1_{n_3} & \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} 1_{n_3} \\
+          \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} 1_{n_3}                                                & \frac{1}{\sigma^2} 1_{n_2}^T I_{n_2} 1_{n_2} + \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} 1_{n_3} \\
+    \end{pmatrix}
+    = \\
+    %
+    = \begin{pmatrix}
+          \frac{1}{\sigma^2} n_1 + \frac{1}{3 \sigma^2} n_3 & \frac{1}{3 \sigma^2} n_3                          \\
+          \frac{1}{3 \sigma^2} n_3                          & \frac{1}{\sigma^2} n_2 + \frac{1}{3 \sigma^2} n_3
+    \end{pmatrix}
+\end{multline}
+и вектор правой части:
+\begin{multline}
+    Z^T K^{-1}
+    \begin{pmatrix}
+        X \\
+        Y \\
+        Z
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1_{n_1}^T & 0_{n_2}^T & 1_{n_3}^T \\
+        0_{n_1}^T & 1_{n_2}^T & 1_{n_3}^T
+    \end{pmatrix}
+    \begin{pmatrix}
+        \frac{1}{\sigma^2} I_{n_1} & 0_{n_1,n_2}                & 0_{n_1,n_3}                  \\
+        0_{n_2,n_1}                & \frac{1}{\sigma^2} I_{n_2} & 0_{n_2,n_3}                  \\
+        0_{n_3,n_1}                & 0_{n_3,n_2}                & \frac{1}{3 \sigma^2} I_{n_3}
+    \end{pmatrix}
+    \begin{pmatrix}
+        X \\
+        Y \\
+        Z
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+          \frac{1}{\sigma^2} 1_{n_1}^T I_{n_1} X + \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} Z \\
+          \frac{1}{\sigma^2} 1_{n_2}^T I_{n_2} Y + \frac{1}{3 \sigma^2} 1_{n_3}^T I_{n_3} Z
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+          \frac{1}{\sigma^2} \sum_{i=1}^{n_1} X_i + \frac{1}{3 \sigma^2} \sum_{i=1}^{n_3} Z_i \\
+          \frac{1}{\sigma^2} \sum_{i=1}^{n_2} Y_i + \frac{1}{3 \sigma^2} \sum_{i=1}^{n_3} Z_i
+    \end{pmatrix}
+\end{multline}
+
+\subsection*{Вывод оценки $\widehat{\sigma^2}$}
+
+Из нормальной системы \eqref{4:normal_system} оценку $\theta$ по методу наименьших квадратов (МНК-оценку) можно записать в явном виде:
+\begin{equation}
+    \widehat{\theta} = \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \eta
+\end{equation}
+
+В принятых обозначениях условие задачи записывается в виде:
+\begin{equation}
+    \eta = Z \theta + \zeta ,
+\end{equation}
+поэтому МНК-оценка имеет вид:
+\begin{multline}
+    \widehat{\theta}
+    = \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \left ( Z \theta + \zeta \right ) = \\
+    %
+    = \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} Z \theta + \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta = \\
+    %
+    = \theta + \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta
+\end{multline}
+и разность:
+\begin{gather}
+    \widehat{\theta} - \theta = \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta , \\
+    \theta - \widehat{\theta} = - \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta .
+\end{gather}
+
+Рассмотрим отклонение для МНК-оценки:
+\begin{multline}
+    \Phi(\widehat{\theta})
+    = \left ( \eta - Z \widehat{\theta} \right )^T K^{-1} \left ( \eta - Z \widehat{\theta} \right )
+    = \left ( Z \theta + \zeta - Z \widehat{\theta} \right )^T K^{-1} \left ( Z \theta + \zeta - Z \widehat{\theta} \right ) = \\
+    %
+    = \left ( Z ( \theta - \widehat{\theta} ) + \zeta \right )^T K^{-1} \left ( Z ( \theta - \widehat{\theta} ) + \zeta \right ) = \\
+    %
+    = ( \theta - \widehat{\theta} )^T Z^T K^{-1} Z ( \theta - \widehat{\theta} ) + \zeta^T K^{-1} Z ( \theta - \widehat{\theta} ) + ( \theta - \widehat{\theta} )^T Z^T K^{-1} \zeta + \zeta^T K^{-1} \zeta = \\
+    %
+    \shoveleft{= \zeta^T K^{-T} Z \left ( Z^T K^{-1} Z \right )^{-T} Z^T K^{-1} Z \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta -} \\
+    \shoveright{- \zeta^T K^{-1} Z \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta - \zeta^T K^{-T} Z \left ( Z^T K^{-1} Z \right )^{-T} Z^T K^{-1} \zeta + \zeta^T K^{-1} \zeta =} \\
+    %
+    = - \zeta^T K^{-1} Z \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta + \zeta^T K^{-1} \zeta .
+\end{multline}
+
+Математические ожидания слагаемых:
+\begin{gather}
+    \expectation{\zeta^T K^{-1} Z \left ( Z^T K^{-1} Z \right )^{-1} Z^T K^{-1} \zeta} = 2 , \\
+    \expectation{\zeta^T K^{-1} \zeta} = n_1 + n_2 + n_3 .
+\end{gather}
+Первое равенство получается в силу того, что у вектора $Z^T K^{-1} \zeta$ ковариционная матрица $Z^T K^{-1} Z$, действительно:
+\begin{equation}
+    \expectation{Z^T K^{-1} \zeta \zeta^T K^{-1} Z}
+    = Z^T K^{-1} \expectation{\zeta \zeta^T} K^{-1} Z
+    = Z^T K^{-1} K K^{-1} Z
+    = Z^T K^{-1} Z .
+\end{equation}
+
+Таким образом, математическое ожидание отклонения в точке МНК-оценки $\widehat{\theta}$:
+\begin{gather}
+    \expectation{\Phi(\widehat{\theta})} = -2 + n_1 + n_2 + n_3 , \\
+    \expectation{\left ( \eta - Z \widehat{\theta} \right )^T K^{-1} \left ( \eta - Z \widehat{\theta} \right )} = n_1 + n_2 + n_3 - 2 , \\
+    \expectation{\left ( \eta - Z \widehat{\theta} \right )^T \frac{1}{\sigma^2} \widetilde{K}^{-1} \left ( \eta - Z \widehat{\theta} \right )} = n_1 + n_2 + n_3 - 2 , \\
+    \frac{1}{\sigma^2} \expectation{\left ( \eta - Z \widehat{\theta} \right )^T \widetilde{K}^{-1} \left ( \eta - Z \widehat{\theta} \right )} = n_1 + n_2 + n_3 - 2 , \\
+    \frac{1}{n_1 + n_2 + n_3 - 2} \expectation{\left ( \eta - Z \widehat{\theta} \right )^T \widetilde{K}^{-1} \left ( \eta - Z \widehat{\theta} \right )} = \sigma^2 , \\
+    \frac{1}{n_1 + n_2 + n_3 - 2} \expectation{\norm{\eta - Z \widehat{\theta}}_{\widetilde{K}^{-1}}^2} = \sigma^2 ,
+\end{gather}
+где
+\begin{equation}
+    K^{-1}
+    = \begin{pmatrix}
+          \frac{1}{\sigma^2} I_{n_1} & 0_{n_1,n_2}                & 0_{n_1,n_3}                  \\
+          0_{n_2,n_1}                & \frac{1}{\sigma^2} I_{n_2} & 0_{n_2,n_3}                  \\
+          0_{n_3,n_1}                & 0_{n_3,n_2}                & \frac{1}{3 \sigma^2} I_{n_3}
+    \end{pmatrix}
+    = \frac{1}{\sigma^2}
+    \underbrace{
+        \begin{pmatrix}
+            I_{n_1}     & 0_{n_1,n_2} & 0_{n_1,n_3}         \\
+            0_{n_2,n_1} & I_{n_2}     & 0_{n_2,n_3}         \\
+            0_{n_3,n_1} & 0_{n_3,n_2} & \frac{1}{3} I_{n_3}
+        \end{pmatrix}
+    }_{\widetilde{K}^{-1}} .
+\end{equation}
+
+Откуда следует, что статистика
+\begin{equation}
+    \widehat{\sigma^2} = \frac{1}{n_1 + n_2 + n_3 - 2} \norm{\eta - Z \widehat{\theta}}_{\widetilde{K}^{-1}}^2
+\end{equation}
+является несмещенной оценкой $\sigma^2$.
+
+\subsection*{Ответ}
+Оценка $a$:
+\begin{equation}
+    = \frac{
+        \left ( n_2 + \frac{1}{3} n_3 \right ) \sum_{i=1}^{n_1} X_i - \frac{1}{3} n_3 \sum_{i=1}^{n_2} Y_i + \frac{1}{3} n_2 \sum_{i=1}^{n_3} Z_i
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    } .
+\end{equation}
+
+Оценка $b$:
+\begin{equation}
+    \frac{
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \sum_{i=1}^{n_2} Y_i - \frac{1}{3} n_3 \sum_{i=1}^{n_2} X_i + \frac{1}{3} n_1 \sum_{i=1}^{n_3} Z_i
+    }
+    {
+        \left ( n_1 + \frac{1}{3} n_3 \right ) \left ( n_2 + \frac{1}{3} n_3 \right ) - \frac{1}{3} n_3 \frac{1}{3} n_3
+    } .
+\end{equation}
+
+Оценка $\sigma^2$:
+\begin{equation}
+    \widehat{\sigma^2}
+    = \frac{1}{n_1 + n_2 + n_3 - 2}
+    \left (
+    \sum_{i=1}^{n_1} \left ( X_i - \widehat{a} \right )^2
+    + \sum_{i=1}^{n_2} \left ( Y_i - \widehat{b} \right )^2
+    + \frac{1}{3} \sum_{i=1}^{n_3} \left ( Z_i - \widehat{a} - \widehat{b} \right )^2
+    \right ) .
+\end{equation}

@@ -1,0 +1,89 @@
+\chapter{Задачи из лекций}
+
+\section*{Пункт 14, задача 2}
+
+Априорная плотность параметра $\theta$:
+\begin{equation}
+    q(t) = \frac{\alpha^\beta t^{\beta-1} e^{-\alpha t}}{\Gamma(\beta)} I(t \ge 0).
+\end{equation}
+
+Совместная вероятность величин выборки $X = \left ( X_1, \dots, X_n \right )$:
+\begin{equation}
+    p_X(x_1, \dots, x_n | \theta)
+    = \prod_{i=1}^n \frac{\theta^{x_1} e^{-\theta}}{x_1!} \cdot ... \cdot \frac{\theta^{x_n} e^{-\theta}}{x_n!}
+    = \frac{\theta^{\sum_{i=1}^n x_i} e^{-n \theta}}{\prod_{i=1}^n x_i!} .
+\end{equation}
+
+Условная плотность вероятности $\theta$ относительно выборки $X$:
+\begin{multline}
+    p_{\theta|X} (t | x)
+    = \frac{q(t) p_X(x|t)}{\int \limits_\Theta q(u) p_X(x|u) du}
+    =
+    \frac{
+        \frac{\alpha^\beta t^{\beta-1} e^{-\alpha t}}{\Gamma(\beta)} \frac{t^{\sum_{i=1}^n x_i} e^{-n t}}{\prod_{i=1}^n x_i!}
+    }
+    {
+        \int \limits_0^\infty \frac{\alpha^\beta u^{\beta-1} e^{-\alpha u}}{\Gamma(\beta)} \frac{u^{\sum_{i=1}^n x_i} e^{-n u}}{\prod_{i=1}^n x_i!} du
+    } = \\
+    %
+    = \frac{t^{\beta-1} e^{-\alpha t} t^{\sum_{i=1}^n x_i} e^{-n t}}{\int \limits_0^\infty u^{\beta-1} e^{-\alpha u} u^{\sum_{i=1}^n x_i} e^{-n u} du}
+    = \frac{t^{\beta + \sum_{i=1}^n x_i - 1} e^{-(\alpha + n) t}}{\int \limits_0^\infty u^{\beta + \sum_{i=1}^n x_i - 1} e^{- ( \alpha + n ) u} du} = \\
+    %
+    = \frac{(\alpha + n)^{\beta + \sum_{i=1}^n x_i} t^{\beta + \sum_{i=1}^n x_i - 1} e^{-(\alpha + n) t}}{\int \limits_0^\infty (\alpha + n)^{\beta + \sum_{i=1}^n x_i}  u^{\beta + \sum_{i=1}^n x_i - 1} e^{- ( \alpha + n ) u} du} = \\
+    %
+    = \frac{(\alpha + n)^{\beta + \sum_{i=1}^n x_i} t^{\beta + \sum_{i=1}^n x_i - 1} e^{-(\alpha + n) t}}{\Gamma \left ( \beta + \sum_{i=1}^n x_i \right )} .
+\end{multline}
+
+Условное распределение $\theta$ относительно выборки $X$ является гамма-распределением $\Gamma \left ( \alpha + n, \beta + \sum_{i=1}^n x_i \right )$, и условное математическое
+ожидание $\theta$ относительно выборки $X$:
+\begin{equation}
+    \conditionalexpectation{\theta}{X} = \frac{\beta + \sum_{i=1}^n x_i}{\alpha + n} ,
+\end{equation}
+поскольку для гамма-распределения $\Gamma(\alpha, \beta)$ математическое ожидание есть $\frac{\beta}{\alpha}$.
+
+\subsection*{Ответ}
+\begin{equation}
+    \frac{\beta + \sum_{i=1}^n x_i}{\alpha + n}
+\end{equation}
+
+\section*{Пункт 14, задача 3}
+
+Априорное распределение $\theta$ ($t \in \{0, 1\}$):
+\begin{equation}
+    q(t) =  p^t (1-p)^{1-t}.
+\end{equation}
+
+Условная плотность вероятности выборки $X$ относительно параметра $\theta$:
+\begin{equation}
+    p_X(x_1, \dots, x_n | \theta)
+    = \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} e^{-\frac{1}{2} (x_i - \theta)^2}
+    = \left ( \frac{1}{2 \pi} \right )^\frac{n}{2} e^{-\frac{1}{2} \sum_{i=1}^n( x_i - \theta)^2}
+\end{equation}
+
+Условное распределение $\theta$ относительно выборки $X$:
+\begin{multline}
+    p_{\theta|X}(t|x)
+    = \frac{q(t) p_X(x|t)}{\sum_{u=1}^n q(u) p_X(x|u)}
+    =
+    \frac{p^t (1-p)^{1-t} \left ( \frac{1}{2 \pi} \right )^\frac{n}{2} e^{-\frac{1}{2} \sum_{i=1}^n( x_i - t)^2}}{\sum_{u=0}^1 p^u (1-p)^{1-u} \left ( \frac{1}{2 \pi} \right )^\frac{n}{2} e^{-\frac{1}{2} \sum_{i=1}^n( x_i - u)^2}} = \\
+    %
+    = \frac{p^t (1-p)^{1-t} e^{-\frac{1}{2} \sum_{i=1}^n( x_i - t)^2}}{(1-p) e^{-\frac{1}{2} \sum_{i=1}^n x_i^2} + p e^{-\frac{1}{2} \sum_{i=1}^n (x_i - 1)^2}} .
+\end{multline}
+
+Вычисляем условное математическое ожидание $\theta$ относительно $X$:
+\begin{multline}
+    \conditionalexpectation{\theta}{X} = 0 \cdot p_{\theta|X}(0|X) + 1 \cdot p_{\theta|X}(1|x) = p_{\theta|X}(1|x) = \\
+    %
+    = \frac{p e^{-\frac{1}{2} \sum_{i=1}^n (x_i - 1)^2}}{(1-p) e^{-\frac{1}{2} \sum_{i=1}^n x_i^2} + p e^{-\frac{1}{2} \sum_{i=1}^n (x_i - 1)^2}} = \\
+    %
+    = \frac{p e^{-\frac{1}{2} \sum_{i=1}^n x_i^2 + \sum_{i=1}^n x_i - \frac{n}{2}}}{(1-p) e^{-\frac{1}{2} \sum_{i=1}^n x_i^2} + p e^{-\frac{1}{2} \sum_{i=1}^n x_i^2 + \sum_{i=1}^n x_i - \frac{n}{2}}} = \\
+    %
+    = \frac{p e^{\sum_{i=1}^n x_i - \frac{n}{2}}}{(1-p) + p e^{\sum_{i=1}^n x_i - \frac{n}{2}}}
+    = \frac{p e^{\sum_{i=1}^n x_i}}{(1-p)e^{\frac{n}{2}} + p e^{\sum_{i=1}^n x_i}} .
+\end{multline}
+
+\subsection*{Ответ}
+
+\begin{equation}
+    \frac{p e^{\sum_{i=1}^n x_i}}{(1-p)e^{\frac{n}{2}} + p e^{\sum_{i=1}^n x_i}} .
+    \end{equation}

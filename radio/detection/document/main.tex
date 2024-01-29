@@ -1,0 +1,1224 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{subcaption}
+
+\newcommand{\expectation}[1]{\mathtt{M} \left [ #1 \right ]}
+\newcommand{\variance}[1]{\mathtt{D} \left [ #1 \right ]}
+\newcommand{\covariance}[2]{\mathtt{cov} \left ( #1 , #2 \right )}
+\newcommand{\probability}[1]{P \left \{ #1 \right \}}
+
+\newcommand{\modulus}[1]{\left | #1 \right |}
+
+\newcommand{\fd}[1]{ \frac{d}{d #1}}
+\newcommand{\fda}[2]{ \frac{d #1}{d #2}}
+\newcommand{\md}[2]{ \frac{d^{#1}}{d #2^{#1}}}
+
+\begin{document}
+
+    \title{Корреляционный детектор}
+    \author{Тигетов Давид}
+    \maketitle
+
+    \tableofcontents
+
+
+    \section{Обнаружение сигнала}
+
+    \textbf{Разделы 3.3 -- 3.7 книги \cite{SCHIRMAN}.}
+
+    Принимается сигнал $y(t)$, который всегда содержит шумы $n(t)$ и возможно содержит отраженный от объекта сигнал $x(y; \alpha; \beta)$,
+    $\alpha$ --- набор фиксируемых параметров (амплитуда, временная задержка, доплеровское смещение отраженного сигнала), $\beta$ --- неизвестные (случайные)
+    параметры. В отношении сигнала $y(t)$ выдвигаются две гипотезы:
+    \begin{itemize}
+        \item $H_0: y(t) = n(t)$ --- нет отраженного сигнала,
+        \item $H_1: y(t) = n(t) + x(t; \alpha; \beta)$ --- есть отраженный сигнал.
+    \end{itemize}
+
+    Вводится дискретизация по времени с некоторым шагом $\Delta t$, вычисляемым в соответствии с теоремой Котельникова по максимальной частоте спектра принимаемого
+    сигнала, --- получаются времена $t_i$ и принимаемый сигнал $y(t)$ заменяется вектором значений $Y = \left ( y(t_1), y(t_2), \dots, y(t_n) \right )^T$.
+
+    Гипотезы о наличии и отсутствии отраженного сигнала переходят в гипотезы о распределении $p_Y(Y)$ вектора значений $Y$:
+    \begin{itemize}
+        \item $H_0: p_Y(Y) = p_n(Y)$,
+        \item $H_1: p_Y(Y) = p_{sn}(Y; \alpha | \beta)$,
+    \end{itemize}
+    где $p_n(Y)$ --- распределение в случае шума, $p_{sn}(Y; \alpha | \beta)$ --- распределение в случае смеси шума и сигнала (считается условным распределением
+    относительно $\beta$). Возникает необходимость построения разбиения $\left ( \Gamma_0, \Gamma_1 \right )$ в множестве всех реализаций вектора $Y$.
+
+    Если наборы параметров $\alpha$ и $\beta$ фиксированы, то задача преобразуется в задачу о различении двух простых гипотез и решается введением критерия
+    качества --- минимаксного, байесовского или равномерно наиболее мощного (Неймана-Пирсона) --- каждый из которых использует отношение правдоподобия
+    $l(Y; \alpha | \beta)$:
+    \[
+        l(Y; \alpha | \beta) = \frac{p_{sn}(Y; \alpha | \beta)}{p_n(Y)} .
+    \]
+
+    При фиксированных $\alpha$ и $\beta$ отраженный сигнал $x(t; \alpha; \beta)$ является детерминированной функцией и порождает вектор значений
+    $x_i = x(t_i; \alpha; \beta)$, которые смещают распределение шума, так что:
+    \[
+        p_{sn}(y_1, \dots, y_n; \alpha | \beta) = p_n ( y_1 - x_1, \dots, y_n - x_n ) .
+    \]
+
+    Если $n(t)$ --- белый гауссовский шум, тогда отношение правдоподобия имеет вид:
+    \begin{multline*}
+        l(y_1, \dots, y_n; \alpha | \beta)
+        = \frac
+        {
+            e^{-\frac{(y_1 - x_1)^2 \Delta t}{N_0}} \cdot e^{-\frac{(y_2 - x_2)^2 \Delta t}{N_0}} \cdot ... \cdot e^{-\frac{(y_n - x_n)^2 \Delta t}{N_0}}
+        }
+        {
+            e^{-\frac{y_1^2 \Delta t}{N_0}} \cdot e^{-\frac{y_2^2 \Delta t}{N_0}} \cdot ... \cdot e^{-\frac{y_n^2 \Delta t}{N_0}}
+        }
+        = \\
+        %
+        = e^{-\frac{1}{N_0} \sum_{i=1}^n x_i^2 \Delta t} \cdot e^{-\frac{2}{N_0} \sum_{i=1}^n y_i x_i \Delta t}
+    \end{multline*}
+    где $\frac{N_0}{2}$ --- мощность (дисперсия) шума.
+
+    Если шаг дискретизации $\Delta t$ стремится к нулю, то суммы в показателях стремятся к интегралам:
+    \begin{gather*}
+        \sum_{i=1}^n x_i^2 \Delta t \rightarrow \int \limits_{-\infty}^{\infty} x^2(t; \alpha; \beta) dt = E(\alpha; \beta) , \\
+        \sum_{i=1}^n y_i x_i \Delta t \rightarrow \int \limits_{-\infty}^{\infty} y(t) x(t; \alpha; \beta) dt = z(y(t); \alpha | \beta) .
+    \end{gather*}
+    где $E(\alpha | \beta)$ --- энергия сигнала $x(t; \alpha | \beta)$ и $z(y(t); \alpha | \beta)$ --- корреляционный интеграл.
+
+    Таким образом, отношение правдоподобия имеет вид:
+    \[
+        l(y(t); \alpha | \beta) = e^{-\frac{E(\alpha | \beta)}{N_0}} \cdot e^{\frac{2 z(y(t); \alpha | \beta)}{N_0}}
+    \]
+
+    Формирование единого критерия предполагается делать путем усреднением с учётом вероятностного распределения $p_\beta(b)$ случайного параметра $\beta$.
+    Отношение праводоподобия усредняется по множеству $B$ значений $\beta$:
+    \[
+        l(y(t); \alpha) = \int \limits_B l(y(t); \alpha | b) p_\beta(b) d b .
+    \]
+    В случае гауссовского белого шума:
+    \[
+        l(y(t); \alpha) = \int \limits_B e^{-\frac{E(\alpha | b)}{N_0}} \cdot e^{\frac{2 z(y(t); \alpha | b)}{N_0}} p_\beta(b) d b .
+    \]
+
+
+    \section{Отраженный сигнал}
+
+    \textbf{Раздел 3.8 книги \cite{SCHIRMAN}.}
+
+    Пусть отраженный сигнал состоит из ненулевого и конечного количества периодов $L$ гармонических колебаний:
+    \[
+        x(t | \beta_1, \beta_2)
+        =
+        \left \{
+        \begin{array}{ll}
+            \beta_1 \cos ( \omega t - \beta_2 ) , & t \in \left [ 0, \frac{2 \pi}{\omega} L \right ]    \\
+            0,                                    & t \notin \left [ 0, \frac{2 \pi}{\omega} L \right ]
+        \end{array}
+        \right .
+    \]
+    где $\beta_1$ и $\beta_2$ --- независимые случайные величины, $\beta_1$ --- случайная амплитуда, имеющая распределение Релея, и $\beta_2$ --- случайная начальная фаза,
+    равномерно распределенная на отрезке $[0; 2 \pi]$.
+
+    Отраженный сигнал можно представить в виде суммы:
+    \begin{gather*}
+        x(t | \beta_1, \beta_2 ) = \beta_1 \cos ( \omega t ) \cos \beta_2 + \beta_1 \sin ( \omega t ) \sin \beta_2 , \\
+        x(t | \beta_1, \beta_2 ) = \beta_1 \left ( x_1(t) \cos \beta_2 + x_2(t) \sin \beta_2 \right ), \\
+        x_1(t) = \cos ( \omega t ) , \\
+        x_2(t) = \sin ( \omega t ) .
+    \end{gather*}
+
+    \subsection{Отношение правдоподобия}
+
+    Энергия сигнала:
+    \begin{multline*}
+        E(\beta_1, \beta_2)
+        = \int \limits_{-\infty}^{\infty} x^2(t | \beta ) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega} L} \beta_1^2 \left ( x_1(t) \cos \beta_2 + x_2(t) \sin \beta_2 \right )^2 dt = \\
+        %
+        = \beta_1^2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \left ( x_1(t) \cos \beta_2 + x_2(t) \sin \beta_2 \right )^2 dt = \\
+        %
+        = \beta_1^2 \left (
+        \cos^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} x_1^2(t) dt
+        + 2 \cos \beta_2 \sin \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} x_1(t) x_2(t) dt
+        + \sin^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} x_2^2(t) dt
+        \right ) = \\
+        %
+        = \beta_1^2 \left (
+        \cos^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \cos^2 (\omega t) dt
+        + 2 \cos \beta_2 \sin \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \cos (\omega t) \sin (\omega t) dt
+        + \sin^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \sin^2 (\omega t) dt
+        \right ) = \\
+        %
+        = \beta_1^2 \left (
+        \cos^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \frac{1 + \cos 2 \omega t }{2} dt
+        + 2 \cos \beta_2 \sin \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \frac{1}{2} \sin (2 \omega t) dt
+        + \sin^2 \beta_2 \int \limits_{0}^{\frac{2 \pi}{\omega} L} \frac{1 - \cos 2 \omega t}{2} dt
+        \right ) = \\
+        %
+        = \beta_1^2 \left ( \cos^2 \beta_2 \frac{1}{2} \frac{2 \pi}{\omega} L + \sin^2 \beta_2 \frac{1}{2} \frac{2 \pi}{\omega} L \right )
+        = \beta_1^2 \frac{\pi}{\omega} L .
+    \end{multline*}
+    Таким образом, энергия зависит только от случайной амлитуды $\beta_1$, и не зависит от случайной фазы $\beta_2$:
+    \[
+        E(\beta_1, \beta_2) = \beta_1^2 E,
+    \]
+    где
+    \[
+        E
+        = \int \limits_{0}^{\frac{2 \pi}{\omega} L} \cos^2 \left ( \omega t - \beta_2 \right ) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega} L} \cos^2 \left ( \omega t \right ) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega} L} \sin^2 \left ( \omega t \right ) dt
+        = \frac{\pi}{\omega} L
+        .
+    \]
+
+    Корреляционный интеграл:
+    \begin{multline*}
+        z(y(t) | \beta)
+        = \int \limits_{-\infty}^{\infty} y(t) x(t | \beta_1, \beta_2) dt
+        = \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) \beta_1 \left ( x_1(t) \cos \beta_2 + x_2(t) \sin \beta_2 \right ) dt = \\
+        %
+        = \beta_1 \left ( \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_1(t) \cos \beta_2 dt + \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_2(t) \sin \beta_2 dt \right ) = \\
+        %
+        = \beta_1 \left ( \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_1(t) dt \cdot \cos \beta_2 + \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_2(t) dt \cdot \sin \beta_2 \right ) = \\
+        %
+        = \beta_1 \left ( z_1 \cos \beta_2 + z_2 \sin \beta_2 \right ) = \\
+        %
+        = \beta_1 \sqrt{z_1^2 + z_2^2} \left ( \frac{z_1}{\sqrt{z_1^2 + z_2^2}} \cos \beta_2 + \frac{z_2}{\sqrt{z_1^2 + z_2^2}} \sin \beta_2 \right )
+        = \beta_1 Z \left ( \cos \theta \cos \beta_2 + \sin \theta \sin \beta_2 \right ) = \\
+        %
+        = \beta_1 Z \cos ( \theta - \beta_2 ) ,
+    \end{multline*}
+    где
+    \begin{align*}
+        z_1         & = \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_1(t) dt = \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) \cos ( \omega t) dt , \\
+        z_2         & = \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) x_2(t) dt = \int \limits_0^{\frac{2 \pi}{\omega} L} y(t) \sin ( \omega t) dt , \\
+        Z           & = \sqrt{z_1^2 + z_2^2} , \\
+        \cos \theta & = \frac{z_1}{\sqrt{z_1^2 + z_2^2}} , \\
+        \sin \theta & = \frac{z_2}{\sqrt{z_1^2 + z_2^2}} .
+    \end{align*}
+
+    Отношение правдоподобия
+    \[
+        l(y(t) | \beta_1, \beta_2 ) = e^{-\frac{\beta_1^2 E}{N_0}} \cdot e^{\frac{2 \beta_1 Z}{N_0} \cos ( \theta - \beta_2)} ,
+    \]
+    и среднее значение отношения правдоподобия (с усреднением по амплитуде $\beta_1$, имеющей распределение Релея, и начальной фазе $\beta$, имеющей равномерное
+    распределение на отрезке $[0, 2 \pi]$):
+    \begin{multline*}
+        l(y(t))
+        = \int \limits_0^{\infty} \left ( \int \limits_0^{2 \pi} l(y(t) | b_1, b_2) \frac{1}{2 \pi} d b_2 \right ) \frac{b_1}{B_1^2} e^{- \frac{b_1^2}{2 B_1^2}} d b_1 = \\
+        %
+        = \int \limits_0^{\infty} \left ( \int \limits_0^{2 \pi} e^{-\frac{b_1^2 E}{N_0}} \cdot e^{\frac{2 b_1 Z}{N_0} \cos ( \theta - b_2)} \frac{1}{2 \pi} d b_2 \right ) \frac{b_1}{B_1^2} e^{- \frac{b_1^2}{2 B_1^2}} d b_1 = \\
+        %
+        = \int \limits_0^{\infty} e^{-\frac{b_1^2 E}{N_0}} \left ( \frac{1}{2 \pi} \int \limits_0^{2 \pi} e^{\frac{2 b_1 Z}{N_0} \cos ( \theta - b_2)} d b_2 \right ) \frac{b_1}{B_1^2} e^{- \frac{b_1^2}{2 B_1^2}} d b_1 = \\
+        %
+        = \int \limits_0^{\infty} e^{-\frac{b_1^2 E}{N_0}} I_0 \left ( \frac{2 b_1 Z}{N_0} \right ) \frac{b_1}{B_1^2} e^{- \frac{b_1^2}{2 B_1^2}} d b_1 .
+    \end{multline*}
+    где $I_0(\cdot)$ --- модифицированная функция Бесселя первого рода нулевого порядка. Уже отсюда видно, что среднее отношение правдоподобия $l(y(t))$ является монотонной
+    функцией модульного значения корреляционного интеграла $Z$. Впрочем, можно вычислить интеграл, предварительно преобразовав его к виду:
+    \[
+        l(y(t))
+        = \int \limits_0^{\infty} \frac{b_1}{B_1^2} I_0 \left ( \frac{2 b_1 Z}{N_0} \right ) e^{- \frac{b_1^2}{2 B_1^2} -\frac{b_1^2 E}{N_0}} d b_1
+        = \int \limits_0^{\infty} \frac{b_1}{B_1} I_0 \left ( \frac{2 Z B_1}{N_0} \frac{b_1}{B_1} \right ) e^{- \frac{b_1^2}{B_1^2} \left ( \frac{1}{2} + \frac{B_1^2 E}{N_0} \right )} \frac{d b_1}{B_1}.
+    \]
+    Далее, используя табличный интеграл:
+    \[
+        \int \limits_0^{\infty} x I_0(\mu x) e^{-\nu x^2} dx = \frac{1}{2 \nu} e^{\frac{\mu^2}{4 \nu}},
+    \]
+    получим:
+    \begin{multline*}
+        l(y(t))
+        = \frac{1}{2 \left ( \frac{1}{2} + \frac{B_1^2 E}{N_0} \right )} e^{\frac{\left ( \frac{2 Z B_1}{N_0} \right )^2}{4 \left ( \frac{1}{2} + \frac{B_1^2 E}{N_0} \right )}}
+        = \frac{1}{1 + \frac{B_1^2 E}{\frac{N_0}{2}}} e^{\frac{B_1^2 \left ( \frac{Z}{\frac{N_0}{2}} \right )^2}{2 \left ( 1 + \frac{B_1^2 E}{\frac{N_0}{2}} \right )}} = \\
+        %
+        = \frac{\frac{N_0}{2}}{\frac{N_0}{2} + B_1^2 E} e^{\frac{1}{\frac{N_0}{2}} \frac{B_1^2 Z^2}{2 \left ( \frac{N_0}{2} + B_1^2 E \right )}}
+        = \frac{\frac{N_0}{2}}{\frac{N_0}{2} + E} e^{\frac{1}{\frac{N_0}{2}} \frac{B_1^2 Z^2}{2 \left ( \frac{N_0}{2} + E \right )}}
+        .
+    \end{multline*}
+
+    Отношение правдоподобия $l(y(t))$ является монотонно убывающей функцией энергии $E$ и монотонно возрастающей функцией модульного значения корреляционного интеграла $Z$,
+    что позволяет перейти к эквивалентному условию:
+    \[
+        \left \{ l(y(t)) > l_0 \right \} \Leftrightarrow \left \{ Z > Z_0 \right \} ,
+    \]
+    и далее рассматривать только величину $Z$.
+
+    \subsection{Шум}
+
+    Если принятый сигнал содержит только белый шум --- $y(t) = n(t)$, то компоненты корреляционного интеграла имеют нулевые математические ожидания:
+    \[
+        \expectation{z_{1,2}}
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt}
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \expectation{n(t)} x_{1,2}(t) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} 0 \cdot x_{1,2}(t) dt
+        = 0 ,
+    \]
+    и дисперсии:
+    \begin{equation}
+        \label{equation:signal_model:noise:variance}
+        \variance{z_{1,2}}
+        = \expectation{z_{1,2}^2} - \left ( \expectation{z_{1,2}} \right )^{2}
+        = \expectation{z_{1,2}^2},
+    \end{equation}
+    \begin{multline}
+        \label{equation:signal_model:noise:squared_moment}
+        \expectation{z_{1,2}^2}
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt \cdot \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(s) x_{1,2}(s) ds}
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) n(s) x_{1,2}(t) x_{1,2}(s) ds dt} = \\
+%
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \expectation{n(t) n(s)} x_{1,2}(t) x_{1,2}(s) ds dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \frac{N_0}{2} \delta (t-s) x_{1,2}(t) x_{1,2}(s) ds dt = \\
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_{1,2}(t) x_{1,2}(t) dt
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_{1,2}^2(t) dt .
+    \end{multline}
+    Таким образом, дисперсии компонент $z_1$ и $z_2$ имеют вид:
+    \begin{gather*}
+        \variance{z_1}
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1^2(t) dt
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \cos^2(\omega t) dt
+        = \frac{N_0}{2} \cdot E, \\
+        %
+        \variance{z_2}
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2^2(t) dt
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \sin^2(\omega t) dt
+        = \frac{N_0}{2} \cdot E .
+    \end{gather*}
+    и равны между собой:
+    \[
+        \variance{z_1} = \variance{z_2} = \nu_0^2 .
+    \]
+    Ковариация компонент:
+    \begin{multline*}
+        \covariance{z_1}{z_2}
+        = \covariance{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_1(t) dt}{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(s) x_2(s) ds} = \\
+        %
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_1(t) dt \cdot \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(s) x_2(s) ds}
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_1(t) n(s) x_2(s) ds dt} = \\
+        %
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \expectation{n(t) n(s)} x_1(t) x_2(s) ds dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \frac{N_0}{2} \delta(t-s) x_1(t) x_2(s) ds dt = \\
+        %
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_2(t) dt
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \cos( \omega t ) \sin( \omega t ) dt
+        = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} \frac{1}{2} \sin( 2 \omega t ) dt
+        = 0 .
+    \end{multline*}
+    Поскольку $n(t)$ --- гауссовский шум, то компоненты $z_1$ и $z_2$ считаются гауссовскими, а поскольку из ковариация равна нулю, то компоненты $z_1$ и $z_2$ являются
+    независимыми.
+
+    В этом случае получается, что модульное значение $Z = \sqrt{z_1^2 + z_2^2}$ имеет распределение Релея:
+    \begin{equation}
+        \label{noise:correlation_integral_pdf}
+        p_{n,Z}(z) = \frac{z}{\nu_0^2} e^{- \frac{z^2}{2 \nu_0^2}} .
+    \end{equation}
+
+    \subsection{Шум и сигнал}
+
+    Пусть теперь в принятом сигнале содержится сигнал $x(t)$:
+    \[
+        y(t) = n(t) + x(t | \beta_1, \beta_2) ,
+    \]
+    тогда компоненты корреляционного интеграла
+    \begin{multline*}
+        z_{1,2}
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} y(t) x_{1,2}(t) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} ( n(t) + x(t;\beta) ) x_{1,2}(t) dt = \\
+%
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt + \int \limits_{0}^{\frac{2 \pi}{\omega}L} x(t;\beta) x_{1,2}(t) dt = \\
+%
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt + \int \limits_{0}^{\frac{2 \pi}{\omega}L} \left ( x_1(t) \cos \beta + x_2(t) \sin \beta \right ) x_{1,2}(t) dt = \\
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt + \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_{1,2}(t) dt + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2(t) x_{1,2}(t) dt
+    \end{multline*}
+    имеют математическое ожидание:
+    \begin{multline*}
+        \expectation{z_{1,2}}
+        = \expectation{\int \limits_{0}^{\frac{2 \pi}{\omega}L} n(t) x_{1,2}(t) dt}
+        + \expectation{\cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_{1,2}(t) dt}
+        + \expectation{\sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2(t) x_{1,2}(t) dt} = \\
+        %
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \expectation{n(t)} x_{1,2}(t) dt
+        + \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_{1,2}(t) dt
+        + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2(t) x_{1,2}(t) dt = \\
+        %
+        = \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_{1,2}(t) dt
+        + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2(t) x_{1,2}(t) dt .
+    \end{multline*}
+    Поскольку
+    \[
+        \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_2(t) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \sin( \omega t ) \cos( \omega t ) dt
+        = \int \limits_{0}^{\frac{2 \pi}{\omega}L} \frac{1}{2} \sin( 2 \omega t ) dt
+        = 0,
+    \]
+    то
+    \begin{gather*}
+        \expectation{z_1}
+        = \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1^2(t) dt + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_2(t) dt
+        = \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} \cos^2 ( \omega t ) dt
+        = \cos \beta \cdot E, \\
+        %
+        \expectation{z_2}
+        = \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_2(t) dt + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2^2(t) dt
+        = \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} \sin^2 ( \omega t ) dt
+        = \sin \beta \cdot E .
+    \end{gather*}
+
+    Дисперсия компонент $z_1$ и $z_2$ остаётся прежней (как в равенствах \eqref{equation:signal_model:noise:variance} и \eqref{equation:signal_model:noise:squared_moment}):
+    \[
+        \variance{z_{1,2}} = \frac{N_0}{2} \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_{1,2}^2(t) dt = \nu_0^2,
+    \]
+    поскольку часть
+    \[
+        \cos \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_1(t) x_{1,2}(t) dt + \sin \beta \int \limits_{0}^{\frac{2 \pi}{\omega}L} x_2(t) x_{1,2}(t) dt = const
+    \]
+    не является случайной.
+
+    В силу смещения математических ожиданий компонент $z_1$ и $z_2$ модульное значение корреляционного интеграла $Z$ имеет обобщенное распределение Релея:
+    \begin{equation}
+        \label{noise_and_signal:correlation_integral_pdf}
+        p_{sn,Z}(z ; E) = \frac{z}{\nu_0^2} e^{- \frac{z^2 + E^2}{2 \nu_0^2}} I_0 \left ( \frac{z E}{\nu_0^2} \right ) .
+    \end{equation}
+
+    \subsection{Кривые обнаружения}
+
+    Критерий обнаружения связан с построением разбиения $\left \{ \Gamma_0, \Gamma_1 \right \}$ множества значений статистики $Z$:
+    \[
+        \Gamma_0 = \left \{ z: z < z_0 \right \} , \Gamma_1 = \left \{ z: z \ge z_0 \right \} .
+    \]
+
+    Характеристиками процедуры обнаружения являются две вероятности: $F$ --- ложного обнаружения отраженного сигнала и $D$ --- правильного обнаружения отраженного сигнала,
+    \begin{align*}
+        F(z_0) = & \int \limits_{z_0}^{\infty} p_{n,Z}(z) dz , \\
+        D(z_0; E) = & \int \limits_{z_0}^{\infty} p_{sn,Z}(z ; E) dz ,
+    \end{align*}
+    где $p_{n,Z}(z)$ --- условная плотность вероятности в случае, когда принятый сигнал содержит только шум, и $p_{sn,Z}(z | E)$ --- условная плотность вероятности
+    статистики $Z$ в случае, когда принятый сигнал является смесью шума и сигнала, которая зависит от энергии сигнала $E$.
+
+    По заданной величине $\widetilde{F}$ фиксируют уровень $z_0$:
+    \[
+        F(z_0) = \widetilde{F},
+    \]
+    тогда вероятность правильного обнаружения $D(z_0 ; E)$ становится функцией только энергии $E$, и график этой функции называется кривой обнаружения.
+
+
+    \section{Показатели при квадратичном суммировании}
+
+    \textbf{Приложение 4 (к разделу 3.19)} из книги \cite{SCHIRMAN}.
+
+    В случае смеси шума и отраженного сигнала модульное значение корреляционного интеграла $Z$ имеет обобщенное распределение Релея:
+    \[
+        p_{sn,Z}(z ; E)
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                             & z < 0   \\
+            \frac{z}{\nu_0^2} I_0 \left ( \frac{z E}{\nu_0^2} \right ) e^{- \frac{E^2 + z^2}{2 \nu_0^2}} , & z \ge 0
+        \end{array}
+        \right .
+    \]
+    которое можно представить в виде:
+    \[
+        p_{sn,Z}(z ; E)
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                                                                                            & z < 0   \\
+            \frac{z}{\nu_0} \frac{1}{\nu_0} I_0 \left ( \frac{z}{\nu_0} \frac{E}{\nu_0} \right ) e^{- \frac{\left ( \frac{E}{\nu_0} \right )^2 + \left ( \frac{z}{\nu_0} \right)^2}{2}} , & z \ge 0
+        \end{array}
+        \right .
+        .
+    \]
+    Для сокращения дальнейшего вывода перейдем к величине $U = \frac{Z}{\nu_0}$ представляющей значение $Z$ нормированное на с.к.о. $\nu_0$ компонент корреляционного интеграла в случае шума:
+    \begin{multline*}
+        p_{sn,U}(u ; E)
+        = \left . p_{sn,Z}(z; E) \fda{Z}{U} \right |_{z = u \nu_0}
+        = p_{sn,Z}(u \nu_0; E) \nu_0 = \\
+        %
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                                        & u < 0   \\
+            u \frac{1}{\nu_0} I_0 \left ( u \frac{E}{\nu_0} \right ) e^{- \frac{\left ( \frac{E}{\nu_0} \right )^2 + u^2}{2}} \nu_0 , & u \ge 0
+        \end{array}
+        \right .
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                  & u < 0   \\
+            u I_0 \left ( u \frac{E}{\nu_0} \right ) e^{- \frac{\left ( \frac{E}{\nu_0} \right )^2 + u^2}{2}} , & u \ge 0
+        \end{array}
+        \right .
+        .
+    \end{multline*}
+    Введем величину:
+    \[
+        q
+        = \frac{E}{\nu_0}
+        = \frac{E}{\sqrt{\frac{N_0}{2} E}}
+        = \sqrt{\frac{E}{\frac{N_0}{2}}},
+    \]
+    тогда
+    \[
+        p_{sn,U}(u)
+        = \left \{
+        \begin{array}{ll}
+            0,                                    & u < 0   \\
+            u I_0(qu) e^{- \frac{q^2 + u^2}{2}} , & u \ge 0
+        \end{array}
+        \right .
+    \]
+
+    Квадрат $U$ имеет плотность:
+    \[
+        p_{U^2}(y)
+        = p_U(u) \left . \frac{dU}{dU^2} \right |_{u = \sqrt{y}}
+        = \left \{
+        \begin{array}{ll}
+            0 ,                                                                    & y < 0   \\
+            \sqrt{y} I_0(q \sqrt{y}) e^{- \frac{q^2 + y}{2}} \frac{1}{2 \sqrt{y}}, & y \ge 0
+        \end{array}
+        \right .
+        = \left \{
+        \begin{array}{ll}
+            0 ,                                                  & y < 0   \\
+            \frac{1}{2} I_0(q \sqrt{y}) e^{- \frac{q^2 + y}{2}}, & y \ge 0
+        \end{array}
+        \right .
+        .
+    \]
+    Характеристическая функция величины $U^2$:
+    \begin{multline*}
+        \theta_{U^2}(s)
+        = \int \limits_{- \infty}^{\infty} e^{j s y} p_{U^2}(y) dy
+        = \int \limits_{0}^{\infty} e^{j s y} \frac{1}{2} I_0(q \sqrt{y}) e^{- \frac{q^2 + y}{2}} dy
+        = \int \limits_{0}^{\infty} e^{j s u^2} \frac{1}{2} I_0(q u) e^{- \frac{q^2 + u^2}{2}} 2 u du = \\
+        %
+        = e^{- \frac{q^2}{2}} \int \limits_{0}^{\infty} e^{- \frac{u^2}{2} ( 1 - 2 j s)} I_0(q u) u du
+        = e^{- \frac{q^2}{2}} \int \limits_{0}^{\infty} e^{- \frac{u^2}{2} ( 1 - 2 j s)} \frac{1}{2 \pi} \int \limits_0^{2 \pi} e^{q u \cos \alpha} d \alpha u du = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{2 \pi} \int \limits_{0}^{\infty} \int \limits_0^{2 \pi} u e^{- \frac{u^2}{2} ( 1 - 2 j s) + q u \cos \alpha} d \alpha du .
+    \end{multline*}
+    Замена переменных $x = u \cos \alpha$ и $y = u \sin \alpha$. Якобиан замены $\modulus{\frac{\partial (x,y)}{\partial (u,\alpha)}} = u$ значит якобиан обратной замены
+    $\modulus{\frac{\partial (u,\alpha)}{\partial (x,y)}} = \frac{1}{u} = \frac{1}{\sqrt{x^2 + y^2}}$. Характеристическая функция:
+    \begin{multline*}
+        \theta_{U^2}(s)
+        = e^{- \frac{q^2}{2}} \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \int \limits_{-\infty}^{\infty} \sqrt{x^2 + y^2} e^{- \frac{x^2 + y^2}{2} ( 1 - 2 j s) + q x} \frac{1}{\sqrt{x^2 + y^2}}dx dy = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \int \limits_{-\infty}^{\infty} e^{- \frac{x^2 + y^2}{2} ( 1 - 2 j s) + q x} dx dy = \\
+        = e^{- \frac{q^2}{2}} \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \int \limits_{-\infty}^{\infty} e^{- \frac{x^2}{2} ( 1 - 2 j s) + q x - \frac{y^2}{2} ( 1 - 2 j s)} dx dy = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{x^2}{2} ( 1 - 2 j s) + q x} dx \cdot \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{y^2}{2} ( 1 - 2 j s)} dx dy = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{x^2}{2 \frac{1}{1 - 2 j s}}  + q x} dx \cdot \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{y^2}{2 \frac{1}{1 - 2 j s}}} dx dy = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{x^2 - 2 \frac{q}{1 - 2 j s} x}{2 \frac{1}{ 1 - 2 j s}}} dx \cdot \frac{\frac{1}{\sqrt{1 - 2 j s}}}{\sqrt{2 \pi} \frac{1}{\sqrt{1 - 2 j s}}} \int \limits_{-\infty}^{\infty} e^{- \frac{y^2}{2 \frac{1}{\sqrt{1 - 2 j s}}}} dy = \\
+        %
+        = e^{- \frac{q^2}{2}} \frac{1}{\sqrt{2 \pi}} \int \limits_{-\infty}^{\infty} e^{- \frac{\left ( x - \frac{q}{1 - 2 j s} \right )^2 + \frac{q^2}{(1 - 2 j s)^2}}{2 \frac{1}{1 - 2 j s}}} dx \cdot \frac{1}{\sqrt{1 - 2 j s}} = \\
+        %
+        = e^{- \frac{q^2}{2} + \frac{q^2}{2 (1 - 2 j s)}} \frac{1}{\sqrt{1 - 2 j s}} \cdot \frac{1}{\sqrt{1 - 2 j s}}
+        = e^{- \frac{q^2}{2}} \frac{e^{\frac{q^2}{2 (1 - 2 j s)}}}{1 - 2 j s} .
+    \end{multline*}
+
+    Введем обозначение $a(s) = \frac{1}{1 - 2 j s}$ и $b = \frac{q^2}{2}$, тогда:
+    \[
+        \theta_{U^2}(s) = e^{-b} a(s) e^{a(s) b} .
+    \]
+    Рассмотрим сумму квадратов независимых величин:
+    \[
+        U_{\Sigma} = U_1^2 + U_2^2 + \dots + U_M^2 .
+    \]
+
+    Характеристическая функция $U_{\Sigma}$ является произведением характеристических функций $\theta_{U^2}(s)$:
+    \begin{multline*}
+        \theta_{U_{\Sigma}}(s)
+        = \theta_{U_1}(s) \cdot \theta_{U_2}(s) \cdot ... \cdot \theta_{U_M}(s)
+        = e^{- M b} a(s)^M e^{a(s) M b} = \\
+        %
+        = e^{- B} a(s)^M e^{a(s) B}
+        = e^{- B} a(s) \md{M-1}{B} e^{a(s) B}
+    \end{multline*}
+    где $B = M b$.
+
+    Плотность вероятности $U_\Sigma$ определяется по характеристической функции обратным преобразованием:
+    \begin{multline*}
+        p_{sn,U_\Sigma}(u)
+        = \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \theta_\Sigma(s) e^{-j s u} ds
+        = \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} e^{- B} a(s) \md{M-1}{B} e^{a(s) B} e^{-j s u} ds = \\
+        %
+        = \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} e^{- B} \frac{1}{1 - 2 j s} \md{M-1}{B} e^{\frac{1}{1 - 2 j s} B} e^{-j s u} ds = \\
+        = e^{- B} \md{M-1}{B} \left ( \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \frac{e^{\frac{B}{1 - 2 j s}}}{1 - 2 j s}  e^{-j s u} ds \right )
+        = e^{- B} \md{M-1}{B} \psi(B, u),
+    \end{multline*}
+    где
+    \[
+        \psi(B, u) = \frac{1}{2 \pi} \int \limits_{-\infty}^{\infty} \frac{e^{\frac{B}{1 - 2 j s}}}{1 - 2 j s}  e^{-j s u} ds
+    \]
+
+    Вычислять интеграл не будем, воспользуемся следующим замечанием: если в сумме $U_\Sigma$ только одно слагаемое, то $U_\Sigma = U_1^2$ и равны плотности:
+    \begin{gather*}
+        p_{sn,U_\Sigma}(u) = p_{U^2}(u) , \\
+        e^{- b} \psi(b, u) = \frac{1}{2} I_0 \left ( q \sqrt{u} \right ) e^{- \frac{q^2 + u}{2}} , \\
+        e^{- \frac{q^2}{2}} \psi(b, u) = \frac{1}{2} I_0 \left ( q \sqrt{u} \right ) e^{- \frac{q^2}{2}} e^{- \frac{u}{2}} , \\
+        \psi(b, u) = \frac{1}{2} I_0 \left ( q \sqrt{u} \right ) e^{- \frac{u}{2}} , \\
+        \psi(b, u) = \frac{1}{2} I_0 \left ( \sqrt{2 b} \sqrt{u} \right ) e^{- \frac{u}{2}} , \\
+        \psi(b, u) = \frac{1}{2} I_0 \left ( \sqrt{2 b u} \right ) e^{- \frac{u}{2}} .
+    \end{gather*}
+    Отсюда следует:
+    \[
+        \psi(B, u) = \frac{1}{2} I_0 \left ( \sqrt{2 B u} \right ) e^{- \frac{u}{2}}
+    \]
+    Подставляем полученное равенство в выражение для плотности:
+    \begin{multline*}
+        p_{sn,U_\Sigma}(u)
+        = e^{- B} \md{M-1}{B} \psi(B, u)
+        = e^{- B} \md{M-1}{B} \frac{1}{2} I_0 \left ( \sqrt{2 B u} \right ) e^{- \frac{u}{2}} = \\
+        %
+        = \frac{1}{2} e^{- \left ( B + \frac{u}{2} \right )} \md{M-1}{B} I_0 \left ( \sqrt{2 B u} \right ) .
+    \end{multline*}
+
+    Для производных справедливо равенство:
+    \[
+        \md{M-1}{B} I_0 \left ( \sqrt{2 B u} \right ) = \left ( \frac{u}{2B} \right )^\frac{M-1}{2} I_{M-1} \left ( \sqrt {2 B u} \right ) ,
+    \]
+    которое доказывается по индукции. При $M=1$ оно является тождеством:
+    \[
+        I_0 \left ( \sqrt{2 B u} \right ) = I_0 \left ( \sqrt {2 B u} \right ) ,
+    \]
+    а дифферинцируя левые и правые части получим:
+    \[
+        \fd{B} \left( \md{M-1}{B} I_0 \left ( \sqrt{2 B u} \right ) \right) = \fd{B} \left( \left ( \frac{u}{2B} \right )^\frac{M-1}{2} I_{M-1} \left ( \sqrt {2 B u} \right ) \right)
+    \]
+    \begin{multline*}
+        \md{M}{B} I_0 \left ( \sqrt{2 B u} \right ) = \\
+        %
+        = \frac{M-1}{2} \left ( \frac{u}{2 B} \right )^{\frac{M-1}{2} - 1} \left ( - \frac{u}{2 B^2} \right ) I_{M-1} \left ( \sqrt {2 B u} \right ) + \left( \frac{u}{2B} \right)^\frac{M-1}{2} \fd{B} I_{M-1} \left( \sqrt {2 B u} \right) = \\
+        %
+        = \left ( \frac{u}{2 B} \right )^\frac{M}{2} \left ( \frac{M-1}{2} \left ( \frac{u}{2 B} \right )^{-\frac{1}{2}} \left ( \frac{u}{2 B} \right )^{-1} \left ( - \frac{u}{2 B^2} \right ) I_{M-1} \left ( \sqrt {2 B u} \right ) + \fd{B} I_{M-1} \left( \sqrt {2 B u} \right ) \right ) = \\
+        %
+        = \left ( \frac{u}{2 B} \right )^\frac{M}{2} \left ( - \frac{M-1}{2} \left ( \frac{u}{2 B} \right )^{-\frac{1}{2}} \frac{1}{B} I_{M-1} \left ( \sqrt {2 B u} \right ) + \fd{B} I_{M-1} \left( \sqrt {2 B u} \right ) \right ) = \\
+        %
+        = \left ( \frac{u}{2 B} \right )^\frac{M}{2} \left ( - (M-1) \frac{\sqrt{2 B}}{2 \sqrt{u} B} I_{M-1} \left ( \sqrt {2 B u} \right ) + \fd{B} I_{M-1} \left( \sqrt {2 B u} \right ) \right ) = \\
+        %
+        = \left ( \frac{u}{2 B} \right )^\frac{M}{2} \left ( - (M-1) \frac{1}{\sqrt{2 u B}} I_{M-1} \left ( \sqrt {2 B u} \right ) + \fd{B} I_{M-1} \left( \sqrt {2 B u} \right ) \right ) = \\
+        %
+        = \left ( \frac{u}{2 B} \right )^\frac{M}{2} I_M \left ( \sqrt{2 B u}\right ) ,
+    \end{multline*}
+    в силу рекуррентного соотношения для функций Бесселя:
+    \[
+        I_M(x) = \fd{x} I_{M-1}(x) - \frac{M-1}{x} I_{M-1}(x) .
+    \]
+
+    Таким образом, плотность вероятности суммы $U_\Sigma$:
+    \[
+        p_{sn,U_\Sigma}(u) = \frac{1}{2} e^{- \left ( B + \frac{u}{2} \right )} \left ( \frac{u}{2 B} \right )^\frac{M-1}{2} I_{M-1} \left ( \sqrt{2 B u}\right ) ,
+    \]
+    где $B = M \frac{q^2}{2}$. Такое условное распределение сумма $U_\Sigma$ имеет в случае наличия отраженного сигнала.
+
+    Если отраженного сигнала нет, то $q = 0$, обобщенное распределение Релея величин $U_i$ становится обычным распределением Релея, и $B = 0$. В этом случае, плотность
+    вероятности $p_{n,U_\Sigma}(u)$ величины $U_\Sigma$ найдем как предел при $B \rightarrow 0$ плотности $p_{sn,U_\Sigma}(u)$. При вычислении предела используется
+    приближенное равенство:
+    \[
+        \lim_{x \rightarrow 0} I_{M-1}(x) \approx \frac{1}{(M-1)!} \left ( \frac{x}{2} \right )^{M-1} .
+    \]
+    Таким образом,
+    \begin{multline*}
+        p_{n,U_\Sigma}(u)
+        = \lim_{B \rightarrow 0} \frac{1}{2} e^{- \left ( B + \frac{u}{2} \right )} \left ( \frac{u}{2 B} \right )^\frac{M-1}{2} \frac{1}{(M-1)!} \left ( \frac{\sqrt{2 B u}}{2} \right )^{M-1} = \\
+        %
+        = \frac{1}{2} e^{- \frac{u}{2}} \lim_{B \rightarrow 0} \frac{u^\frac{M-1}{2}}{\left ( 2 B \right )^\frac{M-1}{2}} \frac{1}{(M-1)!} \frac{\left ( 2 B \right )^\frac{M-1}{2} u^\frac{M-1}{2}}{2^{M-1}} = \\
+        %
+        = \frac{1}{2} e^{- \frac{u}{2}} \lim_{B \rightarrow 0} \frac{1}{\left ( 2 B \right )^\frac{M-1}{2}} \frac{u^\frac{M-1}{2} u^\frac{M-1}{2}}{(M-1)! 2^{M-1}} \left ( 2 B \right )^\frac{M-1}{2}
+        = \frac{1}{2} e^{- \frac{u}{2}} \frac{u^{M-1}}{(M-1)! 2^{M-1}}
+        = \frac{u^{M-1}}{(M-1)! 2^{M}} e^{- \frac{u}{2}} .
+    \end{multline*}
+
+    Пусть $u_t$ --- пороговое значение принятия решения о наличии сигнала, тогда вероятности правильного обнаружения $D(M, u_t)$ и ложного обнаружения $F(M, u_t)$ имеют выражения:
+    \begin{gather}
+        D_M(u_t)
+        = \int \limits_{u_t}^{\infty} p_{sn,U_\Sigma}(u) du
+        = \int \limits_{u_t}^{\infty} \frac{1}{2} e^{- \left ( B + \frac{u}{2} \right )} \left ( \frac{u}{2 B} \right )^\frac{M-1}{2} I_{M-1} \left ( \sqrt{2 B u}\right ) du ,
+        \label{quadric_pack:true_detection_probability} \\
+        %
+        F_M(u_t)
+        = \int \limits_{u_t}^{\infty} p_{n,U_\Sigma}(u) du
+        = \int \limits_{u_t}^{\infty} \frac{u^{M-1}}{(M-1)! 2^{M}} e^{- \frac{u}{2}} du
+        \label{quadric_pack:false_detection_probability}
+    \end{gather}
+    Выполним замену переменных $t = \sqrt{\frac{u}{2}}$ ($2 t^2 = u$):
+    \begin{multline*}
+        D_M(u_t)
+        = \int \limits_{\sqrt{\frac{u_t}{2}}}^{\infty} \frac{1}{2} e^{- \left ( B + t^2 \right )} \left ( \frac{1}{B} \right )^\frac{M-1}{2} t^{M-1} I_{M-1} \left ( 2 \sqrt{B} t \right ) 4 t dt = \\
+        %
+        = 2 B^{-\frac{M-1}{2}} e^{-B} \int \limits_{\sqrt{\frac{u_t}{2}}}^{\infty} t^M e^{- t^2} I_{M-1} \left ( 2 \sqrt{B} t \right ) dt,
+    \end{multline*}
+    \begin{gather*}
+        F_M(u_t)
+        = \int \limits_{u_t}^{\infty} \frac{1}{2} \frac{t^{2(M-1)}}{(M-1)!} e^{- t^2} 4 t dt
+        = 2 \int \limits_{u_t}^{\infty} \frac{t^{2M-1}}{(M-1)!} e^{- t^2} dt
+    \end{gather*}
+    Полученные интегралы можно свести к неполной функции Торонто:
+    \[
+        T_\alpha (m, n, r) = 2 r^{n-m+1} e^{-r^2} \int \limits_0^{\alpha} t^{m-n} e^{-t^2} I_n(2rt) dt
+    \]
+    С использованием неполной функции Торонто:
+    \begin{multline*}
+        D_M(u_t)
+        = 1 - T_{\sqrt{\frac{u_t}{2}}} \left ( 2M - 1, M - 1, \sqrt{B} \right ) = \\
+        %
+        = 1 - 2 \sqrt{B}^{M-1-(2M-1)+1} e^{-\sqrt{B}^2} \int \limits_0^{\sqrt{\frac{u_t}{2}}} t^{2M-1-(M-1)} e^{-t^2} I_{M-1}(2 \sqrt{B} t) dt = \\
+        %
+        = 1 - 2 \sqrt{B}^{-M+1} e^{- B} \int \limits_0^{\sqrt{\frac{u_t}{2}}} t^{M} e^{-t^2} I_{M-1}(2 \sqrt{B} t) dt
+        = 1 - 2 B^{- \frac{M-1}{2}} e^{-B} \int \limits_0^{\sqrt{\frac{u_t}{2}}} t^{M} e^{-t^2} I_{M-1}(2 \sqrt{B} t) dt ,
+    \end{multline*}
+    \begin{multline*}
+        F_M(u_t)
+        = 1 - T_{\sqrt{\frac{u_t}{2}}} \left ( 3M, M - 1, 0 \right ) = \\
+        %
+        = 1 - 2 \int \limits_0^{\sqrt{\frac{u_t}{2}}} t^{3M-(M-1)} e^{-t^2} I_{M-1}(0) dt
+        = 1 - 2 \int \limits_0^{\sqrt{\frac{u_t}{2}}} t^{2M-1} e^{-t^2} \frac{1}{(M-1)!} dt .
+    \end{multline*}
+
+    При больших значениях $D$ её величину можно вычислять приближенно. Рассмотрим величину $\eta = \sqrt{U_\Sigma} - h$, где величину $h$ определим позже.
+    Плотность вероятности $\eta$:
+    \begin{multline*}
+        p_{sn,\eta}(y)
+        = p_{sn,U_\Sigma}((y+h)^2) \fd{y}(y+h)^2 = \\
+        %
+        = \frac{1}{2} e^{- \left ( B + \frac{(y+h)^2}{2} \right )} \left ( \frac{(y+h)^2}{2 B} \right )^\frac{M-1}{2} I_{M-1} \left ( \sqrt{2 B (y+h)^2} \right ) 2 (y+h) = \\
+        %
+        = e^{- \left ( B + \frac{(y+h)^2}{2} \right )} \left ( \frac{y+h}{\sqrt{2 B}} \right )^{M-1} (y+h) \frac{\sqrt{2 B}}{\sqrt{2 B}} I_{M-1} \left ( \sqrt{2 B} (y+h) \right ) = \\
+        %
+        = e^{- \left ( B + \frac{(y+h)^2}{2} \right )} \left ( \frac{y+h}{\sqrt{2 B}} \right )^M \sqrt{2 B} I_{M-1} \left ( \sqrt{2 B} (y+h) \right ) = \\
+        %
+        = e^{- \left ( B + \frac{(y+h)^2}{2} \right )} \sqrt{2 B} \left ( 1 + \frac{y + h - \sqrt{2 B}}{\sqrt{2 B}} \right )^M I_{M-1} \left ( \sqrt{2 B} (y+h) \right ) .
+    \end{multline*}
+    С учётом приближений
+    \begin{gather*}
+        I_{M-1}(x) \approx \frac{1}{\sqrt{2 \pi x}} e^x \; ( x \gg 1 ) , \\
+        ( 1 + x )^M \approx e^{x M} \; ( x \ll 1 ) .
+    \end{gather*}
+    получим
+    \begin{multline*}
+        p_{sn,\eta}(y)
+        = e^{- \left ( B + \frac{(y+h)^2}{2} \right )} \sqrt{2 B} e^{\frac{y + h - \sqrt{2 B}}{\sqrt{2 B}} M} \frac{1}{\sqrt{2 \pi \sqrt{2 B} (y + h)}} e^{\sqrt{2 B} (y + h)} = \\
+        %
+        = \sqrt{\frac{2 B}{2 \pi \sqrt{2 B} (y + h)}} e^{- B - \frac{(y+h)^2}{2} + \frac{y + h - \sqrt{2 B}}{\sqrt{2 B}} M + \sqrt{2 B} (y + h)} = \\
+        %
+        = \sqrt{\frac{\sqrt{2 B}}{2 \pi (y + h)}} e^{- B - \frac{y^2}{2} - y h - \frac{h^2}{2} + \frac{y + h - \sqrt{2 B}}{\sqrt{2 B}} M + \sqrt{2 B} (y + h)} .
+    \end{multline*}
+    Выберем величину $h$ так чтобы коэффициент при $y$ в показателе был равен нулю:
+    \[
+        -h + \frac{M}{\sqrt{2 B}} + \sqrt{2 B} = 0 ,
+    \]
+    откуда
+    \[
+        h
+        = \frac{M}{\sqrt{2 B}} + \sqrt{2 B}
+        = \frac{M}{\sqrt{2 M \frac{q^2}{2}}} + \sqrt{2 M \frac{q^2}{2}}
+        = \frac{\sqrt{M}}{q} + \sqrt{M} q
+        = \sqrt{M} \left ( \frac{1}{q} + q \right ) .
+    \]
+    При таком выборе $h$ в показателе нет $y$:
+    \[
+        p_{sn,\eta}(y)
+        = \sqrt{\frac{\sqrt{2 B}}{2 \pi (y + h)}} e^{- B - \frac{y^2}{2} - \frac{h^2}{2} + \frac{h - \sqrt{2 B}}{\sqrt{2 B}} M + \sqrt{2 B} h} .
+    \]
+    Преобразовывая показатель с учётом значения $h$, получим:
+    \begin{multline*}
+        - B - \frac{h^2}{2} + \frac{h - \sqrt{2 B}}{\sqrt{2 B}} M + \sqrt{2 B} h = \\
+        %
+        = - B - \frac{\left ( \frac{M}{\sqrt{2 B}} + \sqrt{2 B} \right )^2}{2} + \frac{\frac{M}{\sqrt{2 B}} + \sqrt{2 B} - \sqrt{2 B}}{\sqrt{2 B}} M + \sqrt{2 B} \left ( \frac{M}{\sqrt{2 B}} + \sqrt{2 B} \right ) = \\
+        %
+        = - B - \frac{\frac{M^2}{2 B} + 2 \frac{M}{\sqrt{2 B}} \sqrt{2 B} + 2 B}{2} + \frac{M^2}{2 B} + M + 2 B
+        = - B - \frac{M^2}{4 B} - M - B + M + 2 B = \\
+        %
+        = - \frac{M^2}{4 B}
+        = - \frac{M^2}{4 M \frac{q^2}{2}}
+        = - \frac{M}{2 q^2} .
+    \end{multline*}
+    Таким образом, плотность имеет вид:
+    \[
+        p_{sn,\eta}(y)
+        = \sqrt{\frac{\sqrt{2 B}}{2 \pi (y + h)}} e^{- \frac{y^2}{2} - \frac{M}{2 q^2}} .
+    \]
+    Приближение плотности не слишком точное.
+
+
+    \section{Двухэтапное обнаружение}
+    Пусть имеется зона поиска, состоящая из $K$ направлений. В каждом направлении независимо с вероятностью $P_t$ может находится объект. Обзор зоны поиска осуществляется
+    гармоническими сигналами с энергетической характеристикой $q = \sqrt{\frac{E}{\frac{N_0}{2}}}$. Рассматриваются двухэтапные методы обнаружения: на первом этапе во всех
+    $K$ направлениях используются $M_1$ импульсов, в тех направлениях где с порогом $u_1$ произошло обнаружение, производится второй этап состоящий из ещё $M_2$ импульсов
+    и если на втором этапе опять происходит обнаружение с порогом $u_2$, то оно считается обнаружением двухэтапного метода. Заданы условные вероятности $D^*$ ---
+    правильного обнаружения и $F^*$ --- ложного обнаружения.
+
+    Необходимо подобрать количества $M_1$ и $M_2$ импульсов, а также пороги $u_1$ и $u_2$ так, чтобы:
+    \begin{enumerate}
+        \item условные вероятности обнаружений были не хуже заданных ($D^*$ и $F^*$),
+        \item количества сигналов не превосходят разумные пределы: $M_1 \le \overline{M}_1$ и $M_2 \le \overline{M}_2$,
+        \item среднее количество импульсов на все $K$ направлений было наименьшим.
+    \end{enumerate}
+
+    Условные вероятности правильного $D_M(u)$ и ложного $F_M(u)$ обнаружений определяются равенствами \eqref{quadric_pack:true_detection_probability} и
+    \eqref{quadric_pack:false_detection_probability}. Условные вероятности правильного и ложного обнаружений в двухэтапном методе при фиксированных количествах
+    $M_1$ и $M_2$ в силу независимости событий обнаружений описываются функциями:
+    \begin{equation}
+        \label{equation:two_stage_detection:probabilities}
+        \begin{array}{c}
+            D(u_1, u_2) = D_{M_1}(u_1) \cdot D_{M_2}(u_2) , \\
+            F(u_1, u_2) = F_{M_1}(u_1) \cdot F_{M_2}(u_2) .
+        \end{array}
+    \end{equation}
+
+    Пусть $\nu$ --- случайная величина количества импульсов, которая требуется двухэтапному методу для просмотра всей зоны поиска. Поскольку обнаружение в каждом направлении
+    является независимым событием, то $\nu$ имеет распределение Бернулли:
+    \[
+        \expectation{\nu}
+        = K \cdot \left ( M_1 + \left ( P_t D_{M_1}(u_1) + \left ( 1 - P_t \right ) F_{M_1}(u_1) \right ) M_2 \right ) .
+    \]
+    Обычно, вероятность нахождения объекта в направлении $P_t$ оказывается малой, поэтому $P_t D_{M_1}(u_1)$ мало, и большая часть выполнения второго этапа обусловлена
+    ложными обнаружениями на первом этапе --- слагаемое с $F_{M_1}(u_1)$.
+
+    При поиске наименьшего значения $\expectation{\nu}$ будем перебирать возможные значения для $M_1$ и $M_2$, начиная с $M_1 = 1$ и $M_2 = 1$. При фиксированных $M_1$ и
+    $M_2$ будем минимизировать вероятность обнаружения на первом этапе:
+    \[
+        P_t D_{M_1}(u_1) + \left ( 1 - P_t \right ) F_{M_1}(u_1) \rightarrow min ,
+    \]
+    Поскольку вероятности $D_{M_1}(u_1)$ и $F_{M_1}(u_1)$ одновременно монотонно убывают с ростом порога $u_1$, то необходимо найти наибольшее значение $u_1$:
+    \[
+        u_1 \rightarrow max,
+    \]
+    при котором обеспечивается качество процедуры обнаружения:
+    \begin{equation}
+        \label{equation:two_stage_detection:probabilities_conditions}
+        \left \{
+        \begin{array}{l}
+            D_{M_1}(u_1) \cdot D_{M_2}(u_2) \ge D^* \\
+            F_{M_1}(u_1) \cdot F_{M_2}(u_2) \le F^*
+        \end{array}
+        \right .
+        .
+    \end{equation}
+    Вполне возможно, что при выбранном количестве $M_1$ второй этап вовсе не потребуется (формально можно считать, что на втором этапе не используются сигналы $M_2 = 0$
+    и всегда принимается решение об обнаружении), если существует величина порога $u_1$, при которой:
+    \[
+        \left \{
+        \begin{array}{l}
+            D_{M_1}(u_1) \ge D^* \\
+            F_{M_1}(u_1) \le F^*
+        \end{array}
+        \right .
+        .
+    \]
+    Пусть величина $u_{1,D}$ является решением уравнения:
+    \[
+        D_{M_1}(u_1) \ge D^* .
+    \]
+    Если при этом же значении $F_{M_1}(u_{1,D}) \le F^*$, тогда $u_{1,D}$ является оптимальным порогом первого этапа обнаружения, а второй не требуется:
+    \begin{gather*}
+        u_1^* = u_{1,D} , \\
+        u_2^* = 0 .
+    \end{gather*}
+    В противном случае при $F_{M_1}(u_{1,D}) > F^*$ требуется второй этап обнаружения, подбор количества $M_2$ и величины порога $u_2$, при которых выполняются условия
+    \eqref{equation:two_stage_detection:probabilities_conditions}.
+
+    На плоскости порогов $(u_1, u_2)$ кривые:
+    \begin{gather*}
+        D (u_1, u_2) = D^* , \\
+        F (u_1, u_2) = F^*
+    \end{gather*}
+    могут иметь различный вид в зависимости от $q$ и количеств $M_1$, $M_2$ (рисунки \ref{figure:two_state_detection:probability_curves}). В случаях, представленных
+    на рисунках \ref{figure:two_state_detection:probability_curves}.б) и \ref{figure:two_state_detection:probability_curves}.в) имеется решение --- точка
+    $\left (u_1^*, u_2^* \right )$, одновременно удовлетворяющая двум условиям:
+    \begin{gather*}
+        D (u_1^*, u_2^*) = D^* , \\
+        F (u_1^*, u_2^*) = F^* .
+    \end{gather*}
+
+    \begin{figure}[h]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % кривая D
+                \draw ( 0.4, 0 ) to [out=90,in=0] ( 0, 0.45 ) node [below] at ( 0.4, 0 ) {$u_{1,D}$};
+                \draw ( 0.35, 0.05 ) -- ( 0.2, 0.1 ) node [left] at ( 0.2, 0.1 ) {$1$};
+                % кривая F
+                \draw [dashed] ( 0.75, 0 ) to [out=115,in=-10] ( 0, 0.7 );
+                \draw ( 0.79, 0.05 ) -- ( 0.94, 0.1 ) node [right] at ( 0.94, 0.1 ) {$2$};
+            \end{tikzpicture}
+            \caption{Нет пересечения кривых и решения}
+        \end{subfigure}
+
+        \hfill
+
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % координаты точки пересечения
+                \def \fu { 0.3 };
+                \def \su { 0.4 };
+
+                % кривая D
+                \draw ( 0.6, 0 ) to [out=100,in=-30] ( \fu, \su ) to [out=150,in=-20] ( 0, 0.55 ) node [below] at ( 0.6, 0 ) {$u_{1,D}$};
+                \draw ( 0.55, 0.05 ) -- ( 0.4, 0.1 ) node [left] at ( 0.4, 0.1 ) {$1$};
+                % кривая F
+                \draw [dashed] ( 0.8, 0 ) to [out=100,in=-20] ( \fu, \su ) to [out=160,in=0] ( 0, 0.43 );
+                \draw ( 0.82, 0.05 ) -- ( 0.97, 0.1 ) node [right] at ( 0.97, 0.1 ) {$2$};
+
+                % область
+                \path [fill=gray] ( 0, 0.55 ) to [out=-20,in=150] ( \fu, \su ) to [out=160,in=0] ( 0, 0.43 );
+
+                % искомая точка
+                \draw [fill] ( \fu, \su ) circle [radius=0.015];
+                \draw ( \fu, \su ) -- ( 0.5, 0.5 ) node [right] at ( 0.5, 0.5 ) {$(u_1^*, u_2^*)$};
+            \end{tikzpicture}
+            \caption{Есть пересечение кривых вида I и решение}
+        \end{subfigure}
+
+        \hfill
+
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % координаты первой точки пересечения
+                \def \fu { 0.55 };
+                \def \su { 0.4 };
+
+                % промежуточная точка
+                \def \fv { 0.5 };
+                \def \sv { 0.55 };
+
+                % координаты второй точки пересечения
+                \def \ft { 0.3 };
+                \def \st { 0.6 };
+
+                % кривая D
+                \draw ( 0.6, 0 ) to [out=95,in=-80] ( \fu, \su ) to [out=100,in=-30] ( \fv, \sv ) to [out=150,in=-10] ( \ft, \st ) to [out=170,in=0] ( 0, 0.62 ) node [below] at ( 0.6, 0 ) {$u_{1,D}$};
+                \draw ( 0.55, 0.05 ) -- ( 0.4, 0.1 ) node [left] at ( 0.4, 0.1 ) {$1$};
+                % кривая F
+                \draw [dashed] ( 0.8, 0 ) to [out=110,in=-50] ( \fu, \su ) to [out=130,in=-30] ( \ft, \st ) to [out=150,in=-10] ( 0, 0.75 );
+                \draw ( 0.82, 0.05 ) -- ( 0.97, 0.1 ) node [right] at ( 0.97, 0.1 ) {$2$};
+
+                % область
+                \path [fill=gray] ( \ft, \st ) to [out=-10,in=150] ( \fv, \sv ) to [out=-30,in=100] ( \fu, \su ) to [out=130,in=-30] ( \ft, \st );
+
+                % искомая точка
+                \draw [fill] ( \fu, \su ) circle [radius=0.015];
+                \draw ( \fu, \su ) -- ( 0.7, 0.5 ) node [right] at ( 0.7, 0.55 ) {$(u_1^*, u_2^*)$};
+            \end{tikzpicture}
+            \caption{Есть пересечение кривых вида II и решение}
+        \end{subfigure}
+
+        \caption{Графики кривых условных вероятностей: 1 --- $D (u_1, u_2) = D^*$, 2 --- $F (u_1, u_2) = F^*$}
+        \label{figure:two_state_detection:probability_curves}
+    \end{figure}
+
+    Поиск решения $\left (u_1^*, u_2^* \right )$ выполняется итерационным методом путём построения последовательности приближений:
+    \begin{align*}
+        & \left ( u_1^{(0)}   , u_2^{(0)} \right ) = \left ( u_{1,D}     , 0 \right ), \\
+        & \dots \\
+        & \left ( u_1^{(k)}   , u_2^{(k+1)} \right ), \\
+        & \left ( u_1^{(k+1)} , u_2^{(k+1)} \right ), \\
+        & \dots
+    \end{align*}
+    в которой попеременно уточняются компоненты --- величина $u_2^{(k+1)}$  вычисляется из уравнения
+    \[
+        F (u_1^{(k)}, u_2^{(k+1)}) = F^* ,
+    \]
+    а величина $u_1^{(k+1)}$ из уравнения
+    \[
+        D (u_1^{(k+1)}, u_2^{(k+1)}) = D^* .
+    \]
+    Графическое представление итерационного процесса поиска решения $\left ( u_1^*, u_2^* \right )$ представлено на рисунках \ref{figure:two_state_detection:iterations}.
+    Останов итерационного процесса производится тогда, когда очередное изменение одной из компонент признаётся несущественным --- меньшим некоторой малой величины $\varepsilon$:
+    \[
+        \modulus{u_1^{(k+1)} - u_1^{(k)}} < \varepsilon \; \text{или} \; \modulus{u_2^{(k+1)} - u_2^{(k)}} < \varepsilon .
+    \]
+
+
+    Заметим, что в случае а), в котором нет решения, итерационный процесс выходит за уровень $u_{2,D}$, который представляет наибольший возможный порог второго обнаружителя,
+    определяемый равенством:
+    \[
+        D_{M_1} ( u_{2,D} ) = D^* .
+    \]
+    При выходе за уровень $u_{2,D}$ итерационный процесс останавливается, решения нет.
+
+    \begin{figure}[h]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % кривая D
+                \draw ( 0.55, 0 ) to [out=90,in=0] ( 0, 0.45 ) node [below] at ( 0.55, 0 ) {$\left ( u_{1,D}, 0 \right )$};
+                % кривая F
+                \draw [dashed] ( 0.75, 0 ) to [out=115,in=-10] ( 0, 0.7 );
+
+                % уровень u_2
+                \draw [dotted] ( 0, 0.45 ) -- ( 1, 0.45 ) node [left] at ( 0, 0.45 ) {$u_{2,D}$};
+
+                % итерации
+                \draw [->] ( 0.55, 0 ) -- ( 0.55, 0.35 ) node [right] ( 0.55, 0.35 ) {$\left ( u_1^{(0)}, u_2^{(1)} \right )$};
+                \draw [->] ( 0.55, 0.35 ) -- ( 0.35, 0.35 ) node [below left] ( 0.47, 0.27 ) {$\left ( u_1^{(1)}, u_2^{(1)} \right )$};
+                \draw [->] ( 0.35, 0.35 ) -- ( 0.35, 0.55 ) node [above right] ( 0.35, 0.55 ) {$\left ( u_1^{(1)}, u_2^{(2)} \right )$};;
+            \end{tikzpicture}
+            \caption{Нет пересечения кривых и решения}
+        \end{subfigure}
+
+        \hfill
+
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % координаты точки пересечения
+                \def \fu { 0.3 };
+                \def \su { 0.4 };
+
+                % кривая D
+                \draw ( 0.6, 0 ) to [out=100,in=-30] ( \fu, \su ) to [out=150,in=-20] ( 0, 0.55 ) node [below] at ( 0.6, 0 ) {$\left ( u_{1,D}, 0 \right )$};
+                % кривая F
+                \draw [dashed] ( 0.8, 0 ) to [out=100,in=-20] ( \fu, \su ) to [out=160,in=0] ( 0, 0.43 );
+
+                % область
+                \path [fill=gray] ( 0, 0.55 ) to [out=-20,in=150] ( \fu, \su ) to [out=160,in=0] ( 0, 0.43 );
+
+                % искомая точка
+                \draw [fill] ( \fu, \su ) circle [radius=0.015];
+                \draw ( \fu, \su ) -- ( 0.5, 0.5 ) node [right] at ( 0.5, 0.5 ) {$(u_1^*, u_2^*)$};
+
+                % итерации
+                \draw [->] ( 0.6, 0 ) -- ( 0.6, 0.27 ) node [above right] ( 0.6, 0.27 ) {$\left ( u_1^{(0)}, u_2^{(1)} \right )$};
+                \draw [->] ( 0.6, 0.27 ) -- ( 0.47, 0.27 ) node [below left] ( 0.47, 0.27 ) {$\left ( u_1^{(1)}, u_2^{(1)} \right )$};
+                \draw [->] ( 0.47, 0.27 ) -- ( 0.47, 0.34 );
+                \draw [->] ( 0.47, 0.34 ) -- ( 0.39, 0.34 );
+            \end{tikzpicture}
+            \caption{Есть пересечение кривых вида I и решение}
+        \end{subfigure}
+
+        \hfill
+
+        \begin{subfigure}{0.3\textwidth}
+            \begin{tikzpicture}[scale=6]
+                % оси
+                \draw [->] ( -0.1, 0 ) -- ( 1, 0 ) node [below] at ( 1, 0 ) {$u_1$};
+                \draw [->] ( 0, -0.1 ) -- ( 0, 1 ) node [left] at ( 0, 1 ) {$u_2$};
+                \node [below left ] ( 0, 0 ) {$0$};
+
+                % координаты первой точки пересечения
+                \def \fu { 0.55 };
+                \def \su { 0.4 };
+
+                % промежуточная точка
+                \def \fv { 0.5 };
+                \def \sv { 0.55 };
+
+                % координаты второй точки пересечения
+                \def \ft { 0.3 };
+                \def \st { 0.6 };
+
+                % кривая D
+                \draw ( 0.6, 0 ) to [out=95,in=-80] ( \fu, \su ) to [out=100,in=-30] ( \fv, \sv ) to [out=150,in=-10] ( \ft, \st ) to [out=170,in=0] ( 0, 0.62 ) node [below] at ( 0.6, 0 ) {$\left ( u_{1,D}, 0 \right )$};
+                % кривая F
+                \draw [dashed] ( 0.8, 0 ) to [out=110,in=-50] ( \fu, \su ) to [out=130,in=-30] ( \ft, \st ) to [out=150,in=-10] ( 0, 0.75 );
+
+                % область
+                \path [fill=gray] ( \ft, \st ) to [out=-10,in=150] ( \fv, \sv ) to [out=-30,in=100] ( \fu, \su ) to [out=130,in=-30] ( \ft, \st );
+
+                % искомая точка
+                \draw [fill] ( \fu, \su ) circle [radius=0.015];
+                \draw ( \fu, \su ) -- ( 0.7, 0.5 ) node [right] at ( 0.7, 0.55 ) {$(u_1^*, u_2^*)$};
+
+                % итерации
+                \draw [->] ( 0.6, 0 ) -- ( 0.6, 0.34 ) node [right] ( 0.6, 0.27 ) {$\left ( u_1^{(0)}, u_2^{(1)} \right )$};
+                \draw [->] ( 0.6, 0.34 ) -- ( 0.56, 0.34 ) node [left] ( 0.47, 0.27 ) {$\left ( u_1^{(1)}, u_2^{(1)} \right )$};
+            \end{tikzpicture}
+            \caption{Есть пересечение кривых вида II и решение}
+        \end{subfigure}
+
+        \caption{Итерационный поиск решения: 1 --- $D (u_1, u_2) = D^*$, 2 --- $F (u_1, u_2) = F^*$}
+        \label{figure:two_state_detection:iterations}
+    \end{figure}
+
+
+    \section{Последовательное обнаружение}
+
+    Пусть имеется возможность последовательно излучать и принимать сигналы $y_i(t)$. По каждому принятому сигналу вычисляется модульное значение корреляционного интеграла
+    $Z_i$. Величина $Z_i$ имеет распределение Релея $p_{n,Z}(z)$ \eqref{noise:correlation_integral_pdf}, если принятый сигнал содержит только шум $y_i(t) = n(t)$, и
+    обобщенное распределение Релея $p_{sn,Z}(z)$ \eqref{noise_and_signal:correlation_integral_pdf}, если принятый сигнал содержит смесь шума и отраженного сигнала
+    $y_i(t) = n(t) + x(t|\beta_1, \beta_2)$:
+    \begin{gather*}
+        p_{n,Z}(z)
+        = \frac{z}{\nu_0^2} e^{- \frac{z^2}{2 \nu_0^2}}
+        = \frac{1}{\nu_0} \frac{z}{\nu_0} e^{- \frac{\left ( \frac{z}{\nu_0} \right )^2}{2}} , \\
+        %
+        p_{sn,Z}(z)
+        = \frac{z}{\nu_0^2} e^{- \frac{z^2 + E^2}{2 \nu_0^2}} I_0 \left ( \frac{z E}{\nu_0^2} \right )
+        = \frac{1}{\nu_0} \frac{z}{\nu_0} e^{- \frac{\left ( \frac{z}{\nu_0} \right)^2 + \left ( \frac{E}{\nu_0} \right)^2}{2}} I_0 \left ( \frac{z}{\nu_0} \frac{E}{\nu_0} \right ).
+    \end{gather*}
+    Нормированные величины $U_i = \frac{Z_i}{\nu_0}$ имеют соответственно плотности вероятности:
+    \begin{gather*}
+        p_{n,U}(u) = u e^{- \frac{u^2}{2}} , \\
+        p_{sn,U}(u) = u e^{- \frac{u^2 + q^2}{2}} I_0 \left ( u q \right ) .
+    \end{gather*}
+
+    В последовательной процедуре различения гипотез на основе независимых величин $U_i$ отношение правдоподобия $L(U_1, \dots, U_k)$ имеет вид:
+    \[
+        L (U_1, \dots, U_k)
+        = \frac{p_{sn,U}(U_1) \cdot ... \cdot p_{sn,U}(U_k)}{p_{n,U}(U_1) \cdot ... \cdot p_{n,U}(U_k)}
+        = \prod_{i=1}^k \frac{p_{sn,U}(U_i)}{p_{n,U}(U_i)} .
+    \]
+
+    Двойное неравенство последовательного критерия с порогами $A$ и $B$:
+    \begin{gather*}
+        A < L (U_1, \dots, U_k) < B , \\
+        A < \prod_{i=1}^k \frac{p_{sn,U}(U_i)}{p_{n,U}(U_i)} < B , \\
+        \ln A < \sum_{i=1}^k \ln \left ( \frac{p_{sn,U}(U_i)}{p_{n,U}(U_i)} \right ) < \ln B ,
+    \end{gather*}
+    где величина одного слагаемого
+    \begin{multline*}
+        \zeta
+        = \ln \left ( \frac{p_{sn,U}(\xi)}{p_{n,U}(\xi)} \right )
+        = \ln \left ( \frac{\xi e^{- \frac{\xi^2 + q^2}{2}} I_0 \left ( \xi q \right )}{\xi e^{- \frac{\xi^2}{2}}} \right )
+        = \ln \left ( e^{- \frac{\xi^2 + q^2}{2} + \frac{\xi^2}{2}} I_0 \left ( \xi q \right ) \right ) = \\
+        %
+        = \ln \left ( e^{- \frac{q^2}{2}} I_0 \left ( \xi q \right ) \right )
+        = - \frac{q^2}{2} + \ln \left ( I_0 \left ( \xi q \right ) \right ) .
+    \end{multline*}
+
+    Среднее значение одного слагаемого:
+    \[
+        \expectation{\zeta \left | H_j \right .} = - \frac{q^2}{2} + \expectation{\ln I_0 \left ( \xi q \right )} .
+    \]
+    При $H_0$ величина $\xi$ распределена с плотностью $p_{n,U}(u)$, при $H_1$ --- с плотностью $p_{sn,U}(u)$.
+
+    Пусть $\alpha$ и $\beta$ обозначают вероятности ошибок первого и второго родов. Они связаны с условными вероятностями правильного $D^*$ и ложного $F^*$ обнаружений
+    равенствами:
+    \begin{gather*}
+        \alpha = F^* , \\
+        \beta = 1 - D^* .
+    \end{gather*}
+    Пороги $A$ и $B$ определяются через вероятности ошибок:
+    \[
+        A \approx \frac{\beta}{1 - \alpha} , \; B \approx \frac{1 - \beta}{\alpha} .
+    \]
+
+    Пусть $\nu$ обозначает количество величин $U_i$ до принятия одной из гипотез, тогда в соответствии с тождеством Вальда о математическом ожидании суммы:
+    \begin{gather*}
+        \expectation{\nu \left | H_0 \right .}
+        = \frac{\ln A \cdot \left ( 1 - \alpha \right ) + \ln B \cdot \alpha}{\expectation{\zeta \left | H_0 \right .}} , \\
+        %
+        \expectation{\nu \left | H_1 \right .}
+        = \frac{\ln A \cdot \beta + \ln B \cdot \left ( 1 - \beta \right )}{\expectation{\zeta \left | H_1 \right .}} .
+    \end{gather*}
+
+
+    \section{Приложение 1. Обобщенное распределение Релея}
+
+    Пусть $\xi_1 \sim \mathcal{N} \left ( \mu_1, \sigma^2 \right )$ и $\xi_2 \sim \mathcal{N} \left ( \mu_2, \sigma^2 \right )$ независимые случайные величины.
+    Рассмотрим распределение величины $\eta = \sqrt{\xi_1^2 + \xi_2^2}$:
+    \[
+        F_{\eta}(y)
+        = \probability{\eta < y}
+        = \probability{\sqrt{\xi_1^2 + \xi_2^2} < y}
+        = \left \{
+        \begin{array}{ll}
+            0,                                     & y < 0   \\
+            \probability{\xi_1^2 + \xi_2^2 < y^2}, & 0 \ge y
+        \end{array}
+        \right .
+    \]
+    Вычислим вероятность:
+    \begin{multline*}
+        \probability{\xi_1^2 + \xi_2^2 < y^2}
+        = \iint \limits_{x_1^2 + x_2^2 < y^2} p_{\xi_1, \xi_2} (x_1, x_2) dx_1 dx_2 = \\
+        %
+        = \iint \limits_{x_1^2 + x_2^2 < y^2} \frac{1}{\sqrt{2 \pi} \sigma} e^{- \frac{(x_1 - \mu_1)^2}{2 \sigma^2}} \frac{1}{\sqrt{2 \pi} \sigma} e^{- \frac{(x_2 - \mu_2)^2}{2 \sigma^2}} dx_1 dx_2 = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} \iint \limits_{x_1^2 + x_2^2 < y^2} e^{- \frac{(x_1 - \mu_1)^2}{2 \sigma^2} - \frac{(x_2 - \mu_2)^2}{2 \sigma^2}} dx_1 dx_2
+        = \frac{1}{2 \pi \sigma^2} \iint \limits_{x_1^2 + x_2^2 < y^2} e^{- \frac{x_1^2 - 2 x_1 \mu_1 + \mu_1^2 + x_2^2 - 2 x_2 \mu_2 + \mu_2^2}{2 \sigma^2}} dx_1 dx_2 = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} \iint \limits_{x_1^2 + x_2^2 < y^2} e^{- \frac{x_1^2 + x_2^2 - 2 x_1 \mu_1 - 2 x_2 \mu_2 + \mu_1^2 + \mu_2^2}{2 \sigma^2}} dx_1 dx_2 = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} e^{- \frac{\mu_1^2 + \mu_2^2}{2 \sigma^2}} \iint \limits_{x_1^2 + x_2^2 < y^2} e^{- \frac{x_1^2 + x_2^2}{2 \sigma^2}} e^{\frac{x_1 \mu_1 + x_2 \mu_2}{\sigma^2}} dx_1 dx_2 = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} e^{- \frac{\mu_1^2 + \mu_2^2}{2 \sigma^2}} \int \limits_0^y \int \limits_0^{2 \pi} \rho e^{- \frac{\rho^2}{2 \sigma^2}} e^{\frac{\rho \cos \varphi \mu_1 + \rho \sin \varphi \mu_2}{\sigma^2}} d \varphi d \rho = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} e^{- \frac{\mu_1^2 + \mu_2^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} \int \limits_0^{2 \pi} e^{\frac{\rho \sqrt{\mu_1^2 + \mu_2^2} \left ( \cos \varphi \frac{\mu_1}{\sqrt{\mu_1^2 + \mu_2^2}} + \sin \varphi \frac{\mu_2}{\mu_1^2 + \mu_2^2} \right ) }{\sigma^2}} d \varphi d \rho = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} \int \limits_0^{2 \pi} e^{\frac{\rho \mu \left ( \cos \varphi \frac{\mu_1}{\mu} + \sin \varphi \frac{\mu_2}{\mu} \right ) }{\sigma^2}} d \varphi d \rho = \\
+        %
+        = \frac{1}{2 \pi \sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} \int \limits_0^{2 \pi} e^{\frac{\rho \mu}{\sigma^2} \cos ( \varphi - \alpha )} d \varphi d \rho = \\
+        %
+        = \frac{1}{\sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} \frac{1}{2 \pi} \int \limits_0^{2 \pi} e^{\frac{\rho \mu}{\sigma^2} \cos ( \varphi - \alpha )} d \varphi d \rho = \\
+        %
+        = \frac{1}{\sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} I_0 \left ( \frac{\rho \mu}{\sigma^2} \right ) d \rho ,
+    \end{multline*}
+    где $\mu = \sqrt{\mu_1^2 + \mu_2^2}$ и $\alpha$ --- угол, такой что $\cos \alpha = \frac{\mu_1}{\mu}$ и $\sin \alpha = \frac{\mu_2}{\mu}$.
+
+    Таким образом, функция распределения величины $\eta$:
+    \[
+        F_{\eta}(y)
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                                                                             & y < 0   \\
+            \frac{1}{\sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} \int \limits_0^y \rho e^{- \frac{\rho^2}{2 \sigma^2}} I_0 \left ( \frac{\rho \mu}{\sigma^2} \right ) d \rho, & 0 \ge y
+        \end{array}
+        \right .
+        ,
+    \]
+    а плотность вероятности:
+    \[
+        p_{\eta}(y)
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                                             & y < 0   \\
+            \frac{1}{\sigma^2} e^{- \frac{\mu^2}{2 \sigma^2}} y e^{- \frac{y^2}{2 \sigma^2}} I_0 \left ( \frac{y \mu}{\sigma^2} \right ) , & 0 \ge y
+        \end{array}
+        \right .
+        %
+        = \left \{
+        \begin{array}{ll}
+            0,                                                                                                    & y < 0   \\
+            \frac{y}{\sigma^2} e^{- \frac{y^2 + \mu^2}{2 \sigma^2}} I_0 \left ( \frac{y \mu}{\sigma^2} \right ) , & 0 \ge y
+        \end{array}
+        \right .
+        .
+    \]
+
+
+    \section{Приложение 2. Модифицированные функции Бесселя}
+
+    Модифицированное уравнение Бесселя:
+    \[
+        z^2 \md{2}{z} \omega + z \fd{z} \omega - ( z^2 + \nu^2 ) \omega = 0 .
+    \]
+    Решением уравнения является модифицированная функция Бесселя первого рода:
+    \[
+        I_\nu(z) = \sum_{k=0}^{\infty} \frac{\left ( \frac{z}{2} \right )^{2k+\nu}}{k! \Gamma(k+\nu+1)} .
+    \]
+    Одно из интегральных представлений ($n \in \mathbb{Z}, Re(z) > 0$):
+    \[
+        I_\nu(z) = \frac{1}{\pi} \int \limits_0^{\pi} e^{z \cos t} \cos (nt) dt .
+    \]
+
+    \input{bibliography.tex}
+\end{document}
