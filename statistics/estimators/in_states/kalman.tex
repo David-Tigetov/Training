@@ -1,0 +1,407 @@
+\section{Фильтр Калмана}~\label{section:filtering:in_states:kalman}
+
+\subsection{Постановка задачи}
+
+Представим, что в процессе $\xi_k \in L_2^m$ каждая следующая величина $\xi_{k+1}$ связана с предыдущей величиной $\xi_k$ рекуррентным соотношением:
+\begin{equation} \label{equation:filtering:in_states:kalman:states}
+	\xi_{k+1} = F_k \xi_k + G_k u_k + v_k ,
+\end{equation}
+где
+\begin{enumerate}
+	\item $F_k$ --- известные вещественные матрицы размера $m \times m$,
+	\item $G_k$ --- известные вещественные матрицы размера $m \times r$,
+	\item $u_k$ --- известные вещественные векторы размера $r$, представляющие управляющие воздействия,
+	\item $v_k$ --- случайные величины из пространства $L_2^m$, представляющие случайные воздействия; величины $v_k$ попарно некоррелированны между собой,
+		некоррелированы с начальным состоянием $\xi_0$ и имеют нулевое математическое ожидание:
+		$$
+			\expectation{v_k} = 0 .
+		$$
+\end{enumerate}
+
+Для начального состояния $\xi_0$ известны:
+\begin{enumerate}
+	\item математическое ожидание $\expectation{\xi_0}$,
+	\item ковариация $P_{\xi_0, \xi_0} = \outerexpectation{\xi_0}{\xi_0}$.
+\end{enumerate}
+
+Величины $\xi_k$ не доступны наблюдению, а наблюдается последовательность случайных величин $\eta_k \in L_2^n$, в которой величины $\eta_k$ связаны с величинами $\xi_k$
+линейным равенством:
+\begin{equation} \label{equation:filtering:in_states:kalman:observations}
+	\eta_k = H_k \xi_k + w_k ,
+\end{equation}
+в котором
+\begin{enumerate}
+	\item $H_k$ --- известные вещественные матрицы размера $n \times m$,
+	\item $w_k$ --- случайные величины из пространства $L_2^n$, представляющие ошибки измерений; величины $w_k$ попарно некоррелированы между собой и некоррелированы
+		с величинами $\xi_0$ и $v_0$, \dots $v_k$, и имеют нулевое математическое ожидание:
+		$$
+			\expectation{w_{k+1}} = 0 .
+		$$
+\end{enumerate}
+
+Требуется по наблюдениям $\eta_1$, \dots, $\eta_{k+1}$ построить линейную несмещенную и оптимальную оценку состояния $\xi_{k+1}$.
+
+Согласно разделу \ref{section:filtering:in_states:process} такая оценка и ковариация её ошибки должны иметь вид равенств
+\eqref{equation:filtering:in_states:process:optimal_estimate} и \eqref{equation:filtering:in_states:process:optimal_error_covariance} и остается лишь вычислить
+необходимые оценки и ковариации.
+
+\subsection{Прогноз состояния}
+
+Прогноз состояния $\widehat{\xi}_{k+1,1|k}$ является линейной несмещенной и оптимальной оценкой состояния $\xi_{k+1}$ для момента времени $k+1$, построенная по
+наблюдениям $\eta_1$, \dots, $\eta_k$:
+\begin{equation} \label{equation:filtering:in_states:kalman:state_prediction}
+	\widehat{\xi}_{k+1, 1|k} = \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \centered{\eta_{1|k}} .
+\end{equation}
+С помощью равенств \eqref{equation:filtering:in_states:kalman:states_and_observations:state_expectation} и
+\eqref{equation:filtering:in_states:kalman:states_and_observations:state_and_observations_covariance} выражение для оценки $\widehat{\xi}_{k+1, 1|k}$ преобразуется к виду:
+\begin{multline} \label{equation:filtering:in_states:kalman:state_prediction:recursion}
+	\widehat{\xi}_{k+1, 1|k}
+		= F_k \expectation{\xi_k} + G_k u_k + F_k P_{\xi_k, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} = \\
+	%
+	= F_k \left ( \expectation{\xi_k} + P_{\xi_k, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right ) + G_k u_k
+		= F_k \widehat{\xi}_{k,1|k} + G_k u_k
+	,
+\end{multline}
+в котором $\widehat{\xi}_{k,1|k}$ --- линейная несмещенная и оптимальная оценка состояния $\xi_k$, построенная по наблюдениям $\eta_1$, \dots, $\eta_k$.
+
+В соответствии с уравнением состояний \eqref{equation:filtering:in_states:kalman:states} и равенством
+\eqref{equation:filtering:in_states:kalman:state_prediction:recursion} ошибка $\widetilde{\xi}_{k+1, 1|k}$ принимает вид:
+$$
+	\widetilde{\xi}_{k+1,1|k}
+		= \xi_{k+1} - \widehat{\xi}_{k+1,1|k}
+		= F_k \xi_k + G_k u_k + v_k - F_k \widehat{\xi}_{k,1|k} - G_k u_k
+		= F_k \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) + v_k
+	.
+$$
+В силу несмещенности оценки $\widehat{\xi}_{k,1|k}$:
+\begin{equation} \label{equation:filtering:in_states:kalman:state_prediction:unbiasedness}
+	\expectation{\widetilde{\xi}_{k+1,1|k}}
+		= F_k \left ( \expectation{\xi_k} - \expectation{\widehat{\xi}_{k,1|k}} \right ) + \expectation{v_k}
+		= F_k \left ( \expectation{\xi_k} - \expectation{\xi_k} \right )
+		= 0
+	,
+\end{equation}
+поскольку величины $v_k$ имеют нулевое математическое ожидание, поэтому ковариация ошибки:
+\begin{multline*}
+	P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+		= \outerexpectation{\widetilde{\xi}_{k+1,1|k}}{\widetilde{\xi}_{k+1,1|k}} = \\
+	%
+	= \expectation{ \left ( F_k \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) + v_k \right ) \left ( F_k \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) + v_k \right )^T } = \\
+	%
+	\shoveleft{
+		= F_k \expectation{ \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) \left ( \xi_k - \widehat{\xi}_{k,1|k} \right )^T } F_k^T
+			+ F_k \expectation{ \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) v_k^T } +
+	} \\
+	\shoveright{
+		+ \expectation{ v_k \left ( \xi_k - \widehat{\xi}_{k,1|k} \right )^T } F_k^T
+			+ \expectation{ v_k v_k^T } =
+	} \\
+	%
+	= F_k \expectation{ \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) \left ( \xi_k - \widehat{\xi}_{k,1|k} \right )^T } F_k^T + \expectation{ v_k v_k^T }
+\end{multline*}
+где
+\begin{gather*}
+	\expectation{ \left ( \xi_k - \widehat{\xi}_{k,1|k} \right ) v_k^T } = 0 , \\
+	\expectation{ v_k \left ( \xi_k - \widehat{\xi}_{k,1|k} \right )^T } = 0 ,
+\end{gather*}
+поскольку величина $\xi_k$ зависит только от величин $\xi_0$ и $v_0$, \dots, $v_{k-1}$, которые некоррелированы с $v_k$ по условию задачи, а оценка
+$\widehat{\xi}_{k,1|k}$ зависит от величин $\xi_0$, $v_0$, \dots, $v_{k-1}$ и $w_1$, \dots, $w_k$, которые также некоррелированы с $v_k$ по условию задачи. Таким образом,
+\begin{equation} \label{equation:filtering:in_states:kalman:state_prediction:error_covariance_recursion}
+	P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} = F_k P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} F_k^T + P_{v_k, v_k} ,
+\end{equation}
+где $P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}$ --- ковариация ошибки оценки $\widehat{\xi}_{k,1|k}$.
+
+\subsection{Прогноз наблюдения}
+
+Прогноз наблюдения $\widehat{\eta}_{k+1,1|k}$ является линейной несмещенной и оптимальной оценкой наблюдения $\eta_{k+1}$, построенной по наблюдениям $\eta_1$, \dots, $\eta_k$:
+\begin{equation} \label{equation:filtering:in_states:kalman:observation_prediction}
+	\widehat{\eta}_{k+1, 1|k} = \expectation{\eta_{k+1}} + P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \centered{\eta_{1|k}} .
+\end{equation}
+Согласно выражению центрированного наблюдения \eqref{equation:filtering:in_states:kalman:states_and_observations:centered_observation}:
+\begin{multline*}
+	P_{\eta_{k+1}, \eta_{1|k}}
+		= \outerexpectation{\eta_{k+1}}{\eta_{1|k}} = \\
+	%
+	= \expectation{\left ( H_{k+1} \left ( \xi_{k+1} - \expectation{\xi_{k+1}} \right ) + w_{k+1} \right ) \centered{\eta_{1|k}}^T} = \\
+	%
+	= H_{k+1} \outerexpectation{\xi_{k+1}}{\eta_{1|k}} + \expectation{w_{k+1} \centered{\eta_{1|k}}^T} = \\
+	%
+	= H_{k+1} P_{\xi_{k+1}, \eta_{1|k}}
+	,
+\end{multline*}
+поскольку величины объединенного вектора $\eta_{1|k}$ зависят только от величин $\xi_0$, $v_0$, \dots, $v_k$ и $w_1$, \dots, $w_k$, с которыми величина $w_{k+1}$
+некоррелирована по условию задачи.
+
+С учетом равенства \eqref{equation:filtering:in_states:kalman:states_and_observations:observation_expectation} выражение
+\eqref{equation:filtering:in_states:kalman:observation_prediction} для оценки $\widehat{\eta}_{k+1,1|k}$ принимает вид:
+\begin{multline} \label{equation:filtering:in_states:kalman:observation_prediction:recursion}
+	\widehat{\eta}_{k+1, 1|k}
+		= H_{k+1} \expectation{\xi_{k+1}} + H_{k+1} P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \centered{\eta_{1|k}} = \\
+	%
+	= H_{k+1} \left ( \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right )
+		= H_{k+1} \widehat{\xi}_{k+1,1|k}
+	,
+\end{multline}
+где $\widehat{\xi}_{k+1,1|k}$ --- прогноз состояния \eqref{equation:filtering:in_states:kalman:state_prediction}.
+
+Теперь ошибке $\widetilde{\eta}_{k+1,1|k}$ в соответствии c уравнением наблюдения \eqref{equation:filtering:in_states:kalman:observations} и полученным выражением оценки
+\eqref{equation:filtering:in_states:kalman:observation_prediction:recursion} можно придать вид:
+\begin{multline} \label{equation:filtering:in_states:kalman:observation_prediction:error}
+	\widetilde{\eta}_{k+1,1|k}
+		= \eta_{k+1} - \widehat{\eta}_{k+1,1|k}
+		= H_{k+1} \xi_{k+1} + w_{k+1} - H_{k+1} \widehat{\xi}_{k+1,1|k} = \\
+	%
+	= H_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) + w_{k+1}
+	,
+\end{multline}
+причем в силу несмещенности оценки $\widehat{\eta}_{k+1,1|k}$:
+\begin{equation} \label{equation:filtering:in_states:kalman:observation_prediction:unbiasedness}
+	\expectation{\widetilde{\eta}_{k+1,1|k}}
+		= \expectation{\eta_{k+1}} - \expectation{\widehat{\eta}_{k+1,1|k}}
+		= \expectation{\eta_{k+1}} - \expectation{\eta_{k+1}}
+		= 0
+	,
+\end{equation}
+и ковариация ошибки:
+\begin{multline*}
+	P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}
+		= \outerexpectation{\widetilde{\eta}_{k+1, 1|k}}{\widetilde{\eta}_{k+1, 1|k}} = \\
+	%
+	= \expectation{ \left ( H_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) + w_{k+1} \right ) \left ( H_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) + w_{k+1} \right )^T} = \\
+	%
+	\shoveleft{
+		= H_{k+1} \expectation{ \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right )^T } H_{k+1}
+		+ H_{k+1} \expectation{ \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) w_{k+1}^T } +
+	} \\
+	\shoveright{
+		+ \expectation{ w_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right )^T } H_{k+1}^T +
+		\expectation{ w_{k+1}^T w_{k+1} } =
+	} \\
+	%
+	= H_{k+1} \expectation{\left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right )^T } H_{k+1}^T
+		+ \expectation{ w_{k+1}^T w_{k+1} }
+	,
+\end{multline*}
+где
+\begin{gather*}
+	\expectation{ \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) w_{k+1}^T } = 0 , \\
+	\expectation{ w_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right )^T } = 0 ,
+\end{gather*}
+поскольку величины $\xi_{k+1}$ и $w_{k+1}$ некоррелированы по условию задачи, а оценка $\widehat{\xi}_{k+1,1|k}$ зависит только от величин $\xi_0$, $v_0$, \dots, $v_{k-1}$
+и $w_1$, \dots, $w_{k}$, которые некоррелированы с $w_{k+1}$ по условию задачи. Таким образом,
+\begin{equation} \label{equation:filtering:in_states:kalman:observation_prediction:error_covariance_recursion}
+	P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}} = H_{k+1} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} H_{k+1}^T + P_{w_{k+1}, w_{k+1}}
+	.
+\end{equation}
+где $P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}$ --- ковариация \eqref{equation:filtering:in_states:kalman:state_prediction:error_covariance_recursion}
+ошибки оценки $\widehat{\xi}_{k+1,1|k}$.
+
+\subsection{Ковариация с ошибкой прогноза наблюдения}
+
+При вычислении ковариации
+$$
+	P_{\xi_{k+1}, \widetilde{\eta}_{k+1, 1|k}}
+		= \expectation{\centered{\xi_{k+1}} \centered{\widetilde{\eta}_{k+1, 1|k}}^T}
+$$
+первый множитель под знаком математического ожидания представим с помощью ошибки прогноза состояния:
+\begin{gather*}
+	\widetilde{\xi}_{k+1,1|k} = \xi_{k+1} - \widehat{\xi}_{k+1,1|k} , \\
+	\xi_{k+1} = \widehat{\xi}_{k+1,1|k} + \widetilde{\xi}_{k+1,1|k} ,
+\end{gather*}
+в результате получим выражение:
+\begin{multline*}
+	\xi_{k+1} - \expectation{\xi_{k+1}}
+	= \centered{\widehat{\xi}_{k+1,1|k} + \widetilde{\xi}_{k+1,1|k}} = \\
+	%
+	= \centered{\widehat{\xi}_{k+1,1|k}} + \centered{\widetilde{\xi}_{k+1,1|k}}
+	= \centered{\widehat{\xi}_{k+1,1|k}} + \widetilde{\xi}_{k+1,1|k} ,
+\end{multline*}
+где последнее равенство получено в силу несмещенности \eqref{equation:filtering:in_states:kalman:state_prediction:unbiasedness}.
+
+Второй множитель под знаком математического ожидания преобразуем в силу несмещенности \eqref{equation:filtering:in_states:kalman:observation_prediction:unbiasedness}
+и представления ошибки \eqref{equation:filtering:in_states:kalman:observation_prediction:error}:
+$$
+	\widetilde{\eta}_{k+1, 1|k} - \expectation{\widetilde{\eta}_{k+1, 1|k}}
+		= \widetilde{\eta}_{k+1, 1|k}
+		= H_{k+1} \left ( \xi_{k+1} - \widehat{\xi}_{k+1,1|k} \right ) + w_{k+1}
+		= H_{k+1} \widetilde{\xi}_{k+1,1|k} + w_{k+1} .
+$$
+Используя полученные выражения вычислим ковариацию:
+\begin{multline*}
+	P_{\xi_{k+1}, \widetilde{\eta}_{k+1, 1|k}}
+		= \expectation{\left ( \centered{\widehat{\xi}_{k+1,1|k}} + \widetilde{\xi}_{k+1,1|k} \right ) \left ( H_{k+1} \widetilde{\xi}_{k+1,1|k} + w_{k+1} \right )^T } = \\
+	%
+	= \expectation{\centered{\widehat{\xi}_{k+1,1|k}} \left ( H_{k+1} \widetilde{\xi}_{k+1,1|k} + w_{k+1} \right )^T }
+		+ \expectation{\widetilde{\xi}_{k+1,1|k} \left ( H_{k+1} \widetilde{\xi}_{k+1,1|k} + w_{k+1} \right )^T } = \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\widehat{\xi}_{k+1,1|k}} \widetilde{\xi}_{k+1,1|k}^T} H_{k+1}^T
+		+ \expectation{\centered{\widehat{\xi}_{k+1,1|k}} w_{k+1}^T } +
+	} \\
+	+ \expectation{\widetilde{\xi}_{k+1,1|k} \widetilde{\xi}_{k+1,1|k}^T } H_{k+1}^T
+	+ \expectation{\widetilde{\xi}_{k+1,1|k} w_{k+1}^T } .
+\end{multline*}
+Заметим, что
+$$
+	\expectation{\centered{\widehat{\xi}_{k+1,1|k}} \widetilde{\xi}_{k+1,1|k}^T} = 0
+$$
+в силу свойства ортогональности оптимальной оценки и её ошибки \eqref{equation:filtering:in_states:variable:error_and_estimate_orthogonality}, и
+\begin{gather*}
+	\expectation{\centered{\widehat{\xi}_{k+1,1|k}} w_{k+1}^T } = 0 , \\
+	\expectation{\widetilde{\xi}_{k+1,1|k} w_{k+1}^T } = 0 ,
+\end{gather*}
+поскольку величины $\widehat{\xi}_{k+1,1|k}$ и $\widetilde{\xi}_{k+1,1|k}$ зависят от величин $\xi_0$, $v_0$, \dots, $v_k$ и $w_1$, \dots, $w_k$, а величина
+$w_{k+1}$ с ними некоррелирована по условию задачи. Таким образом,
+\begin{multline} \label{equation:filtering:in_states:kalman:state_and_innovation:covariance}
+	P_{\xi_{k+1}, \widetilde{\eta}_{k+1, 1|k}}
+		= \expectation{\widetilde{\xi}_{k+1,1|k} \widetilde{\xi}_{k+1,1|k}^T } H_{k+1}^T = \\
+	%
+	= \expectation{\centered{\widetilde{\xi}_{k+1,1|k}} \centered{\widetilde{\xi}_{k+1,1|k}}^T } H_{k+1}^T = \\
+	%
+	= P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} H_{k+1}^T ,
+\end{multline}
+в силу несмещенности \eqref{equation:filtering:in_states:kalman:state_prediction:unbiasedness}.
+
+\subsection{Состояния и наблюдения}
+
+Из уравнения состоянии \eqref{equation:filtering:in_states:kalman:states}:
+$$
+	\xi_{k+1} = F_k \xi_k + G_k u_k + v_k
+$$
+математическое ожидание
+\begin{equation} \label{equation:filtering:in_states:kalman:states_and_observations:state_expectation}
+	\expectation{\xi_{k+1}}
+		= F_k \expectation{\xi_k} + G_k u_k + \expectation{v_k}
+		= F_k \expectation{\xi_k} + G_k u_k
+	,
+\end{equation}
+поскольку величины $v_k$ имеют нулевое математическое ожидание по условию задачи, центрированное состояние:
+$$
+	\xi_{k+1} - \expectation{\xi_{k+1}} = F_k \centered{\xi_k} + v_k .
+$$
+и ковариация:
+\begin{multline} \label{equation:filtering:in_states:kalman:states_and_observations:state_and_observations_covariance}
+	P_{\xi_{k+1}, \eta_{1|k}}
+		= \outerexpectation{\xi_{k+1}}{\eta_{1|k}} = \\
+	%
+	= \expectation{  \left ( F_k \centered{\xi_k} + v_k \right ) \centered{\eta_{1|k}}^T } = \\
+	%
+	= F_k \outerexpectation{\xi_k}{\eta_{1|k}} + \expectation{ v_k \centered{\eta_{1|k}}^T }
+		= F_k P_{\xi_{k}, \eta_{1|k}}
+	,
+\end{multline}
+где
+$$
+	\expectation{ v_k \centered{\eta_{1|k}}^T } = 0 ,
+$$
+поскольку величины объединенного вектора $\eta_{1|k}$ зависят только от $\xi_0$, $v_0$, \dots, $v_{k-1}$ и $w_1$, \dots, $w_k$, которые некоррелированы с $v_k$
+по условию задачи.
+
+Аналогично, в соответствии с уравнением наблюдения \eqref{equation:filtering:in_states:kalman:observations}:
+$$
+	\eta_{k+1} = H_{k+1} \xi_{k+1} + w_{k+1} ,
+$$
+математическое ожидание
+\begin{equation} \label{equation:filtering:in_states:kalman:states_and_observations:observation_expectation}
+	\expectation{\eta_{k+1}}
+		= H_{k+1} \expectation{\xi_{k+1}} + \expectation{w_{k+1}}
+		= H_{k+1} \expectation{\xi_{k+1}}
+	,
+\end{equation}
+поскольку величины $w_{k+1}$ имеют нулевое математическое ожидание согласно условию задачи, и центрированное наблюдение:
+\begin{equation} \label{equation:filtering:in_states:kalman:states_and_observations:centered_observation}
+	\eta_{k+1} - \expectation{\eta_{k+1}} = H_{k+1} \centered{\xi_{k+1}} + w_{k+1} ,
+\end{equation}
+тогда ковариация:
+\begin{multline} \label{equation:filtering:in_states:kalman:states_and_observations:state_and_observation_covariance}
+	P_{\xi_{k+1}, \eta_{k+1}}
+		= \outerexpectation{\xi_{k+1}}{\eta_{k+1}} = \\
+	%
+	= \expectation{\centered{\xi_{k+1}} \left ( H_{k+1} \centered{\xi_{k+1}} + w_{k+1} \right )^T} = \\
+	%
+	= \outerexpectation{\xi_{k+1}}{\xi_{k+1}} H_{k+1}^T
+		+ \expectation{\centered{\xi_{k+1}} w_{k+1}^T} = \\
+	%
+	= P_{\xi_{k+1}, \xi_{k+1}} H_{k+1}^T
+\end{multline}
+поскольку величины $\xi_{k+1}$ и $w_{k+1}$ некоррелированны по условию задачи:
+$$
+	\expectation{\centered{\xi_{k+1}} w_{k+1}^T} = 0 .
+$$
+В силу свойств ковариации:
+\begin{equation} \label{equation:filtering:in_states:kalman:states_and_observations:observation_and_state_covariance}
+	P_{\eta_{k+1}, \xi_{k+1}}
+		= P_{\xi_{k+1}, \eta_{k+1}}^T
+		= H_{k+1} P_{\xi_{k+1}, \xi_{k+1}}^T
+		= H_{k+1} P_{\xi_{k+1}, \xi_{k+1}}
+	.
+\end{equation}
+
+Ковариация $P_{\eta_{1|k}, \eta_{k+1}}$ в соответсвии с равенством \eqref{equation:filtering:in_states:kalman:states_and_observations:centered_observation} преобразуется к виду:
+\begin{multline} \label{equation:filtering:in_states:kalman:states_and_observations:observations_and_observation_covariance}
+	P_{\eta_{1|k}, \eta_{k+1}}
+		= \outerexpectation{\eta_{1|k}}{\eta_{k+1}} = \\
+	%
+	= \expectation{\centered{\eta_{1|k}} \left ( H_{k+1} \centered{\xi_{k+1}} + w_{k+1} \right )^T} = \\
+	%
+	= \outerexpectation{\eta_{1|k}}{\xi_{k+1}} H_{k+1}^T
+		+ \expectation{\centered{\eta_{1|k}} w_{k+1}^T} = \\
+	%
+	= P_{\eta_{1|k}, \xi_{k+1}} H_{k+1}^T
+	,
+\end{multline}
+поскольку величины $\eta_1$, \dots, $\eta_k$ объединенного вектора $\eta_{1|k}$ зависят только от $\xi_0$ и $v_0$, \dots, $v_{k-1}$, а величина $w_{k+1}$ с ними
+некоррелирована по условию задачи:
+$$
+	\expectation{\centered{\eta_{1|k}} w_{k+1}^T} = 0.
+$$
+В силу свойств ковариации:
+\begin{equation} \label{equation:filtering:in_states:kalman:states_and_observations:observation_and_observations_covariance}
+	P_{\eta_{k+1}, \eta_{1|k}}
+		= P_{\eta_{1|k}, \eta_{k+1}}^T
+		= H_{k+1} P_{\eta_{1|k}, \xi_{k+1}}^T
+		= H_{k+1} P_{\eta_{1|k}, \xi_{k+1}}
+	.
+\end{equation}
+
+\subsection{Фильтр}~\label{subsection:filtering:in_states:kalman:recursion}
+
+Выражения для линейной несмещенной и оптимальной оценки \eqref{equation:filtering:in_states:process:optimal_estimate} и ковариаци её ошибки
+\eqref{equation:filtering:in_states:process:optimal_error_covariance} в соотвествии с полученными равенствами
+\eqref{equation:filtering:in_states:kalman:state_prediction:recursion},
+\eqref{equation:filtering:in_states:kalman:state_prediction:error_covariance_recursion},
+\eqref{equation:filtering:in_states:kalman:observation_prediction:recursion},
+\eqref{equation:filtering:in_states:kalman:observation_prediction:error_covariance_recursion},
+\eqref{equation:filtering:in_states:kalman:state_and_innovation:covariance}
+принимают вид:
+\begin{align*}
+	\widehat{\xi}_{k+1, 1|k+1}
+		& = \widehat{\xi}_{k+1, 1|k}
+			+ P_{\widetilde{\xi}_{k+1, 1|k}, \widetilde{\xi}_{k+1, 1|k}} H_{k+1}^T P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \widetilde{\eta}_{k+1,1|k} , \\
+	%
+	P_{\widetilde{\xi}_{k+1}, \widetilde{\xi}_{k+1}}
+		&= P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+			- P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} H_{k+1}^T P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} H_{k+1} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+\end{align*}
+где
+\begin{align*}
+	\widehat{\xi}_{k+1, 1|k}
+		& = F_k \widehat{\xi}_{k,1|k} + G_k u_k, \\
+	%
+	\widehat{\eta}_{k+1, 1|k}
+		& = H_{k+1} \widehat{\xi}_{k+1,1|k} , \\
+	%
+	\widetilde{\eta}_{k+1,1|k}
+		& = \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} , \\
+	%
+	P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+		& = F_k P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} F_k^T + P_{v_k, v_k} , \\
+	%
+	P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1}
+		& = \left ( H_{k+1} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} H_{k+1}^T + P_{w_{k+1}, w_{k+1}} \right )^{-1} .
+\end{align*}
+
+Легко видеть, что оценка $\widehat{\xi}_{k+1, 1|k+1}$ образована двумя слагаемыми: первое слагаемое $\widehat{\xi}_{k+1, 1|k}$ представляет собой прогноз состояния
+для момента времени $k+1$, а во втором слагаемом величина разность $\eta_{k+1} - \widehat{\eta}_{k+1, 1|k}$ представляет собой ошибку прогноза наблюдения для момента
+времени $k+1$, множитель слева от ошибки включает в себя ковариацию $P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}$, определяющую "точность"{}
+прогноза наблюдения, и ковариацию $P_{\widetilde{\xi}_{k+1, 1|k}, \widetilde{\xi}_{k+1, 1|k}}$, определяющую "точность"{} прогноза состояния.

@@ -1,0 +1,224 @@
+\chapter{Преобразование случайных величин}
+
+Пусть $\xi$ --- случайная величина, которая под действием функции $F(\cdot)$ преобразуется в случайную величину $\eta$:
+$$
+    \eta = F(\xi).
+$$
+Требуется определить первые два момента преобразованной величины $\eta$ --- математическое ожидание $\expectation{\eta}$ и ковариацию $P_{\eta,\eta}$:
+\begin{gather*}
+    \expectation{\eta} = \expectation{F(\xi)} , \\
+    P_{\eta,\eta} = \expectation{\left ( F(\xi) - \expectation{F(\xi)} \right ) \left ( F(\xi) - \expectation{F(\xi)} \right )^T}
+\end{gather*}
+по известному распределению или моментам величины $\xi$.
+
+В общем случае, когда $\xi$ --- случайная величина непрерывного типа и $F$ --- нелинейная функция, распределение преобразованной величины $\eta$ может иметь
+сложный вид и вычисление моментов по определению путем предварительного вычисления значений распределения величины $\eta$ становится сложным.
+
+Тем не менее имеются, более простые способы приближенного вычисления требуемых моментов величины $\eta$.
+
+\section{Приближение случайных величин} \label{section:filtering:conversion:unscented}
+
+Заметим, что если $\xi$ является дискретной величиной, принимающей значения $x_1$, \dots, $x_k$ с вероятностями $p_1$, \dots, $p_k$, то величина $\eta$
+так же является дискретной и принимает значения $F(x_1)$, \dots, $F(x_k)$ с теми же вероятностями $p_1$, \dots, $p_k$, поэтому задача вычисления моментов
+существенно упрощается:
+\begin{gather*}
+    \expectation{\eta} = \sum_{i=1}^k F(x_i) p_i , \\
+    P_{\eta,\eta} = \sum_{i=1}^k \left ( F(x_i) - \expectation{\eta} \right ) \left ( F(x_i) - \expectation{\eta} \right )^T p_i .
+\end{gather*}
+
+Если же $\xi$ является величиной непрерывного типа, то для приближенного вычисления моментов величины $\eta$ можно величину $\xi$ заменить подходящей
+дискретной величиной $\zeta$ \cite{UKF,UT}, которая принимает значения $z_1$, \dots, $z_k$ с вероятностями $w_1$, \dots, $w_k$:
+\begin{gather*}
+    \expectation{\eta} \approx \sum_{i=1}^k F(z_i) w_i , \\
+    P_{\eta,\eta} \approx \sum_{i=1}^k \left ( F(z_i) - \expectation{\eta} \right ) \left ( F(z_i) - \expectation{\eta} \right )^T w_i .
+\end{gather*}
+
+Остается лишь подходящим образом подобрать значения $z_i$ и вероятности $w_i$ так, чтобы величины $\xi$ и $\zeta$ оказались близкими, в частности можно потребовать
+совпадения первых двух моментов величин $\xi$ и $\zeta$:
+\begin{gather*}
+    \expectation{\xi} = \expectation{\zeta}, \\
+    P_{\xi, \xi} = P_{\zeta, \zeta},
+\end{gather*}
+которые в терминах значений $z_i$ и вероятностей $w_i$ принимают вид:
+\begin{gather}
+    \expectation{\xi} = \sum_{i=1}^k z_i w_i = \expectation{\zeta},
+        \label{equation:filtering:conversion:unscented:expectation_equality} \\
+    P_{\xi,\xi} = \sum_{i=1}^k \left ( z_i - \expectation{\xi} \right ) \left ( z_i - \expectation{\xi} \right )^T w_i .
+        \label{equation:filtering:conversion:unscented:covariance_equality}
+\end{gather}
+Последнее равенство можно преобразовать к виду:
+$$
+    P_{\xi,\xi}
+        = \sum_{i=1}^k \left ( z_i - \expectation{\zeta} \right ) w_i \left ( z_i - \expectation{\zeta} \right )^T
+        = \sum_{i=1}^k \left ( z_i - \expectation{\zeta} \right ) \sqrt{w_i} \sqrt{w_i} \left ( z_i - \expectation{\zeta} \right )^T .
+$$
+Пусть матрица $V$ образована столбцами $v_i$:
+\begin{equation} \label{equation:filtering:conversion:unscented:square_root_vectors}
+    v_i = \left ( z_i - \expectation{\zeta} \right ) \sqrt{w_i} ,
+\end{equation}
+тогда
+$$
+    P_{\xi,\xi} = V V^T
+$$
+и стало быть $V$ необходимо является квадратным корнем ковариации $P_{\xi,\xi}$.
+
+Из равенства \eqref{equation:filtering:conversion:unscented:square_root_vectors} векторы $z_i$ имеют вид:
+$$
+    z_i = \expectation{\xi} + \frac{1}{\sqrt{w_i}} v_i .
+$$
+В таком наборе векторы $z_i$ геометрически могут располагаться "односторонне"{} и несимметрично в окрестности $\expectation{\xi}$, что, во-первых, может давать
+искаженное представление о действии функции $F$, и во-вторых, приводит к сложному виду условия \eqref{equation:filtering:conversion:unscented:expectation_equality}, поэтому
+более удачной является форма:
+$$
+    P_{\xi,\xi}
+        = \frac{1}{2} V V^T + \frac{1}{2} (-V) (-V)^T
+        = \left ( \frac{1}{\sqrt{2}} V \right ) \left ( \frac{1}{\sqrt{2}} V^T \right ) + \left ( - \frac{1}{\sqrt{2}} V \right ) \left ( - \frac{1}{\sqrt{2}} V \right )^T ,
+$$
+в которой каждый вектор $v_i$ порождает два вектора $z_{2i-1}$ и $z_{2i}$:
+\begin{align*}
+    z_{2i-1} & = \expectation{\xi} + \frac{1}{\sqrt{w_i}} \frac{1}{\sqrt{2}} v_i, \\
+    z_{2i} & = \expectation{\xi} -  \frac{1}{\sqrt{w_i}} \frac{1}{\sqrt{2}} v_i,
+\end{align*}
+которые "симметрично расположены"{} относительно $\expectation{\xi}$. Полученный набор векторов можно дополнить вектором $z_0$:
+$$
+    z_0 = \expectation{\xi} ,
+$$
+который, очевидно, никак не изменяет сумму в правой части \eqref{equation:filtering:conversion:unscented:covariance_equality}, и соответствующей ему вероятностью $w_0$.
+
+Теперь, подставляя все векторы $z_j$ и вероятности $w_j$ в условие \eqref{equation:filtering:conversion:unscented:expectation_equality}, получим уравнение для
+вероятностей:
+\begin{gather}
+    \expectation{\xi}
+        = z_0 w_0 + \sum_{i=1}^{k} ( z_{2i-1} + z_{2i} ) w_i
+        = \expectation{\xi} w_0 + \sum_{i=1}^{k} 2 \expectation{\xi} w_i
+        = \expectation{\xi}  w_0 + 2 \expectation{\xi} \sum_{i=1}^{k} w_i ,
+        \notag \\
+    %
+    1 = w_0 + 2 \sum_{i=1}^{k} w_i .
+        \label{equation:filtering:conversion:unscented:probability_equality}
+\end{gather}
+
+Полученное уравнение оставляет много свободы при выборе вероятностей $w_i$, которой можно распорядится, например, следующим простым способом \cite{UKF,UT}: считаем, что в
+векторе $z_0$ сосредоточенна вероятность
+$$
+    w_0 = \frac{\lambda}{k + \lambda} ,
+$$
+где $\lambda$ --- некоторое число, такое что $k+\lambda \neq 0$, а все остальные вероятности $w_i$ считаем одинаковыми и равными $w$:
+$$
+    w_i = w,
+$$
+тогда из равенства \eqref{equation:filtering:conversion:unscented:probability_equality}:
+\begin{gather*}
+    1 = \frac{\lambda}{k + \lambda} + 2 \sum_{i=1}^{k} w , \\
+    1 - \frac{\lambda}{k + \lambda} = 2 k w , \\
+    \frac{k}{k + \lambda} = 2 k w , \\
+    \frac{1}{2(k + \lambda)} = w ,
+\end{gather*}
+и пары векторов $z_{2i}$ и $z_{2i+1}$ принимают очень простой вид:
+\begin{align*}
+    z_{2i-1} &
+        = \expectation{\xi} + \frac{1}{\sqrt{2 \frac{1}{2(k + \lambda)}}} v_i
+        = \expectation{\xi} + \sqrt{k + \lambda} v_i, \\
+    z_{2i} &
+        = \expectation{\xi} - \frac{1}{\sqrt{2 \frac{1}{2(k + \lambda)}}} v_i
+        = \expectation{\xi} - \sqrt{k + \lambda} v_i .
+\end{align*}
+Заметим, что условие $k + \lambda \neq 0$ является единственным ограничением на число $\lambda$, которое может принимать и отрицательные значения, что несколько
+противоречит представлениям о вероятностях, но тем не менее формально условия \eqref{equation:filtering:conversion:unscented:expectation_equality} и
+\eqref{equation:filtering:conversion:unscented:covariance_equality} будут выполнены.
+
+\section{Полярные величины}
+
+Пусть $\xi = (\rho, \varepsilon)$ --- двумерная случайная величина, представляющая полярные координаты, с известным математическим ожиданием $\expectation{\xi}$ и ковариацией
+$P_{\xi,\xi}$. Пусть $\xi$ подвергается нелинейному преобразованию $\mathcal{C}$, представляющее преобразование полярных координат в прямоугольную систему, в результате которого
+получается величина $\eta = (x, y)$:
+\begin{gather*}
+    \eta = \mathcal{C}(\xi), \\
+    \begin{pmatrix}
+        x \\
+        y
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \rho \cos \varepsilon \\
+        \rho \sin \varepsilon
+    \end{pmatrix}.
+\end{gather*}
+
+Требуется приближенно вычислить математическое ожидание $\expectation{\eta}$ и ковариацию $P_{\eta,\eta}$.
+
+\subsection{Линеаризация}
+
+Наиболее простой способ связан с разложением функции $\mathcal{C}$ в точке $\expectation{\xi}$ - в результате получается
+функция $\mathcal{C}_l(\xi)$:
+\begin{gather*}
+    \mathcal{C}(\xi) \approx \mathcal{C}_l(\xi) = C(\expectation{\xi}) + \jacobi{\mathcal{C}}{\xi}(\expectation{\xi}) ( \xi - \expectation{\xi}) , \\
+    %
+    \jacobi{\mathcal{C}}{\xi}(\xi) =
+        \begin{pmatrix}
+            \cos \varepsilon & - \rho \sin \varepsilon \\
+            \sin \varepsilon & \rho \cos \varepsilon
+        \end{pmatrix} ,
+\end{gather*}
+и случайная величина $\eta_l$:
+\begin{gather*}
+    \eta_l = \mathcal{C}_l(\xi), \\
+    %
+    \eta_l =
+        \begin{pmatrix}
+            \expectation{\rho} \cos \expectation{\varepsilon} \\
+            \expectation{\rho} \sin \expectation{\varepsilon}
+        \end{pmatrix}
+        +
+        \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})
+        \begin{pmatrix}
+            \rho - \expectation{\rho} \\
+            \xi - \expectation{\xi}
+        \end{pmatrix}
+    .
+\end{gather*}
+
+Легко видеть, что математическое ожидание величины $\eta_l$:
+$$
+    \expectation{\eta_l}
+        =
+        \begin{pmatrix}
+            \expectation{\rho} \cos \expectation{\varepsilon} \\
+            \expectation{\rho} \sin \expectation{\varepsilon}
+        \end{pmatrix}
+$$
+и ковариация:
+\begin{multline*}
+    P_{\eta_l, \eta_l}
+    = \outerexpectation{\eta_l}{\eta_l} = \\
+    %
+    = \expectation{
+            \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})
+            \begin{pmatrix}
+                \rho - \expectation{\rho} \\
+                \varepsilon - \expectation{\varepsilon}
+            \end{pmatrix}
+            \begin{pmatrix}
+                \rho - \expectation{\rho} & \varepsilon - \expectation{\varepsilon}
+            \end{pmatrix}
+            \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})^T
+        }
+        = \\
+    %
+    =
+        \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})
+        \expectation{
+            \begin{pmatrix}
+                \rho - \expectation{\rho} \\
+                \varepsilon - \expectation{\varepsilon}
+            \end{pmatrix}
+            \begin{pmatrix}
+                \rho - \expectation{\rho} & \varepsilon - \expectation{\varepsilon}
+            \end{pmatrix}
+        }
+        \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})^T
+        = \\
+    %
+    =
+        \jacobi{\mathcal{C}}{\xi}(\expectation{\xi}) P_{\xi, \xi} \jacobi{\mathcal{C}}{\xi}(\expectation{\xi})^T
+\end{multline*}

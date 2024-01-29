@@ -1,0 +1,460 @@
+\section{Расширенный фильтр (EKF)}
+
+\subsection{Приближение состояний}
+
+Предположим, что в момент $k$ уже построена некоторая оценка $\widehat{\xi}_{k,1|k}$ состояния $\xi_k$, тогда уравнение преобразования состояний можно упростить, если
+функцию $F_k$ разложить в ряд Тейлора в точке $\widehat{\xi}_k$ и ограничится тремя начальными его элементами:
+\begin{gather}
+    \xi_{k+1}
+        = \widehat{F}_k
+        + \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} \\
+                \dots \\
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}
+            \end{pmatrix}
+        + v_k,
+        \label{equation:filtering:in_state:extended_kalman:state} \\
+    %
+    \widetilde{\xi}_{k,1|k} = \xi_k - \widehat{\xi}_{k,1|k}
+        \notag,
+\end{gather}
+где $\widehat{F}_k$, $\jacobi{\widehat{F}_k}{\xi}$ и $\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi}$ --- значение самой функции $F_k$, значение её якобиана и значения
+матриц Гессе отдельных её компонент в точке $\widehat{\xi}_{k,1|k}$:
+\begin{align*}
+    \widehat{F}_k                         & = F_k ( \widehat{\xi}_{k,1|k}, u_k ) , \\
+    \jacobi{\widehat{F}_k}{\xi}           & = \jacobi{\widehat{F}_k}{\xi} ( \widehat{\xi}_{k,1|k}, u_k ), \\
+    \hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} & = \hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} ( \widehat{\xi}_{k,1|k}, u_k )
+    .
+\end{align*}
+В качестве прогноза состояния $\widehat{\xi}_{k,1|k+1}$ удобно взять ожидаемое значение величины $\xi_{k+1}$.
+$$
+    \widehat{\xi}_{k,1|k+1} = \expectation{\xi_{k+1}}.
+$$
+Если считать оценку $\widehat{\xi}_{k,1|k}$ несмещенной, тогда:
+\begin{multline} \label{equation:filtering:in_states:extended_kalman:state_expectation}
+    \expectation{\xi_{k+1}}
+        = \expectation{
+            \widehat{F}_k
+            + \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+            + \frac{1}{2}
+                \begin{pmatrix}
+                    \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} \\
+                    \dots \\
+                    \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}
+                \end{pmatrix}
+        } = \\
+    %
+    = \widehat{F}_k
+        + \jacobi{\widehat{F}_k}{\xi} \expectation{\widetilde{\xi}_{k,1|k}}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \expectation{\widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}} \\
+                \dots \\
+                \expectation{\widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}}
+            \end{pmatrix} = \\
+    %
+    = \widehat{F}_k
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix}
+    ,
+\end{multline}
+где $\trace{\cdot}$ обозначает след матрицы.
+
+В таком случае ошибка прогноза $\widetilde{\xi}_{k+1,1|k}$ имеет вид:
+\begin{multline} \label{equation:filtering:in_states:extended_kalman:prediction_error}
+    \widetilde{\xi}_{k+1,1|k} = \xi_{k+1} - \widehat{\xi}_{k,1|k+1} = \\
+    %
+    = \widehat{F}_k
+        + \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} \\
+                \dots \\
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}
+            \end{pmatrix}
+        + v_k
+        - \widehat{F}_k
+        - \frac{1}{2}
+            \begin{pmatrix}
+                \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix} = \\
+    %
+    = \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix}
+        + v_k
+    .
+\end{multline}
+Математическое ожидание ошибки $\widetilde{\xi}_{k+1,1|k}$ с учётом предполагаемой несмещенности оценки $\widehat{\xi}_{k,1|k}$:
+\begin{multline} \label{equation:filtering:in_states:extended_kalman:prediction_error_expectation}
+    \expectation{\widetilde{\xi}_{k+1,1|k}}
+    %
+    = \jacobi{\widehat{F}_k}{\xi} \expectation{\widetilde{\xi}_{k,1|k}}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \expectation{\widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}} - \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \expectation{\widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k}} - \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix}
+        + \expectation{v_k} = \\
+    %
+    = \jacobi{\widehat{F}_k}{\xi} 0
+        + \frac{1}{2}
+            \begin{pmatrix}
+                0 \\
+                \dots \\
+                0
+            \end{pmatrix}
+        + 0
+    %
+    = 0.
+\end{multline}
+Если в выражении для ошибки ввести обозначения:
+\begin{align*}
+    J_F & = \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k} , \\
+    G_F &
+        = \frac{1}{2}
+            \begin{pmatrix}
+                q_1 \\
+                \dots \\
+                \widetilde{Q}_{k}^{(n)}
+            \end{pmatrix}
+        = \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix} , \\
+\end{align*}
+тогда ковариация ошибки будет иметь вид:
+\begin{multline*}
+    P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+        = \expectation{\widetilde{\xi}_{k+1,1|k} \widetilde{\xi}_{k+1,1|k}^T}
+        = \expectation{ (J_F + G_F + v_k) ( J_F + G_F + v_k)^T } = \\
+    %
+    \shoveleft{= \expectation{J_F J_F^T} + \expectation{J_F G_F^T} + \expectation{J_F v_k^T} +} \\
+    + \expectation{G_F J_F^T} + \expectation{G_F G_F^T} + \expectation{G_F v_k^T} + \\
+    \shoveright{+ \expectation{v_k J_F^T} + \expectation{v_k G_F^T} + \expectation{v_k v_k^T} = } \\
+    %
+    = \expectation{J_F J_F^T} + \expectation{J_F G_F^T} + \expectation{G_F J_F^T} + \expectation{G_F G_F^T} + \expectation{v_k v_k^T}
+\end{multline*}
+где часть слагаемых с шумовой величиной $v_k$ равна нулю из-за некоррелированности. В оставшейся сумме
+\begin{itemize}
+    \item первое слагаемое имеет простое выражение
+        $$
+            \expectation{J_F J_F^T}
+                = \expectation{ \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k,1|k}^T \jacobi{\widehat{F}_k}{\xi}^T }
+                = \jacobi{\widehat{F}_k}{\xi} \expectation{\widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k,1|k}^T} \jacobi{\widehat{F}_k}{\xi}^T
+                = \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi}^T
+            ,
+        $$
+
+    \item во втором и третьем слагаемом встречаются третьи моменты, которые не известны, поэтому придется либо не учитывать эти слагаемые вовсе, либо
+        сделать дополнительное предположение о симетричности распределения ошибки $\widetilde{\xi}_{k,1|k}$ (тогда все третьи моменты будет равны нулю):
+        $$
+            \expectation{J_F G_F^T}
+            = \expectation{
+                \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+                \frac{1}{2}
+                    \begin{pmatrix}
+                        \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                        \dots \\
+                        \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+                    \end{pmatrix}^T
+            }
+            = 0 ,
+        $$
+
+    \item элементы четвертого слагаемого выражаются через ковариации квадратичных форм:
+        \begin{multline*}
+            \expectation{G_F G_F^T}
+                = \frac{1}{4}
+                    \expectation{
+                        \begin{pmatrix}
+                            \widetilde{Q}_{k}^{(1)} \\
+                            \dots \\
+                            \widetilde{Q}_{k}^{(n)}
+                        \end{pmatrix}
+                        \begin{pmatrix}
+                            \widetilde{Q}_{k}^{(1)} \\
+                            \dots \\
+                            \widetilde{Q}_{k}^{(n)}
+                        \end{pmatrix}^T
+                    } = \\
+            %
+            = \frac{1}{4}
+                \begin{pmatrix}
+                    \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k}^{(n)}} \\
+                    \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k}^{(n)}} \\
+                    \vdots                                                        & \vdots                                                        & \ddots & \vdots \\
+                    \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k}^{(n)}}
+                \end{pmatrix}
+        \end{multline*}
+        где
+        $$
+            \widetilde{Q}_{k}^{(i)} = \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+        $$
+        и каждая ковариция согласно равенству \eqref{equation:filtering:appendix:quadric:covariance} имеет вид
+        $$
+            \expectation{\widetilde{Q}_{k}^{(i)} \widetilde{Q}_{k}^{(j)}} = 2 \trace{\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}} \hesse{\widehat{F}_k^{(j)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}}}
+            ,
+        $$
+
+    \item пятое слагаемое по условию задачи является известной ковариацией:
+        $$
+            \expectation{v_k v_k^T} = P_{v_k, v_k}
+            .
+        $$
+\end{itemize}
+
+Таким образом, ковариация ошибки имеет вид:
+\begin{multline} \label{equation:filtering:in_states:extended_kalman:prediction_error_covariance}
+    P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} = \\
+    %
+    = \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi}^T
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \dots & \dots & \dots \\
+                \dots & \trace{\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}} \hesse{\widehat{F}_k^{(j)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}}} & \dots \\
+                \dots & \dots & \dots
+            \end{pmatrix}
+        + P_{v_k, v_k}
+    .
+\end{multline}
+
+\subsection{Приближение наблюдений}
+
+Аналогичным образом можно упростить уравнение наблюдений, если разложить функцию $H_k$ в точке прогноза $\widehat{\xi}_{k+1,1|k}$ в ряд Тейлора и оставить три
+слагаемых:
+\begin{gather*}
+    \eta_{k+1}
+        = \widehat{H}_k
+        + \jacobi{\widehat{H}_k}{\xi} \widetilde{\xi}_{k+1,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k+1,1|k} \hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} \\
+                \dots \\
+                \widetilde{\xi}_{k+1,1|k} \hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k}
+            \end{pmatrix}
+        + w_k, \\
+    %
+    \widetilde{\xi}_{k+1,1|k} = \xi_{k+1} - \widehat{\xi}_{k+1,1|k}
+    ,
+\end{gather*}
+где $\widetilde{\xi}_{k+1,1|k}$ --- ошибка прогноза и $\widehat{H}_k$, $\jacobi{\widehat{H}_k}{\xi}$ и $\hesse{\widehat{H}_k^{(i)}}{\xi}{\xi}$ --- значение функции $H_k$,
+значение её якобиана и значения матриц Гессе её компонент в точке $\widehat{\xi}_{k+1,1|k}$:
+\begin{align*}
+    \widehat{H}_k                         & = H_k ( \widehat{\xi}_{k+1,1|k} ) , \\
+    \jacobi{\widehat{H}_k}{\xi}           & = \jacobi{\widehat{H}_k}{\xi} ( \widehat{\xi}_{k+1,1|k} ), \\
+    \hesse{\widehat{H}_k^{(i)}}{\xi}{\xi} & = \hesse{\widehat{H}_k^{(i)}}{\xi}{\xi} ( \widehat{\xi}_{k+1,1|k} )
+    .
+\end{align*}
+
+В качестве прогноза измерения $\widehat{\eta}_{k+1,1|k}$ можно принять ожидаемое значение наблюдения $\eta_{k+1}$:
+$$
+    \widehat{\eta}_{k+1,1|k} = \expectation{\eta_{k+1}},
+$$
+которое в предположении несмещенности прогноза $\widehat{\xi}_{k+1,1|k}$ по аналогии с равенством
+\eqref{equation:filtering:in_states:extended_kalman:state_expectation}:
+$$
+    \expectation{\eta_{k+1}}
+        = \widehat{H}_k
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \trace{\hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}} \\
+                \dots \\
+                \trace{\hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}}
+            \end{pmatrix}
+        .
+$$
+
+Для ошибки прогноза наблюдения аналогичной ошибке прогноза состояния из равенства \eqref{equation:filtering:in_states:extended_kalman:prediction_error}:
+\begin{multline} \label{equation:filtering:in_states:extended_kalman:observation_prediction_error}
+    \widetilde{\eta}_{k+1,1|k}
+        = \eta_{k+1} - \widehat{\eta}_{k+1,1|k} = \\
+    %
+    = \jacobi{\widehat{H}_k}{\xi} \widetilde{\xi}_{k+1,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k+1,1|k} \hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} - \trace{\hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}} \\
+                \dots \\
+                \widetilde{\xi}_{k+1,1|k} \hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} - \trace{\hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}}
+            \end{pmatrix}
+        + w_k
+\end{multline}
+математическое ожидание с учётом предполагаемой несмещенности прогноза состояния $\widehat{\xi}_{k+1,1|k}$ по аналогии с равенством
+\eqref{equation:filtering:in_states:extended_kalman:prediction_error_expectation}
+$$
+    \expectation{\eta_{k+1,1|k}} = 0,
+$$
+и ковариация по аналогии с равенством \eqref{equation:filtering:in_states:extended_kalman:prediction_error_covariance}:
+\begin{multline*}
+    P_{\widetilde{\eta}_{k+1,1|k}, \widetilde{\eta}_{k+1,1|k}} = \\
+    %
+    = \jacobi{\widehat{H}_k}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} \jacobi{\widehat{H}_k}{\xi}^T
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \dots & \dots & \dots \\
+                \dots & \trace{\hesse{\widehat{H}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}} \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}}} & \dots \\
+                \dots & \dots & \dots
+            \end{pmatrix}
+        + P_{w_k, w_k}
+    .
+\end{multline*}
+
+\subsection{Ковариация с ошибкой прогноза}
+
+Для использования уравнений линейной фильтрации остается вычислить только ковариацию состояния $\xi_{k+1}$ и ошибки прогноза наблюдения $\widetilde{\eta}_{k+1,1|k}$.
+В соответствии с равенствами \eqref{equation:filtering:in_state:extended_kalman:state} и
+\eqref{equation:filtering:in_states:extended_kalman:state_expectation}:
+$$
+    \xi_{k+1} - \expectation{\xi_{k+1}}
+        = \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k}
+        + \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} \\
+                \dots \\
+                \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(n)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}}
+            \end{pmatrix}
+        + v_k
+    ,
+$$
+или с учётом принятых ранее обозначений $J_F$ и $G_F$:
+$$
+    \xi_{k+1} - \expectation{\xi_{k+1}}
+        = J_F + H_F + v_k.
+$$
+Для ошибки прогноза наблюдения в равенстве \eqref{equation:filtering:in_states:extended_kalman:observation_prediction_error} также введем
+аналогичные обозначения:
+$$
+    \widetilde{\eta}_{k+1,1|k} = J_H + G_H + w_k ,
+$$
+где
+\begin{align*}
+    J_H & = \jacobi{\widehat{H}_k}{\xi} \widetilde{\xi}_{k+1,1|k} , \\
+    %
+    G_H & = \frac{1}{2}
+            \begin{pmatrix}
+                \widetilde{\xi}_{k+1,1|k}^T \hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} - \trace{\hesse{\widehat{H}_k^{(1)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}} \\
+                \dots \\
+                \widetilde{\xi}_{k+1,1|k}^T \hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} - \trace{\hesse{\widehat{H}_k^{(m)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}}
+            \end{pmatrix} . \\
+\end{align*}
+
+В условиях принятых обозначений ковариация $P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}}$ принимает вид:
+\begin{multline*}
+    P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}}
+        = \expectation{\centered{\xi_{k+1}} \widetilde{\eta}_{k+1,1|k}^T}
+        = \expectation{\left ( J_F + G_F + v_k \right ) \left ( J_H + G_H + w_k \right )^T} = \\
+    %
+    \shoveleft{ = \expectation{J_F J_H^T} + \expectation{J_F G_H^T} + \expectation{J_F w_k^T} + } \\
+    + \expectation{G_F J_H^T} + \expectation{G_F G_H^T} + \expectation{G_F w_k^T} + \\
+    \shoveright{+ \expectation{v_k J_H^T} + \expectation{v_k G_H^T} + \expectation{v_k w_k^T} = } \\
+    %
+    = \expectation{J_F J_H^T} + \expectation{J_F G_H^T} + \expectation{G_F J_H^T} + \expectation{G_F G_H^T},
+\end{multline*}
+где часть слагаемых равна нулю в силу некоррелированности величин $v_k$ и $w_k$ между собой и с величинами $\xi_k$ и $\widehat{\xi}_{k,1|k}$.
+
+Первое слагаемое,
+\begin{multline*}
+    \expectation{J_F J_H^T}
+        = \expectation{ \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k+1,1|k}^T \jacobi{\widehat{H}_k}{\xi}^T } = \\
+    %
+    = \jacobi{\widehat{F}_k}{\xi} \expectation{\widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k+1,1|k}^T} \jacobi{\widehat{H}_k}{\xi}^T
+        = \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k+1,1|k}} \jacobi{\widehat{H}_k}{\xi}^T ,
+\end{multline*}
+где ковариация ошибок $P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k+1,1|k}}$ вычисляется далее и приводит к равенству
+\eqref{equation:filtering:in_states:extended_kalman:errors_covariance}.
+
+Второе и третье слагаемое содержат неизвестные третьи моменты ошибки $\widetilde{\xi}_{k,1|k}$, которыми пренебрегаем.
+
+Наконец, четвертое слагаемое представляет собой матрицу ковариаций квадратичных форм:
+\begin{multline*}
+    \expectation{G_F G_H^T}
+        = \frac{1}{4}
+            \expectation{
+                \begin{pmatrix}
+                    \widetilde{Q}_{k}^{(1)} \\
+                    \dots \\
+                    \widetilde{Q}_{k}^{(n)}
+                \end{pmatrix}
+                \begin{pmatrix}
+                    \widetilde{Q}_{k+1}^{(1)} \\
+                    \dots \\
+                    \widetilde{Q}_{k+1}^{(n)}
+                \end{pmatrix}^T
+            } = \\
+    %
+    = \frac{1}{4}
+        \begin{pmatrix}
+            \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k+1}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k+1}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(1)} \widetilde{Q}_{k+1}^{(n)}} \\
+            \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k+1}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k+1}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(2)} \widetilde{Q}_{k+1}^{(n)}} \\
+            \vdots                                                          & \vdots                                                          & \ddots & \vdots \\
+            \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k+1}^{(1)}} & \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k+1}^{(2)}} & \dots  & \expectation{\widetilde{Q}_{k}^{(n)} \widetilde{Q}_{k+1}^{(n)}}
+        \end{pmatrix}
+    ,
+\end{multline*}
+где
+\begin{align*}
+    \widetilde{Q}_{k}^{(i)} & = \widetilde{\xi}_{k,1|k}^T \hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} , \\
+    \widetilde{Q}_{k+1}^{(j)} & = \widetilde{\xi}_{k+1,1|k}^T \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \widetilde{\xi}_{k+1,1|k} - \trace{\hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}} .
+\end{align*}
+Для вычисления ковариаций получим приближенное выражение для второй квадратичной формы с использованием равенств
+\eqref{equation:filtering:in_states:extended_kalman:prediction_error} и \eqref{equation:filtering:in_states:extended_kalman:prediction_error_covariance}, в которых
+возьмем только первые слагаемые:
+\begin{multline*}
+    \widetilde{Q}_{k+1}^{(j)}
+        \approx \widetilde{\xi}_{k,1|k}^T \jacobi{\widehat{F}_k}{\xi}^T \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi}^T} = \\
+    %
+    = \widetilde{\xi}_{k,1|k}^T \jacobi{\widehat{F}_k}{\xi}^T \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \jacobi{\widehat{F}_k}{\xi} \widetilde{\xi}_{k,1|k} - \trace{\jacobi{\widehat{F}_k}{\xi}^T \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}} ,
+\end{multline*}
+где в последнем равенстве использовано коммутативное свойство следа \eqref{equation:filtering:appendix:trace:commutation}. Теперь согласно равенству
+\eqref{equation:filtering:appendix:quadric:covariance}:
+$$
+    \expectation{\widetilde{Q}_{k}^{(i)} \widetilde{Q}_{k+1}^{(j)}}
+        \approx 2 \trace{\hesse{\widehat{F}_k^{(i)}}{\xi}{\xi} P_{\widetilde{\xi}_{k,1|k},\widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi} \hesse{\widehat{H}_k^{(j)}}{\xi}{\xi} \jacobi{\widehat{F}_k}{\xi} P_{\widetilde{\xi}_{k,1|k},\widetilde{\xi}_{k,1|k}}}
+$$
+Остается лишь вычислить ковариацию двух ошибок $\widetilde{\xi}_{k,1|k}$ и $\widetilde{\xi}_{k+1,1|k}$. В соответствии с равенством
+\eqref{equation:filtering:in_states:extended_kalman:prediction_error} ошибку $\widetilde{\xi}_{k+1,1|k}$ можно представить в кратком виде:
+$$
+    \widetilde{\xi}_{k+1,1|k} = J_F + G_F + v_k ,
+$$
+тогда в силу предположений о несмещенности оценок $\widehat{\xi}_{k,1|k}$ и $\widehat{\xi}_{k+1,1|k}$:
+\begin{multline*}
+    P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k+1,1|k}}
+        = \expectation{\widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k+1,1|k}^T} = \\
+    %
+    = \expectation{\widetilde{\xi}_{k,1|k} \left ( J_F + G_F + v_k \right )^T}
+        = \expectation{\widetilde{\xi}_{k,1|k} J_F^T} + \expectation{\widetilde{\xi}_{k,1|k} G_F^T} + \expectation{\widetilde{\xi}_{k,1|k} v_k^T} ,
+\end{multline*}
+где
+\begin{itemize}
+    \item первое слагаемое:
+    $$
+        \expectation{\widetilde{\xi}_{k,1|k} J_F^T}
+            = \expectation{\widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k,1|k}^T \jacobi{\widehat{F}_k}{\xi}^T}
+            = \expectation{\widetilde{\xi}_{k,1|k} \widetilde{\xi}_{k,1|k}^T} \jacobi{\widehat{F}_k}{\xi}^T
+            = P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi}^T,
+    $$
+    \item при вычислении второго слагаемого встречаются третьи моменты, которые не известны, поэтому как и ранее считаем их равными нулю или просто не учитываем,
+    \item третье слагаемое равно нулю в силу отсутствия корреляции величин $\xi_k$ и $\widehat{\xi}_{k,1|k}$ с величиной $v_k$:
+    $$
+        \expectation{\widetilde{\xi}_{k,1|k} v_k^T} = 0.
+    $$
+\end{itemize}
+Таким образом,
+\begin{equation} \label{equation:filtering:in_states:extended_kalman:errors_covariance}
+    P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k+1,1|k}} = P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} \jacobi{\widehat{F}_k}{\xi}^T.
+\end{equation}

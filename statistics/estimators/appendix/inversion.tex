@@ -1,0 +1,354 @@
+\chapter{Дополнения}
+
+\section{Лемма об обратной матрице} \label{section:appendix:inversions}
+
+\subsection{Уравнения для блоков}
+
+Пусть некоторая блочная матрица является обратимой:
+$$
+	\begin{pmatrix}
+		A & B \\
+		C & D
+	\end{pmatrix}^{-1}
+	=
+	\begin{pmatrix}
+		E & F \\
+		G & H
+	\end{pmatrix}
+	,
+$$
+тогда при умножении справа должны выполняться равенства:
+\begin{gather*}
+	\begin{pmatrix}
+		A & B \\
+		C & D
+	\end{pmatrix}
+	\begin{pmatrix}
+		E & F \\
+		G & H
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		I & 0 \\
+		0 & I
+	\end{pmatrix} ,
+\end{gather*}
+где $I$ обозначают единичные матрицы подходящих размеров. Из равенства для матриц следуют равенства для блоков:
+\begin{gather}
+	A \cdot E + B \cdot G = I \label{equation:filtering:appendix:inversions:1} \\
+	C \cdot E + D \cdot G = 0 \label{equation:filtering:appendix:inversions:2} \\
+	A \cdot F + B \cdot H = 0 \label{equation:filtering:appendix:inversions:3} \\
+	C \cdot F + D \cdot H = I \label{equation:filtering:appendix:inversions:4}
+	,
+\end{gather}
+из которых можно получить разные выражения для блоков $E$, $F$, $G$ и $H$.
+
+\subsection{Решения для блоков $E$ и $G$}
+
+Из равенств \eqref{equation:filtering:appendix:inversions:1} и \eqref{equation:filtering:appendix:inversions:2} можно получить следующие выражения
+для блоков $E$ и $G$:
+\begin{gather*}
+	\left \{
+	\begin{array}{cl}
+		A \cdot E + B \cdot G & = I \\
+		C \cdot E + D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot E + B \cdot G               & = I \\
+		D^{-1} \cdot C \cdot E + D^{-1} \cdot D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot E + B \cdot G & = I \\
+		D^{-1} \cdot C \cdot E + G  & = 0
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot E + B \cdot G & = I \\
+		-B \cdot D^{-1} \cdot C \cdot E - B \cdot G  & = 0 \\
+		D^{-1} \cdot C \cdot E + G  & = 0
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot E - B \cdot D^{-1} \cdot C \cdot E & = I \\
+		D^{-1} \cdot C \cdot E + G  & = 0
+	\end{array}
+	\right .
+	\Rightarrow
+	%
+	\left \{
+	\begin{array}{cl}
+		\left ( A - B \cdot D^{-1} \cdot C \right ) \cdot E & = I \\
+		G  & = - D^{-1} \cdot C \cdot E
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E & = \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} \\
+		G  & = - D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1}
+	\end{array}
+	\right .
+	.
+\end{gather*}
+
+Если систему равенств \eqref{equation:filtering:appendix:inversions:1} и \eqref{equation:filtering:appendix:inversions:2} решать иным способом, то можно
+получить другие выражения для блоков $E$ и $G$:
+\begin{gather*}
+	\left \{
+	\begin{array}{cl}
+		A \cdot E + B \cdot G & = I \\
+		C \cdot E + D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A^{-1} \cdot A \cdot E + A^{-1} \cdot B \cdot G & = A^{-1} \\
+		C \cdot E + D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E + A^{-1} \cdot B \cdot G & = A^{-1} \\
+		C \cdot E + D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E + A^{-1} \cdot B \cdot G & = A^{-1} \\
+		-C \cdot E - C \cdot A^{-1} \cdot B \cdot G & = -C \cdot A^{-1} \\
+		C \cdot E + D \cdot G & = 0
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E + A^{-1} \cdot B \cdot G & = A^{-1} \\
+		- C \cdot A^{-1} \cdot B \cdot G + D \cdot G & = -C \cdot A^{-1}
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E & =  A^{-1} - A^{-1} \cdot B \cdot G \\
+		\left ( D - C \cdot A^{-1} \cdot B \right ) \cdot G & = -C \cdot A^{-1}
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		E & =  A^{-1} + A^{-1} \cdot B \cdot \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} \\
+		G & = - \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1}
+	\end{array}
+	\right .
+	.
+\end{gather*}
+
+\subsection{Решения для блоков $F$ и $H$}
+
+Выражения для блоков $F$ и $H$ из равенств \eqref{equation:filtering:appendix:inversions:3} и \eqref{equation:filtering:appendix:inversions:4} являются
+аналогичными:
+\begin{gather*}
+	\left \{
+	\begin{array}{cl}
+		A \cdot F + B \cdot H & = 0 \\
+		C \cdot F + D \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A^{-1} \cdot A \cdot F + A^{-1} \cdot B \cdot H & = 0 \\
+		C \cdot F + D \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F + A^{-1} \cdot B \cdot H & = 0 \\
+		C \cdot F + D \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F + A^{-1} \cdot B \cdot H & = 0 \\
+		-C \cdot F - C \cdot A^{-1} \cdot B \cdot H & = 0 \\
+		C \cdot F + D \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F + A^{-1} \cdot B \cdot H & = 0 \\
+		D \cdot H - C \cdot A^{-1} \cdot B \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F & = - A^{-1} \cdot B \cdot H \\
+		\left ( D - C \cdot A^{-1} \cdot B \right ) \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F & = - A^{-1} \cdot B \cdot \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \\
+		H & = \left ( D - C \cdot A^{-1} \cdot B \right )^{-1}
+	\end{array}
+	\right .
+\end{gather*}
+
+При альтернативном способе решения системы:
+\begin{gather*}
+	\left \{
+	\begin{array}{cl}
+		A \cdot F + B \cdot H & = 0 \\
+		C \cdot F + D \cdot H & = I
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot F + B \cdot H & = 0 \\
+		D^{-1} \cdot C \cdot F + D^{-1} \cdot D \cdot H & = D^{-1}
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot F + B \cdot H & = 0 \\
+		D^{-1} \cdot C \cdot F + H & = D^{-1}
+	\end{array}
+	\right .
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot F + B \cdot H & = 0 \\
+		- B \cdot D^{-1} \cdot C \cdot F - B \cdot H & = - B \cdot D^{-1} \\
+		D^{-1} \cdot C \cdot F + H & = D^{-1}
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		A \cdot F - B \cdot D^{-1} \cdot C \cdot F & = - B \cdot D^{-1} \\
+		D^{-1} \cdot C \cdot F + H & = D^{-1}
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		\left ( A - B \cdot D^{-1} \cdot C \right ) \cdot F & = - B \cdot D^{-1} \\
+		H & = D^{-1} - D^{-1} \cdot C \cdot F
+	\end{array}
+	\right .
+	\Rightarrow \\
+	%
+	\Rightarrow
+	\left \{
+	\begin{array}{cl}
+		F & = - B \cdot D^{-1} \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} \\
+		H & = D^{-1} - D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1}
+	\end{array}
+	\right .
+\end{gather*}
+
+\subsection{Тождества обращений}
+
+Таким образом, получено два выражения для блоков $E$ и $G$:
+$$
+	\begin{pmatrix}
+		\left ( A - B \cdot D^{-1} \cdot C \right )^{-1} \\
+		- D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1}
+	\end{pmatrix}
+	\text{ и }
+	\begin{pmatrix}
+		A^{-1} + A^{-1} \cdot B \cdot \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} \\
+		- \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1}
+	\end{pmatrix}
+$$
+и два выражения для блоков $F$ и $H$:
+$$
+	\begin{pmatrix}
+		- A^{-1} \cdot B \cdot \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \\
+		\left ( D - C \cdot A^{-1} \cdot B \right )^{-1}
+	\end{pmatrix}
+	\text{ и }
+	\begin{pmatrix}
+		- B \cdot D^{-1} \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} \\
+		D^{-1} - D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1}
+	\end{pmatrix}
+	,
+$$
+из которых можно составить четыре различных вида обратной матрицы. Например, используя первый вариант для блоков $E$ и $G$ и второй вариант для блоков $F$ и $H$,
+получим следующий вид обратной матрицы:
+$$
+	\begin{pmatrix}
+		A & B \\
+		C & D
+	\end{pmatrix}^{-1}
+	=
+	\begin{pmatrix}
+		\left ( A - B \cdot D^{-1} \cdot C \right )^{-1}                        & - B \cdot D^{-1} \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} \\
+		- D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} & D^{-1} - D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1}
+	\end{pmatrix}
+	.
+$$
+Аналогичным образом можно получить и остальные три вида обратной матрицы.
+
+Тем не менее, поскольку обратная матрица является единственной, то все четыре вида обратной матрицы должны совпадать, поэтому выражения, полученные для блоков
+$E$ и $G$ также должны совпадать:
+\begin{gather*}
+	\left ( A - B \cdot D^{-1} \cdot C \right )^{-1} = A^{-1} + A^{-1} \cdot B \cdot \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} , \\
+	D^{-1} \cdot C \cdot \left ( A - B \cdot D^{-1} \cdot C \right )^{-1} = \left ( D - C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} .
+\end{gather*}
+Для упрощения выражений можно в левых и правых частях заменить $B$ на $-B$ и $D^{-1}$ на $D$, в результате замен равенства, очевидно, сохраняются:
+\begin{gather}
+	\left ( A + B \cdot D \cdot C \right )^{-1} = A^{-1} - A^{-1} \cdot B \cdot \left ( D^{-1} + C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} ,
+		\label{equation:filtering:appendix:inversions:first} \\
+	D \cdot C \cdot \left ( A + B \cdot D \cdot C \right )^{-1} = \left ( D^{-1} + C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1}
+		\label{equation:filtering:appendix:inversions:second}.
+\end{gather}
+
+В силу единственности блоков $F$ и $H$ их выражения также должны совпадать, но поскольку выражения для них аналогичны, то принципиально новых тождеств при этом
+не будет получено.

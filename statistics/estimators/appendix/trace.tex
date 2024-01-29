@@ -1,0 +1,17 @@
+\section{След матрицы}
+
+Пусть $A$ и $B$ произвольные матрицы размерами $n \times m$ и $m \times n$, тогда:
+$$
+    \trace{A B} = \trace{B A}.
+$$
+Действительно
+\begin{multline} \label{equation:filtering:appendix:trace:commutation}
+    \trace{A B}
+        = \sum_{i=1}^n \element{A B}{i}{i}
+        = \sum_{i=1}^n \sum_{j=1}^m \element{A}{i}{j} \element{B}{j}{i} = \\
+    %
+    = \sum_{j=1}^m \sum_{i=1}^n \element{B}{j}{i} \element{A}{i}{j}
+        = \sum_{j=1}^n \element{B A}{j}{j}
+        = \trace{B A}
+    .
+\end{multline}

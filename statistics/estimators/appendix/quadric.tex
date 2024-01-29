@@ -1,0 +1,68 @@
+\section{Моменты квадратичных форм}
+
+Пусть $\xi \in L_2^k$ --- случайная величина и $A$ --- произвольная матрица размера $k \times k$. Рассмотрим случайную величину равную квадратичной форме:
+$$
+    Q_A(\xi) = ( \xi - \expectation{\xi} )^T A ( \xi - \expectation{\xi} ) .
+$$
+Если $\xi_i$ обозначают компоненты величины $\xi$ и $\element{A}{i}{j}$ --- элементы матрицы $A$, тогда
+\begin{multline} \label{equation:filtering:appendix:quadric:A_expectation}
+    \expectation{Q_A(\xi)}
+        = \expectation{\sum_{i=1}^k \sum_{j=1}^k \element{A}{i}{j} (\xi_i - \expectation{\xi_i}) (\xi_j - \expectation{\xi_j})} = \\
+    %
+    = \sum_{i=1}^k \sum_{j=1}^k \element{A}{i}{j} \expectation{(\xi_i - \expectation{\xi_i}) (\xi_j - \expectation{\xi_j})} = \\
+    %
+    = \sum_{i=1}^k \sum_{j=1}^k \element{A}{i}{j} \covariance{\xi_i}{\xi_j}
+        = \sum_{i=1}^k \sum_{j=1}^k \element{A}{i}{j} \covariance{\xi_j}{\xi_i} = \\
+    %
+    = \sum_{i=1}^k \row{A}{i} \column{P_{\xi,\xi}}{i} = \trace{A P_{\xi,\xi}}
+    ,
+\end{multline}
+где $P_{\xi,\xi}$ --- ковариация $\xi$.
+
+Пусть теперь $B$ --- матрица размера $k \times k$ и $Q_B(\xi)$ --- квадратичная форма:
+$$
+    Q_B(\xi) = ( \xi - \expectation{\xi} )^T A ( \xi - \expectation{\xi} ) ,
+$$
+с математическим ожиданием аналогичным \eqref{equation:filtering:appendix:quadric:A_expectation}: 
+\begin{equation} \label{equation:filtering:appendix:quadric:B_expectation}
+    \expectation{Q_B(\xi)} = \trace{B P_{\xi,\xi}} .
+\end{equation}
+
+Рассмотрим ковариацию квадратичных форм:
+\begin{multline} \label{equation:filtering:appendix:quadric:preliminary_covariance}
+    \expectation{\left ( Q_A(\xi) - \expectation{Q_A(\xi)} \right ) \left ( Q_B(\xi) - \expectation{Q_B(\xi)} \right )} = \\
+    %
+    = \expectation{Q_A(\xi) Q_B(\xi)}
+        - \expectation{Q_A(\xi)} \expectation{Q_B(\xi)}
+        - \expectation{Q_A(\xi)} \expectation{Q_B(\xi)}
+        + \expectation{Q_A(\xi)} \expectation{Q_B(\xi)} = \\
+    %
+    = \expectation{Q_A(\xi) Q_B(\xi)}
+        - \expectation{Q_A(\xi)} \expectation{Q_B(\xi)} ,
+\end{multline}
+где
+\begin{multline*}
+    \expectation{Q_A(\xi) Q_B(\xi)}
+        = \expectation{( \xi - \expectation{\xi} )^T A ( \xi - \expectation{\xi} ) ( \xi - \expectation{\xi} )^T B ( \xi - \expectation{\xi} )} = \\
+    %
+    = \expectation{\sum_{i=1}^k \sum_{j=1}^k ( \xi_i - \expectation{\xi_i} ) \element{A}{i}{j} ( \xi_j - \expectation{\xi_j} ) \sum_{p=1}^k \sum_{q=1}^k ( \xi_p - \expectation{\xi_p} ) \element{B}{p}{q} ( \xi_q - \expectation{\xi_q} ) } = \\
+    %
+    = \expectation{\sum_{i=1}^k \sum_{j=1}^k \sum_{p=1}^k \sum_{q=1}^k \element{A}{i}{j} \element{B}{p}{q} ( \xi_i - \expectation{\xi_i} ) ( \xi_j - \expectation{\xi_j} ) ( \xi_p - \expectation{\xi_p} ) ( \xi_q - \expectation{\xi_q} ) } = \\
+    %
+    = \sum_{i=1}^k \sum_{j=1}^k \sum_{p=1}^k \sum_{q=1}^k \element{A}{i}{j} \element{B}{p}{q} \expectation{( \xi_i - \expectation{\xi_i} ) ( \xi_j - \expectation{\xi_j} ) ( \xi_p - \expectation{\xi_p} ) ( \xi_q - \expectation{\xi_q} ) } .
+\end{multline*}
+
+Если распределение величины $\xi$ является нормальным, то согласно \cite[стр. 55]{EATN} последнее выражение можно преобразовать к виду:
+$$
+    \expectation{Q_A(\xi) Q_B(\xi)} = \trace{A P_{\xi,\xi}} \trace{B P_{\xi,\xi}} + 2 \trace{A P_{\xi,\xi} B P_{\xi,\xi}},
+$$
+тогда из равенства \eqref{equation:filtering:appendix:quadric:covariance} с учетом математических ожиданий \eqref{equation:filtering:appendix:quadric:A_expectation} и
+\eqref{equation:filtering:appendix:quadric:B_expectation}:
+\begin{multline} \label{equation:filtering:appendix:quadric:covariance}
+    \expectation{\left ( Q_A(\xi) - \expectation{Q_A(\xi)} \right ) \left ( Q_B(\xi) - \expectation{Q_B(\xi)} \right )} = \\
+    %
+    = \trace{A P_{\xi,\xi}} \trace{B P_{\xi,\xi}} + 2 \trace{A P_{\xi,\xi} B P_{\xi,\xi}} - \trace{A P_{\xi,\xi}} \trace{B P_{\xi,\xi}} = \\
+    %
+    = 2 \trace{A P_{\xi,\xi} B P_{\xi,\xi}}
+    .
+\end{multline}

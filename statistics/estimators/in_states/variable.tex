@@ -1,0 +1,380 @@
+\section{Пространства $L_2^k$}
+
+Пусть $(\Omega, \Sigma, \mu)$ --- вероятностное пространство и $L_2^k = L_2^k (\Omega, \Sigma, \mu)$ обозначает линейное пространство векторных случайных величин $\xi$,
+имеющих $k$ компонент:
+$$
+	\xi
+	=
+	\begin{pmatrix}
+		\xi_1 \\
+		\vdots \\
+		\xi_k
+	\end{pmatrix}
+	,
+$$
+которые имеют конечные математическое ожидание и дисперсию:
+\begin{gather*}
+	\expectation{\xi_i} = \int\limits_\Omega \xi_i d \mu < \infty , \\
+	\variance{\xi_i} = \int\limits_\Omega ( \xi_i - \expectation{\xi_i} )^2 d \mu < \infty , \\
+	i = \overline{1,k}.
+\end{gather*}
+
+Будем считать, что в пространстве $L_2^k$ определено скалярное произведение $\Wscalarproduct{\cdot}{\cdot}{W}$:
+$$
+	\Wscalarproduct{\xi}{\eta}{W} = \expectation{ ( \eta - \expectation{\eta} )^T W ( \xi - \expectation{\xi} ) },
+$$
+где	$\xi \in L_2^k$, $\eta \in L_2^k$, $W$ --- произвольная симметричная и положительно определенная вещественная матрица и $\cdot^T$ обозначает транспонирование. Скалярное
+произведение можно рассматривать как сумму ковариаций компонент векторов $\xi$ и $\eta$:
+$$
+	\Wscalarproduct{\xi}{\eta}{W} = \sum_{i=1}^k \sum_{j=1}^k W_{ji} \covariance{\xi_i}{\eta_j} ,
+$$
+где $W_{ji}$ обозначает элемент матрицы $W$, расположенный в $j$-ой строки и $i$-ом столбце, и ковариация:
+$$
+	\covariance{\xi_i}{\eta_j} = \int\limits_\Omega ( \xi_i - \expectation{\xi_i} ) ( \eta_j - \expectation{\eta_j} ) d\mu .
+$$
+
+Пусть $\Wnorm{\cdot}{W}$ обозначает норму, порождаемую введенным скалярным произведением:
+$$
+	\Wnorm{\xi}{W} = \sqrt{\Wscalarproduct{\xi}{\xi}{W}} .
+$$
+
+Дополнительно для величин $\xi \in L_2^m$ и $\eta \in L_2^n$ введем матрицу, составленную из ковариаций компонент, которую обычно называют внешним произведением, дисперсионной
+матрицей или ковариационной матрицей:
+$$
+	P_{\xi, \eta}
+	=
+	\outerexpectation{\xi}{\eta}
+	=
+	\begin{pmatrix}
+		\covariance{\xi_1}{\eta_1} & \covariance{\xi_1}{\eta_2} & \dots  & \covariance{\xi_1}{\eta_n} \\
+		\covariance{\xi_2}{\eta_1} & \covariance{\xi_2}{\eta_2} & \dots  & \covariance{\xi_2}{\eta_n} \\
+		\vdots                     & \vdots                     & \ddots & \vdots \\
+		\covariance{\xi_m}{\eta_1} & \covariance{\xi_m}{\eta_2} & \dots  & \covariance{\xi_m}{\eta_n}
+	\end{pmatrix}
+	.
+$$
+
+\section{Оптимальное оценивание}
+
+Пусть имеется случайная величина $\xi \in L_2^m$, которая не является наблюдаемой, и случайная величина $\eta \in L_2^n$, которая является наблюдаемой. Под наблюдаемостью
+в данном случае понимается возможность использования реализаций величины $\eta$ в вычислениях. Считается, что величина $\eta$ некоторым вероятностным образом связана с
+величиной $\xi$ и требуется, используя только величину $\eta$, построить такую оценку $\widehat{\xi}$ величины $\xi$, для которой минимальное значение принимает норма:
+$$
+	\Wnorm{\xi - \widehat{\xi}}{W} = \min_{\widetilde{\xi} \sim \Sigma(\eta)} \Wnorm{\xi - \widetilde{\xi} }{W} ,
+$$
+при этом минимум берется по всем величинам $\widetilde{\xi}$ измеримых относительно $(\Omega, \Sigma(\eta))$, где $\Sigma(\eta)$ --- алгебра, порожденная величиной $\eta$.
+
+Известно, что такой оценкой $\widehat{\xi}$ является условное математическое ожидание:
+$$
+	\widehat{\xi} = \conditionalexpectation{\xi}{\eta} ,
+$$
+которое в большинстве случаев найти весьма сложно и выражение которого бывает настолько громоздким, что его сложно использовать на практике.
+
+Задачу построения оценки можно упростить введением дополнительного условия линейности оценки $\widehat{\xi}$ по наблюдаемой величине $\eta$.
+
+Пусть, как и ранее, $\xi \in L_2^m$ и $\eta \in L_2^n$. Рассмотрим класс линейных оценок $\xi(A,b)$, имеющих вид:
+$$
+	\xi(A,b) = A \eta + b ,
+$$
+где $A$ --- вещественная матрица размера $m \times n$ и $b$ --- вещественный вектор размера $m$.
+
+В классе линейных оценок $\xi(A,b)$ выделим класс оценок, которые удовлетворяют условию несмещенности:
+$$
+	\expectation{\xi(A,b)} = \expectation{\xi} ,
+$$
+из которого следует выражение для вектора $b$:
+\begin{gather*}
+	\expectation{A \eta + b} = \expectation{\xi} , \\
+	A \expectation{\eta} + b = \expectation{\xi} , \\
+	b = \expectation{\xi} - A \expectation{\eta} .
+\end{gather*}
+Таким образом, линейные и несмещенные оценки имеют вид функций $\xi(A)$, зависящих только от $A$:
+\begin{equation} \label{equation:filtering:in_states:variable:unbiased_estimate}
+	\xi(A)
+		= A^T \eta + \expectation{\xi} - A \expectation{\eta}
+		= \expectation{\xi} + A \centered{\eta} .
+\end{equation}
+Теперь среди функций $\xi(A)$ будем искать функцию $\xi(\widehat{A})$ с минимальным значением нормы:
+$$
+	\Wnorm{\xi - \xi(\widehat{A})}{W}
+	= \min_{A} \Wnorm{\xi - \xi(A)}{W}
+	= \min_{A} \Wnorm{\centered{\xi} - A \centered{\eta} }{W} .
+$$
+Заметим, что величины $A \centered{\eta}$ принадлежат линейной оболочке $\mathcal{L}_\zeta \subseteq L_2^m$, образованной векторами:
+\begin{gather*}
+	\zeta_{11}
+	=
+	\begin{pmatrix}
+		\eta_1 - \expectation{\eta_1} \\
+		0 \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \;
+	\zeta_{12}
+	=
+	\begin{pmatrix}
+		\eta_2 - \expectation{\eta_2} \\
+		0 \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \dots \;
+	\zeta_{1n}
+	=
+	\begin{pmatrix}
+		\eta_n - \expectation{\eta_n} \\
+		0 \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \\
+	%
+	\zeta_{21}
+	=
+	\begin{pmatrix}
+		0 \\
+		\eta_1 - \expectation{\eta_1} \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \;
+	\zeta_{22}
+	=
+	\begin{pmatrix}
+		0 \\
+		\eta_2 - \expectation{\eta_2} \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \dots \;
+	\zeta_{2n}
+	=
+	\begin{pmatrix}
+		0 \\
+		\eta_n - \expectation{\eta_n} \\
+		\vdots \\
+		0
+	\end{pmatrix}
+	, \\
+	%
+	\dots \\
+	%
+	\zeta_{m1}
+	=
+	\begin{pmatrix}
+		0 \\
+		0 \\
+		\vdots \\
+		\eta_1 - \expectation{\eta_1}
+	\end{pmatrix}
+	, \;
+	\zeta_{m2}
+	=
+	\begin{pmatrix}
+		0 \\
+		0 \\
+		\vdots \\
+		\eta_2 - \expectation{\eta_2}
+	\end{pmatrix}
+	, \dots \;
+	\zeta_{mn}
+	=
+	\begin{pmatrix}
+		0 \\
+		0 \\
+		\vdots \\
+		\eta_n - \expectation{\eta_n}
+	\end{pmatrix}
+	,
+\end{gather*}
+Таким образом, задача построения оценки $\xi(\widehat{A})$ сводится к задаче нахождения элемента наилучшего приближения для величины $\xi - \expectation{\xi}$
+в линейной оболочке $\mathcal{L}_\zeta$. Известно, что таким элементом является ортогональная проекция, которая и определяет матрицу $\widehat{A}$.
+
+Представим центрированную величину $\xi - \expectation{\xi}$ в виде суммы:
+\begin{equation} \label{equation:filtering:in_states:variable:state_decomposition}
+	\xi - \expectation{\xi} = \widehat{A} \centered{\eta} + \widetilde{\xi} ,
+\end{equation}
+где $\widehat{A} \centered{\eta}$ --- проекция величины $\xi - \expectation{\xi}$ на $\mathcal{L}_\zeta$ и $\widetilde{\xi}$ --- перпендикуляр:
+$$
+	\widetilde{\xi} \perp_W \mathcal{L}_\zeta .
+$$
+
+Уравнение для определения искомой матрицы $\widehat{A}$ можно получить из условия ортогональности --- перпендикуляр $\widetilde{\xi}$ ортогонален всем векторам
+$\zeta_{ij}$, образующих линейную оболочку $\mathcal{L}_\zeta$:
+\begin{gather*}
+	\Wscalarproduct{\widetilde{\xi}}{\zeta_{ij}}{W} = 0 , \\
+	i = \overline{1,m} , \; j = \overline{1,n} .
+\end{gather*}
+Если $\widetilde{\xi}_i$ обозначают компоненты перпендикуляра $\widetilde{\xi}$, тогда с учетом структуры векторов $\zeta_{ij}$:
+\begin{gather*}
+	\covariance{\widetilde{\xi}_i}{\eta_j} = 0 , \\
+	i = \overline{1,m} , \; j = \overline{1,n} .
+\end{gather*}
+Таким образом, ковариационная матрица векторов $\widetilde{\xi}$ и $\eta$ должна быть нулевой:
+\begin{equation} \label{equation:filtering:in_states:variable:error_and_observation_orthogonality}
+	\outerexpectation{\widetilde{\xi}}{\eta} = 0
+\end{equation}
+Теперь, выражая перпендикуляр $\widetilde{\xi}$ из равенства \eqref{equation:filtering:in_states:variable:state_decomposition}, и подставляя в последнее равенство:
+\begin{gather*}
+	\outerexpectation{\centered{\xi} - \widehat{A} \centered{\eta}}{\eta} = 0 , \\
+	\expectation{\left ( \centered{\xi} - \widehat{A} \centered{\eta} \right ) \left ( \eta - \expectation{\eta} \right )^T} = 0 , \\
+	\outerexpectation{\xi}{\eta} - \widehat{A} \outerexpectation{\eta}{\eta} = 0 , \\
+	P_{\xi, \eta} - \widehat{A} P_{\eta, \eta} = 0 , \\
+	\widehat{A} P_{\eta, \eta} = P_{\xi, \eta} .
+\end{gather*}
+Если $\determinant{P_{\eta, \eta}} \neq 0$, тогда выражение для матрицы $A$ можно получить в явном виде:
+$$
+	\widehat{A} = P_{\xi, \eta} P_{\eta, \eta}^{-1} .
+$$
+Таким образом, в соответствии с равенством \eqref{equation:filtering:in_states:variable:unbiased_estimate} искомая оценка имеет вид:
+\begin{equation} \label{equation:filtering:in_states:variable:optimal_estimate}
+	\widehat{\xi}
+		= \xi(\widehat{A})
+		= \expectation{\xi} + P_{\xi, \eta} P_{\eta, \eta}^{-1} \centered{\eta} .
+\end{equation}
+Ошибка оценивания $\xi - \widehat{\xi}$, как следует из разложения \eqref{equation:filtering:in_states:variable:state_decomposition}, совпадает с перпендикуляром:
+$$
+	\widetilde{\xi}
+		= \xi - \widehat{\xi}
+		= \centered{\xi} - P_{\xi, \eta} P_{\eta, \eta}^{-1} \centered{\eta} .
+$$
+Поскольку оценка $\widehat{\xi}$ по построению является несмещенной, то ошибка $\widetilde{\xi}$ имеет нулевое математическое ожидание:
+$$
+	\expectation{\widetilde{\xi}}
+	= \expectation{\xi - \widehat{\xi}}
+	= \expectation{\xi} - \expectation{\widehat{\xi}}
+	= \expectation{\xi} - \expectation{\xi}
+	= 0 ,
+$$
+откуда ковариационная матрица ошибки имеет вид:
+\begin{multline*}
+	\expectation{\left ( \centered{\xi} - P_{\xi,\eta} P_{\eta,\eta}^{-1} \centered{\eta} \right ) \left ( \centered{\xi} - P_{\xi,\eta} P_{\eta,\eta}^{-1} \centered{\eta} \right )^T} = \\
+	%
+	\shoveleft{
+		=
+		\innerexpectation{\xi}{\xi}
+		- \expectation{ P_{\xi,\eta} P_{\eta,\eta}^{-1} \centered{\eta} \centered{\xi}^T}
+		-
+	} \\
+	\shoveright{
+		- \expectation{\centered{\xi} \centered{\eta}^T P_{\eta,\eta}^{-1} P_{\xi,\eta}^T }
+		+ \expectation{P_{\xi,\eta} P_{\eta,\eta}^{-1} \centered{\eta} \centered{\eta}^T P_{\eta,\eta}^{-1} P_{\xi,\eta}^T }
+		=
+	} \\
+	%
+	= P_{\xi,\xi}
+		- P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\eta,\xi}
+		- P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\xi,\eta}^T
+		+ P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\eta,\eta} P_{\eta,\eta}^{-1} P_{\xi,\eta}^T = \\
+	%
+	= P_{\xi,\xi}
+		- P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\eta,\xi}
+		- P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\xi,\eta}^T
+		+ P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\xi,\eta}^T
+	= P_{\xi,\xi}
+		- P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\eta,\xi} .
+\end{multline*}
+Таким образом, ковариационная матрица ошибки оценивания $\widetilde{\xi}$:
+\begin{equation} \label{equation:filtering:in_states:variable:optimal_error_covariance}
+	P_{\widetilde{\xi},\widetilde{\xi}} = P_{\xi,\xi} - P_{\xi,\eta} P_{\eta,\eta}^{-1} P_{\eta,\xi} .
+\end{equation}
+
+Из свойства ортогональности \eqref{equation:filtering:in_states:variable:error_and_observation_orthogonality} можно получить важное следствие: оценка $\widehat{\xi}$
+ортогональна своей ошибке $\widetilde{\xi}$:
+\begin{multline} \label{equation:filtering:in_states:variable:error_and_estimate_orthogonality}
+	\expectation{\centered{\widetilde{\xi}} \centered{\widehat{\xi}}^T} = \\
+	%
+	= \expectation{\centered{\widetilde{\xi}} \left ( \expectation{\xi} + P_{\xi, \eta} P_{\eta, \eta}^{-1} \centered{\eta} - \expectation{\xi} \right )^T} = \\
+	%
+	= \expectation{\centered{\widetilde{\xi}} \centered{\eta}^T } P_{\eta, \eta}^{-1} P_{\eta, \xi}
+	= 0
+	.
+\end{multline}
+
+\section{Линейная задача}
+
+Пусть случайные величины $\xi \in L_2^m$ и $\eta \in L_2^n$ связаны линейно:
+$$
+	\eta = D \xi + \varepsilon ,
+$$
+где $D$ --- известная вещественная матрица и $\varepsilon \in L_2^m$ --- ненаблюдаемая случайная величина (играющая роль ошибки).
+
+Для построения оптимальной оценки $\widehat{\xi}$, определяемой равенством \eqref{equation:filtering:in_states:variable:optimal_estimate}, необходимо вычислить математическое ожидание
+$\expectation{\eta}$:
+$$
+	\expectation{\eta} = D \expectation{\xi} + \expectation{\varepsilon} ,
+$$
+и ковариационные матрицы $P_{\xi, \eta}$:
+\begin{multline*}
+	P_{\xi,\eta}
+		= \outerexpectation{\xi}{\eta}
+		= \outerexpectation{\xi}{D \xi + \varepsilon} = \\
+	%
+	= \expectation{\left ( \xi - \expectation{\xi} \right ) \left ( D \left ( \xi - \expectation{\xi} \right ) + \left ( \varepsilon - \expectation{\varepsilon} \right ) \right )^T } = \\
+	%
+	= \outerexpectation{\xi}{\xi} D^T + \outerexpectation{\xi}{\varepsilon}
+		= P_{\xi, \xi} D^T + P_{\xi, \varepsilon}
+\end{multline*}
+и $P_{\eta, \eta}$:
+\begin{multline*}
+	P_{\eta, \eta}
+		= \outerexpectation{\eta}{\eta}
+		= \outerexpectation{D \xi + \varepsilon}{D \xi + \varepsilon} = \\
+	%
+	= \expectation{\left ( D \left ( \xi - \expectation{\xi} \right ) + \left ( \varepsilon - \expectation{\varepsilon} \right ) \right ) \left ( D \left ( \xi - \expectation{\xi} \right ) + \left ( \varepsilon - \expectation{\varepsilon} \right ) \right )^T} = \\
+	%
+	\shoveleft {
+		= D \outerexpectation{\xi}{\xi} D^T + D \outerexpectation{\xi}{\varepsilon} +
+	} \\
+	\shoveright{
+		+ \outerexpectation{\varepsilon}{\xi} D^T + \outerexpectation{\varepsilon}{\varepsilon}
+		=
+	} \\
+	%
+	= D P_{\xi, \xi} D^T + D P_{\xi, \varepsilon} + P_{\varepsilon, \xi} D^T + P_{\varepsilon, \varepsilon}.
+\end{multline*}
+
+Таким образом, оценка $\widehat{\xi}$ в соответствии с равенством \eqref{equation:filtering:in_states:variable:optimal_estimate} должна иметь вид:
+\begin{equation} \label{equation:filtering:in_states:variable:linear_observations:optimal_estimate}
+	\widehat{\xi}
+	= \expectation{\xi}
+	+ \left ( P_{\xi, \xi} D^T + P_{\xi, \varepsilon} \right )
+		\left ( D P_{\xi, \xi} D^T + D P_{\xi, \varepsilon} + P_{\varepsilon, \xi} D^T + P_{\varepsilon, \varepsilon} \right )^{-1}
+		\left ( \eta - D \expectation{\xi} - \expectation{\varepsilon} \right )
+\end{equation}
+
+\subsection{Некоррелированная ошибка}
+
+Если величины $\xi$ и $\varepsilon$ некоррелированны, то есть $P_{\xi, \varepsilon} = 0$, то выражение
+\eqref{equation:filtering:in_states:variable:linear_observations:optimal_estimate} для оценки $\widehat{\xi}$ упрощается:
+\begin{gather} \label{equation:filtering:in_states:variable:linear_observations:uncorrelated_noise:optimal_estimate_first_form}
+	\widehat{\xi}
+		= \expectation{\xi}
+		+ P_{\xi, \xi} D^T
+			\left ( D P_{\xi, \xi} D^T + P_{\varepsilon, \varepsilon} \right )^{-1}
+			\left ( \eta - D \expectation{\xi} - \expectation{\varepsilon} \right )
+		.
+\end{gather}
+Полученной оценке можно придать иной вид, используя равенство \eqref{equation:filtering:appendix:inversions:second} леммы об обратной матрице:
+$$
+	D \cdot C \cdot \left ( A + B \cdot D \cdot C \right )^{-1} = \left ( D^{-1} + C \cdot A^{-1} \cdot B \right )^{-1} \cdot C \cdot A^{-1} ,
+$$
+в котором нужно принять обозначения $D = P_{\xi, \xi}$, $C = D^T$, $A = P_{\varepsilon, \varepsilon}$, $B = D$, тогда:
+$$
+	P_{\xi, \xi} D^T \left ( P_{\varepsilon, \varepsilon} + D P_{\xi, \xi} D^T \right )^{-1}
+		= \left ( P_{\xi, \xi}^{-1} + D^T P_{\varepsilon, \varepsilon}^{-1} D \right )^{-1} D^T P_{\varepsilon, \varepsilon}^{-1}
+$$
+и оценка $\widehat{\xi}$ принимает вид:
+\begin{gather} \label{equation:filtering:in_states:variable:linear_observations:uncorrelated_noise:optimal_estimate_second_form}
+	\widehat{\xi}
+		= \expectation{\xi}
+		+ \left ( P_{\xi, \xi}^{-1} + D^T P_{\varepsilon, \varepsilon}^{-1} D \right )^{-1} D^T P_{\varepsilon, \varepsilon}^{-1} \left ( \eta - D \expectation{\xi} - \expectation{\varepsilon} \right )
+		.
+\end{gather}
+
+Выражения \eqref{equation:filtering:in_states:variable:linear_observations:uncorrelated_noise:optimal_estimate_first_form} и
+\eqref{equation:filtering:in_states:variable:linear_observations:uncorrelated_noise:optimal_estimate_second_form} отличаются размерами обращаемых матриц: если компоненты
+величины $\varepsilon$ некоррелированы, то $P_{\varepsilon, \varepsilon}$ является диагональной и легко обращается, поэтому основная вычислительная сложность
+в первом случае заключается в обращении матрицы $D P_{\xi, \xi} D^T + P_{\varepsilon, \varepsilon}$ размера $n \times n$, а во втором случае --- обращением двух
+матриц $P_{\xi, \xi}$ и $P_{\xi, \xi}^{-1} + D^T P_{\varepsilon, \varepsilon}^{-1} D$ размерами $m \times m$.

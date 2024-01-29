@@ -1,0 +1,36 @@
+% определитель
+\newcommand{\determinant}[1]{\left | #1 \right |}
+
+% математическое ожидание
+\newcommand{\expectation}[1]{\mathrm{M} \left [ #1 \right ]}
+% дисперсия
+\newcommand{\variance}[1]{\mathrm{D} \left [ #1 \right ]}
+% ковариация
+\newcommand{\covariance}[2]{\mathrm{cov} \left ( #1, #2 \right )}
+% условное математическое ожидание
+\newcommand{\conditionalexpectation}[2]{\mathrm{M} \left [ #1 \left | #2 \right . \right ]}
+
+% центрированная величина
+\newcommand{\centered}[1]{\left ( #1 - \expectation{#1} \right )}
+% внутренне произведение
+\newcommand{\innerexpectation}[2]{\expectation{\centered{#1}^T \centered{#2}}}
+% внешнее произведение
+\newcommand{\outerexpectation}[2]{\expectation{\centered{#1} \centered{#2}^T}}
+% W-скалярное произведение
+\newcommand{\Wscalarproduct}[3]{\left ( #1 , #2 \right )_{#3}}
+% W-норма
+\newcommand{\Wnorm}[2]{\left \| #1 \right \|_{#2}}
+
+% матрица Якоби
+\newcommand{\jacobi}[2]{\frac{\partial #1}{\partial #2}}
+% матрица Гессе
+\newcommand{\hesse}[3]{\frac{\partial^2 #1}{{\partial #2}{\partial #3}}}
+
+% след матрицы
+\newcommand{\trace}[1]{\mathrm{tr} \left [ #1 \right ]}
+% элемент матрицы
+\newcommand{\element}[3]{\left \| #1 \right \|_{#2,#3}}
+% строка матрицы
+\newcommand{\row}[2]{\left \| #1 \right \|_{#2, \cdot}}
+% столбец матрицы
+\newcommand{\column}[2]{\left \| #1 \right \|_{\cdot, #2}}

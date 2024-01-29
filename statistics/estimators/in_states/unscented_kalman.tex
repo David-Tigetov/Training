@@ -1,0 +1,27 @@
+\section{Сигма--точечный фильтр (UKF)}
+
+\subsection{Прогноз состояния}
+
+Для получения "прогноза"{} состояния $\widehat{\xi}_{k+1,1|k}$ и определения ковариации $P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}$ ошибки прогноза
+вычисляется разложение ковариации ошибки текущей оценки $\widehat{\xi}_{k,1|k}$:
+$$
+    P_{\widehat{\xi}_{k,1|k}, \widehat{\xi}_{k,1|k}} = \sqrt{P_{\widehat{\xi}_{k,1|k}, \widehat{\xi}_{k,1|k}}} \sqrt{P_{\widehat{\xi}_{k,1|k}, \widehat{\xi}_{k,1|k}}}^T
+$$
+и формируются сигма--векторы
+\begin{align*}
+    \vartheta_0      & = \widehat{\xi}_{k,1|k} , \\
+    \vartheta_{2i-1} & = \widehat{\xi}_{k,1|k} + \sqrt{n + \lambda} \column{\sqrt{P_{\widehat{\xi}_{k,1|k}, \widehat{\xi}_{k,1|k}}}}{i} , \\
+    \vartheta_{2i}   & = \widehat{\xi}_{k,1|k} - \sqrt{n + \lambda} \column{\sqrt{P_{\widehat{\xi}_{k,1|k}, \widehat{\xi}_{k,1|k}}}}{i} .
+\end{align*}
+
+Далее вычисляются образы $F_k( \vartheta_j, u_k )$ сигма--векторов, с помощью которых вычисляется прогноз состояния:
+$$
+    \widehat{\xi}_{k+1,1|k} = \frac{\lambda}{n + \lambda} F_k( \vartheta_0, u_k ) + \sum_{j=1}^{2n} \frac{1}{2 (n + \lambda)} F_k ( \vartheta_j, u_k ) ,
+$$
+и приближенно определяется ковариация ошибки:
+\begin{multline*}
+    P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}}
+        \approx \frac{\lambda}{n + \lambda} \left ( F_k ( \vartheta_0, u_k ) - \widehat{\xi}_{k+1,1|k} \right ) \left ( F_k ( \vartheta_0, u_k ) - \widehat{\xi}_{k+1,1|k} \right )^T + \\
+    %
+    + \sum_{j=1}^{2n} \frac{1}{2 (n + \lambda)} \left ( F_k ( \vartheta_j, u_k ) - \widehat{\xi}_{k+1,1|k} \right ) \left ( F_k ( \vartheta_j, u_k ) - \widehat{\xi}_{k+1,1|k} \right )^T
+\end{multline*}

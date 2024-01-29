@@ -1,0 +1,471 @@
+\section{Структура фильтров} \label{section:filtering:in_states:process}
+
+\subsection{Постановка задачи}
+
+Пусть $\xi_k$ --- случайный процесс в дискретном времени $k = 0, 1, 2, \dots$, где все случайные величины $\xi_k \in L_2^m$ и для начального состояния $\xi_0$ заданы
+математическое ожидание $\expectation{\xi_0}$ и ковариация $P_{\xi_0, \xi_0}$. Представим, что процесс $\xi_k$ не является наблюдаемым, но наблюдаемым является процесс
+$\eta_k$ при $k=1, 2, \dots$, который некоторым образом связан с процессом $\xi_k$.
+
+Требуется при всех $k$ располагать методом построения оценки $\widehat{\xi}_{k,1|k}$ величины $\xi_k$ по имеющимся на момент $k$ наблюдениям $\eta_1$, \dots, $\eta_k$,
+которая:
+\begin{enumerate}
+	\item является несмещенной оценкой: $\expectation{\widehat{\xi}_{k,1|k}} = \expectation{\xi_k}$,
+	\item является оптимальной --- наименее уклоняется от величины $\xi_k$:
+$$
+	\Wnorm{\xi_k - \widehat{\xi}_{k,1|k}}{W} = \min_{\xi \sim \Sigma (\eta)} \Wnorm{\xi_k - \xi}{W} ,
+$$
+	\item является линейной функцией наблюдений $\eta_1$, \dots, $\eta_k$.
+\end{enumerate}
+
+\subsection{Обозначения}
+
+В дальнейшем изложении введены обозначения $\eta_{1|k}$ и $\eta_{1|k+1}$ для векторов, объединяющих величины $\eta_1$, \dots, $\eta_{k}$ и
+$\eta_1$, \dots, $\eta_{k}$, $\eta_{k+1}$:
+$$
+	\eta_{1|k}
+	=
+	\begin{pmatrix}
+		\eta_1 \\
+		\vdots \\
+		\eta_{k}
+	\end{pmatrix}
+	, \;
+	\eta_{1|k+1}
+	=
+	\begin{pmatrix}
+		\eta_1 \\
+		\vdots \\
+		\eta_{k} \\
+		\eta_{k+1}
+	\end{pmatrix}
+	.
+$$
+
+Для ковариационных матриц случайных величин $\zeta$ и $\psi$ принято краткое обозначение $P_{\zeta, \psi}$:
+$$
+	P_{\zeta, \psi} = \outerexpectation{\zeta}{\psi} .
+$$
+
+\subsection{Блочная форма}
+
+В соответствии с равенством \eqref{equation:filtering:in_states:variable:optimal_estimate} несмещенная оптимальная линейная оценка $\widehat{\xi}_{k,1|k}$ состояния $\xi_k$,
+полученная по наблюдениям $\eta_1$, \dots, $\eta_k$ должна иметь вид:
+\begin{equation} \label{equation:filtering:in_states:process:block:current_state_estimate}
+	\widehat{\xi}_{k,1|k} = \expectation{\xi_k} + P_{\xi_k, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \centered{\eta_{1|k}}
+	.
+\end{equation}
+Ошибка оценивания
+$$
+	\widetilde{\xi}_{k,1|k} = \xi_k - \widehat{\xi}_{k,1|k}
+$$
+имеет ковариационную матрицу, устанавливаемую равенством \eqref{equation:filtering:in_states:variable:optimal_error_covariance}:
+\begin{equation} \label{equation:filtering:in_states:process:block:current_state_estimate_error_covariance}
+	P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}} = P_{\xi_k, \xi_k} - P_{\xi_k, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}} P_{\eta_{1|k}, \xi_k}
+	.
+\end{equation}
+При получении наблюдения $\eta_{k+1}$ оценка $\widehat{\xi}_{k+1, 1|k+1}$ состояния $\xi_{k+1}$ будет иметь аналогичный вид:
+$$
+	\widehat{\xi}_{k+1, 1|k+1} = \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k+1}} P_{\eta_{k+1}, \eta_{k+1}}^{-1} \centered{\eta_{1|k+1}}
+	,
+$$
+с соответствующей ошибкой
+$$
+	\widetilde{\xi}_{k+1, 1|k+1} = \xi_{k+1} - \widehat{\xi}_{k+1, 1|k+1}
+$$
+и ковариационной матрицей ошибки:
+$$
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}} = P_{\xi_{k+1}, \xi_{k+1}} - P_{\xi_{k+1}, \eta_{1|k+1}} P_{\eta_{1|k+1}, \eta_{1|k+1}} P_{\eta_{1|k+1}, \xi_{k+1}}
+	.
+$$
+
+Легко видеть, что в такой форме при поступлении каждого следующего наблюдения $\eta_{k+1}$ происходит большое количество вычислений. Для сокращения количества
+вычислений требуется рекуррентная форма, в которой оценка $\widehat{\xi}_{k+1, 1|k+1}$ рекуррентно выражается через оценку $\widehat{\xi}_k$, а ковариационная матрица
+ошибки $P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}$ --- через $P_{\widetilde{\xi}_{k,1|k}, \widetilde{\xi}_{k,1|k}}$.
+
+Рекуррентные формы для оценки и ковариационной матрицы ошибки получаются после выделения последнего наблюдения $\eta_{k+1}$:
+\begin{multline} \label{equation:filtering:in_states:process:block:state_estimate}
+	\widehat{\xi}_{k+1, 1|k+1}
+		= \expectation{\xi_{k+1}} + \\
+	%
+	+ \begin{pmatrix} P_{\xi_{k+1}, \eta_{1|k}} & P_{\xi_{k+1}, \eta_{k+1}} \end{pmatrix}
+		\begin{pmatrix}
+			P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+			P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+		\end{pmatrix}^{-1}
+		\begin{pmatrix}
+			\eta_{1|k} - \expectation{\eta_{1|k}} \\
+			\eta_{k+1} - \expectation{\eta_{k+1}}
+		\end{pmatrix}
+\end{multline}
+и в ковариационной матрице ошибки:
+\begin{multline} \label{equation:filtering:in_states:process:block:error_covariance}
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}
+		= P_{\xi_{k+1}, \xi_{k+1}} - \\
+	%
+	- \begin{pmatrix} P_{\xi_{k+1}, \eta_{1|k}} & P_{\xi_{k+1}, \eta_{k+1}} \end{pmatrix}
+		\begin{pmatrix}
+			P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+			P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+		\end{pmatrix}^{-1}
+		\begin{pmatrix}
+			P_{\eta_{1|k}, \xi_{k+1}} \\
+			P_{\eta_{k+1}, \xi_{k+1}}
+		\end{pmatrix}
+	.
+\end{multline}
+Полученные блочные формы могут быть последовательно преобразованы к рекуррентным формам.
+
+\subsection{Обратная матрица}
+
+Первый шаг преобразования блочной формы связан с обращением матрицы
+$$
+	\begin{pmatrix}
+		P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+		P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+	\end{pmatrix}^{-1}
+	=
+	\begin{pmatrix}
+		A & B \\
+		C & D
+	\end{pmatrix}
+$$
+с помощью леммы об обратной матрице (раздел \ref{section:appendix:inversions}), которую нужно взять в форме:
+\begin{equation} \label{equation:filtering:in_states:process:inversion_lemma}
+	\begin{pmatrix}
+		A & B \\
+		C & D
+	\end{pmatrix}^{-1}
+	=
+	\begin{pmatrix}
+		A^{-1} + A^{-1} B \left ( D - C A^{-1} B \right )^{-1} C A^{-1} & - A^{-1} B \left ( D - C A^{-1} B \right )^{-1} \\
+		- \left ( D - C A^{-1} B \right )^{-1} C A^{-1}                             & \left ( D - C A^{-1} B \right )^{-1}
+	\end{pmatrix}
+\end{equation}
+Легко видеть, что во всех элементах матрицы в правой части равенства присутствует выражение $D - C A^{-1} B$, которое соответствует матрице:
+$$
+	D - C A^{-1} B
+	\rightarrow
+	P_{\eta_{k+1}, \eta_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}}
+	.
+$$
+В соответствии с равенством \eqref{equation:filtering:in_states:variable:optimal_error_covariance} выражение справа является ковариационной матрицей ошибки
+$\widetilde{\eta}_{k+1,1|k}$ оптимальной оценки $\widehat{\eta}_{k+1,1|k}$ наблюдения $\eta_{k+1}$, построенной по наблюдениям $\eta_1$, \dots, $\eta_k$:
+\begin{gather}
+	\widehat{\eta}_{k+1,1|k} = \expectation{\eta_{k+1}} + P_{\eta_{k+1},\eta_{1|k}}P_{\eta_{1|k},\eta_{1|k}}^{-1} ( \eta_{1|k} - \expectation{\eta_{1|k}} ) ,
+		\label{equation:filtering:in_states:process:observation_prediction} \\
+	%
+	\widetilde{\eta}_{k+1,1|k} = \eta_{k+1} - \widehat{\eta}_{k+1,1|k} ,
+		\notag \\
+	%
+	P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}} = P_{\eta_{k+1}, \eta_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} .
+		\notag
+\end{gather}
+Используя полученное выражение, по лемме об обратной матрице в форме \eqref{equation:filtering:in_states:process:inversion_lemma} получим:
+\begin{multline} \label{equation:filtering:in_states:process:observations_inverse_covariance}
+	\begin{pmatrix}
+		P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+		P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+	\end{pmatrix}^{-1} = \\
+	%
+	=
+	\begin{pmatrix}
+		P_{\eta_{1|k},\eta_{1|k}}^{-1} + P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} & - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \\
+		- P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1}                                                                                          & P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1}
+	\end{pmatrix}
+\end{multline}
+
+\subsection{Рекуррентная форма оценки}
+
+Вычислим произведение
+$$
+	\begin{pmatrix}
+		T_1 \\
+		T_2
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+		P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+	\end{pmatrix}^{-1}
+	\begin{pmatrix}
+		\eta_{1|k} - \expectation{\eta_{1|k}} \\
+		\eta_{k+1} - \expectation{\eta_{k+1}}
+	\end{pmatrix}
+$$
+с использованием выражения \eqref{equation:filtering:in_states:process:observations_inverse_covariance} для обратной матрицы. Матрица $T_1$ имеет выражение:
+\begin{multline*}
+	T_1 = P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} + \\
+		+ P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} - \\
+		\shoveright{ - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \centered{\eta_{k+1}} = } \\
+	%
+	\shoveleft{ = P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} + } \\
+		+ P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} - \\
+		\shoveright{ - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \eta_{k+1} + P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \expectation{\eta_{k+1}} = } \\
+	%
+	\shoveleft{	= P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} + } \\
+		+ P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \expectation{\eta_{k+1}} + P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right ) - \\
+		- P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \eta_{k+1} =
+\end{multline*}
+(в соответствии с равенством \eqref{equation:filtering:in_states:process:observation_prediction} в центральном слагаемом в скобках стоит выражение
+оценки $\widehat{\eta}_{k+1, 1|k}$)
+\begin{multline*}
+	= P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}}
+		+ P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \widehat{\eta}_{k+1, 1|k} - \\
+		\shoveright{ - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \eta_{k+1} = } \\
+	%
+	= P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}}
+		- P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right )
+	,
+\end{multline*}
+и матрица $T_2$:
+$$
+	\shoveright{
+		T_2 =
+			- P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}}
+			+ P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \centered{\eta_{k+1}}
+			=
+	}
+$$
+(преобразуем первое слагаемое в соответствии с равенством \eqref{equation:filtering:in_states:process:observation_prediction}:
+$\widehat{\eta}_{k+1,1|k} - \expectation{\eta_{k+1}} = P_{\eta_{k+1},\eta_{1|k}}P_{\eta_{1|k},\eta_{1|k}}^{-1} ( \eta_{1|k} - \expectation{\eta_{1|k}} )$)
+\begin{multline*}
+	%
+	= - P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \widehat{\eta}_{k+1,1|k} - \expectation{\eta_{k+1}} \right )
+		+ P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \centered{\eta_{k+1}} = \\
+	%
+	= P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1}
+		\left ( \eta_{k+1} - \expectation{\eta_{k+1}} - \widehat{\eta}_{k+1, 1|k} + \expectation{\eta_{k+1}} \right ) = \\
+	%
+	= P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right ) .
+\end{multline*}
+
+Таким образом, в результате умножения получим:
+\begin{multline*}
+	\begin{pmatrix}
+		P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+		P_{\eta_{k+1}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+	\end{pmatrix}^{-1}
+	\begin{pmatrix}
+		\eta_{1|k} - \expectation{\eta_{1|k}} \\
+		\eta_{k+1} - \expectation{\eta_{k+1}}
+	\end{pmatrix}
+	= \\
+	%
+	=
+	\begin{pmatrix}
+		P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right ) \\
+		P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right )
+	\end{pmatrix}
+\end{multline*}
+Теперь исходное выражение \eqref{equation:filtering:in_states:process:block:state_estimate} для оценки $\widehat{\xi}_{k+1,1|k+1}$ можно преобразовать:
+\begin{multline*} 
+	\widehat{\xi}_{k+1, 1|k+1}
+		= \expectation{\xi_{k+1}} + \\
+		\shoveright{
+			+ \begin{pmatrix} P_{\xi_{k+1}, \eta_{1|k}} & P_{\xi_{k+1}, \eta_{k+1}} \end{pmatrix}
+			\begin{pmatrix}
+				P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+				P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+			\end{pmatrix}^{-1}
+			\begin{pmatrix}
+				\eta_{1|k} - \expectation{\eta_{1|k}} \\
+				\eta_{k+1} - \expectation{\eta_{k+1}}
+			\end{pmatrix}
+			=
+		} \\
+	%
+	\shoveleft{ = \expectation{\xi_{k+1}} + } \\
+		+ P_{\xi_{k+1}, \eta_{1|k}} \left ( P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right ) \right ) + \\
+		\shoveright { + P_{\xi_{k+1}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right ) = } \\
+	%
+	\shoveleft{ = \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} + } \\
+		+ \left ( P_{\xi_{k+1}, \eta_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} \right ) P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right )
+	.
+\end{multline*}
+Первое и второе слагаемые в силу равенства \eqref{equation:filtering:in_states:variable:optimal_estimate} образуют оптимальную оценку $\widehat{\xi}_{k+1,1|k}$ состояния
+$\xi_{k+1}$, построенную по наблюдениям $\eta_1$, \dots, $\eta_k$:
+\begin{equation} \label{equation:filtering:in_states:process:state_prediction}
+	\widehat{\xi}_{k+1,1|k} = \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} ,
+\end{equation}
+В третьем слагаемом преобразуем первый множитель, раскрывая ковариации:
+\begin{multline*}
+	P_{\xi_{k+1}, \eta_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} = \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\xi_{k+1}} \centered{\eta_{k+1}}^T}
+	} \\
+	\shoveright{
+		- \expectation{\centered{\xi_{k+1}} \centered{\eta_{1|k}}^T} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} =
+	} \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\xi_{k+1}} \centered{\eta_{k+1}}^T}
+	} \\
+	\shoveright{
+		- \expectation{\centered{\xi_{k+1}} \centered{\eta_{1|k}}^T P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} }  =
+	} \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\xi_{k+1}} \centered{\eta_{k+1}}^T}
+	} \\
+	\shoveright{
+		- \expectation{\centered{\xi_{k+1}} \left ( P_{\eta_{k+1},\eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right )^T }  =
+	} \\
+	%
+	= \expectation{\centered{\xi_{k+1}} \left ( \centered{\eta_{k+1}} - P_{\eta_{k+1},\eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right )^T} = \\
+	%
+	= \expectation{\centered{\xi_{k+1}} \left ( \eta_{k+1} - \underline{\left ( \expectation{\eta_{k+1}} + P_{\eta_{k+1},\eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right )} \right )^T} = \\
+\end{multline*}
+(в силу равенства \eqref{equation:filtering:in_states:process:observation_prediction} подчеркнутое выражение образует оценку $\widehat{\eta}_{k+1,1|k}$)
+\begin{multline} \label{equation:filtering:in_states:process:next_state_and_innovation_covariance}
+	%
+	= \expectation{\centered{\xi_{k+1}} \left ( \eta_{k+1} - \widehat{\eta}_{k+1,1|k} \right )^T}
+		= \expectation{\centered{\xi_{k+1}} \widetilde{\eta}_{k+1,1|k}} \\
+	%
+	= \expectation{\centered{\xi_{k+1}} \centered{\widetilde{\eta}_{k+1,1|k}}^T}
+		= P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}}
+	,
+\end{multline}
+поскольку в силу несмещенности оценки $\widehat{\eta}_{k+1,1|k}$ значение $\expectation{\widetilde{\eta}_{k+1,1|k}} = 0$.
+
+Возвращаясь к выражению для оценки $\widehat{\xi}_{k+1,1|k+1}$, получим:
+$$
+	\widehat{\xi}_{k+1}
+		= \widehat{\xi}_{k+1,1|k}
+		+ P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} \right )
+	.
+$$
+
+\subsection{Рекуррентная форма ковариации ошибки}
+
+В выражении \eqref{equation:filtering:in_states:process:block:error_covariance} для ковариационной матрицы ошибки
+$P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}$ вычислим "квадратичную форму"{}, используя выражение для обратной матрицы
+\eqref{equation:filtering:in_states:process:observations_inverse_covariance}:
+\begin{multline*}
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}
+		= P_{\xi_{k+1}, \xi_{k+1}} - \\
+		\shoveright{
+			-\begin{pmatrix} P_{\xi_{k+1}, \eta_{1|k}} & P_{\xi_{k+1}, \eta_{k+1}} \end{pmatrix}
+			\begin{pmatrix}
+				P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{1|k}, \eta_{k+1}} \\
+				P_{\eta_{1|k}, \eta_{1|k}} & P_{\eta_{k+1}, \eta_{k+1}}
+			\end{pmatrix}^{-1}
+			\begin{pmatrix}
+				P_{\eta_{1|k}, \xi_{k+1}} \\
+				P_{\eta_{k+1}, \xi_{k+1}}
+			\end{pmatrix} =
+		} \\
+	%
+	\shoveleft{ = P_{\xi_{k+1}, \xi_{k+1}} - \begin{pmatrix} P_{\xi_{k+1}, \eta_{1|k}} & P_{\xi_{k+1}, \eta_{k+1}} \end{pmatrix} } \\
+	\begin{pmatrix}
+		P_{\eta_{1|k},\eta_{1|k}}^{-1} + P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} & - P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \\
+		- P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1}                                                                                          & P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1}
+	\end{pmatrix} \\
+	\shoveright{ \begin{pmatrix} P_{\eta_{1|k}, \xi_{k+1}} \\ P_{\eta_{k+1}, \xi_{k+1}} \end{pmatrix} = } \\
+	%
+	\shoveleft{ = P_{\xi_{k+1}, \xi_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} - } \\
+	- P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} + \\
+	+ P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \xi_{k+1}} + \\
+	+ P_{\xi_{k+1}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} - \\
+	- P_{\xi_{k+1}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\eta_{k+1}, \xi_{k+1}} =
+\end{multline*}
+(в третьем и четвертом слагаемых выносим общий множитель, и в пятном и шестом слагаемых также выносим общий множитель)
+\begin{multline*}
+	= P_{\xi_{k+1}, \xi_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} + \\
+	+ P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( P_{\eta_{k+1}, \xi_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} \right ) - \\
+	- P_{\xi_{k+1}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} \left ( P_{\eta_{k+1}, \xi_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} \right )
+	.
+\end{multline*}
+
+В соответствии с равенством \eqref{equation:filtering:in_states:variable:optimal_error_covariance} первое и второе слагаемое образуют ковариацию ошибки
+$\widetilde{\xi}_{k+1,1|k}$ оптимальной оценки $\widehat{\xi}_{k+1,1|k}$, определяемой равенством \eqref{equation:filtering:in_states:process:state_prediction}:
+\begin{gather*}
+	\widetilde{\xi}_{k+1,1|k} = \xi_{k+1} - \widehat{\xi}_{k+1,1|k} , \\
+	P_{\widetilde{\xi}_{k+1,1|k}, \widetilde{\xi}_{k+1,1|k}} = P_{\xi_{k+1}, \xi_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}}
+	.
+\end{gather*}
+В третьем и четвертом слагаемых выражение в скобках преобразуем, раскрывая ковариацию:
+\begin{multline*}
+	P_{\eta_{k+1}, \xi_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} = \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\eta_{k+1}} \centered{\xi_{k+1}}^T}
+	} \\
+	\shoveright{
+		- P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \expectation{\centered{\eta_{1|k}} \centered{\xi_{k+1}}^T} =
+	} \\
+	%
+	\shoveleft{
+		= \expectation{\centered{\eta_{k+1}} \centered{\xi_{k+1}}^T}
+	} \\
+	\shoveright{
+		- \expectation{P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \centered{\xi_{k+1}}^T} =
+	} \\
+	%
+	= \expectation{\left ( \centered{\eta_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right ) \centered{\xi_{k+1}}^T} = \\
+	%
+	= \expectation{\left ( \eta_{k+1} - \underline{\left ( \expectation{\eta_{k+1}} + P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} \centered{\eta_{1|k}} \right )} \right ) \centered{\xi_{k+1}}^T} = \\
+\end{multline*}
+(в соответствии с равенством \eqref{equation:filtering:in_states:process:observation_prediction} выражение в скобках является оценкой $\widehat{\eta}_{k+1,1|k}$)
+\begin{multline*}
+	= \expectation{\left ( \eta_{k+1} - \widehat{\eta}_{k+1,1|k} \right ) \centered{\xi_{k+1}}^T}
+		= \expectation{\widetilde{\eta}_{k+1,1|k} \centered{\xi_{k+1}}^T} = \\
+	%
+	= \expectation{\centered{\widetilde{\eta}_{k+1,1|k}} \centered{\xi_{k+1}}^T}
+		= P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}}
+\end{multline*}
+Возвращаясь к выражению ковариции ошибки получим:
+\begin{multline*}
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}} = \\
+	%
+	\shoveleft{= P_{\widetilde{\xi}_{k+1,1|k},\widetilde{\xi}_{k+1,1|k}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}} - }\\
+	\shoveright{- P_{\xi_{k+1}, \eta_{k+1}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}}} = \\
+	%
+	= P_{\widetilde{\xi}_{k+1,1|k}}
+		+ \left ( P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} - P_{\xi_{k+1}, \eta_{k+1}} \right ) P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}}
+	.
+\end{multline*}
+Преобразуя выражение в скобках в силу равенства \eqref{equation:filtering:in_states:process:next_state_and_innovation_covariance}, окончательно получим:
+$$
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}
+		= P_{\widetilde{\xi}_{k+1,1|k},\widetilde{\xi}_{k+1,1|k}}
+		- P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}}
+	.
+$$
+
+\subsection{Выводы}
+
+Два соотношения
+\begin{gather}
+	\widehat{\xi}_{k+1,1|k+1}
+		= \widehat{\xi}_{k+1,1|k}
+		+ P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1}  \widetilde{\eta}_{k+1,1|k} ,
+		\label{equation:filtering:in_states:process:optimal_estimate} \\
+	%
+	P_{\widetilde{\xi}_{k+1,1|k+1}, \widetilde{\xi}_{k+1,1|k+1}}
+		= P_{\widetilde{\xi}_{k+1,1|k},\widetilde{\xi}_{k+1,1|k}}
+		- P_{\xi_{k+1}, \widetilde{\eta}_{k+1,1|k}} P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}}^{-1} P_{\widetilde{\eta}_{k+1,1|k}, \xi_{k+1}} ,
+		\label{equation:filtering:in_states:process:optimal_error_covariance}
+\end{gather}
+описывают структуру всех линейных несмещенных и оптимальных фильтров: оптимальная оценка $\widehat{\xi}_{k+1}$ образована оптимальным "прогнозом"{}
+$\widehat{\xi}_{k+1,1|k}$ состояния $\xi_{k+1}$, сделанным на основе имеющихся на момент $k$ наблюдений $\eta_{1}$, \dots, $\eta_k$:
+$$
+	\widehat{\xi}_{k+1,1|k} = \expectation{\xi_{k+1}} + P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \left ( \eta_{1|k} - \expectation{\eta_{1|k}} \right ) , \\
+$$
+и ошибкой $\widetilde{\eta}_{k+1,1|k}$:
+$$
+	\widetilde{\eta}_{k+1,1|k} = \eta_{k+1} - \widehat{\eta}_{k+1, 1|k} , \\
+$$
+оптимального "прогноза"{} $\widehat{\eta}_{k+1, 1|k}$ очередного наблюдения $\eta_{k+1}$, сделанного на основе наблюдений $\eta_{1|k}$:
+$$
+	\widehat{\eta}_{k+1,1|k} = \expectation{\eta_{k+1}} + P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k}, \eta_{1|k}}^{-1} \left ( \eta_{1|k} - \expectation{\eta_{1|k}} \right ) .
+$$
+Ковариация ошибки естественным образом зависит от ошибок прогнозов состояния и наблюдения:
+\begin{gather*}
+	P_{\widetilde{\xi}_{k+1, 1|k}, \widetilde{\xi}_{k+1, 1|k}} = P_{\xi_{k+1}, \xi_{k+1}} - P_{\xi_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \xi_{k+1}} , \\
+	%
+	P_{\widetilde{\eta}_{k+1, 1|k}, \widetilde{\eta}_{k+1, 1|k}} = P_{\eta_{k+1}, \eta_{k+1}} - P_{\eta_{k+1}, \eta_{1|k}} P_{\eta_{1|k},\eta_{1|k}}^{-1} P_{\eta_{1|k}, \eta_{k+1}} .
+\end{gather*}
+
+Заметим, что рассмотренная процедура фильтрации требует от состояний $\xi_k$ и наблюдений $\eta_k$ только существование требуемых моментов. Линейнойсть фильтра по наблюдениям
+не требует какой-либо линейности в самом процессе $\xi_k$ или в формировании наблюдений $\eta_k$ и не предполагает рекуррентного характера смены состояний $\xi_k$.

@@ -1,0 +1,37 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\input{commands.tex}
+
+\begin{document}
+
+\title{Фильтрация}
+\author{Тигетов Давид}
+\maketitle
+
+\tableofcontents
+
+\part{Оптимальная линейная фильтрация}
+
+\input{in_observations.tex}
+\input{in_states/main.tex}
+\input{in_states/variable.tex}
+\input{in_states/process.tex}
+\input{in_states/kalman.tex}
+\input{in_states/non_linear.tex}
+\input{in_states/extended_kalman.tex}
+\input{in_states/unscented_kalman.tex}
+\input{conversion.tex}
+\input{appendix/inversion.tex}
+\input{appendix/quadric.tex}
+\input{appendix/trace.tex}
+
+\input{bibliography.tex}
+
+\end{document}
