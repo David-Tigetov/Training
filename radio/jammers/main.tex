@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{report}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -12,300 +12,32 @@
 \newcommand{\expectation}[1]{\mathtt{M} \left[ #1 \right]}
 % ковариационная матрица
 \newcommand{\variance}[1]{\mathtt{D} \left[ #1 \right]}
-% спектр
-\newcommand{\spectrum}[1]{spec \left \{ #1 \right \}}
+% ковариация
+\newcommand{\covariance}[2]{cov \left( #1, #2 \right)}
+
 % модуль
 \newcommand{\modulus}[1]{\left | #1 \right |}
 % норма
-\newcommand{\norm}[1]{\left \| #1 \right \|}
+\newcommand{\norm}[2]{\left \| #1 \right \|_{#2}}
+
+% спектр
+\newcommand{\spectrum}[1]{spec \left \{ #1 \right \}}
 % линейная оболочка
 \newcommand{\linear}[1]{\mathcal{L} \left ( #1 \right )}
 % след
 \newcommand{\trace}[1]{tr \{ #1 \}}
+% матрица Якоби
+\newcommand{\jacobi}[2]{\frac{\partial #1}{\partial \left( #2 \right)}}
 
 \begin{document}
-    \title{Применение спектрального анализа в задаче обнаружения источников излучения}
-    \author{Тигетов Давид Георгиевич}
-    \maketitle
+\title{Обнаружение и пеленгация источников излучения}
+\author{Тигетов Давид Георгиевич}
+\maketitle
 
+\tableofcontents
 
-    \section{Постановка}
+\include{specter}
+\include{precision}
+\include{direction}
 
-    Рассматривается антенная решетка, состаящая из $n$ приёмников. Состояние каждого приёмника в фиксированный момент времени описывается комплексной огибающей $x_j$,
-    которая показывает амлитуду и фазу огибающей для несущей приёмной частоты. Вектор $X$ характеризует состояние всей решетки:
-    \[
-        X
-        = \begin{pmatrix}
-              x_1    \\
-              x_2    \\
-              \vdots \\
-              x_n
-        \end{pmatrix}
-    \]
-
-    При отсутствии внешних источников излучения, приёмники фиксируют только собственные шумы, поэтому вектор $X$ является случайным вектором $E$:
-    \[
-        X = E ,
-    \]
-    с математическим ожиданием $\expectation{X}$ и ковариационной матрицей $\variance{X}$:
-    \begin{gather*}
-        \expectation{X} = 0 , \\
-        \variance{X} = \sigma_0^2 I_n,
-    \end{gather*}
-    где $\sigma_0^2$ --- мощность собственных шумов приёмников и $I_n$ обозначает единичную матрицу порядка $n$.
-
-    При наличии $m$ источников излучения каждый источник с номером $k$ изменяет состояние $X$ антенны на величину $s_k \breve{X}_k$, где $s_k$ --- определяет комплексную огибающую,
-    которые выделяют приёмники антенны из сигнала источника с номером $k$ и $\breve{X}_k$ --- вектор фазового распределения:
-    \[
-        \norm{\breve{X}_k}^2
-        = \breve{X}_k^* \breve{X}_k
-        = n,
-    \]
-    определяется геометрическим расположением приёмников антенны и направлением действия источника излучения с номером $k$. Таким образом, состояние:
-    \[
-        X = E + s_1 \breve{X}_1 + \dots + s_m \breve{X}_m .
-    \]
-    Cвойства случайных величин $\sigma_k$ таковы, что изменение состояния $X$ антенны не приводит к изменению математического ожидания:
-    \[
-        \expectation{X} = 0,
-    \]
-    но приводит к изменению ковариационной матрицы:
-    \begin{gather*}
-        \variance{X}
-        = \sigma_0^2 I_n + \sigma_1^2 \breve{X}_1 \breve{X}_1^* + \dots + \sigma_m^2 \breve{X}_m \breve{X}_m^*
-        = \sigma_0^2 I_n + \breve{X} S \breve{X}^* , \\
-        %
-        \breve{X}
-        = \begin{pmatrix}
-              \breve{X}_1 & \dots & \breve{X}_m
-        \end{pmatrix}, \\
-        %
-        S = \begin{pmatrix}
-                \sigma_1^2 & \dots  & 0          \\
-                \vdots     & \ddots & \vdots     \\
-                0          & \dots  & \sigma_m^2
-        \end{pmatrix} ,
-    \end{gather*}
-    где $\sigma_k^2$ --- мощности сигналов источников излучения.
-
-    Таким образом, ковариационная матрица $\variance{X}$ различна при отсутствии и наличии источников излучения. Требуется по заданной матрице $\variance{X}$ ответить на вопрос о
-    наличии источников излучения.
-
-
-    \section{Обнаружение}
-
-    \subsection{Спектры $\variance{X}$}
-
-    Пусть $D_1$ --- ковариационная матрица состояния $X$ при отсутствии источников излучения:
-    \[
-        D_1 = \sigma_0^2 I_n
-    \]
-    её спектр:
-    \[
-        \spectrum{D_1} = \left \{ \sigma_0^2 \right \} .
-    \]
-
-    Пусть $D_2$ --- ковариационная матрица состояния $X$ при наличии источников излучения:
-    \[
-        D_2 = \sigma_0^2 I_n + \breve{X} S \breve{X}^* .
-    \]
-    Векторы $\breve{X}_k$, вообще говоря, не являются ортогональными, но в большинстве случаев весьми близки к ортогональным, во всяком случае:
-    \begin{gather*}
-        \breve{X}_i^* \breve{X_j} \ll \norm{X_i}^2 = \norm{X_j}^2 = n , \\
-        i \neq j .
-    \end{gather*}
-    Попутно отсюда следует, что $\breve{X}_k$ --- линейно независимые, но главное, векторы $\breve{X}_k$ являются "почти"{} собственными (если пренебречь произведениями
-    $\breve{X}_i^* \breve{X_k}$):
-    \begin{gather*}
-        D_2 \breve{X}_k
-        = \left ( \sigma_0^2 I_n + \breve{X} S \breve{X}^* \right ) \breve{X}_k
-        = \sigma_0^2 \breve{X}_k + \sum_{i=1}^n \breve{X} \sigma_i^2 \breve{X}_i^* \breve{X}_k
-        \approx ( \sigma_0^2 + \sigma_k^2 \breve{X}_k^* \breve{X}_k ) \breve{X}_k
-        = ( \sigma_0^2 + \sigma_k^2 n ) \breve{X}_k ,
-    \end{gather*}
-    а числа $\sigma_0^2 + \sigma_k^2 n$ тоже "почти"{} собственные. Если источник излучения достаточно мощный по сравнению с собственными шумами ($\sigma_0^2 \ll \sigma_k^2$)
-    или количество приёмников большое ($1 \ll n$), то:
-    \[
-        \sigma_0^2 \ll \sigma_0^2 + \sigma_k^2 n
-    \]
-    поэтому в спектре $D_2$:
-    \begin{gather}
-        \spectrum{D_2} = \left \{ \sigma_0^2, \lambda_m^2, \dots, \lambda_1^2 \right \} , \notag \\
-        \lambda_m^2 \le \dots \le \lambda_1^2 , \notag \\
-        \lambda_k^2 \approx \sigma_0^2 + \sigma_k^2 n \label{eigenvalues}
-    \end{gather}
-    должно появится "большое"{} собственное число $\lambda_1^2$:
-    \[
-        \sigma_0^2 \ll \lambda_1^2 .
-    \]
-    Таким образом, нужно найти самое большое собственное число матрицы $\variance{X}$ и если оно окажется существенно больше $\sigma_0^2$, то следует принять положительное
-    решение о наличии источников излучения.
-
-    \subsection{Поиск наибольшего собственного значения}
-
-    Любая ковариационная матрица является эрмитовой (это следует из способа определения ковариационной матрицы), поэтому допускает спектральное разложение.
-
-    Линейную оболочку $\linear{\breve{X}}$ принято называть сигнальным подпространством, а её ортогональное дополнение $\linear{\breve{X}}^\perp$ --- шумовым. В сигнальном
-    подпространстве $\linear{\breve{X}}$ помещаются собственные векторы $U_1$, \dots, $U_m$, соответствующие собственным числам $\lambda_1^2$, \dots, $\lambda_m^2$, а в шумовом ---
-    оставшиеся собственные векторы $U_{m+1}$, \dots, $U_n$ соответствующие собственному значению $\sigma_0^2$. Таким образом,
-    \begin{gather*}
-        D_2 = U \Lambda U^* , \\
-        %
-        U
-        = \begin{pmatrix}
-              U_1 & \dots & U_m & U_{m+1} & \dots & U_n
-        \end{pmatrix}, \\
-        %
-        \Lambda
-        = \begin{pmatrix}
-              \lambda_1^2 & \dots  & 0           & 0          & \dots  & 0          \\
-              \vdots      & \ddots & \vdots      & \vdots     & \ddots & \vdots     \\
-              0           & \dots  & \lambda_m^2 & 0          & \dots  & 0          \\
-              0           & \dots  & 0           & \sigma_0^2 & \dots  & 0          \\
-              \vdots      & \ddots & \vdots      & \vdots     & \ddots & \vdots     \\
-              0           & \dots  & 0           & 0          & \dots  & \sigma_0^2
-        \end{pmatrix}
-    \end{gather*}
-
-    Далее, можно взять произвольный вектор $C^{(0)}$ с единичной нормой, который имеет разложение по базису собственных векторов $U_k$:
-    \begin{gather*}
-        C^{(0)} = c_1^{(0)} U_1 + \dots + c_m^{(0)} U_m + c_{m+1}^{(0)} U_{m+1} + \dots + c_n^{(0)} U_n, \\
-        \norm{C^{(0)}} = 1
-    \end{gather*}
-    и выполнять итерации:
-    \begin{multline*}
-        \widetilde{C}^{(k+1)}
-        = D_2 C^{(k)}
-        = U \Lambda U^* C^{(k)}
-        = U \Lambda
-        \begin{pmatrix}
-            c_1     \\
-            \vdots  \\
-            c_m     \\
-            c_{m+1} \\
-            \vdots  \\
-            c_n
-        \end{pmatrix}
-        = U
-        \begin{pmatrix}
-            \lambda_1^2 c_1    \\
-            \vdots             \\
-            \lambda_m^2 c_m    \\
-            \sigma_0^2 c_{m+1} \\
-            \vdots             \\
-            \sigma_0^2 c_n
-        \end{pmatrix} = \\
-        %
-        = \lambda_1^2 c_1^{(k)} U_1 + \dots + \lambda_m^2 c_m^{(k)} U_m + \sigma_0^2 c_{m+1}^{(k)} U_{m+1} + \dots + \sigma_0^2 c_n^{(k)} U_n ,
-    \end{multline*}
-    с последующей нормировкой:
-    \[
-        C^{(k+1)} = \frac{\widetilde{C}^{(k+1)}}{\norm{\widetilde{C}^{(k+1)}}}.
-    \]
-    Если $\lambda_1^2 > \lambda_j^2$ ($j \ge 2$) и $\lambda_1^2 > \sigma_0^2$, то коэффициенты при $U_j$ для $j \ge 2$ убывают по сравнению с коэффициентом при $U_1$:
-    \begin{align*}
-        2 \le j \le m &:
-        \frac{c_j^{(k+1)}}{c_1^{(k+1)}}
-        = \frac{\frac{\lambda_j^2 c_j^{(k)}}{\norm{\widetilde{C}^{(k+1)}}}}{\frac{\lambda_1^2 c_1^{(k)}}{\norm{\widetilde{C}^{(k+1)}}}}
-        = \frac{\lambda_j^2}{\lambda_1^2} \cdot \frac{c_j^{(k)}}{c_1^{(k)}}
-        < \frac{c_j^{(k)}}{c_1^{(k)}} , \\
-        %
-        m+1 \le j \le n &:
-        \frac{c_j^{(k+1)}}{c_1^{(k+1)}}
-        = \frac{\frac{\sigma_0^2 c_j^{(k)}}{\norm{\widetilde{C}^{(k+1)}}}}{\frac{\lambda_1^2 c_1^{(k)}}{\norm{\widetilde{C}^{(k+1)}}}}
-        = \frac{\sigma_0^2}{\lambda_1^2} \cdot \frac{c_j^{(k)}}{c_1^{(k)}}
-        < \frac{c_j^{(k)}}{c_1^{(k)}} , \\
-    \end{align*}
-    Таким образом, в результате выполнения итераций и нормировки:
-    \begin{align*}
-        & c_1^{(k+1)} = \frac{\lambda_1^2 c_1^{(k)}}{\norm{\widetilde{C}^{(k+1)}}} \rightarrow 1, \\
-        2 \le j \le m : \; & c_j^{(k+1)} = \frac{\lambda_j^2 c_j^{(k)}}{\norm{\widetilde{C}^{(k+1)}}} \rightarrow 0, \\
-        m+1 \le j \le n : \; & c_j^{(k+1)} = \frac{\sigma_0^2 c_1^{(k)}}{\norm{\widetilde{C}^{(k+1)}}} \rightarrow 0 .
-    \end{align*}
-    Таким образом,
-    \[
-        C^{(k+1)} \rightarrow U_1 .
-    \]
-    При этом квадрат нормы вектора $\widetilde{C}^{(k+1)}$:
-    \[
-        \norm{\widetilde{C}^{(k+1)}}^2
-        = (\lambda_1^2 c_1^{(k+1)})^2 + \dots + (\lambda_m^2 c_m^{(k+1)})^2 + (\sigma_0^2 c_{m+1}^{(k+1)})^2 + \dots + (\sigma_0^2 c_n^{(k+1)})^2
-        \rightarrow (\lambda_1^2)^2
-    \]
-    Таким образом, выполняя итерации и наблюдая за нормой получающихся векторов, можно получить представление о наибольшем собственной значении $\lambda_1^2$, сравнение которого с
-    величиной мощности собственных шумов $\sigma_0^2$ принять решение о наличии источников излучения.
-
-    \subsection{Ускорение сходимости}
-    Заметим, что скорость убывания отношения коэффициентов пропорциональна отношениям $\frac{\lambda_j^2}{\lambda_1^2}$ и $\frac{\sigma_0^2}{\lambda_1^2}$. Учитывая упорядоченность
-    собственных значений, наибольшим коэффициентом убывания окажется $\frac{\lambda_2^2}{\lambda_1^2}$, поэтому желательно сделать его поменьше, например, сдвинув весь спектр на
-    некоторую величину $\delta>0$:
-    \[
-        \lambda_j^2 \leftarrow \lambda_j^2 - \delta
-    \]
-    В таком случае, уменьшится и отношение:
-    \[
-        \frac{\lambda_2^2 - \delta}{\lambda_1^2 - \delta} < \frac{\lambda_2^2}{\lambda_1^2} ,
-    \]
-    и это приведёт к более быстрой сходимости итерационного процесса к собственному вектору $U_1$.
-    При этом величина $\delta$ не должна быть слишком большой, в противном случае, возможна ситуация, в которой $\modulus{\sigma_0^2 - \delta} > \modulus{\lambda_1^2 - \delta}$ и
-    в итерационной процессе нарушится сходимость к собственному вектору $U_1$.
-
-    Одним из возможных вариантов выбора величины $\delta$ является среднее значение:
-    \[
-        \delta
-        = \frac{\lambda_1^2 + \dots + \lambda_m^2 + (n-m) \sigma_0^2}{n}
-        = \frac{\lambda_1^2 + \dots + \lambda_m^2}{n} + \frac{n-m}{n} \sigma_0^2,
-    \]
-    где сумма в числителе легко вычисляется --- из вида характеристического многочлена следует, что сумма его корней (собственных чисел) равна следу матрицы:
-    \[
-        \trace{D_2} = \lambda_1^2 + \dots + \lambda_m^2 + (n-m) \sigma_0^2 .
-    \]
-    Вопрос о том, как соотносятся величины
-    \[
-        \delta - \sigma_0^2 \; ? \; \lambda_1^2 - \delta
-    \]
-    пока остаётся открытым.
-
-    Тем не менее, принимая во внимание приближенные равенства \eqref{eigenvalues}:
-    \[
-        \lambda_j^2 \approx \sigma_0^2 + n \sigma_j^2 ,
-    \]
-    получим приближенное значение сдвига $\delta$:
-    \begin{multline*}
-        \delta
-        \approx \frac{(\sigma_0^2 + n \sigma_1^2) + \dots + (\sigma_0^2 + n \sigma_m^2)}{n} + \frac{n-m}{n} \sigma_0^2 = \\
-        %
-        = \frac{m}{n} \sigma_0^2 + \sigma_1^2 + \dots + \sigma_m^2 + \frac{n-m}{n} \sigma_0^2
-        = \sigma_1^2 + \dots + \sigma_m^2 + \sigma_0^2
-    \end{multline*}
-    Откуда получим приближенные равенства:
-    \[
-        \begin{array}{lclcl}
-            \delta - \sigma_0^2  & \approx & \sigma_1^2 + \dots + \sigma_m^2 + \sigma_0^2 - \sigma_0^2 & = & \sigma_1^2 + \dots + \sigma_m^2 , \\
-            \lambda_1^2 - \delta & \approx & \sigma_0^2 + n \sigma_1^2 - ( \sigma_1^2 + \dots + \sigma_m^2 + \sigma_0^2 ) & = & n \sigma_1^2 - ( \sigma_1^2 + \dots + \sigma_m^2 ) .
-        \end{array}
-    \]
-    Если мощность $\sigma_1^2$ считать одной из наибольших
-    \[
-        \sigma_1^2 \ge \sigma_j^2,
-    \]
-    тогда:
-    \[
-        \begin{array}{lclcl}
-            \delta - \sigma_0^2  & \approx & \sigma_1^2 + \dots + \sigma_m^2 & \le & m \sigma_1^2, \\
-            \lambda_1^2 - \delta & \approx & n \sigma_1^2 - ( \sigma_1^2 + \dots + \sigma_m^2 ) & \ge & (n - m) \sigma_1^2.
-        \end{array}
-    \]
-    Учитывая, что в большинстве случаев на практике оказывается, что количество $m$ источников излучения оказывается существенно меньше количества приёмников $n$ антенны:
-    \[
-        m \ll n ,
-    \]
-    приходим к неравенству:
-    \[
-        \delta - \sigma_0^2 < \lambda_1^2 - \delta .
-    \]
-    Таким образом, некоторое ускорение сходимости можно получить, если заменить матрицу $D_2$:
-    \[
-        D_2 \leftarrow D_2 + \delta I_n.
-    \]
 \end{document}
