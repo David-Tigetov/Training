@@ -1,0 +1,57 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[margin=2cm]{geometry}
+
+% поле GF(2)
+\newcommand{\gftwo}{\mathbb{F}_2}
+
+% вектор из элементов GF(2)
+\newcommand{\gftwovector}[1]{\mathbb{F}^{#1}_2}
+% матрица из элементов GF(2)
+\newcommand{\gftwomatrix}[2]{\mathbb{F}^{#1 \times #2}_2}
+
+% определитель
+\newcommand{\determinant}[1]{\left | #1 \right |}
+
+% cчетчик шагов, подчиненный счетчику разделов
+\newcounter{computationstepcounter}[section]
+% формат вывод счетчика шагов
+\renewcommand{\thecomputationstepcounter}{\arabic{computationstepcounter}}
+% окружение для программ
+\newcommand{\computationstep}[1]
+{
+	\par
+	\refstepcounter{computationstepcounter}
+	\begin{tabular}{p{2cm}p{10cm}}
+		Шаг \thecomputationstepcounter & #1 \\
+	\end{tabular}
+	\par
+}
+
+\begin{document}
+
+\title{Метод Ланцоша--Монтгомери \\ для решения систем уравнений в поле GF(2)}
+\author{Тигетов Давид}
+\maketitle
+
+\tableofcontents
+
+\section*{Обозначения}
+
+$\gftwo$ --- $GF(2)$.
+
+$\gftwovector{n}$ --- линейное пространство векторов порядка $n$ над полем $\gftwo$
+
+$\gftwomatrix{n}{m}$ --- множество матриц с $n$ строками и $m$ столбцами и элементами из $GF(2)$.
+
+\include{theoretical_introduction}
+
+\include{computational_schemes}
+
+\include{bibliography}
+
+\end{document}

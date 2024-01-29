@@ -1,0 +1,154 @@
+\section{Решение систем уравнений над полем $\gfp$}
+
+\subsection{Неоднородная система с невырожденной матрицей}\label{subsection:SAP:nonuniform}
+
+Пусть требуется найти решение неоднородной системы:
+
+	\begin{equation} \label{equation:SAP:nonuniform_system}
+		A x = b,
+	\end{equation}
+	$$ \left| A \right| \neq 0, $$
+
+где $A \in \gfpmatrix{n}{n}$ и $b \in \gfpvector{n}$.
+
+Представим, что некоторым образом найден аннулирующий полином $\polynomial{\varphi}$ вектора $b$ степени $d$:
+
+	$$ \varphi(\lambda) =
+		\varphi_0 + \varphi_1\lambda + \varphi_2\lambda^2 + \ldots + \varphi_d\lambda^d = \sum_{i=0}^d \varphi_i\lambda^i, $$
+
+в котором
+
+	$$ \varphi_0 \neq 0. $$
+
+Поскольку полином $\polynomial{\varphi}$ является аннулирующим для $b$, то:
+
+	$$ \varphi(A)b = 0, $$
+	$$ \varphi_0b + \varphi_1Ab + \varphi_2A^2b + \ldots + \varphi_dA^db = 0, $$
+	$$ \varphi_0b = -\varphi_1Ab - \varphi_2A^2b - \ldots - \varphi_dA^db, $$
+
+Поскольку коэффициент $ \varphi_0 \neq 0 $, то в поле $\gfp$ существует обратный по умножению элемент $\varphi_0^{-1}$, тогда:
+
+	$$ b = \varphi_0^{-1} \left(-\varphi_1Ab - \varphi_2A^2b - \ldots - \varphi_dA^db \right), $$
+	$$ b = \varphi_0^{-1} A \left(-\varphi_1b - \varphi_2Ab - \ldots - \varphi_dA^{d-1}b \right), $$
+	$$ b = A \left\{ -\varphi_0^{-1} \left(\varphi_1b + \varphi_2Ab + \ldots + \varphi_dA^{d-1}b \right) \right\}, $$
+	$$ b = A \left\{ -\varphi_0^{-1} \sum_{i=1}^d \varphi_iA^{i-1}b \right\}, $$
+
+откуда следует, что решением системы \eqref{equation:SAP:nonuniform_system} является вектор:
+
+	$$ x=-\varphi_0^{-1} \sum_{i=1}^d \varphi_iA^{i-1}b, $$
+
+который принадлежит пространству Крылова $\mathcal K_d ( b, A)$.
+
+Таким образом, для нахождения решения системы~\eqref{equation:SAP:nonuniform_system} достаточно найти аннулирующий полином
+$\polynomial{\varphi}$ вектора $b$ с коэффициентом $\varphi_0 \neq 0$. Одним из таких полиномов является например минимальный аннулирущий
+полином $\polynomial{\tilde \varphi}$ вектора $b$, поскольку из условия $\left | A \right | \neq 0$ согласно утверждению
+\ref{statement:APD:determinant_and_minimal_vector_annihilating_polynomial} следует $\tilde \varphi_0 \neq 0$.
+
+\subsection{Однородная система с вырожденной матрицей}\label{subsection:SAP:uniform}
+
+Пусть требуется найти нетривиальное решение однородной системы:
+
+	\begin{equation}\label{equation:SAP:uniform_system}
+		A x = 0,
+	\end{equation}
+	$$ \left | A \right | = 0, $$
+
+где $A \in \gfpmatrix{n}{n}$.
+
+\subsubsection{Метод нахождения решения}
+
+Выберем произвольным образом вектор $z \in \gfpvector{n}$ и представим, что некоторым образом найден аннулирущий полином
+$\polynomial{\varphi}$ вектора z:
+
+	$$ \varphi(\lambda) =
+		\varphi_k \lambda^k + \varphi_{k+1} \lambda^{k+1} + \ldots + \varphi_d \lambda^d = \sum_{i=k}^d \varphi_i\lambda^i, $$
+
+в котором
+
+	$$ k \ge 1. $$
+
+Поскольку полином $\polynomial{\varphi}$ является аннулирующим для вектора $z$, то
+
+	$$ \varphi(A) z = 0, $$
+	$$ \left ( \varphi_k A^k + \varphi_{k+1} A^{k+1} + \ldots + \varphi_d A^d \right ) z = 0, $$
+	$$ A^k \left ( \varphi_k + \varphi_{k+1} A + \ldots + \varphi_d A^{d-k} \right ) z = 0. $$
+
+Обозначим в качестве $\polynomial{\varphi_k}$ полином, стоящий в скобках,
+
+	$$ \varphi_k(\lambda) = \varphi_k + \varphi_{k+1} \lambda + \ldots + \varphi_d \lambda^{d-k}, $$
+
+тогда
+
+	\begin{equation} \label{equation:SAP:vector_z_annihilation}
+		A^k \varphi_k(A) z = 0.
+	\end{equation}
+
+Если вектор $\varphi_k(A) z$ является нулевым, то, к сожалению, решение системы \eqref{equation:SAP:uniform_system} найти не удастся, и
+придется повторить попытку с другим вектором $z$ и аннулирущим полиномом $\polynomial{\varphi}$.
+
+Если вектор $\varphi_k(A) z$ не является нулевым, то необходимо вычислять векторы $A^s \varphi_k(A) z$ для $s=1,\dots,k$, до тех пор пока
+не будет получен нулевой вектор. Рано или поздно нулевой вектор будет получен, поскольку по крайней мере для $s=k$ имеет место равенство
+\eqref{equation:SAP:vector_z_annihilation}. Предположим, что при некотором наименьшем возможном $s$ имеют место равенства:
+
+	$$ A^{s-1} \varphi_k(A) z \neq 0 $$
+	$$ A^s \varphi_k(A) z = 0 $$
+
+тогда из последнего равенства
+
+	$$ A \left \{ A^{s-1} \varphi_k(A) z \right \} = 0 $$
+
+и следовательно ненулевой вектор $x$:
+
+	$$ x = A^{s-1} \varphi_k(A) z \neq 0 $$
+
+является нетривиальным решением системы \eqref{equation:SAP:uniform_system}.
+
+Легко видеть, что в данном случае вектор--решение $x$ принадлежит пространству Крылова $\mathcal K_{d-k+s}(z,A)$:
+
+	$$ x = A^{s-1} \sum_{i=k}^d \varphi_i A^{i-k} z = \sum_{i=k}^d \varphi_i A^{i-k+s-1} z $$
+
+\subsubsection{Анализ метода нахождения решения}
+
+Успех в нахождении нетривиального решения системы \eqref{equation:SAP:uniform_system} зависит от того, удастся ли найти вектор $z$ и
+аннулирущий полином $\polynomial{\varphi}$ такие, что:
+
+	$$ \varphi(A) z = 0, $$
+	$$ \polynomial{\varphi} =
+		\lambda^k \left ( \varphi_k + \varphi_{k+1} \lambda + \ldots + \varphi_d \lambda^{d-k} \right ), $$
+	$$ \left ( \varphi_k + \varphi_{k+1} A + \ldots + \varphi_d A^{d-k} \right ) z \neq 0 $$
+
+Одним из полиномов $\polynomial{\varphi}$, удовлетворяющим все трем условиям для некоторых векторов $z$, является в частности
+минимальный аннулирущий полином $\polynomial{\tilde\psi}$ пространства $\gfpvector{n}$. Действительно, поскольку 
+$\polynomial{\tilde\psi}$ является аннулирущим полиномом пространства $\gfpvector{n}$, то
+
+	$$ \tilde\psi(A) z = 0. $$
+
+Далее, согласно утверждению \ref{statement:APD:space:zero_determinant_and_space_annihilating_polynomials} полином $\polynomial{\tilde\psi}$ имеет вид:
+
+	$$ \tilde\psi(\lambda) = \tilde\psi_k \lambda^k + \tilde\psi_{k+1} \lambda^{k+1} + \ldots + \tilde\psi_d \lambda^d. $$
+
+И наконец полином $\polynomial{\tilde\psi_k}$, получаемый вынесением множителя $\lambda^k$:
+
+	$$ \tilde\psi_k(\lambda) = \tilde\psi_k + \tilde\psi_{k+1} \lambda + \dots + \tilde\psi_d \lambda^{d-k} $$
+
+уже не является аннулирущим полиномом пространства $\gfpvector{n}$. Действительно, степень полинома $\polynomial{\tilde\psi_k}$
+равна $d-k < d$, и если предположить, что полином $\polynomial{\tilde\psi_k}$ является аннулирущим полиномом пространства $\gfpvector{n}$,
+то это предположение противоречит тому, что полином $\polynomial{\tilde\psi}$ является минимальным аннулирущим полиномом
+пространства $\gfpvector{n}$.
+
+Поскольку полином $\polynomial{\tilde\psi_k}$ не является аннулирущим для всего пространства $\gfpvector{n}$, то найдется и ненулевой
+вектор $z$ такой, что
+
+	$$ \tilde\psi_k(A) z \neq 0. $$
+
+Отсюда следует, что размерность образа оператора $\tilde\psi_k(\mathcal A)$ не меньше 1. Размерность всего поля векторов $\gfpvector{n}$
+равна $n$, и по известной теореме о сумме размерностей ядра и образа, ядро оператора $\tilde\psi_k(\mathcal A)$ имеет размерность не более,
+чем $n-1$. В пространстве $\gfpvector{n}$ всего $p^n$ различных векторов, поскольку размерность ядра $\tilde\psi_k(\mathcal A)$ не более $n-1$,
+то в ядре оператора $\tilde\psi_k(\mathcal A)$ не более $p^{n-1}$ векторов.
+
+Если вектор $z$ выбирается случайным образом (с равномерным распределением), то вектор $z$ оказывается вектором из ядра оператора
+$\tilde\psi_k(\mathcal A)$ с вероятностью не более $\frac{p^{n-1}}{p^n} = \frac{1}{p}$. Вероятность выбрать $r > 1$ векторов из ядра
+оказывается не больше, чем $\left ( \frac{1}{p} \right ) ^r$, а вероятность того, что среди $r$ векторов окажется хотя бы один вектор не
+из ядра оператора $\tilde\psi_k(\mathcal A)$ не меньше, чем $1 - \frac{1}{p^r}$.
+
+Таким образом, за $r$ попыток можно расчитывать на получение нетривиального решения с вероятностью не менее, чем $1 - \frac{1}{p^r}$.

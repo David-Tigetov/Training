@@ -1,0 +1,501 @@
+\section{Аннулирующие полиномы}
+
+Определения, используемые в данном разделе, взяты из книги \cite[с.~171--172]{Gantmacher}.
+
+\subsection{Аннулирующие полиномы пространства $\gfpvector{n}$}
+
+\begin{definition} \label{definition:AP:space:annihilating_polynomial}
+	Полином $\polynomial{\psi} \in \gfppolynomial$ называется \definedterm{аннулирующим полиномом пространства $\gfpvector{n}$
+	относительно оператора $\mathcal A$}, если матрица $\psi(A)$ является нулевой :
+		$$ \psi(A) = 0. $$
+\end{definition}
+
+\begin{definition}
+	Полином $\polynomial{\tilde\psi} \in \gfppolynomial$ называется \definedterm{минимальным аннулирующим полином пространства
+	$\gfpvector{n}$ отностительно оператора $\mathcal A$}, если его степень не больше степени любого другого аннулирующего полинома
+	$\polynomial{\psi}$ пространства $\gfpvector{n}$ относительно оператора $\mathcal A$:
+		$$ \polynomialdegree{\tilde\psi} \le \polynomialdegree{\psi}. $$
+\end{definition}
+
+Везде далее для краткости слова "относительно оператора $\mathcal A$"{} опущены.
+
+\begin{statement} \label{statement:AP:space:polynomials_division}
+	Пусть
+	\begin{enumerate}
+		\item $\polynomial{\psi}$ --- аннулирущий полином пространства $\gfpvector{n}$,
+		\item $\polynomial{\tilde\psi}$ --- минимальный аннулирущий полином пространства $\gfpvector{n}$,
+	\end{enumerate}
+	тогда полином $\polynomial{\psi}$ делится без остатка на полином $\polynomial{\tilde \psi}$:
+
+		$$ \polynomial{\psi} = \polynomial{\delta} \polynomial{\tilde\psi} $$
+
+	где $\polynomial{\delta} \in \gfppolynomial$ --- некоторый полином.
+
+	\proof
+
+	Поскольку $\polynomial{\tilde\psi}$ по условию является минимальным аннулирующим полиномом, то его степень не больше степени полинома
+	$\polynomial{\psi}$. В таком случае полином $\polynomial{\psi}$ можно разделить на полином $\polynomial{\tilde\psi}$, получив полиномы
+	целой части $\polynomial{\delta}$ и остатка $\polynomial{\varepsilon}$:
+
+		\begin{equation} \label{equation:AP:space:polynomials_division}
+			\polynomial{\psi} = \polynomial{\delta} \polynomial{\tilde \psi} + \polynomial{\varepsilon}
+		\end{equation}
+
+	где степень полинома $\polynomial{\varepsilon}$ меньше степени полинома $\polynomial{\tilde\psi}$:
+
+		\begin{equation} \label{equation:AP:space:remainder_polynomial_degree}
+			\polynomialdegree{\varepsilon} < \polynomialdegree{\tilde\psi}.
+		\end{equation}
+
+	Подставляя в равенство \eqref{equation:AP:space:polynomials_division} матрицу $A$, получим равенство для матриц:
+
+		$$ \psi(A) = \delta(A) \tilde\psi(A) + \varepsilon(A), $$
+
+	в котором $\psi(A) = 0$ и $\tilde\psi(A) = 0$ поскольку полиномы $\polynomial{\psi}$ и $\polynomial{\tilde\psi}$ являются аннулирущими
+	полиномами пространства $\gfpvector{n}$. Таким образом
+
+		$$ 0 = \varepsilon(A) $$
+
+	и следовательно полином $\polynomial{\varepsilon}$ тоже является аннулирующим полиномом пространства $\gfpvector{n}$, и к тому же имеет
+	степень меньше степени минимального аннулирущего полинома $\polynomial{\tilde\psi}$ в соответствии с неравенством
+	\eqref{equation:AP:space:remainder_polynomial_degree}. Это возможно только в том случае, если $\polynomial{\varepsilon} \equiv 0$, в
+	противном случае, если $\polynomial{\varepsilon}$ --- ненулевой полином, то полином $\polynomial{\tilde\psi}$ не является минимальным
+	аннулирующим полиномом, что противоречит условию утверждения.
+
+	Таким образом, $\polynomial{\varepsilon} \equiv 0$ и равенство \eqref{equation:AP:space:polynomials_division} принимает вид:
+
+		$$ \polynomial{\psi} = \polynomial{\delta} \polynomial{\tilde\psi} $$
+\end{statement}
+
+\subsection{Аннулирующие полиномы векторов из $\gfpvector{n}$}
+
+\begin{definition}
+	Полином $\polynomial{\varphi} \in \gfppolynomial$ называется \definedterm{аннулирующим полиномом вектора $x \in \gfpvector{n}$
+	относительно оператора $\mathcal A$}, если вектор $\varphi(A) x$ является нулевым:
+		$$ \varphi(A) x = 0. $$
+\end{definition}
+
+\begin{definition}
+	Полином $\polynomial{\tilde\varphi} \in \gfppolynomial$ называется \definedterm{минимальным аннулирующим полином вектора
+	$x \in \gfpvector{n}$ отностительно оператора $\mathcal A$}, если его степень не больше степени любого другого аннулирующего полинома
+	$\polynomial{\varphi}$ вектора $x \in \gfpvector{n}$ относительно оператора $\mathcal A$:
+		$$ \polynomialdegree{\tilde\varphi} \le \polynomialdegree{\varphi}. $$
+\end{definition}
+
+Опять же для краткости везде далее слова "относительно оператора $\mathcal A$"{} опущены.
+
+Совершенно аналогично утверждению \ref{statement:AP:space:polynomials_division} можно показать, что всякий аннулирующий полином вектора
+делится без остатка на минимальный аннулирующий полином вектора.
+
+\begin{statement} \label{statement:AP:vector:polynomials_division}
+	Пусть
+	\begin{enumerate}
+		\item $x \in \gfpvector{n}$ --- произвольный вектор,
+		\item $\polynomial{\varphi}$ --- аннулирущий полином вектора $x$,
+		\item $\polynomial{\tilde\varphi}$ --- минимальный аннулирущий полином вектора $x$,
+	\end{enumerate}
+	тогда полином $\polynomial{\varphi}$ делится без остатка на полином $\polynomial{\tilde\varphi}$:
+
+		$$ \polynomial{\psi} = \polynomial{\delta} \polynomial{\tilde\psi} $$
+
+	где $\polynomial{\delta} \in \gfppolynomial$ --- некоторый полином.
+
+	\proof
+
+	Степень полинома $\polynomial{\tilde\varphi}$ не больше степени полинома $\polynomial{\varphi}$, поскольку $\polynomial{\tilde\varphi}$
+	по условию является минимальным аннулирующим полиномом. Разделив полином $\polynomial{\varphi}$ на полином $\polynomial{\tilde\varphi}$
+	получим полиномы целой части $\polynomial{\delta}$ и остатка $\polynomial{\varepsilon}$:
+
+		\begin{equation} \label{equation:AP:vector:polynomials_division}
+			\polynomial{\varphi} = \polynomial{\delta} \polynomial{\tilde\varphi} + \polynomial{\varepsilon}
+		\end{equation}
+
+	где степень полинома $\polynomial{\varepsilon}$ меньше степени полинома $\polynomial{\tilde\varphi}$:
+
+		\begin{equation} \label{equation:AP:vector:remainder_polynomial_degree}
+			\polynomialdegree{\varepsilon} < \polynomialdegree{\tilde\varphi}.
+		\end{equation}
+
+	Подставляя в равенство \eqref{equation:AP:vector:polynomials_division} матрицу $A$, получим равенство для матриц:
+
+		$$ \varphi(A) = \delta(A) \tilde\varphi(A) + \varepsilon(A), $$
+
+	умножая которое на $x$ справа, получим аналогичное равенство для векторов:
+
+		$$ \varphi(A) x = \delta(A) \tilde\varphi(A) x + \varepsilon(A) x, $$
+
+	в котором $\varphi(A) x = 0$ и $\tilde\varphi(A) x = 0$ поскольку полиномы $\polynomial{\varphi}$ и $\polynomial{\tilde\varphi}$
+	являются аннулирущими полиномами вектора $x$. Таким образом
+
+		$$ 0 = \varepsilon(A) x $$
+
+	и следовательно полином $\polynomial{\varepsilon}$ является аннулирующим полиномом вектора $x$, имеющим степень меньше степени минимального
+	аннулирущего полинома $\polynomial{\tilde\varphi}$ в соответствии с неравенством \eqref{equation:AP:vector:remainder_polynomial_degree}.
+	Это возможно только в том случае, если $\polynomial{\varepsilon} \equiv 0$, в противном случае, если $\polynomial{\varepsilon}$ ---
+	ненулевой полином, то полином $\polynomial{\tilde\varphi}$ не является минимальным аннулирующим полиномом вектора $x$, что противоречит
+	условию утверждения.
+
+	Таким образом, $\polynomial{\varepsilon} \equiv 0$ и равенство \eqref{equation:AP:vector:polynomials_division} принимает вид:
+
+		$$ \polynomial{\varphi} = \polynomial{\delta} \polynomial{\tilde\varphi} $$
+\end{statement}
+
+Согласно определению \ref{definition:AP:space:annihilating_polynomial} аннулирующий полином всего пространства $\gfpvector{n}$ является
+аннилурищим полиномом любого вектора $x$ из пространства $\gfpvector{n}$. Отсюда в частности следует делимость аннулирущих полиномов
+пространства на все минимальные аннулирующие полиномы всех векторов пространства $\gfpvector{n}$.
+
+\begin{statement} \label{statement:AP:vector:space_polynomials_division}
+	Пусть
+	\begin{enumerate}
+		\item $\polynomial{\psi}$ --- аннулирующий полином пространства $\gfpvector{n}$,
+		\item $\polynomial{\tilde\varphi}$ --- минимальный аннулирующий полином некоторого вектора $x \in \gfpvector{n}$,
+	\end{enumerate}
+	тогда полином $\polynomial{\psi}$ делится без остатка на полином $\polynomial{\tilde\varphi}$:
+
+		$$ \polynomial{\psi} = \polynomial{\delta} \polynomial{\tilde\varphi}, $$
+
+	где $\polynomial{\delta} \in \gfppolynomial$ --- некоторый полином.
+
+	\proof
+
+	Поскольку $\polynomial{\psi}$ является аннулирующим полиномом пространства $\gfpvector{n}$, то:
+
+		$$ \psi(A) = 0. $$
+
+	и следовательно
+
+		$$ \psi(A) x = 0. $$
+
+	Таким образом, полином $\polynomial{\psi}$ является аннулирущим полиномом вектора $x$ и в соответствии с утверждением
+	\ref{statement:AP:vector:polynomials_division} полином $\polynomial{\psi}$ делится без остатка на полином
+	$\polynomial{\tilde\varphi}$
+\end{statement}
+
+\subsection{Делимость аннулирующих полиномов}
+
+Согласно доказанным утверждениям имеет место следующая делимость полиномов: любой аннулирующий полином пространства $\gfpvector{n}$
+делится без остатка на минимальные аннулирующие полиномы пространства $\gfpvector{n}$, каждый из которых в свою очередь делится без
+остатка на любой минимальный аннулирующий полином любого вектора из $\gfpvector{n}$.
+
+Из приведенной делимости следует, что аннулирующие полиномы всего пространства $\gfpvector{n}$ и отдельных векторов получаются из
+минимальных аннулирующих полиномов пространства $\gfpvector{n}$ и векторов путем умножения на различные полиномы.
+
+\subsection{Аннулирующие полиномы и вырожденность оператора}
+
+Структура аннулирущих полиномов существенно зависит от оператора $\mathcal A$, например, если оператор является вырожденным, то
+аннулирующие полиномы пространства начинаются с некоторой степени $\lambda^k$ и не содержат несколько младших степеней аргумента
+(по крайней мере нулевую).
+
+Наиболее сильным образом связан с оператором характеристический полином матрицы $A$ оператора: если оператор не вырожденный, то
+характеристический полином обязательно имеет ненулевой коэффициент при нулевой степени аргумента. Это свойство характеристического полинома
+переносится на минимальные аннулирущие полиномы за счет делимости характеристического полинома на минимальные аннулирущие
+полиномы всего пространства и отдельных векторов.
+
+\begin{statement} \label{statement:APD:space:zero_determinant_and_space_annihilating_polynomials}
+	Пусть $\polynomial{\psi}$ --- аннулирущий полином пространства $\gfpvector{n}$, тогда
+
+		$$
+			\left \{ \left | A \right | = 0 \right \}
+			\Rightarrow
+			\left \{
+				\begin{array}{c}
+					\psi(\lambda) = \psi_k \lambda^k + \psi_{k+1} \lambda^{k+1} + \dots + \psi_d \lambda^{d},\\
+					k \ge 1
+				\end{array}
+			\right \}
+		$$
+
+	\proof
+
+	\begin{enumerate}
+
+		\item Пусть полином $\polynomial{\psi}$ имеет вид:
+
+			$$ \psi(\lambda) = \psi_0 \lambda + \psi_1 \lambda + \psi_2 \lambda^2 + \ldots + \psi_d \lambda^d. $$
+
+			Поскольку $\polynomial{\psi}$ --- аннулирущий полином пространства, то
+
+				$$ \psi(A) = 0, $$
+				$$ \psi_0 E + \psi_1 A + \psi_2 A^2 + \ldots + \psi_d A^d = 0, $$
+				$$ \psi_0 E = -\psi_1 A - \psi_2 A^2 - \ldots - \psi_d A^d, $$
+				$$ \psi_0 E = \left ( -\psi_1 E - \psi_2 A^1 - \ldots - \psi_d A^{d-1} \right ) \cdot A, $$
+				$$ \left | \psi_0 E \right | = \left | -\psi_1 E - \psi_2 A^1 - \ldots - \psi_d A^{d-1} \right | \cdot \left | A \right |, $$
+				$$ \psi_0^n = \left | -\psi_1 E - \psi_2 A^1 - \ldots - \psi_d A^{d-1} \right | \cdot \left | A \right |. $$
+
+			Поскольку по условию утверждения $\left | A \right | = 0$, то
+
+				$$ \psi_0^n = \left | -\psi_1 E - \psi_2 A^1 - \ldots - \psi_d A^{d-1} \right | \cdot 0 = 0, $$
+				$$ \psi_0^n = 0. $$
+
+			Поскольку во всяком поле нет делителей нуля, то из последнего равенства следует
+
+				$$ \psi_0 = 0. $$
+
+			и полином $\polynomial{\psi}$ должен иметь вид:
+
+				$$ \polynomial{\psi} = \psi_1\lambda + \psi_2\lambda^2 + \ldots + \psi_d\lambda^d, $$
+
+		\item Из последнего равенства следует, что
+
+				$$ \polynomial{\psi} = \lambda \left ( \psi_1 + \psi_2\lambda + \ldots + \psi_d\lambda^{d-1} \right ). $$
+
+			и вполне возможно, что полином $\polynomial{\psi^{(1)}}$ стоящий в скобках:
+
+				$$ \polynomial{\psi^{(1)}} = \psi_1 + \psi_2\lambda + \ldots + \psi_d\lambda^{d-1} $$
+
+			так же является аннулирующим полиномом пространства $\gfpvector{n}$. В этом случае аналогично пункту 1 доказательства:
+
+				$$ \psi_1 = 0. $$
+
+			Продолжая рассуждения подобным образом, в конечном счете можно придти к тому, что полином $\polynomial{\psi}$ обязательно
+			имеет вид:
+
+				$$ \psi(\lambda) = \psi_k \lambda^k + \psi_{k+1} \lambda^{k+1} + \dots + \psi_d \lambda^{d}, $$
+
+			где $k \ge 1$.
+
+	\end{enumerate}
+\end{statement}
+
+\begin{definition}
+	\definedterm{Характеристическим полиномом} матрицы $A \in \gfpmatrix{n}{n}$ называется полином $\polynomial{c_A}$:
+	$$ \polynomial{c_A} = \left | A - \lambda E \right |. $$
+\end{definition}
+
+\begin{statement} \label{statement:APD:determinant_and_characteristic_polynomial}
+		$$
+			\left \{
+				\left | A \right | \neq 0
+			\right \}
+			\Rightarrow
+			\left \{
+				\begin{array}{c}
+					c_A(\lambda) = c_0 + c_1 \lambda + \dots + c_n \lambda^n,\\
+					c_0 \neq 0
+				\end{array}
+			\right \}
+		$$
+		$$
+			\left \{
+				\left | A \right | = 0
+			\right \}
+			\Rightarrow
+			\left \{
+				\begin{array}{c}
+					c_A(\lambda) = c_k \lambda^k + c_{k+1} \lambda^{k+1} + \dots + c_n \lambda^n,\\
+					k \ge 1
+				\end{array}
+			\right \}
+		$$
+
+	\proof
+
+	Пусть характеристический полином $\polynomial{c_A}$ имеет вид
+
+		$$c_A(\lambda) = c_0 + c_1 \lambda + \dots + c_n \lambda^n. $$
+
+	Легко видеть, что
+
+		$$ c_0 = c_A ( 0 ) = \left | A - 0 \cdot E \right | = \left | A \right |.$$
+
+	Отсюда сразу следует, что если $\left | A \right | \neq 0$, то $c_0 \neq 0$.
+
+	Если $\left | A \right | = 0$, то $c_0 = 0$. Если $0$ является корнем кратности $k$, то в этом случае $k$ коэффициентов при младших
+	степенях аргумента в характеристическом полиноме равны $0$,	следовательно характеристический полином $\polynomial{c_A}$ имеет вид
+
+		$$ c_A(\lambda) = c_k \lambda^k + c_{k+1} \lambda^{k+1} + \dots + c_n \lambda^n, $$
+
+	где $k \ge 1$.
+
+\end{statement}
+
+\begin{corollary} \label{corollary:APD:determinant_and_characteristic_polynomial}
+	Тем самым доказаны два критерия:
+		$$
+			\left \{
+				\left | A \right | \neq 0
+			\right \}
+			\Leftrightarrow
+			\left \{
+				\begin{array}{c}
+					c_A(\lambda) = c_0 + c_1 \lambda + \dots + c_n \lambda^n,\\
+					c_0 \neq 0
+				\end{array}
+			\right \}
+		$$
+		$$
+			\left \{
+				\left | A \right | = 0
+			\right \}
+			\Leftrightarrow
+			\left \{
+				\begin{array}{c}
+					c_A(\lambda) = c_k \lambda^k + c_{k+1} \lambda^{k+1} + \dots + c_n \lambda^n,\\
+					k \ge 1
+				\end{array}
+			\right \}
+		$$
+
+	\proof
+
+	Докажем первый критерий от противного: пусть коэффициент $c_0 \neq 0$, а $\left | A \right | = 0$. В таком случае, в соответствии
+	с утверждением \ref{statement:APD:determinant_and_characteristic_polynomial} характеристический полином $\polynomial{c_A}$ должен иметь
+	вид
+
+		$$ c_A(\lambda) = c_k \lambda^k + c_{k+1} \lambda^{k+1} + \dots + c_n \lambda^n, $$
+		$$ k \ge 1, $$
+
+	в котором $c_0 = 0$, что противоречит исходному предположению.
+
+	Второй критерий доказывается аналогичным образом от противного.
+\end{corollary}
+
+\begin{statement} \label{statement:APD:determinant_and_minimal_space_annihilating_polynomial}
+	Пусть $\polynomial{\tilde\psi}$ --- минимальный аннулирущий полином пространства $\gfpvector{n}$, тогда
+
+		$$
+			\left \{
+				\left | A \right | \neq 0
+			\right \}
+			\Rightarrow
+			\left \{
+				\begin{array}{c}
+					\tilde\psi(\lambda) = \tilde\psi_0 + \tilde\psi_1 \lambda + \dots + \tilde\psi_d \lambda^d,\\
+					\tilde\psi_0 \neq 0
+				\end{array}
+			\right \}
+		$$
+
+	\proof
+
+	По теореме Кели--Гамильтона \cite[с.~93]{Gantmacher} характеристический полином $\polynomial{c_A}$ матрицы $A$ является аннулирующим
+	полиномом пространства $\gfpvector{n}$:
+
+		$$ c_A ( A ) = 0. $$
+
+	В таком случае согласно утверждению \ref{statement:AP:space:polynomials_division} характеристический полином $\polynomial{c_A}$
+	делится без остатка на минимальный аннулирующий полином	$\polynomial{\tilde\psi}$, то есть для некоторого полинома
+	$\polynomial{\delta} \in \gfppolynomial$:
+
+		$$ \delta(\lambda) = \delta_0 + \delta_1 \lambda + \dots + \delta_{n-d} \lambda^{n-d} $$
+
+	 имеет место разложение:
+
+		\begin{equation} \label{equation:APD:characteristic_polynomial_factorization}
+			\polynomial{c_A} = \polynomial{\delta} \polynomial{\tilde\psi}.
+		\end{equation}
+
+	В соответствии с утверждением \ref{statement:APD:determinant_and_characteristic_polynomial} в левой части коэффициент при нулевой
+	степени $c_0 \neq 0$, а в правой части коэффициент при нулевой степени получается умножением $\delta_0 \cdot \tilde\psi_0$:
+
+		$$ 0 \neq c_0 = \delta_0 \cdot \tilde\psi_0 $$
+
+	Откуда в частности следует, что
+
+		$$ \tilde\psi_0 \neq 0. $$
+\end{statement}
+
+\begin{statement} \label{statement:APD:determinant_and_minimal_vector_annihilating_polynomial}
+	Пусть $\polynomial{\tilde\varphi}$ --- минимальный аннулирущий полином некоторого вектора $x \in \gfpvector{n}$, тогда
+
+		$$
+			\left \{
+				\left | A \right | \neq 0
+			\right \}
+			\Rightarrow
+			\left \{
+				\begin{array}{c}
+					\tilde\varphi(\lambda) = \tilde\varphi_0 + \tilde\varphi_1 \lambda + \dots + \tilde\varphi_d \lambda^d,\\
+					\tilde\varphi_0 \neq 0
+				\end{array}
+			\right \}
+		$$
+
+	\proof
+
+	Доказательство этого утверждения аналогично доказательству утверждения
+	\ref{statement:APD:determinant_and_minimal_space_annihilating_polynomial}.
+
+	По теореме Кели--Гамильтона \cite[с.~93]{Gantmacher} характеристический полином $\polynomial{c_A}$ матрицы $A$ является аннулирующим
+	полиномом пространства $\gfpvector{n}$, и в соответствии с утверждением \ref{statement:AP:vector:space_polynomials_division} делится без
+	остатка на минимальный аннулирующий полином $\polynomial{\tilde\varphi}$ вектора $x$, то есть для некоторого полинома
+	$\polynomial{\delta} \in \gfppolynomial$:
+
+		$$ \delta(\lambda) = \delta_0 + \delta_1 \lambda + \dots + \delta_{n-d} \lambda^{n-d} $$
+
+	имеет место разложение:
+
+		$$ \polynomial{c_A} = \polynomial{\delta} \polynomial{\tilde\varphi}, $$
+
+	в котором коэффициент при нулевой степени слева $c_0 \neq 0$ в соответствии с утверждением
+	\ref{statement:APD:determinant_and_characteristic_polynomial}, а справа равен $\delta_0 \cdot \tilde\varphi_0$:
+
+		$$ 0 \neq c_0 = \delta_0 \cdot \tilde\varphi_0, $$
+
+	следовательно
+
+		$$ \tilde\varphi_0 \neq 0. $$
+\end{statement}
+
+\subsection{Аннулирущие полиномы и подпространства Крылова} \label{section:KS:krylov_spaces}
+
+\begin{definition}
+	\definedterm{Подпространством Крылова $\mathcal K_r$ размера $r$ для вектора $x \in \gfpvector{n}$ и матрицы $A \in \gfpmatrix{n}{n}$}
+	называется линейная оболочка векторов $x$, $Ax$, $A^2x$, \dots, $A^{r-1}x$:
+		$$ \mathcal K_r (x,A) = \mathcal L \left \{ x, Ax, A^2x, \dots, A^{r-1}x \right \} $$
+\end{definition}
+
+\begin{definition}
+	Векторы $A^k x$ называются \definedterm{векторами Крылова}.
+\end{definition}
+
+Легко видеть, что при любом $r$ подпространство $\mathcal K_r(x,A) \subseteq \gfpvector{n}$, и поскольку размерность $\gfpvector{n}$ равна $n$,
+то размерности подпространств $\mathcal K_r(x,A)$ не могут быть больше $n$. Отсюда следует, что среди векторов Крылова
+$x$, $Ax$, $A^2x$, \dots, $A^{r-1}x$ не может быть больше $n$ линейно независимых векторов, и следовательно при некоторых $r$ векторы Крылова
+оказываются линейно зависимыми (во всяком случае при $r > n$).
+
+Пусть вектор $x$ выбран произвольным образом и зафиксирован, и пусть при некотором $r$ векторы Крылова $x$, $Ax$, $A^2x$, \dots, $A^rx$
+в количестве $r+1$ являются линейно зависимыми, тогда их линейная комбинация с некоторыми коэффициентами $\varphi_i$ равна нулевому вектору:
+
+	$$ \varphi_0 x + \varphi_1 Ax + \varphi_2 A^2x + \dots + \varphi_{r-1} A^{r-1}x + \varphi_r A^rx = 0. $$
+
+Отсюда, вынося вектор $x$, получим равенство
+
+	\begin{equation} \label{equation:KS:annihilating_x}
+		\left ( \varphi_0  + \varphi_1 A + \varphi_2 A^2 + \dots + \varphi_{r-1} A^{r-1} + \varphi_r A^r \right ) x = 0,
+	\end{equation}
+
+из которого следует, что полином $\polynomial{\varphi}$:
+
+	$$ \varphi ( \lambda ) = \varphi_0  + \varphi_1 \lambda + \varphi_2 \lambda^2 + \dots + \varphi_{r-1} \lambda^{r-1} + \varphi_r \lambda^r $$
+
+является аннулирующим полиномом вектора $x$, поскольку из равенства \eqref{equation:KS:annihilating_x}:
+
+	$$ \varphi ( A ) x = 0. $$
+
+Таким образом, известная линейная зависимость векторов Крылова $x$, $Ax$, $A^2x$, \dots, $A^rx$ приводит к аннулирующему полиному вектора $x$.
+
+Пусть теперь число $\tilde r$ является наибольшим количеством линейно независимых векторов Крылова $x$, $Ax$, $A^2x$, \dots, $A^{\tilde r-1}x$,
+тогда векторы Крылова $x$, $Ax$, $A^2x$, \dots, $A^{\tilde r-1}x$, $A^{\tilde r}x$ в количестве $\tilde r + 1$ уже являются линейно
+зависимыми (поскольку $\tilde r$ --- это наибольшее количество линейно независимых векторов Крылова) и следовательно, как и ранее, существует
+такая линейная комбинация этих векторов с коэффициентами $\tilde \varphi_i$, которая является нулевым вектором, откуда полином
+$\polynomial{\tilde \varphi}$ с коэффициентами $\tilde \varphi_i$:
+
+$$ \tilde \varphi ( \lambda ) =
+	\tilde \varphi_0  + \tilde \varphi_1 \lambda + \tilde \varphi_2 \lambda^2 + \dots
+		+ \tilde \varphi_{\tilde r - 1} \lambda^{\tilde r - 1}
+		+ \tilde \varphi_{\tilde r} \lambda^{\tilde r} $$
+
+является аннулирующим полиномом вектора $x$. Более того, полином $\polynomial{\tilde \varphi}$ является минимальным аннулирующим полиномом
+вектора $x$: если допустить существование аннулирующего полинома некоторой меньшей степени $k < \tilde r$, то тогда окажется, что линейно
+зависимыми являются векторы Крылова $x, Ax, A^2x, \dots, A^{k-1}x, A^kx$ в количестве $k+1$, что невозможно, поскольку в силу определения
+числа $\tilde r$ векторы Крылова $x, Ax, A^2x, \dots, A^{k-1}x, A^kx, \dots, A^{\tilde r-1}x$ в количестве $\tilde r \ge k+1$ являются
+линейно независимыми.
+
+Таким образом, построение векторов Крылова $x, Ax, A^2x, \dots, A^{r-1}x$ и анализ их линейной зависимости приводит к построению
+аннулирующих полиномов вектора $x$, в том числе и минимальных.
+
+Легко видеть, что для каждого вектора $x$ соответствующее наибольшее количество линейно независимых векторов Крылова $r$ определяется
+однозначным образом и вообще говоря может быть разным для разных векторов. Например, нетрудно себе представить вектор $x \neq 0$
+из ядра оператора $\mathcal A$, для которого $Ax = 0$ и вообще для любого $k \ge 2$ $A^kx = A^{k-1} \cdot Ax = A^{k-1} \cdot 0 = 0$,
+так что число $r$ линейно независимых векторов Крылова для такого вектора $x$ равно 1 (это сам вектор $x$).

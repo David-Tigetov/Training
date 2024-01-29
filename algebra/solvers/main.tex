@@ -1,0 +1,208 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+
+\newcommand{\gftwo}{\mathbb{F}_2}
+\newcommand{\gftwovector}[1]{\mathbb{F}^{#1}_2}
+\newcommand{\gftwomatrix}[2]{\mathbb{F}^{#1 \times #2}_2}
+
+\newcommand{\gfpmatrix}[2]{\mathbb{F}^{#1 \times #2}_p}
+\newcommand{\gfpvector}[1]{\mathbb{F}^{#1}_p}
+\newcommand{\gfp}{\mathbb{F}_p}
+\newcommand{\gfppolynomial}{\gfp \left [ \lambda \right ]}
+\newcommand{\gfpunitypolynomial}{\gfp^1 \left [ \lambda \right ]}
+
+% определитель
+\newcommand{\determinant}[1]{\left | #1 \right |}
+
+% обозначение полинома
+\newcommand{\polynomial}[1]{ #1 (\lambda)}
+% обозначение степени полинома
+\newcommand{\polynomialdegree}[1]{ deg \left [ \polynomial{#1} \right ] }
+% коэффициент при степени полинома
+\newcommand{\degreecoefficient}[2]{ \left [ \lambda^{#1} \right ] \left \{ #2 \right \} }
+
+% cчетчик определений, утверждений и прочих
+\newcounter{itemcounter}[chapter]
+% формат выводы счетчика определений, утверждений и прочих
+\renewcommand{\theitemcounter}{\thechapter.\arabic{itemcounter}}
+
+% окружение определений
+\newenvironment{definition}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Определение \theitemcounter}.
+	\par
+}
+{
+	\vspace{0.3\baselineskip}
+}
+% стиль определяемого термина
+\newcommand{\definedterm}[1]{ \textit{#1} }
+
+% окружение утверждений
+\newenvironment{statement}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Утверждение \theitemcounter}.
+	\par
+}
+{
+	\par
+	{\raggedleft $\Box$ \par}
+	\vspace{0.3\baselineskip}
+}
+% доказательство
+\newcommand{\proof}{\par Доказательство: \par}
+
+% окружение следствий
+\newenvironment{corollary}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Следствие \theitemcounter}.
+	\par
+}
+{
+	\par
+	{\raggedleft $\Box$ \par}
+	\vspace{0.3\baselineskip}
+}
+
+% окружение соглашений
+\newenvironment{agreement}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Соглашение \theitemcounter}.
+	\par
+}
+{
+	\par
+	{\raggedleft $\Box$ \par}
+	\vspace{0.3\baselineskip}
+}
+
+% окружение условий
+\newenvironment{conditions}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Условия \theitemcounter}.
+	\par
+}
+{
+	\par
+	{\raggedleft $\Box$ \par}
+	\vspace{0.3\baselineskip}
+}
+
+% окружение условия
+\newenvironment{condition}
+{
+	\vspace{0.3\baselineskip}
+	\refstepcounter{itemcounter}
+	\textbf{Условие \theitemcounter}.
+	\par
+}
+{
+	\par
+	{\raggedleft $\Box$ \par}
+	\vspace{0.3\baselineskip}
+}
+
+\begin{document}
+
+\title{Решение систем линейный уравнений в конечных полях}
+\author{Тигетов Давид}
+\maketitle
+
+\tableofcontents
+
+\section{Обозначения}
+
+$\gftwo$ --- $GF(2)$.
+
+$\gftwovector{n}$ --- линейное пространство векторов порядка $n$ над полем $\gftwo$
+
+$\gftwomatrix{n}{m}$ --- множество матриц с $n$ строками и $m$ столбцами и элементами из $GF(2)$.
+
+$\gfp$ --- $GF(p)$.
+
+$\gfpvector{n}$ --- линейное пространство векторов порядка $n$ над полем $\gfp$.
+
+$\gfpmatrix{n}{m}$ --- множество матриц с $n$ строками и $m$ столбцами и элементами из $GF(p)$.
+
+$\gfppolynomial$ --- поле многочленов над полем $\gfp$.
+
+$\polynomialdegree{\varphi}$ --- степень полинома $\polynomial{\varphi}$.
+
+$\degreecoefficient{k}{\polynomial{\varphi}}$ --- коэффициент при степени $k$ полинома $\polynomial{\varphi}$.
+
+$E$ --- единичная матрица (порядок которой определяется из контекста).
+
+\part{Решение систем в $\gftwovector{n}$}
+
+\chapter{Метод Ланцоша-Монтгомери} \label{chapter:Lancsoz_Montgomery}
+
+\include{lanczos_montgomery}
+
+\part{Решение систем в $\gfpvector{n}$}
+
+\chapter{Методы Видемана-Копперсмита}
+
+\section{Предварительные соглашения}
+
+Везде далее будем считать, что в линейном пространстве $\gfpvector{n}$ задан линейный оператор $\mathcal A$, действие которого
+определяется матрицей $A \in \gfpmatrix{n}{n}$.
+
+\chapter{Решение систем уравнений с помощью аннулирующих полиномов}
+
+\include{annihilating_polynomials}
+\include{solving_equation_systems}
+
+\chapter{Метод Видемана с алгоритмом Берлекемпа--Месси}
+
+\include{wiedemann_berlekamp_massey}
+
+\chapter{Разное}
+
+\section{Сравнение аннулирующих полиномов}
+
+Характеристический полином матрицы не является единственным аннулирующим полиномом. Аннулирующие полиномы могут различаться степенью, и
+чем меньше степень полинома, тем меньше требуется вычислений (векторов пространств Крылова), поэтому интерес представляют минимальные (по
+степени) аннулирующие полиномы.
+
+\section{Заметки}
+
+Вообще говоря система \eqref{equation:system_for_polynomial_coefficients} представляет собой необходимое условие: если полином
+$\polynomial{\varphi}$ является аннулирующим для матрицы $A$, то его коэффициенты удовлетворяют однородной системе
+\eqref{equation:system_for_polynomial_coefficients}. Это необходимое условие по-видимому не является достаточным: если найден вектор
+$ \left ( \tilde \varphi_0, \tilde \varphi_1, \tilde \varphi_2, ..., \tilde \varphi_d \right ) $, удовлетворяющей системе
+\eqref{equation:system_for_polynomial_coefficients}, то полином $\polynomial{\tilde \varphi}$:
+
+$$ \polynomial{\tilde \varphi} = \tilde \varphi_0 + \tilde \varphi_1\lambda + \tilde \varphi_2\lambda^2 + \ldots + \tilde \varphi_d\lambda^d $$
+
+не обязательно является аннулирующим для $A$.
+
+\begin{enumerate}
+	\item При вычислении векторов пространства Крылова может оказаться, что $A^ix = 0$, а $A^{i-1}x \neq 0$, тогда $A^{i-1}x$ является
+		нетривиальным решение и дальнейших вычислений не потребуется.
+	\item Система для коэффициентов характеристического полинома является необходимым условием: 
+\end{enumerate}
+
+Во-первых, с целью упрощения придется отказаться от наименьшего количества $r$ векторов Крылова, поскольку $r$ не известно и вообще говоря
+может оказаться разным для разных векторов $z$, и рассматривать $n+1$ векторов Крылова:
+
+	$$ z, Az, A^2z, \dots, A^rz, \dots, A^nz, $$
+
+поскольку $n+1$ векторов в пространстве $\gfpvector{n}$, имеющим размерность $n$, обязательно являются линейно зависимыми.
+
+\include{bibliography}
+
+\end{document}

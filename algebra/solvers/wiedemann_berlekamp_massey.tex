@@ -1,0 +1,1549 @@
+\section{Постановка задачи нахождения проекционно аннулирующего полинома} \label{section:TFPAP:task_for_finding_projection_annihilating_polynomials}
+
+Для решения неоднородных и однородных систем уравнений необходимо располагать способом построения аннулирущего полинома для заданного
+вектора из пространства $\gfpvector{n}$.
+
+Как уже отмечалось в подразделе \ref{section:KS:krylov_spaces}, один из способов построения аннулирущего полинома $\polynomial{\varphi}$:
+
+	$$ \varphi(\lambda) =
+		\varphi_0 + \varphi_1 \lambda + \varphi_2 \lambda^2 + \dots + \varphi_r \lambda^r $$
+
+некоторого вектора $z \in \gfpvector{n}$ заключается в нахождении наименьшего количества линейно зависимых векторов Крылова 
+
+	$$ z, Az, A^2z, \dots, A^rz $$
+
+и определении коэффициентов $\varphi_i$ линейной комбинации этих векторов, дающих нулевой вектор:
+
+	$$ \varphi_0 z + \varphi_1 Az + \varphi_2 A^2 z + \dots + \varphi_r A^r z = 0, $$
+	\begin{equation} \label{equation:TFPAP:vector_annihilating_polynomial_condition}
+		\varphi(A) z = 0.
+	\end{equation}
+
+К сожалению, задача нахождения коэффициентов $\varphi_i$ приводит к задаче нахождения решения однородной системы уравнений, которую
+призвана решать, поэтому задачу поиска коэффициентов $\varphi_i$ приходится заменять другой задачей, более простой в решении.
+Упрощение исходной задачи приводит к снижению вероятности успеха: не всякое решение упрощенной задачи оказывается решением исходной
+задачи, тем не менее, ничего другого по-видимому не остается.
+
+Упрощенная задача, о которой пойдет речь, и метод её решения рассматриваются работе Видемана \cite{Wiedemann}.
+
+В упомянутой упрощенной задаче условие для аннулирующего полинома $\polynomial{\varphi}$
+\eqref{equation:TFPAP:vector_annihilating_polynomial_condition}, приводящих линейную комбинацию векторов Крылова $z$, \dots, $A^rz$
+к нулевому вектору заменено более простым условием. Возьмем произвольным образом вектор $y \in \gfpvector{n}$ и построим подпространство
+Крылова для вектора $y$ и сопряженного оператора:
+
+	$$ \mathcal K_n(y,A^T) = \mathcal L \left \{ y, A^T y, \left ( A^T \right ) ^2 y, \dots, \left ( A^T \right )^{n-1} y \right \}. $$
+
+Далее будем рассматривать задачу в смысле проекционных методов: будем искать такой вектор $w$ подпространства
+Крылова $\mathcal K_{r+1}(z, A)$, который является ортогональным подпространству Крылова $\mathcal K_n(y, A^T)$:
+
+	\begin{equation} \label{equation:TFPAP:w_orthogonality_to_conjugated_space_condition}
+		w \perp \mathcal K_n(y, A^T),
+	\end{equation}
+	$$ w \in \mathcal K_{r+1}(z, A). $$
+
+Поскольку вектор $w$ принадлежит подпространству Крылова $\mathcal K_{r+1}(z, A)$, а подпространство $\mathcal K_{r+1}(z, A)$ является
+линейной оболочкой векторов Крылова $z$, $Az$, $A^2z$, \dots, $A^rz$, то существуют коэффициенты $\rho_0$, $\rho_1$, $\rho_2$, \dots,
+$\rho_r$ такие, что вектор $w$ является линейной комбинацией векторов Крылова $z$, $Az$, $A^2z$, \dots, $A^rz$
+с коэффициентами $\rho_0$, $\rho_1$, $\rho_2$, \dots, $\rho_r$:
+
+	$$ w = \rho_0 z + \rho_1 Az + \rho_2 A^2 z + \dots + \rho_r A^r z. $$
+
+Откуда, вынося $z$ получим, равенство:
+
+	$$ w = ( \rho_0 + \rho_1 A + \rho_2 A^2 + \dots + \rho_r A^r ) z, $$
+
+и если представить себе некоторый полином $\polynomial{\rho}$:
+
+	$$ \rho(\lambda) = \rho_0 + \rho_1 \lambda + \rho_2 \lambda^2 + \dots + \rho_r \lambda^r, $$
+
+то
+
+	$$ w = \rho(A)z, $$
+	
+и из условия \eqref{equation:TFPAP:w_orthogonality_to_conjugated_space_condition} следует:
+
+	\begin{equation} \label{equation:TFPAP:polynomial_orthogonality_to_conjugated_space_condition}
+		\rho(A)z \perp \mathcal K_n(y, A^T).
+	\end{equation}
+
+Для удобства последущего изложения введем для полиномов $\polynomial{\rho}$, удовлетворяющих условию 
+\eqref{equation:TFPAP:polynomial_orthogonality_to_conjugated_space_condition} специальный термин.
+
+\begin{definition}
+	Полином $\polynomial{\rho} \in \gfppolynomial$ называется \definedterm{проекционно аннулирущим полиномом вектора $x$ и
+	пространства $\mathcal F$ относительно оператора $\mathcal A$}, если:
+
+	$$ \rho(A) x \perp \mathcal F. $$
+\end{definition}
+
+Как и ранее для краткости слова "относительно оператора $\mathcal A$"{} будем опускать.
+ 
+Слово "процекционно"{} в приведенном определении указывает на то, что полином $\polynomial{\rho}$ зануляет не вектор $\rho(A)x$, а
+его проекцию на пространство $\mathcal F$.
+
+\begin{definition}
+	Полином $\polynomial{\tilde\rho} \in \gfppolynomial$ называется \definedterm{минимальным проекционно аннулирующим полином
+	вектора $x \in \gfpvector{n}$ и пространства $\mathcal F$ отностительно оператора $\mathcal A$}, если его степень не больше степени
+	любого другого проекционно аннулирующего полинома $\polynomial{\rho}$ вектора $x \in \gfpvector{n}$ и пространства $\mathcal F$
+	отностительно оператора $\mathcal A$:
+		$$ \polynomialdegree{\tilde\rho} \le \polynomialdegree{\rho}. $$
+\end{definition}
+
+Таким образом, задача нахождения аннулирующего полинома $\polynomial{\varphi}$ вектора $z$ заменяется более простой задачей
+нахождения проекционно аннулирующего полинома $\polynomial{\rho}$ вектора $z$ и подпространства Крылова $K_n(y, A^T)$
+\eqref{equation:TFPAP:polynomial_orthogonality_to_conjugated_space_condition}.
+
+Поскольку вектор $\rho(A) x$ ортогонален пространству $\mathcal K_n(y, A^T)$, то вектор $\rho(A) x$ должен быть ортогонален всем
+векторам Крылова $y$, $A^T y$, $\left ( A^T \right ) ^2 y$, \dots, $\left ( A^T \right )^{n-1} y$. Верно и обратное, если вектор
+$\rho(A) x$ ортогонален всем векторам Крылова $y$, $A^T y$, $\left ( A^T \right ) ^2 y$, \dots, $\left ( A^T \right )^{n-1} y$,
+то вектор $\rho(A) x$ ортогонален каждой линейной комбинации векторов Крылова $y$, $A^T y$, $\left ( A^T \right ) ^2 y$, \dots,
+$\left ( A^T \right )^{n-1} y$ и следовательно ортогонален всему подпространству Крылова $\mathcal K_n(y, A^T)$, представляющему собой
+линейную оболочку векторов Крылова $y$, $A^T y$, $\left ( A^T \right ) ^2 y$, \dots, $\left ( A^T \right )^{n-1} y$. Таким образом,
+условие \eqref{equation:TFPAP:polynomial_orthogonality_to_conjugated_space_condition} эквивалентно ортогональности вектора $\rho(A) x$ 
+каждому из векторов Крылова $y$, $A^T y$, $\left ( A^T \right ) ^2 y$, \dots, $\left ( A^T \right )^{n-1} y$:
+
+	$$
+		\left \{
+			\begin{array}{ccc}
+				\rho(A) z & \perp & y \\
+				\rho(A) z & \perp & A^T y \\
+				\rho(A) z & \perp & \left ( A^T \right )^2 y \\
+				\vdots \\
+				\rho(A) z & \perp & \left ( A^T \right )^{n-1} y \\
+			\end{array}
+		\right .
+		.
+	$$
+
+Условия ортогональности эквивалентны равенствам нулю скалярных произведения вектора $\rho(A)z$ и каждого из векторов $y$, $A^T y$,
+$\left ( A^T \right ) ^2 y$, \dots, $\left ( A^T \right )^{n-1} y$:
+
+	$$
+		\left \{
+			\begin{array}{ccc}
+				( \rho(A) z , & y                        & ) = 0\\
+				( \rho(A) z , & A^T y                    & ) = 0\\
+				( \rho(A) z , & \left ( A^T \right )^2 y & ) = 0\\
+				\vdots \\
+				( \rho(A) z , & \left ( A^T \right )^{n-1} y & ) = 0\\
+			\end{array}
+		\right .
+		,
+	$$
+
+или в развернутом виде:
+
+	$$
+		\left \{
+			\begin{array}{ccc}
+				( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z , & y & ) = 0 \\
+				( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z , & A^T y & ) = 0 \\
+				( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z , & \left ( A^T \right )^2 y & ) = 0 \\
+				\vdots \\
+				( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z , & \left ( A^T \right )^{n-1} y & ) = 0 \\
+			\end{array}
+		\right .
+		.
+	$$
+
+Преобразуем полученную систему к следующему виду:
+
+	$$
+		\left \{
+			\begin{array}{ccc}
+				y^T         & \left ( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z \right ) & = 0 \\
+				y^T A       & \left ( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z \right ) & = 0 \\
+				y^T A^2     & \left ( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z \right ) & = 0 \\
+				\vdots \\
+				y^T A^{n-1} & \left ( \rho_0 z + \rho_1 A z + \rho_2 A^2 z + \dots + \rho_r A^r z \right ) & = 0 \\
+			\end{array}
+		\right .
+		.
+	$$
+
+Раскрывая скобки и выполняя умножение, получим систему:
+
+	$$
+		\left \{
+			\begin{array}{ccccccccccccc}
+				y^T z         & \rho_0 & + & y^T A z         & \rho_1 & + & y^T A^2 z       & \rho_2 & + & \dots & + & y^T A^r z & \rho_r = 0 \\
+				y^T A z       & \rho_0 & + & y^T A^2 z       & \rho_1 & + & y^T A^3 z       & \rho_2 & + & \dots & + & y^T A^{1+r} z & \rho_r = 0 \\
+				y^T A^2 z     & \rho_0 & + & y^T A^3 z       & \rho_1 & + & y^T A^4 z       & \rho_2 & + & \dots & + & y^T A^{2+r} z & \rho_r = 0 \\
+				\vdots \\
+				y^T A^{n-1} z & \rho_0 & + & y^T A^{n-1+1} z & \rho_1 & + & y^T A^{n-1+2} z & \rho_2 & + & \dots & + & y^T A^{n-1+r} z & \rho_r = 0 \\
+			\end{array}
+		\right .
+	$$
+
+Таким образом, вектор коэффициентов $( \rho_0, \rho_1, \rho_2, \dots, \rho_r )$ удовлетворяет однородной системе:
+
+	$$
+		\begin{pmatrix}
+			y^T z         & y^T A z         & y^T A^2 z       & \ldots & y^T A^n z \\
+			y^T A z       & y^T A^2 z       & y^T A^3 z       & \ldots & y^T A^{n+1} z \\
+			y^T A^2 z     & y^T A^3 z       & y^T A^4 z       & \ldots & y^T A^{n+2} z \\
+			\vdots        & \vdots          & \vdots          & \ddots & \vdots \\
+			y^T A^{n-1} z & y^T A^{n-1+1} z & y^T A^{n-1+2} z & \ldots & y^T A^{n-1+r} z \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\rho_0 \\
+			\rho_1 \\
+			\rho_2 \\
+			\vdots \\
+			\rho_r \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 \\
+			0 \\
+			0 \\
+			\vdots \\
+			0 \\
+		\end{pmatrix}
+		.
+	$$
+
+Обозначим
+
+	$$ \alpha_{i+j} = y^T A^{i+j} z, $$
+	$$ 0 \le i+j \le n-1+r, $$
+
+тогда
+
+	$$
+		\begin{pmatrix}
+			\alpha_0     & \alpha_1 & \alpha_2     & \ldots & \alpha_r \\
+			\alpha_1     & \alpha_2 & \alpha_3     & \ldots & \alpha_{1+r} \\
+			\alpha_2     & \alpha_3 & \alpha_4     & \ldots & \alpha_{2+r} \\
+			\vdots       & \vdots   & \vdots       & \ddots & \vdots \\
+			\alpha_{n-1} & \alpha_n & \alpha_{n+1} & \ldots & \alpha_{n-1+r} \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\rho_0 \\
+			\rho_1 \\
+			\rho_2 \\
+			\vdots \\
+			\rho_r \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 \\
+			0 \\
+			0 \\
+			\vdots \\
+			0 \\
+		\end{pmatrix}
+		.
+	$$
+
+Легко видеть, что матрица системы имеет ганкелеву структуру. Если же переставить строки в обратном порядке, то получится система
+
+	$$
+		\begin{pmatrix}
+			\alpha_{n-1} & \alpha_n & \alpha_{n+1} & \ldots & \alpha_{n-1+r} \\
+			\vdots       & \vdots   & \vdots       & \ddots & \vdots \\
+			\alpha_2     & \alpha_3 & \alpha_4     & \ldots & \alpha_{n+1} \\
+			\alpha_1     & \alpha_2 & \alpha_3     & \ldots & \alpha_n \\
+			\alpha_0     & \alpha_1 & \alpha_2     & \ldots & \alpha_{n-1} \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\rho_0 \\
+			\rho_1 \\
+			\rho_2 \\
+			\vdots \\
+			\rho_r \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 \\
+			0 \\
+			0 \\
+			\vdots \\
+			0 \\
+		\end{pmatrix}
+	$$
+
+матрица, которой является теплицевой.
+
+Для систем с ганкелевыми и теплицевыми матрицами известны эффективные методы нахождения решений, применение которых приводит к вектору
+$( \rho_0, \rho_1, \rho_2, \ldots, \rho_r )$ коэффициентов проекционно аннулирующего полинома $\polynomial{\rho}$.
+
+В своей работе \cite{Wiedemann} Видеман предлагает использовать алгоритм Берлекемпа--Месси, обсуждаемый в разделе
+\ref{section:FPAP:finding_projection_annihilating_polynomials}, для решения системы с ганкелевой матрицей.
+
+\section{Решение задачи нахождения проекционно аннулирущего полинома} \label{section:FPAP:finding_projection_annihilating_polynomials}
+
+В предыдущем разделе было показано, что коэффициенты $\rho_i$ проекционно аннулирующего полинома $\polynomial{\rho}$ удовлетворяют системе
+уравнений:
+
+	\begin{equation} \label{equation:FPAP:equations_for_rho}
+		\begin{pmatrix}
+			\alpha_0     & \alpha_1 & \alpha_2     & \ldots & \alpha_r \\
+			\alpha_1     & \alpha_2 & \alpha_3     & \ldots & \alpha_{1+r} \\
+			\alpha_2     & \alpha_3 & \alpha_4     & \ldots & \alpha_{2+r} \\
+			\vdots       & \vdots   & \vdots       & \ddots & \vdots \\
+			\alpha_{n-1} & \alpha_n & \alpha_{n+1} & \ldots & \alpha_{n-1+r} \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\rho_0 \\
+			\rho_1 \\
+			\rho_2 \\
+			\vdots \\
+			\rho_r \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 \\
+			0 \\
+			0 \\
+			\vdots \\
+			0 \\
+		\end{pmatrix}
+		.
+	\end{equation}
+
+Дополнительно будем предполагать, что число $r$ выбрано таким образом, что $\rho_r \neq 0$. Сделанное предположение оправдывается тем, что
+если вектор $(\rho_0, \rho_1, \rho_2, \dots, \rho_r)$ является нетривиальным решением системы \eqref{equation:FPAP:equations_for_rho}, то
+не ограничивая общности, можно считать, что коэффициент $\rho_r \neq 0$, поскольку в случае $\rho_r = 0$ всегда можно для $r$ выбрать
+меньшее значение, при котором $\rho_r \neq 0$, отбросив при этом несколько последних столбцов матрицы системы
+\eqref{equation:FPAP:equations_for_rho} и несколько последних коэффициентов $\rho_i$. Далее, поскольку $\rho_r \neq 0$, то в поле $\gfp$
+существует обратный по умножению элемент $\rho_r^{-1}$, и тогда если вектор $(\rho_0, \rho_1, \rho_2, \dots, \rho_{r-1}, \rho_r)$ является
+решением однородной системы \eqref{equation:FPAP:equations_for_rho}, то вектор:
+
+	$$
+		\begin{pmatrix}
+			\rho_r^{-1} \rho_0 \\
+			\rho_r^{-1} \rho_1 \\
+			\rho_r^{-1} \rho_2 \\
+			\vdots \\
+			\rho_r^{-1} \rho_{r-1} \\
+			\rho_r^{-1} \rho_{r} \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\rho_r^{-1} \rho_0 \\
+			\rho_r^{-1} \rho_1 \\
+			\rho_r^{-1} \rho_2 \\
+			\vdots \\
+			\rho_r^{-1} \rho_{r-1} \\
+			1 \\
+		\end{pmatrix}
+	$$
+
+также удовлетворяет системе \eqref{equation:FPAP:equations_for_rho}.
+
+Таким образом, если система \eqref{equation:FPAP:equations_for_rho}
+имеет нетривиальное решение $(\rho_0, \rho_1,$ $\rho_2, \dots, \rho_{r-1}, \rho_r)$, то существует нетривиальное решение, в котором
+$\rho_r = 1$, и именно такие решения будем искать в дальнейшем.
+
+Выбор именно последнего коэффициента $\rho_r$ в качестве ненулевого не является случайным: ведь чем больше $r$, тем больше коэффициентов
+$\alpha_i$ потребуется вычислить, а вычисление каждого коэффициента $\alpha_i$ требует определенных вычислительных затрат.
+Если представить ситуацию, в которой несколько последних коэффициентов $\rho_i$ являются нулевыми, включая и $\rho_r$, то окажется, что
+столько же последних коэффициентов $\alpha_i$ вычислены напрасно, поскольку не используются. Если же в полученном решении $\rho_r \neq 0$,
+то можно быть абсолютно уверенным в том, что коэффициент $\alpha_{n-1+r}$ используются и должен быть вычислен.
+
+Введем полином $\polynomial{\xi}$, коэффициенты $\xi_i$ которого являются коэффициентами $\rho_i$ полинома $\polynomial{\rho}$ взятыми
+в обратном порядке:
+
+	$$ \xi(\lambda) = \lambda^r \rho \left ( \frac{1}{\lambda} \right ) = $$
+	$$ = \lambda^r \left ( \rho_0 + \rho_1 \frac{1}{\lambda} + \rho_2 \frac{1}{\lambda^2} + \dots + \rho_r \frac{1}{\lambda^r} \right ) = $$
+	$$ = \rho_0 \lambda^r + \rho_1 \lambda^{r-1} + \rho_2 \lambda^{r-2} + \dots + \rho_r = $$
+	$$ = \xi_r \lambda^r + \xi_{r-1} \lambda^{r-1} + \xi_{r-2} \lambda^{r-2} + \dots + \xi_0. $$
+
+Таким образом,
+
+	\begin{equation} \label{equation:FPAP:rho_and_xi_equation}
+		\begin{pmatrix}
+			\rho_0 \\
+			\rho_1 \\
+			\rho_2 \\
+			\vdots \\
+			\rho_r
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\xi_r \\
+			\xi_{r-1} \\
+			\xi_{r-2} \\
+			\vdots \\
+			\xi_0
+		\end{pmatrix}
+		.
+	\end{equation}
+
+Причем согласно предположению $\rho_r = 1$, поэтому $\xi_0 = 1$ и полином $\polynomial{\xi}$ имеет вид:
+
+	$$ \xi(\lambda) = 1 + \dots + \xi_{r-2} \lambda^{r-2} + \xi_{r-1} \lambda^{r-1} + \xi_r \lambda^r. $$
+
+Для множества всех полиномов с коэффициентом 1 при нулевой степени введем специальное обозначение $\gfpunitypolynomial$:
+
+	$$ \gfpunitypolynomial = \left \{ \polynomial{\gamma} \in \gfppolynomial : \degreecoefficient{0}{\polynomial{\gamma}} = 1 \right \}. $$
+
+Таким образом,
+
+	$$ \polynomial{\xi} \in \gfpunitypolynomial. $$
+
+Из равенства \eqref{equation:FPAP:equations_for_rho} следует, что коэффициенты $\xi_i$ полинома $\polynomial{\xi}$ удовлетворяют
+системе уравнений:
+
+	\begin{equation} \label{equation:FPAP:equations_for_xi}
+		\begin{pmatrix}
+			\alpha_0     & \alpha_1 & \alpha_2     & \ldots & \alpha_r \\
+			\alpha_1     & \alpha_2 & \alpha_3     & \ldots & \alpha_{1+r} \\
+			\alpha_2     & \alpha_3 & \alpha_4     & \ldots & \alpha_{2+r} \\
+			\vdots       & \vdots   & \vdots       & \ddots & \vdots \\
+			\alpha_{n-1} & \alpha_n & \alpha_{n+1} & \ldots & \alpha_{n-1+r} \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\xi_r \\
+			\xi_{r-1} \\
+			\xi_{r-2} \\
+			\vdots \\
+			\xi_0 \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 \\
+			0 \\
+			0 \\
+			\vdots \\
+			0 \\
+		\end{pmatrix}
+		.
+	\end{equation}
+
+Системе \eqref{equation:FPAP:equations_for_xi} можно придать следующую интерпретацию: представим, что числа $\alpha_0$, \dots, $\alpha_{n-1+r}$
+являются коэффициентами полинома $\polynomial{\alpha}$:
+
+	$$ \alpha(\lambda) = \alpha_0 + \alpha_1 \lambda + \alpha_2 \lambda^2 + \dots + \alpha_{n-1+r} \lambda^{n-1+r}, $$
+
+тогда первая строка в системе \eqref{equation:FPAP:equations_for_xi} означает, что коэффициент при степени $r$ в произведении полиномов
+$\polynomial{\alpha} \polynomial{\xi}$ равен нулю:
+
+	$$ \degreecoefficient{r}{\polynomial{\alpha} \polynomial{\xi}}
+		= \alpha_0 \xi_r + \alpha_1 \xi_{r-1} + \alpha_2 \xi_{r-2} + \dots + \alpha_r \xi_0 = 0 $$
+
+вторая строка в системе \eqref{equation:FPAP:equations_for_xi} означает, что коэффициент при степени $r+1$ в произведении полиномов
+$\polynomial{\alpha} \polynomial{\xi}$ равен нулю:
+
+	$$ \degreecoefficient{r+1}{\polynomial{\alpha} \polynomial{\xi}}
+		= \alpha_1 \xi_r + \alpha_2 \xi_{r-1} + \alpha_3 \xi_{r-2} + \dots + \alpha_{r+1} \xi_0 = 0 $$
+
+а все последующие строки означают равенство нулю всех коэффициентов при степенях до степени $n-1+r$ включительно в произведении полиномов
+$\polynomial{\alpha} \polynomial{\xi}$.
+
+Таким образом, система \eqref{equation:FPAP:equations_for_xi} эквивалентна системе равенств:
+
+	\begin{equation} \label{equation:FPAP:equations_for_product_coefficients}
+		\left \{
+			\begin{array}{c}
+				\degreecoefficient{r}{\polynomial{\alpha} \polynomial{\xi}} = 0 \\
+				\degreecoefficient{r+1}{\polynomial{\alpha} \polynomial{\xi}} = 0 \\
+				\vdots \\
+				\degreecoefficient{n-1+r}{\polynomial{\alpha} \polynomial{\xi}} = 0 \\
+			\end{array}
+		\right .
+	\end{equation}
+
+Систему равенств \eqref{equation:FPAP:equations_for_product_coefficients} можно коротко записать в виде равенства:
+
+	\begin{equation} \label{equation:FPAP:alpha_xi_product}
+		\begin{array}{c}
+			\alpha(\lambda) \xi(\lambda) = \delta(\lambda) + \varepsilon(\lambda) \lambda^{n+r}, \\
+			\polynomialdegree{\delta} \le r-1, \\
+		\end{array}
+	\end{equation}
+
+в котором $\polynomial{\delta}$ --- некоторый полином степени не выше $r-1$ и $\polynomial{\varepsilon}$ --- некоторый полином
+произвольной степени. Иногда полученное равенство записывают в виде:
+
+	$$ \alpha(\lambda) \xi(\lambda) = \delta(\lambda) \; mod \; \lambda^{n+r}. $$
+
+Таким образом, исходная задача нахождения решения системы \eqref{equation:FPAP:equations_for_rho} сводится к задаче нахождения полинома
+$\polynomial{\xi}$ такого, что в произведении $\polynomial{\alpha} \polynomial{\xi}$ отсутствуют степени $r$, $r+1$, \dots, $n-1+r$.
+
+Для наглядности последующего изложения, прежде всего, введем графические схемы вычисления коэффициентов $\delta_i$ произведения полиномов
+из равенства \eqref{equation:FPAP:alpha_xi_product}: пусть имеется три полосы --- верхняя, средняя и нижняя, на верхней полосе записаны
+коэффициенты $\alpha_i$ полинома $\polynomial{\alpha}$, на средней --- коэффициенты $\xi_i$ полинома $\polynomial{\xi}$, а на нижней
+будут записываться коэффициенты $\delta_i$ полинома $\polynomial{\delta}$. Сверху для удобства отсчета раставлены степени $\lambda^k$.
+
+	$$
+		\begin{array}{ccccccccccc}
+			                      &       &       &       &       &       & \lambda^0 & \lambda^1 & \lambda^2 & \dots & \lambda^{n-1+r} \\
+			\hline
+			\text{верхняя полоса} &       &       &       &       &       & \alpha_0  & \alpha_1  & \alpha_2  & \dots & \alpha_{n-1+r} \\
+			                      &       &       &       &       &       &           &           &           &       & \\
+			\text{средняя полоса} & \xi_r & \dots & \xi_2 & \xi_1 & \xi_0 &           &           &           &       & \\
+			                      &       &       &       &       &       &           &           &           &       & \\
+			\text{нижняя полоса}  &       &       &       &       &       &           &           &           &       & \\
+		\end{array}
+	$$
+
+Теперь представим как средняя полоса смещается вправо на одну позицию: коэффициенты $\alpha_0$ и $\xi_0$ оказывают напротив друг друга,
+перемножаются и результат (коэффициент $\delta_0$) записывается на нижнюю полосу:
+
+	$$
+		\begin{array}{ccccccccccc}
+			                      &       &       &       &       &       & \lambda^0  & \lambda^1 & \lambda^2 & \dots & \lambda^{n-1+r} \\
+			\hline
+			\text{верхняя полоса} &       &       &       &       &       & \alpha_0   & \alpha_1  & \alpha_2  & \dots & \alpha_{n-1+r} \\
+			                      &       &       &       &       &       & |          &           &           &       & \\
+			\text{средняя полоса} &       & \xi_r & \dots & \xi_2 & \xi_1 & \xi_0      &           &           &       & \\
+			                      &       &       &       &       &       & \downarrow &           &           &       & \\
+			\text{нижняя полоса}  &       &       &       &       &       & \delta_0   &           &           &       & \\
+		\end{array}
+	$$
+
+Далее средняя полоса смещается еще на одну позицию вправо: коэффициенты $\alpha_0$ и $\xi_1$, а также $\alpha_1$ и $\xi_0$
+оказываются друг напротив друга, перемножаются, произведения складываются и результат (коэффициент $\delta_1$) записывается на нижнюю полосу:
+
+	$$
+		\begin{array}{ccccccccccc}
+			                      &       &       &       &       &       & \lambda^0 & \lambda^1  & \lambda^2 & \dots & \lambda^{n-1+r} \\
+			\hline
+			\text{верхняя полоса} &       &       &       &       &       & \alpha_0  & \alpha_1   & \alpha_2  & \dots & \alpha_{n-1+r} \\
+			                      &       &       &       &       &       & |         & |          &           &       & \\
+			\text{средняя полоса} &       &       & \xi_r & \dots & \xi_2 & \xi_1     & \xi_0      &           &       & \\
+			                      &       &       &       &       &       &           & \downarrow &           &       & \\
+			\text{нижняя полоса}  &       &       &       &       &       & \delta_0  & \delta_1   &           &       & \\
+		\end{array}
+	$$
+
+Аналогичным образом, для коэффициента $\delta_2$ получим схему:
+
+	$$
+		\begin{array}{ccccccccccc}
+			                      &       &       &       &       &       & \lambda^0 & \lambda^1  & \lambda^2  & \dots & \lambda^{n-1+r} \\
+			\hline
+			\text{верхняя полоса} &       &       &       &       &       & \alpha_0  & \alpha_1   & \alpha_2   & \dots & \alpha_{n-1+r} \\
+			                      &       &       &       &       &       & |         & |          & |          &       & \\
+			\text{средняя полоса} &       &       &       & \xi_r & \dots & \xi_2     & \xi_1      & \xi_0      &       & \\
+			                      &       &       &       &       &       &           &            & \downarrow &       & \\
+			\text{нижняя полоса}  &       &       &       &       &       & \delta_0  & \delta_1   & \delta_2   &       & \\
+		\end{array}
+	$$
+
+Далее средняя полоса продолжает движение вправо до тех пор пока коэффициент $\xi_0$ не окажется напротив коэффициента $\alpha_{n-1+r}$.
+В общем случае схема вычисления коэффициента $\delta_k$ имеет вид:
+
+	$$
+		\begin{array}{ccccccccccc}
+			                      & \lambda^0 & \lambda^1 & \dots & \lambda^{k-r} & \dots & \lambda^{k-2} & \lambda^{k-1} & \lambda^k  & \dots & \lambda^{n-1+r} \\
+			\hline
+			\text{верхняя полоса} & \alpha_0  & \alpha_1  & \dots & \alpha_{k-r}  & \dots & \alpha_{k-2}  & \alpha_{k-1}  & \alpha_k   & \dots & \alpha_{n-1+r} \\
+			                      &           &           &       & |             &       & |             & |             & |          &       & \\
+			\text{средняя полоса} &           &           &       & \xi_r         & \dots & \xi_2         & \xi_1         & \xi_0      &       & \\
+			                      &           &           &       &               &       &               &               & \downarrow &       & \\
+			\text{нижняя полоса}  & \delta_0  & \delta_1  &       & \delta_{k-r}  & \dots & \delta_{k-2}  & \delta_{k-1}  & \delta_k   &       & \\
+		\end{array}
+	$$
+
+От полученных схем вычисления коэффициентов $\delta_i$ произведения $\polynomial{\alpha} \polynomial{\xi}$ легко перейти к наглядному графическому
+представлению самого произведения $\polynomial{\alpha} \polynomial{\xi}$, которое используется в работе Томе \cite{Thome}. В этом представлении
+вместо $\lambda^k$ будем записывать только степени $k$, верхнюю полосу не будем записывать вовсе, а вместо средней и нижней полосы будем писать
+полином средней полосы $\polynomial{\xi}$ и напротив коэффициенты произведения --- $\delta_i$:
+
+	$$
+		\begin{array}{cccccccc}
+			                 & 0        & 1        & \dots & r-1          & r        & \dots & n-1+r \\
+			\hline
+			\polynomial{\xi} & \delta_0 & \delta_1 & \dots & \delta_{r-1} & \delta_r & \dots & \delta_{n-1+r} \\
+		\end{array}
+	$$
+
+Далее еще более упростим полученное представление введя специальные обозначения для коэффициентов $\delta_i$:
+
+\begin{itemize}
+	\item [0] --- означает, что $\delta_i = 0$;
+	\item [$\diamond$] --- означает, что $\delta_i \neq 0$;
+	\item [$\bullet$] --- означает произвольное значение $\delta_i$, которое нас не интересует.
+\end{itemize}
+
+С учетом принятых обозначенений равенство \eqref{equation:FPAP:alpha_xi_product} означает, что необходимо найти такой полином
+$\polynomial{\xi}$, который имеет схему произведения:
+
+	$$
+		\begin{array}{ccccccccc}
+			                 & 0       & 1       & \dots & r-1     & r & r+1 & \dots & n-1+r \\
+			\hline
+			\polynomial{\xi} & \bullet & \bullet & \dots & \bullet & 0 & 0   & \dots & 0 \\
+		\end{array}
+	$$
+
+Представленная далее процедура построения полинома $\polynomial{\xi}$ является итерационной и основана на известном алгоритме Берлекемпа--Месси,
+излагаемого в работе Месси \cite{Massey}.
+
+В процессе выполнения итераций процедура старается находить такие полиномы $\polynomial{\xi^{(k)}} \in \gfpunitypolynomial$,
+что в произведениии $\polynomial{\alpha} \polynomial{\xi^{(k)}}$ отсутствуют степени, начиная от степени самого полинома $\polynomial{\xi^{(k)}}$
+и до степени $k$ включительно. Цель процедуры, таким образом, заключается в построении такого полинома $\polynomial{\xi^{(q)}}$, который
+зануляет в произведении $\polynomial{\alpha} \polynomial{\xi^{(q)}}$ не меньше $n$ степеней, начиная со степени полинома $\polynomial{\xi^{(q)}}$,
+и именно такой полином $\polynomial{\xi^{(q)}}$ является одним из возможных полиномов $\polynomial{\xi}$, коэффициенты которого удовлетворяют
+системе \eqref{equation:FPAP:equations_for_xi}.
+
+Принадлежность полиномов $\polynomial{\xi^{(k)}}$ множеству $\gfpunitypolynomial$ является существенным ограничением, поскольку оставаясь
+в рамках множества $\gfpunitypolynomial$, всегда можно быть уверенным, что построенный полином $\polynomial{\xi^{(k)}}$ не является нулевым
+(поскольку по крайней мере коэффициент при нулевой степени у полинома $\polynomial{\xi^{(k)}}$ равен 1), а это значит, что получаемые в результате
+обратного преобразования \eqref{equation:FPAP:rho_and_xi_equation} векторы $(\rho_0, \dots, \rho_r)$ имеют ненулевой элемент $\rho_r$ и
+следовательно являются нетривиальными решениями исходной системы \eqref{equation:FPAP:equations_for_rho}.
+
+Поскольку полиномы $\polynomial{\xi^{(k)}}$ будут часто встречаться в дальнейшем, введем для них специальное определение.
+
+\begin{definition}
+	Полином $\polynomial{\xi}$ называется \definedterm{полиномом, аннулирущим до степени $k$}, если в произведении
+	$\polynomial{\alpha} \polynomial{\xi}$ равны нулю коэффициенты при степенях, начиная от степени самого полинома $\polynomial{\xi}$
+	и заканчивая степенью $k$ включительно:
+
+		$$ \degreecoefficient{j}{\polynomial{\alpha} \polynomial{\xi}} = 0, $$
+		$$ j = \polynomialdegree{\xi}, \dots, k. $$
+\end{definition}
+
+Коэффициенты в произведении $\polynomial{\alpha} \polynomial{\xi}$ при степенях меньших степени полинома $\polynomial{\xi}$ не
+представляют интереса, поскольку в соответствии уравнениями системы \eqref{equation:FPAP:equations_for_xi} на коэффициенты в произведении
+$\polynomial{\alpha} \polynomial{\xi}$ при степенях меньших $r$ никаких условий не налагается, и они могут быть произвольными, поэтому и в
+произведении $\polynomial{\alpha} \polynomial{\xi}$ коэффициенты до степени полинома $\polynomial{\xi}$ (не включительно) также могут
+быть произвольными.
+
+Заметим, что степень полинома $\polynomial{\xi}$ может оказаться больше $k$ и первые $k$ коэффициентов при степенях с 0 по $k-1$ в произведении
+$\polynomial{\alpha} \polynomial{\xi}$ могут быть и не равны нулю, но поскольку они не представляют интереса, то такой полином $\polynomial{\xi}$
+будем все таки считать аннулирующим до степени $k-1$ и примем следующее соглашение.
+
+\begin{agreement} \label{agreement:FPAP:ignoring_nonzero_product_coefficients}
+	Любой полином $\polynomial{\xi}$ степени $d$ считается аннулирущим до степени $d-1$.
+\end{agreement}
+
+В излагаемой далее процедуре построения аннулирущих до различных степеней $k$ полиномов $\polynomial{\xi^{(k)}}$ используются два вспомогательных
+полинома: $\polynomial{\xi_p}$, который будем называть предыдущим (индекс $p$ соответствует слову "previous"{}), и $\polynomial{\xi_c}$, который
+будем называть текущим (индекс $c$ соответствует слову "current"{}). Степени полиномов $\polynomial{\xi_p}$ и $\polynomial{\xi_c}$ будем обозначать
+$d_p$ и $d_c$ соответсвенно.
+
+Первые шаги процедуры связаны с инициализацией этих двух полиномов: шаг, связанный с инициализацией предыдущего полинома $\polynomial{\xi_p}$,
+будем обозначать Н.1 (где литера Н обозначает "Начало"{} или "иНициализация"{}, а цифра 1 указывает, что предыдущий полином инициализируется
+первым), а шаг, связанный с инициализацией текущего полинома $\polynomial{\xi_c}$, будем обозначать Н.2.
+
+Итак, на шаге Н.1 возьмем в качестве предыдущего полинома $\polynomial{\xi_p}$ константу $1$:
+
+	\begin{equation} \label{equation:FPAP:previous_polynomial_initialization}
+		\polynomial{\xi_p} = 1,
+	\end{equation}
+	$$ d_p = 0, $$
+
+и будем вычислять коэффициенты в произведении $\polynomial{\alpha} \polynomial{\xi_p}$ до тех пор, пока не встретиться ненулевой коэффициент.
+В общем случае несколько первых коэффициентов в произведении $\polynomial{\alpha} \polynomial{\xi_p}$ могут оказаться равными нулю,
+пусть $m$ обозначает самую младшую степень при которой коэффициент не равен нулю. В этом случае схема произведения
+$\polynomial{\alpha} \polynomial{\xi_p}$ (например, для $m=2$) имеет вид:
+
+	$$
+		\begin{array}{cccccccc}
+			                   & d_p &   & m        &         &         &         & \\
+			                   & 0   & 1 & 2        & 3       & 4       & 5       & \dots \\
+			\hline
+			\polynomial{\xi_p} & 0   & 0 & \diamond & \bullet & \bullet & \bullet & \dots \\
+		\end{array}
+	$$
+
+Если $m>0$, то полином $\polynomial{\xi^{(0)}}$, аннулирующий до степени 0, совпадает с предыдущим полиномом $\polynomial{\xi_p}$:
+
+	$$ \polynomial{\xi^{(0)}} = \polynomial{\xi_p}. $$
+
+То же самое касается и всех полиномов $\polynomial{\xi^{(k)}}$ для $k \le m-1$:
+
+	$$ \polynomial{\xi^{(k)}} = \polynomial{\xi_p}, $$
+	$$ k \le m-1. $$
+
+Заметим, что, как и требовалось, все построенные полиномы $\polynomial{\xi^{(k)}}$ принадлежат множеству $\gfpunitypolynomial$:
+
+	$$ \polynomial{\xi^{(k)}} \in \gfpunitypolynomial, $$
+	$$ k \le m-1, $$
+
+поскольку $\polynomial{\xi_p} = 1$.
+
+Если $n-1 \le m$, то процедура построения завершается и в качестве искомого полинома $\polynomial{\xi}$ следует использовать полином
+$\polynomial{\xi_p}$:
+
+	$$ \polynomial{\xi} = \polynomial{\xi_p} = 1. $$
+
+Этим завершается шаг Н.1 и прежде чем переходить к следующему шагу Н.2 проанализируем результаты, полученные на шаге Н.1.
+
+Итак, если $m > 1$, то удалось построить аннулирующие полиномы $\polynomial{\xi^{(0)}}$, \dots, $\polynomial{\xi^{(m-1)}}$, если же $m=0$, то ни
+одного аннулирущего полинома построить не удалось.
+
+Кроме того следует сделать важное замечание, которое касается коэффициентов $\alpha_i$: $m$ --- наименьшая степень в произведении
+$\polynomial{\alpha} \polynomial{\xi_p}$ имеющая ненулевой коэффициент, следовательно, все предыдущие коэффициенты при
+степенях 0, \dots, $m-1$ в произведении $\polynomial{\alpha} \polynomial{\xi_p}$ равны нулю, а коэффициент при степени $m$ нулю не равен:
+
+	$$
+		\left \{
+			\begin{array}{c}
+				\degreecoefficient{0}{\polynomial{\alpha} \polynomial{\xi_p}} = 0, \\
+				\degreecoefficient{1}{\polynomial{\alpha} \polynomial{\xi_p}} = 0, \\
+				\vdots \\
+				\degreecoefficient{m-1}{\polynomial{\alpha} \polynomial{\xi_p}} = 0\\
+				\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_p}} \neq 0\\
+			\end{array}
+		\right .
+		.
+	$$
+
+Поскольку предыдущий полином $\polynomial{\xi_p} = 1$ в соответствии с равенством \eqref{equation:FPAP:previous_polynomial_initialization}, то
+
+	\begin{equation} \label{equation:FPAP:first_m_alpha_coefficients}
+		\left \{
+			\begin{array}{c}
+				\degreecoefficient{0}{\polynomial{\alpha}} = 0, \\
+				\degreecoefficient{1}{\polynomial{\alpha}} = 0, \\
+				\vdots \\
+				\degreecoefficient{m-1}{\polynomial{\alpha}} = 0\\
+				\degreecoefficient{m}{\polynomial{\alpha}} \neq 0\\
+			\end{array}
+		\right .
+		\Leftrightarrow
+		\left \{
+			\begin{array}{c}
+				\alpha_0 = 0, \\
+				\alpha_1 = 0, \\
+				\vdots \\
+				\alpha_{m-1} = 0\\
+				\alpha_{m} \neq 0\\
+			\end{array}
+		\right .
+	\end{equation}
+
+Полученные соотношения для коэффициентов $\alpha_0$, \dots, $\alpha_m$ играют важную роль на шаге Н.2 инициализации текущего полинома
+$\polynomial{\xi_c}$.
+
+По завершению шага Н.1 процедура построения остановилась и не смогла построить полином $\polynomial{\xi^{(m)}} \in \gfpunitypolynomial$,
+аннулирующий до степени $m$, поэтому основной целью  шага Н.2 является построение этого полинома. Способ построения аналогичен шагу Н.1:
+текущий полином $\polynomial{\xi_c}$ инициализируется (подбирается) таким образом, чтобы он являлся аннулирущим до степени $m$ и имел
+коэффициент при нулевой степени равный 1, и затем используется в качестве полинома $\polynomial{\xi^{(m)}}$.
+
+При подборе текущего полинома $\polynomial{\xi_c}$ существенную роль играют равенства \eqref{equation:FPAP:first_m_alpha_coefficients}:
+из-за того, что среди коэффициентов $\alpha_0$, \dots, $\alpha_m$ лишь один коэффициент $\alpha_m$ не равен нулю, его нечем "занулить"{}
+при вычислении коэффициента при степени $m$ в произведении $\polynomial{\alpha} \polynomial{\xi_c}$, поэтому приходится искусственным образом
+повышать степень текущего полинома $\polynomial{\xi_c}$ до $m+1$, чтобы текущий полином $\polynomial{\xi_c}$ стал аннулирующим до степени $m$
+по соглашению \ref{agreement:FPAP:ignoring_nonzero_product_coefficients}.
+
+Формальное доказательство того факта, что аннулирующий до степени $m$ текущий полином $\polynomial{\xi_c} \in \gfpunitypolynomial$ должен
+обязательно иметь степень больше $m$ можно провести от противного: пусть текущий полином $\polynomial{\xi_c}$, аннулирущий до степени $m$
+и имеющий коэффициент при нулевой степени равный 1, имеет степень меньшую или равную $m$. Представим текущий полином $\polynomial{\xi_c}$
+в виде:
+
+	$$ \xi_c(\lambda) = 1 + \xi_{c,1} \lambda + \xi_{c,2} \lambda^2 + \dots \xi_{c,m} \lambda^m, $$
+
+где некоторые коэффициенты из $\xi_{c,1}$, $\xi_{c,2}$, \dots, $\xi_{c,m}$ могут быть нулевыми. Попробуем вычислить коэффициент при степени
+$m$ в произведении $\polynomial{\alpha} \polynomial{\xi_c}$:
+
+	$$
+		\begin{array}{c}
+			\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} = \\
+			= \alpha_m \cdot 1 + \alpha_{m-1} \cdot \xi_{c,1} + \alpha_{m-2} \cdot \xi_{c,2} + \dots + \alpha_0 \cdot \xi_{c,m} = \\
+			= \alpha_m \cdot 1 + 0 \cdot \xi_{c,1} + 0 \cdot \xi_{c,2} + \dots + 0 \cdot \xi_{c,m} = \\
+			= \alpha_m \\
+		\end{array}
+	$$
+
+поскольку в силу равенств \eqref{equation:FPAP:first_m_alpha_coefficients}:
+
+	$$ \alpha_0 = \alpha_1 = \dots = \alpha_{m-1} = 0. $$
+
+Таким образом, оказывается, что коэффициент при степени $m$ не равен нулю, поскольку:
+
+	$$ \degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi^{(m)}}} = \alpha_m \neq 0 $$
+
+опять же в силу равенств \eqref{equation:FPAP:first_m_alpha_coefficients}.
+
+Получилось противоречие: аннулирующий до степени $m$ полином $\polynomial{\xi_c}$ имеет ненулевой коэффициент при степени $m$ в произведении
+$\polynomial{\alpha} \polynomial{\xi_c}$. Cтало быть, исходное предположение о степени полинома $\polynomial{\xi^{(m)}}$ является неверным, и
+потому полином $\polynomial{\xi_c}$ обязательно должен иметь степень больше $m$.
+
+Раз степень текущего полинома $\polynomial{\xi_c}$ должна быть больше $m$, то постараемся в качестве текущего полинома $\polynomial{\xi_c}$
+подобрать такой полином степени $m+1$, который являлся бы аннулирущим до степени $m+1$. Оказывается, что подобрать такой полином не представляет
+большого труда:
+
+\begin{itemize}
+	\item если $\alpha_{m+1} = 0$, то в качестве текущего полинома возьмем полином:
+
+		$$ \xi_c(\lambda) = 1 + \lambda^{m+1}, $$
+
+	\item если $\alpha_{m+1} \neq 0$,  то в качестве текущего полинома будем использовать полином:
+
+		$$ \xi_c(\lambda) = 1 - \alpha_{m+1}\alpha_m^{-1} \lambda + \lambda^{m+1} $$
+\end{itemize}
+
+Заметим, что приведенное определение для текущего полинома является корректным, поскольку $\alpha_m \neq 0$, и в поле $\gfp$ существует
+обратный по умножению элемент $\alpha_m^{-1}$.
+
+В первом и втором случаях степень $d_c$ текущего полинома $\polynomial{\xi_c}$:
+
+	$$ d_c = m+1. $$
+
+Кроме того, в том и другом случаях коэффициент при нулевой степени равен 1, то есть
+
+	$$ \polynomial{\xi_c} \in \gfpunitypolynomial, $$
+
+и в том и другом случаях коэффициент при степени $m+1$ в произведении $\polynomial{\alpha} \polynomial{\xi_c}$ равен 0:
+действительно, в первом случае,
+
+	$$ \degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} = \alpha_{m+1} \cdot 1 + \alpha_m \cdot 0 = \alpha_{m+1} = 0, $$
+
+а во втором случае,
+
+	$$ \degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}}
+		= \alpha_{m+1} \cdot 1 + \alpha_m \cdot ( - \alpha_{m+1} \alpha_m^{-1} )
+		= \alpha_{m+1} - \alpha_{m+1} = 0. $$
+
+Следовательно полином $\polynomial{\xi_c}$ по построению является аннулирующим до степени $m+1$ полиномом из множества $\gfpunitypolynomial$,
+и можно в качестве $\polynomial{\xi^{(m+1)}}$ взять полином $\polynomial{\xi_c}$:
+
+	$$ \polynomial{\xi^{(m+1)}} = \polynomial{\xi_c}. $$
+
+Коэффициент при степени $m$ в произведении $\polynomial{\alpha} \polynomial{\xi_c}$ нулю не равен, но поскольку степень текущего
+полинома $\polynomial{\xi_c}$, равная $m+1$, больше $m$, то по соглашению \ref{agreement:FPAP:ignoring_nonzero_product_coefficients} о том,
+что коэффициенты при меньших степенях нас не интересуют, полином $\polynomial{\xi_c}$ степени $m+1$ считается аннулирующим до степени $m$,
+поэтому в качестве полинома $\polynomial{\xi^{(m)}}$ можно использовать текущий полином $\polynomial{\xi_c}$:
+
+	$$ \polynomial{\xi^{(m)}} = \polynomial{\xi_c}. $$
+
+Ничего другого не остается, поскольку в множестве $\gfpunitypolynomial$, как уже было установлено ранее, не существует аннулирующих до
+степени $m$ полиномов, степень которых меньше или равна $m$.
+
+Заметим, что по построению текущий полином $\polynomial{\xi_c} \in \gfpunitypolynomial$, поэтому, как и требовалось:
+
+	$$ \polynomial{\xi^{(m)}} \in \gfpunitypolynomial, $$
+	$$ \polynomial{\xi^{(m+1)}} \in \gfpunitypolynomial. $$
+
+На этом заканчивается шаг Н.2, и по совокупным итогам шагов Н.1 и Н.2 построены все аннулирующие полиномы $\polynomial{\xi^{(k)}}$ вплоть
+до $k = m+1$.
+
+Обратим внимание, что для полинома $\polynomial{\xi_c}$ схема произведения $\polynomial{\alpha} \polynomial{\xi_c}$ имеет вид
+(например, для $m=2$):
+
+	$$
+		\begin{array}{cccccccc}
+			                   &         &         & m       & m+1 &         &         & \\
+			                   & 0       & 1       & 2       & 3   & 4       & 5       & \dots \\
+			\hline
+			\polynomial{\xi_c} & \bullet & \bullet & \bullet & 0   & \bullet & \bullet & \dots \\
+		\end{array}
+	$$
+
+а общая схема с предыдущим полиномом $\polynomial{\xi_p}$ имеет вид:
+
+	$$
+		\begin{array}{cccccccc}
+			                   &         &         & m        & m+1     &         &         & \\
+			                   & 0       & 1       & 2        & 3       & 4       & 5       & \dots \\
+			\hline
+			\polynomial{\xi_p} & 0       & 0       & \diamond & \bullet & \bullet & \bullet & \dots \\
+			\polynomial{\xi_c} & \bullet & \bullet & \bullet  & 0       & \bullet & \bullet & \dots \\
+		\end{array}
+	$$
+
+Последняя схема является типичной для выполнения итерационных шагов алгоритма, поэтому шаг инициализации на этом заканчивается и начинается
+итерационный шаг.
+
+В начале итерационного шага рассматривается некоторая степень $k$ при общей схеме произведения, имеющий, например, вид:
+
+	$$
+		\begin{array}{cccccccccccc}
+			                   &         & d_p     &         & m            &         & d_c     &         &         & k       &         & \\
+			                   & 0       & 1       & 2       & 3            & 4        & 5       & 6       & 7       & 8       & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p} & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \bullet & \bullet & \bullet & \bullet & \bullet & \dots \\
+			\polynomial{\xi_c} & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & \bullet & \bullet & \dots \\
+		\end{array}
+	$$
+
+в которой выполняется следующие условия:
+
+\begin{conditions} \label{conditions:FPAP:iteration_entrance}
+	\begin{enumerate} 
+		\item предыдущий полином $\polynomial{\xi_p}$, имеющий степень $d_p$, зануляет коэффициенты в произведении
+			$\polynomial{\alpha} \polynomial{\xi_p}$ от степени $d_p$ до степени $m-1$ включительно, а коэффициент $\delta_{p,m}$
+			при степени $m$ в произведении $\polynomial{\alpha} \polynomial{\xi_p}$ нулю не равен:
+
+				$$ \delta_{p,m} \neq 0; $$
+
+		\item текущий полином $\polynomial{\xi_c}$, имеющий степень $d_c$, зануляет коэффициенты в произведении
+			$\polynomial{\alpha} \polynomial{\xi_c}$ от степени $d_c$ до степени $k-1$ включительно;
+
+		\item текущий полином $\polynomial{\xi_c}$ принадлежит множеству $\gfpunitypolynomial$:
+
+			$$ \polynomial{\xi_c} \in \gfpunitypolynomial. $$
+
+		\item $k > m$
+	\end{enumerate}
+\end{conditions}
+
+Вполне допустимо, что $d_p = m$ и между $d_p$ и $m$ нет нулей в схеме умножения для предыдущего полинома $\polynomial{\xi_p}$ (такая
+ситуация может возникнуть, например, если на шаге Н.1 $m=0$). Принципиально важным является лишь то, что коэффициент $\delta_{p,m}$ не равен нулю.
+
+Легко видеть, что в описываемую схему укладывается и схема, полученная после двух шагов инициализации Н.1 и Н.2: действительно, достаточно считать,
+что степень предыдущего полинома $d_p = 0$, $m$ --- произвольное, но не меньше 0 ($m \ge d_p$), степень текущего полинома $d_c = m+1$ и
+$k$ --- следующее за $m+1$ значение ( $k = m+2$ ), кроме того по построению текущий полином $\polynomial{\xi_c} \in \gfpunitypolynomial$.
+
+Целью итерационного шага является построение полинома $\polynomial{\xi^{(k)}}$, аннулирующего до степени $k$ и принадлежащего
+множеству $\gfpunitypolynomial$, и первое действие итерационного шага заключается в вычислении коэффициента
+$\degreecoefficient{k}{\polynomial{\alpha} \polynomial{\xi_c}}$ при степени $k$ в произведении $\polynomial{\alpha} \polynomial{\xi_c}$.
+Далее итерационный шаг разделяется на два взаимоисключающих варианта, которые будем обозначать И.1 и И.2 (от слова "Итерация"{}):
+
+\begin{itemize}
+	\item [И.1] выполняется, если $\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} = 0$;
+	\item [И.2] выполняется, если $\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} \neq 0$.
+\end{itemize}
+
+Вариант И.1 является очень простым: если коэффициент $\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} = 0$, то схема умножения
+имеет вид:
+
+	$$
+		\begin{array}{cccccccccccc}
+			                   &         & d_p     &         & m            &         & d_c     &         &         & k       &         & \\
+			                   & 0       & 1       & 2       & 3            & 4        & 5       & 6       & 7       & 8       & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p} & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \bullet & \bullet & \bullet & \bullet & \bullet & \dots \\
+			\polynomial{\xi_c} & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & 0       & \bullet & \dots \\
+		\end{array}
+	$$
+
+и текущий полином $\polynomial{\xi_c}$ является аннулирущим до степени $k$, поэтому в качестве полинома $\polynomial{\xi^{(k)}}$ следует взять
+полином $\polynomial{\xi_c}$ :
+
+	$$ \polynomial{\xi^{(k)}} = \polynomial{\xi_c} $$
+
+и на этом вариант И.1 итерационного шага окончен и необходимо перейти к проверке критерия завершения.
+
+Легко видеть, что схема произведения по окончании варианта И.1 итерационного шага имеет тип, соответствующий началу итерационного шага,
+достаточно лишь вместо $k$ взять $k+1$.
+
+Вариант И.2 оказывается чуть более сложным: если $\degreecoefficient{m}{\polynomial{\alpha} \polynomial{\xi_c}} \neq 0$, то схема умножения
+имеет вид:
+
+	$$
+		\begin{array}{cccccccccccc}
+			                   &         & d_p     &         & m            &         & d_c     &         &         & k            &         & \\
+			                   & 0       & 1       & 2       & 3            & 4       & 5       & 6       & 7       & 8            & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p} & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \bullet & \bullet & \bullet & \bullet      & \bullet & \dots \\
+			\polynomial{\xi_c} & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & \delta_{c,k} & \bullet & \dots \\
+		\end{array}
+	$$
+
+где
+
+	$$ \delta_{c,k} = \degreecoefficient{k}{\polynomial{\alpha} \polynomial{\xi_c}} \neq 0. $$
+
+В данном случае необходимо коэффициент $\delta_{c,k}$ занулить с помощью ненулевого коэффициента $\delta_{p,m}$. Прежде всего, умножим произведение
+$\polynomial{\alpha} \polynomial{\xi_p}$ на $\lambda^{k-m}$: в результате такого умножения все степени увеличаться на $k-m$, таким образом,
+все коэффициенты произведения $\polynomial{\alpha} \polynomial{\xi_p}$ сдвинуться на $k-m$, а младших степеней до $k-m$ не будет
+вовсе (все коэффициенты при этих степенях будут равны нулю):
+
+	$$
+		\begin{array}{rccccccccccc}
+			                                 &         & d_p     &         & m            &         & d_c     &         &         & k            & \\
+			                                 & 0       & 1       & 2       & 3            & 4       & 5       & 6       & 7       & 8            & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p}               & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \bullet & \bullet & \bullet & \bullet      & \bullet & \dots \\
+			\lambda^{k-m} \polynomial{\xi_p} & 0       & 0       & 0       & 0            & 0       & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \dots \\
+			\polynomial{\xi_c}               & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & \delta_{c,k} & \bullet & \dots \\
+		\end{array}
+	$$
+
+В полученной схеме коэффициенты $\delta_{p,m}$ и $\delta_{c,k}$ являются коэффициентами при одной и той же степени $k$.
+Остается лишь вычислить такую комбинацию сдвинутого предыдущего полинома $\lambda^{k-m} \polynomial{\xi_p}$ и текущего полинома
+$\polynomial{\xi_c}$, в которой коэффициент при степени $k$ является нулевым. Такой комбинацией является разность $\polynomial{\xi_d}$:
+
+	$$ \xi_d(\lambda) = \xi_c(\lambda) - \delta_{c,k} \delta_{p,m}^{-1} \lambda^{k-m} \xi_p(\lambda), $$
+
+и как не трудно заметить, для представленной разности $\polynomial{\xi_d}$ коэффициент при степени $k$ в произведении
+$\polynomial{\alpha} \polynomial{\xi_d}$ равен 0, действительно:
+
+	$$ \degreecoefficient{k}{\polynomial{\alpha} \polynomial{\xi_d}} = $$
+	$$ = \degreecoefficient{k}{\polynomial{\alpha} \left ( \polynomial{\xi_c} - \delta_{c,k} \delta_{p,m}^{-1} \lambda^{k-m} \polynomial{\xi_p} \right ) } = $$
+	$$ = \degreecoefficient{k}{\polynomial{\alpha} \polynomial{\xi_c}
+		- \delta_{c,k} \delta_{p,m}^{-1} \polynomial{\alpha} \lambda^{k-m} \polynomial{\xi_p}} = $$
+	$$ = \degreecoefficient{k}{\polynomial{\alpha} \polynomial{\xi_c}}
+		- \delta_{c,k} \delta_{p,m}^{-1} \degreecoefficient{k}{\polynomial{\alpha} \lambda^{k-m} \polynomial{\xi_p}} = $$
+	\begin{equation} \label{equation:FPAP:annihilating_of_kth_degree_in_difference_polynomial_product}
+		= \delta_{c,k} - \delta_{c,k} \delta_{p,m}^{-1} \delta_{p,m} = \delta_{c,k} - \delta_{c,k} = 0.
+	\end{equation}
+
+Кроме того, полином разности $\polynomial{\xi_d}$ принадлежит множеству $\gfpunitypolynomial$, действительно, коэффициент при нулевой степени
+полинома разности $\polynomial{\xi_d}$ складывается из коэффициентов при нулевой степени текущего полинома $\polynomial{\xi_c}$ и
+сдвинутого предыдущего полинома $\lambda^{k-m} \polynomial{\xi_p}$:
+
+	$$ \degreecoefficient{0}{\polynomial{\xi_d}}
+		= \degreecoefficient{0}{\polynomial{\xi_c}}
+			- \delta_{c,k} \delta_{p,m}^{-1} \degreecoefficient{0}{\lambda^{k-m} \polynomial{\xi_p}}, $$
+
+поскольку $k > m$ (по условиям \ref{conditions:FPAP:iteration_entrance} начала итеационного шага), то сдвинутый предыдущий полином
+$\lambda^{k-m} \polynomial{\xi_p}$ "начинается"{} со степени $k-m > 0$, то есть нулевой степени, в сдвинутом предыдущем полиноме
+$\lambda^{k-m} \polynomial{\xi_p}$ нет и коэффициент при нулевой степени равен нулю:
+
+	$$ \degreecoefficient{0}{\xi_d} = \degreecoefficient{0}{\xi_c} - \delta_{c,k} \delta_{p,m}^{-1} \cdot 0 = \degreecoefficient{0}{\xi_c} = 1, $$
+
+поскольку $\polynomial{\xi_c} \in \gfpunitypolynomial$ в соответствии с условиями \ref{conditions:FPAP:iteration_entrance} начала итерационного шага.
+Таким образом
+
+	\begin{equation} \label{equation:FPAP:difference_polynomial_belongs_to_unity_polynomials}
+		\polynomial{\xi_d} \in \gfpunitypolynomial.
+	\end{equation}
+
+Общая схема произведений с полиномом разности $\polynomial{\xi_d}$ имеет вид:
+
+	$$
+		\begin{array}{rccccccccccc}
+			                                 &         & d_p     &         & m            &         & d_c     &         &         & k            & \\
+			                                 & 0       & 1       & 2       & 3            & 4       & 5       & 6       & 7       & 8            & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p}               & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \bullet & \bullet & \bullet & \bullet      & \bullet & \dots \\
+			\lambda^{k-m} \polynomial{\xi_p} & 0       & 0       & 0       & 0            & 0       & \bullet & 0       & 0       & \delta_{p,m} & \bullet & \dots \\
+			\polynomial{\xi_c}               & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & \delta_{c,k} & \bullet & \dots \\
+			\polynomial{\xi_d}               & \bullet & \bullet & \bullet & \bullet      & \bullet & \bullet & 0       & 0       & 0            & \bullet & \dots \\
+		\end{array}
+	$$
+
+По завершению варианта И.2 итерационного шага необходимо из четырех полиномов: $\polynomial{\xi_p}$, $\lambda^{k-m} \polynomial{\xi_p}$,
+$\polynomial{\xi_c}$ и $\polynomial{\xi_d}$ оставить только два. Вполне очевидно, что разность $\polynomial{\xi_d}$ следует сделать новым
+текущим полиномом. Выбор предыдущего полинома оказывается чуть более сложным: если степень сдвинутого полинома $\lambda^{k-m} \polynomial{\xi_p}$
+оказывается больше степени текущего полинома $\polynomial{\xi_c}$, то предыдущий полином $\polynomial{\xi_p}$ следует заменить текущим полиномом
+$\polynomial{\xi_c}$, в противном случае предыдущий полином $\polynomial{\xi_p}$ следует оставить без изменений.
+
+В настоящий момент, конечно, не вполне ясно почему вообще следует менять предыдущий полином $\polynomial{\xi_p}$, ведь его можно было
+использовать аналогичным образом и дальше, зануляя ненулевые коэффициенты в произведениях с текущим полиномом $\polynomial{\xi_c}$. Чуть позже
+в подразделе \ref{section:MDAP:minimal_degree_of_annihilating_polynomial} будет показано, что это требуется для того, чтобы степени
+полиномов $\polynomial{\xi^{(k)}}$ были минимальными.
+
+Таким образом, на заключительном этапе варианта И.2 итерационного шага, следует выполнить присваивания:
+
+	\begin{equation} \label{equation:FPAP:previous_polynomial_assignment}
+		\polynomial{\xi_p}
+		\leftarrow
+		\left \{
+			\begin{array}{ccc}
+				\polynomial{\xi_p}, & \text{если} & d_p + k - m \le d_c \\
+				\polynomial{\xi_c}, & \text{если} & d_p + k - m > d_c \\
+			\end{array}
+		\right .
+		,
+	\end{equation}
+	\begin{equation} \label{equation:FPAP:current_polynomial_assignment}
+		\polynomial{\xi_c} \leftarrow \polynomial{\xi_d}.
+	\end{equation}
+
+Соответствующим образом изменяются и степени полиномов:
+
+	$$ d_p = \polynomialdegree{\xi_p}, $$
+	$$ d_c = \polynomialdegree{\xi_c}. $$
+
+После присваивания текущий полином $\polynomial{\xi_c}$ согласно равенству
+\eqref{equation:FPAP:annihilating_of_kth_degree_in_difference_polynomial_product} становится аннулирущим до степени $k$. Таким образом,
+
+	$$ \polynomial{\xi^{(k)}} = \polynomial{\xi_c}. $$
+
+Кроме того, поскольку после присваивания \eqref{equation:FPAP:current_polynomial_assignment} новый текущий полином $\polynomial{\xi_c}$ ---
+это полином разности $\polynomial{\xi_d}$, который принадлежит множеству $\gfpunitypolynomial$ согласно
+\eqref{equation:FPAP:difference_polynomial_belongs_to_unity_polynomials}, то
+
+	$$ \polynomial{\xi^{(k)}} \in \gfpunitypolynomial, $$
+
+и основная цель итерационного шага выполнена --- построен полином $\polynomial{\xi^{(k)}}$, аннулирующий до степени $k$, из множества
+$\gfpunitypolynomial$.
+
+Схема произведения по завершению варианта И.2 итерационного шага имеет вид:
+
+	$$
+		\begin{array}{rccccccccccc}
+			                                 &         &         &         &              &         & d_p     & d_c     &         & m            & \\
+			                                 & 0       & 1       & 2       & 3            & 4       & 5       & 6       & 7       & 8            & 9       & \dots \\
+			\hline
+			\polynomial{\xi_p}               & \bullet & \bullet & \bullet & \bullet      & \bullet & 0       & 0       & 0       & \delta_{c,k} & \bullet & \dots \\
+			\polynomial{\xi_c}               & \bullet & \bullet & \bullet & \bullet      & \bullet & \bullet & 0       & 0       & 0            & \bullet & \dots \\
+		\end{array}
+	$$
+
+и, как не трудно заметить, удовлетворяются все условия \ref{conditions:FPAP:iteration_entrance} с учетом того, что для следущего итерационного
+шага необходимо увеличить $k$ на 1, а значит над полученными полиномами $\polynomial{\xi_p}$ и $\polynomial{\xi_c}$ можно опять выполнить
+итерационный шаг алгоритма. Таким образом, на этом вариант И.2 итерационного шага завершается и необходимо перейти к шагу проверки
+критерия завершения.
+
+Критерий завершения заключается в том, чтобы проверить является ли очередной построенный полином $\polynomial{\xi^{(k)}}$ искомым, другими
+словами необходимо определить сколько степеней в произведении $\polynomial{\alpha} \polynomial{\xi^{(k)}}$ зануляет полином
+$\polynomial{\xi^{(k)}}$, начиная от степени самого полинома $\polynomialdegree{\xi^{(k)}}$, которая, кстати, совпадает со степенью текущего
+полинома $d_c$. Если разность $k - d_c \ge n-1$, то полином $\polynomial{\xi^{(k)}}$ является искомым полиномом $\polynomial{\xi}$ из
+множества $\gfpunitypolynomial$. Если же $k - d_c < n-1$, то необходимо продолжить выполнение итерационных шагов алгоритма.
+
+По завершению работы алгоритма последний построенный полином $\polynomial{\xi^{(k)}}$ будет являтся искомым полиномом $\polynomial{\xi}$,
+коэффициенты которого удовлетворяют системе равенств \eqref{equation:FPAP:equations_for_xi}:
+
+	$$ \polynomial{\xi} = \polynomial{\xi^{(k)}}, $$
+
+и для получения проекционно аннулирующего полинома $\polynomial{\rho}$ необходимо будет взять коэффициенты полинома $\polynomial{\xi}$
+в обратном порядке, в соответствии с равенством \eqref{equation:FPAP:rho_and_xi_equation}.
+
+\subsection{Минимальность проекционно аннулирущего полинома} \label{section:MDAP:minimal_degree_of_annihilating_polynomial}
+
+В этом подразделе будет доказано, что каждый из аннулирующих до степени $k$ полиномов $\polynomial{\xi^{(k)}}$, которые строит алгоритм,
+представленный в предыдущем разделе, имеет наименьшую возможную степень из всех аннулирующих до степени $k$ полиномов.
+
+Прежде всего, следуя работе Месси \cite{Massey}, докажем вспомогательное утверждение.
+
+\begin{statement} \label{statement:MDAP:annihilating_polynomial_degrees_inequality}
+
+	Пусть полином $\polynomial{\gamma} \in \gfpunitypolynomial$ является аннулирущим до степени $k-1$, но не
+	является аннулирующим до степени $k$, и полином $\polynomial{\hat\gamma} \in \gfpunitypolynomial$ является аннулирующим до степени $k$,
+	тогда степени полиномов $\polynomial{\gamma}$ и $\polynomial{\hat\gamma}$ удовлетворяют неравенству:
+
+		$$ \polynomialdegree{\hat\gamma} \ge k + 1 - \polynomialdegree{\gamma}. $$
+
+	\proof
+
+	Приводимое далее доказательство имеет следующую схему:
+
+	\begin{tabular}{|p{1cm}|p{4cm}|p{4cm}|p{5cm}|}
+	\hline
+	№  & ограничение для $\polynomialdegree{\gamma}$ & ограничение для $\polynomialdegree{\hat\gamma}$ & Доказательство \\
+	\hline
+	\hline
+	1  & $\polynomialdegree{\gamma} \ge k+1$         & нет ограничения                                 & этот случай оказывается невозможным, поскольку противоречит условиям утверждения \\
+	\hline
+	2  & $\polynomialdegree{\gamma} = k$             & нет ограничения                                 & этот случай оказывается также невозможным, поскольку противоречит условиям утверждения \\
+	\hline
+	3a & $\polynomialdegree{\gamma} \le k-1$         & $\polynomialdegree{\hat\gamma} \ge k+1$         & доказываемое неравенство является тривиальным \\
+	\hline
+	3b & $\polynomialdegree{\gamma} \le k-1$         & $\polynomialdegree{\hat\gamma} \le k$           & доказывается от противного \\
+	\hline
+	\end{tabular}
+
+	Пусть $d$ обозначает степень полинома $\polynomial{\gamma}$:
+
+		$$ d = \polynomialdegree{\gamma}. $$
+
+	Для величины степени $d$ возможными являются три различных случая:
+
+	\begin{enumerate}
+		\item $d \ge k+1$;
+		\item $d = k$;
+		\item $d \le k-1$.
+	\end{enumerate}
+
+	Рассмотрим все случаи по порядку.
+
+	\begin{enumerate}
+		\item
+			Рассмотрим первый случай, пусть $d \ge k + 1$, тогда по соглашению \ref{agreement:FPAP:ignoring_nonzero_product_coefficients} полином
+			$\polynomial{\gamma}$ является аннулирующим до степени $k$, что противоречит условию утверждения --- полином $\polynomial{\gamma}$ не
+			является аннулирующим до степени $k$. Таким образом, первый случай оказывается невозможным.
+
+		\item
+			Рассмотрим второй случай, пусть $d = k$. В этом случае неравенство утверждения
+
+				$$ \polynomialdegree{\hat\gamma} \ge k + 1 - \polynomialdegree{\gamma}. $$
+
+			вырождается в неравенство
+
+				$$ \polynomialdegree{\hat\gamma} \ge k + 1 - d. $$
+				$$ \polynomialdegree{\hat\gamma} \ge k + 1 - k. $$
+				$$ \polynomialdegree{\hat\gamma} \ge 1. $$
+
+			Таким образом, необходимо доказать, что степень полинома $\polynomial{\hat\gamma}$, аннулирующего до степени $k$, не может быть
+			меньше 1. Проведем доказательство от противного и предположим, что полином $\polynomial{\hat\gamma}$ имеет степень меньше 1, то есть
+			имеет степень 0, другими словами полином $\polynomial{\hat\gamma}$ является константой, и поскольку
+			$\polynomial{\hat\gamma} \in \gfpunitypolynomial$, то эта константа равна 1:
+
+				$$ \polynomial{\hat\gamma} = 1. $$
+
+			Если полином $\polynomial{\hat\gamma}$ является аннулирующим до степени $k$, то значит в произведении
+			$\polynomial{\alpha} \polynomial{\hat\gamma}$ равны нулю коэффициенты при степенях, начиная со степени самого полинома
+			$\polynomial{\hat\gamma}$, то есть с 0, и до степени $k$ включительно:
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\degreecoefficient{0}{\polynomial{\alpha} \polynomial{\hat\gamma}} = 0 \\
+						\vdots \\
+						\degreecoefficient{k}{\polynomial{\alpha} \polynomial{\hat\gamma}} = 0 \\
+					\end{array}
+					\right .
+					,
+				$$
+
+				но полином $\polynomial{\hat\gamma} = 1$, тогда равны нулю коэффициенты в полиноме $\polynomial{\alpha}$:
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\degreecoefficient{0}{\polynomial{\alpha}} = 0 \\
+						\vdots \\
+						\degreecoefficient{k}{\polynomial{\alpha}} = 0 \\
+					\end{array}
+					\right .
+					,
+				$$
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\alpha_0 = 0 \\
+						\vdots \\
+						\alpha_k = 0 \\
+					\end{array}
+					\right .
+					.
+				$$
+
+			В этом случае, очевидно, любой полином степени не больше $k$ окажется аннулирущим, поскольку в произведении до степени $k$
+			участвуют только коэффициенты $\alpha_0$, \dots, $\alpha_k$ и все они равны 0.
+
+			Отсюда следует, что и полином $\polynomial{\gamma}$, имеющий степень $d = k$, также является аннулирущим до степени $k$, что
+			опять же противоречит условию утверждения --- полином $\polynomial{\gamma}$ не является аннулирующим до степени $k$. Таким образом,
+			второй случай также оказывается невозможным.
+
+		\item
+			Остается только третий случай, в котором $d \le k-1$. Пусть полином $\polynomial{\gamma}$ имеет вид:
+
+				$$ \gamma(\lambda) = \gamma_0 + \gamma_1 \lambda + \dots + \gamma_{d-1} \lambda^{d-1} + \gamma_d \lambda^d. $$
+
+			Поскольку $\polynomial{\gamma} \in \gfpunitypolynomial$, то коэффициент при нулевой степени $\gamma_0$ равен 1:
+
+				$$ \gamma(\lambda) = 1 + \gamma_1 \lambda + \dots + \gamma_{d-1} \lambda^{d-1} + \gamma_{d} \lambda^d. $$
+
+			Согласно условию утверждения полином $\polynomial{\gamma}$ является аннулирующим до степени $k-1$, следовательно выполняются
+			равенства (или по крайней мере одно равенство, если $d = k-1$):
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\degreecoefficient{d}{\polynomial{\alpha} \polynomial{\gamma}} = 0 \\
+						\vdots \\
+						\degreecoefficient{k-1}{\polynomial{\alpha} \polynomial{\gamma}} = 0 \\
+					\end{array}
+					\right .
+					,
+				$$
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\alpha_d + \gamma_1 \alpha_{d-1} + \dots + \gamma_{d-1} \alpha_1 + \gamma_d \alpha_0 = 0 \\
+						\vdots \\
+						\alpha_{k-1} + \gamma_1 \alpha_{k-1-1} + \dots + \gamma_{d-1} \alpha_{k-1-(d-1)} + \gamma_d \alpha_{k-1-d} = 0 \\
+					\end{array}
+					\right .
+				$$
+
+			Отсюда
+
+				$$
+					\left \{
+					\begin{array}{c}
+						\alpha_d = - \left ( \gamma_1 \alpha_{d-1} + \dots + \gamma_{d-1} \alpha_1 + \gamma_d \alpha_0 \right ) \\
+						\vdots \\
+						\alpha_{k-1} = - \left ( \gamma_1 \alpha_{k-1-1} + \dots + \gamma_{d-1} \alpha_{k-1-(d-1)} + \gamma_d \alpha_{k-1-d} \right ) \\
+					\end{array}
+					\right .
+				$$
+
+			или в более короткой форме:
+
+				\begin{equation} \label{equation:MDAP:alpha_through_gamma}
+					\alpha_j = - \sum_{i=1}^d \gamma_i \alpha_{k-i},
+				\end{equation}
+				$$ j = d, \dots, k-1. $$
+
+			Теперь рассмотрим полином $\polynomial{\hat\gamma}$, обозначим $\hat d$ степень полинома $\polynomial{\hat\gamma}$:
+
+				$$ \hat d = \polynomialdegree{\hat\gamma}. $$
+
+			Для величины $\hat d$ возможны два случая:
+
+			\begin{enumerate}
+				\item $\hat d \ge k+1$;
+				\item $\hat d \le k$.
+			\end{enumerate}
+
+			Рассмотрим оба случая.
+
+			\begin{enumerate}
+				\item
+					Если $\hat d \ge k+1$, то
+
+						$$ \polynomialdegree{\hat\gamma} = \hat d \ge k + 1 \ge k + 1 - \polynomialdegree{\gamma}, $$
+
+					поскольку $\polynomialdegree{\gamma} \ge 0$. Таким образом, для случая $\hat d \ge k+1$ утверждение доказано.
+
+				\item
+					Пусть $\hat d \le k$, и полином $\polynomial{\hat\gamma} \in \gfpunitypolynomial$ имеет вид:
+
+						$$ \hat\gamma(\lambda)
+							= 1 + \hat\gamma_1 \lambda + \dots + \hat\gamma_{\hat d - 1} \lambda^{\hat d - 1} + \hat\gamma_{\hat d - 1} \lambda^{\hat d - 1}. $$
+
+					Согласно условию утверждения полином $\polynomial{\hat\gamma}$ является аннулирующим до степени $k$, поэтому должны
+					выполнятся равенства:
+
+						$$
+							\left \{
+							\begin{array}{c}
+								\degreecoefficient{\hat d}{\polynomial{\alpha} \polynomial{\hat\gamma}} = 0 \\
+								\vdots \\
+								\degreecoefficient{k}{\polynomial{\alpha} \polynomial{\hat\gamma}} = 0 \\
+							\end{array}
+							\right .
+							,
+						$$
+
+						$$
+							\left \{
+							\begin{array}{c}
+								\alpha_{\hat d} + \hat\gamma_1 \alpha_{\hat d - 1} + \dots + \hat\gamma_{\hat d - 1} \alpha_1 + \hat\gamma_{\hat d} \alpha_0 = 0 \\
+								\vdots \\
+								\alpha_k + \hat\gamma_1 \alpha_{k-1} + \dots + \hat\gamma_{\hat d - 1} \alpha_{k - \hat d - 1} + \hat\gamma_{\hat d} \alpha_{k - \hat d} = 0 \\
+							\end{array}
+							\right .
+						$$
+
+						$$
+							\left \{
+							\begin{array}{c}
+								\alpha_{\hat d} = - \left ( \hat\gamma_1 \alpha_{\hat d - 1} + \dots + \hat\gamma_{\hat d - 1} \alpha_1 + \hat\gamma_{\hat d} \alpha_0 \right ) \\
+								\vdots \\
+								\alpha_k = - \left ( \hat\gamma_1 \alpha_{k-1} + \dots + \hat\gamma_{\hat d - 1} \alpha_{k - \hat d - 1} + \hat\gamma_{\hat d} \alpha_{k - \hat d} \right ) \\
+							\end{array}
+							\right .
+						$$
+
+						\begin{equation} \label{equation:MDAP:alpha_through_hat_gamma}
+							\alpha_j = - \sum_{l=1}^{\hat d} \hat\gamma_l \alpha_{j-l},
+						\end{equation}
+						$$ j = \hat d, \dots, k. $$
+
+					Докажем утверждение от противного: предположим, что
+
+						$$ \polynomialdegree{\hat\gamma} \le k - \polynomialdegree{\gamma}, $$
+
+					или в принятых обозначениях
+
+						\begin{equation} \label{equation:MDAP:contrary_inequality_for_hat_gamma_degree}
+							\hat d \le k - d.
+						\end{equation}
+
+					По условию утверждения полином $\polynomial{\gamma}$ не является аннулирущиюм до степени $k$, поэтому коэффициент при
+					степени $k$ в произведении $\polynomial{\alpha} \polynomial{\gamma}$ не равен 0:
+
+						$$ \degreecoefficient{k}{\polynomial{\alpha} \polynomial{\gamma}} \neq 0, $$
+						$$ \alpha_{k} + \gamma_1 \alpha_{k-1} + \dots + \gamma_{d-1} \alpha_{k-(d-1)} + \gamma_d \alpha_{k-d} \neq 0 $$
+						$$ \alpha_{k} \neq - \left ( \gamma_1 \alpha_{k-1} + \dots + \gamma_{d-1} \alpha_{k-(d-1)} + \gamma_d \alpha_{k-d} \right ) $$
+						\begin{equation} \label{equation:MDAP:alpha_k_inequality_for_gamma}
+							\alpha_k \neq \sum_{i=1}^{d} \gamma_i \alpha_{k-i},
+						\end{equation}
+
+					где в сумме правой части используются коэффициенты $\alpha_{k-1}$, \dots, $\alpha_{k-d}$. Поскольку по предположению
+					\eqref{equation:MDAP:contrary_inequality_for_hat_gamma_degree} $\hat d \le k - d$, то каждый из коэффициентов $\alpha_{k-1}$,
+					\dots, $\alpha_{k-d}$ имеет рекуррентное выражение с коэффициентами $\hat \gamma_l$ согласно
+					\eqref{equation:MDAP:alpha_through_hat_gamma}. Подставляя рекуррентные соотношения из
+					\eqref{equation:MDAP:alpha_through_hat_gamma} в сумму правой части неравенства
+					\eqref{equation:MDAP:alpha_k_inequality_for_gamma} получим:
+
+						$$ \sum_{i=1}^{d} \gamma_i \alpha_{k-i} = \sum_{i=1}^{d} \gamma_i \left ( - \sum_{l=1}^{\hat d} \hat\gamma_l \alpha_{k-i-l} \right ). $$
+
+					Изменяя порядок суммирования в правой части, получим равенство:
+
+						$$ \sum_{i=1}^{d} \gamma_i \alpha_{k-i} = \sum_{l=1}^{\hat d} \hat\gamma_l \left ( - \sum_{i=1}^{d} \gamma_i  \alpha_{k-l-i} \right ). $$
+
+					Теперь из равенства \eqref{equation:MDAP:contrary_inequality_for_hat_gamma_degree} следует, что $d \le k - \hat d$, но
+					тогда согласно равенствам \eqref{equation:MDAP:alpha_through_gamma} суммы в скобках в правой части дают коэффициенты
+					$\alpha_{k-l}$:
+		
+						$$ \sum_{i=1}^{d} \gamma_i \alpha_{k-i} = \sum_{l=1}^{\hat d} \hat\gamma_l \alpha_{k-l}. $$
+
+					Правая часть полученного равенства в соответствии с равенствами \eqref{equation:MDAP:alpha_through_hat_gamma} равна $\alpha_k$:
+
+						$$ \sum_{i=1}^{d} \gamma_i \alpha_{k-i} = \sum_{l=1}^{\hat d} \hat\gamma_l \alpha_{k-l} = \alpha_k, $$
+
+					что противоречит неравенству \eqref{equation:MDAP:alpha_k_inequality_for_gamma}:
+
+						$$ \alpha_k \neq \sum_{i=1}^{d} \gamma_i \alpha_{k-i} = \alpha_k, $$
+						$$ \alpha_k \neq \alpha_k, $$
+
+					Таким образом, исходное предположение \eqref{equation:MDAP:contrary_inequality_for_hat_gamma_degree} является неверным,
+					следовательно:
+
+						$$ \hat d \ge k + 1 - d, $$
+						$$ \polynomialdegree{\hat\gamma} \ge k + 1 - \polynomialdegree{\gamma}. $$
+			\end{enumerate}
+	\end{enumerate}
+
+	Таким образом, были рассмотрены все возможные случаи, и в тех случаях, которые не вступают в противоречие с условиями утверждения, неравенство
+
+		$$ \polynomialdegree{\hat\gamma} \ge k + 1 - \polynomialdegree{\gamma}. $$
+
+	оказывается справедливым.
+\end{statement}
+
+С использованием утверждения \ref{statement:MDAP:annihilating_polynomial_degrees_inequality} можно доказать, что аннулирующие до степени
+$k$ полиномы $\polynomial{\xi^{(k)}}$, которые строит алгоритм, представленный в разделе
+\ref{section:FPAP:finding_projection_annihilating_polynomials}, имеют минимальные степени среди аннулирущих до степени $k$ полиномов из
+множества $\gfpunitypolynomial$.
+
+Начнем с шага Н.1 инициализации предыдущего полинома $\polynomial{\xi_p}$: поскольку на шаге Н.1 предыдущий полином $\polynomial{\xi_p} = 1$,
+то его степень равна 0. Если предыдущий полином $\polynomial{\xi_p}$ оказывается аннулирущим до степени $m-1$ (при $m > 0$), то алгоритм
+строит аннулирущие полиномы:
+
+	$$ \polynomial{\xi^{(k)}} = \polynomial{\xi_p} $$
+	$$ k=0,\dots,m-1, $$
+
+имеющие степень 0. Поскольку полиномов степени меньше 0 в множестве $\gfpunitypolynomial$ нет, то все полиномы $\polynomial{\xi^{(k)}}$
+при $k=0,\dots,m-1$ являются полиномами минимальной возможной степени.
+
+Далее, предыдущий полином $\polynomial{\xi_p}$ не является аннулирущим до степени $m$, и на шаге Н.2 производится инициализация текущего
+полинома $\polynomial{\xi_c}$: текущий полином $\polynomial{\xi_c}$ имеет степень $m+1$ и является аннулирущим до степени $m+1$, поэтому
+алгоритм строит еще два полинома:
+
+	$$ \polynomial{\xi^{(m)}} = \polynomial{\xi_c}, $$
+	$$ \polynomial{\xi^{(m+1)}} = \polynomial{\xi_c}. $$
+
+При описании алгоритма было показано, что полином из множества $\gfpunitypolynomial$, аннулирущий до степени $m$, обязательно имеет степень
+больше $m$. Степень полинома $\polynomial{\xi^{(m)}}$, который построил алгоритм, совпадает со степенью текущего полинома $\polynomial{\xi_c}$,
+равной $m+1$, поэтому построенный полином $\polynomial{\xi^{(m)}}$ является аннулирущим до степени $m$ полиномом минимальной степени
+(аннулирущего до степени $m$ полинома степени меньше чем $m+1$ в множестве $\gfpunitypolynomial$ не существует).
+
+Аннулирующий полином $\polynomial{\xi^{(m+1)}}$ тоже имеет минимальную возможную степень среди аннулищих до степени $m+1$ полиномом из множества
+$\gfpunitypolynomial$. В этом легко убедиться, если предположить обратное: пусть существует такой полином
+$\polynomial{\hat\xi} \in \gfpunitypolynomial$, который является аннулирующим до степени $m+1$ и имеет степень меньшую или равную $m$, тогда
+полином $\polynomial{\hat\xi}$ является также аннулирующим до степени $m$, но в множестве $\gfpunitypolynomial$ не существует полиномов,
+аннулирущих до степени $m$, имеющих степень меньшую или равную $m$, следовательно имеет место противоречие --- такой полином $\polynomial{\hat\xi}$
+не существует. Таким образом, если в множестве $\gfpunitypolynomial$ и существуют полиномы, аннулирующие до степени $m+1$, то они обязательно
+имеют степень больше или равную $m+1$, следовательно построенный полином $\polynomial{\xi^{(m+1)}}$, имеющий степень $m+1$, является одним
+из таких полиномов минимальной степени.
+
+Поскольку по окончании шага Н.2 аннулирущий полином $\polynomial{\xi^{(m+1)}}$ --- это текущий полином $\polynomial{\xi_c}$, то перед началом
+итерационного шага текущий полином $\polynomial{\xi_c}$ является аннулирующим до степени $m+1$ полиномом минимальной степени из множества
+$\gfpunitypolynomial$.
+
+Кроме того, как нетрудно заметить, степень текущего полинома $d_c = m+1$, а степень предыдущего полинома $d_p = 0$, поэтому степени
+$d_c$ и $d_p$ удовлетворяют равенству:
+
+	$$ d_c = m + 1 - d_p. $$
+
+Таким образом, после шагов инициализации Н.1 и Н.2 выполняются два дополнительных условия (с учетом того, что $k$ --- число следующее
+за $m+1$, то есть $k=m+2$):
+
+\begin{conditions} \label{conditions:MDAP:iteration_entrance}
+	\begin{enumerate}
+		\item текущий полином $\polynomial{\xi_c}$ является аннулирущим до степени $k-1$ полиномом, имеющим минимальную степень среди всех
+			аннулирущих до степени $k-1$ полиномов в множестве $\gfpunitypolynomial$;
+
+		\item степени предыдущего и текущего полиномов удовлетворяют равенству:
+
+			$$ d_c = m + 1 - d_p ; $$
+	\end{enumerate}
+\end{conditions}
+
+Если на итерационном шаге реализуется вариант И.1, то очередной полином $\polynomial{\xi^{(k)}}$ совпадает с текущим полиномом $\polynomial{\xi_c}$
+и имеет наименьшую возможную степень среди всех аннулирующих до степени $k$ полиномов из множества $\gfpunitypolynomial$. Действительно, предположим
+противное: пусть существует полином $\polynomial{\hat\xi}$, который является аннулирущим до степени $k$ полиномом из $\gfpunitypolynomial$ со
+степенью меньше, чем степень полинома $\polynomial{\xi^{(k)}}$, равной степени текущего полинома $\polynomial{\xi_c}$ (поскольку
+$\polynomial{\xi^{(k)}}$ совпадает с $\polynomial{\xi_c}$), тогда полином $\polynomial{\hat\xi}$ является аннулирущим и до степени $k-1$ полиномом
+и имеет степень меньшей, чем степень текущего полинома $\polynomial{\xi_c}$, но это невозможно, поскольку текущий полином в соответствии с
+условиями \ref{conditions:MDAP:iteration_entrance} имеет минимальную степень среди всех аннулирущих до степени $k-1$ полиномов в множестве
+$\gfpunitypolynomial$. В силу полученного противоречия такого полинома $\polynomial{\hat\xi}$ существовать не может.
+
+По завершению варианта И.1 итерационного шага текущий полином становится также и аннулирующим до степени $k$ полиномом, имеющим минимальную
+степень среди всех аннулирущих до степени $k$ полиномов в множестве $\gfpunitypolynomial$, и следовательно выполняется первое из условий
+\ref{conditions:MDAP:iteration_entrance} перед началом следующей итерации при увеличенном на 1 значении $k$. Кроме того, поскольку текущий
+и предыдущий полиномы не изменяются в варианте И.1, то их степени также не изменяются, и следовательно выполнено и второе из условий
+\ref{conditions:MDAP:iteration_entrance} перед началом следующей итерации.
+
+В случае реализации варианта И.2 итерационного шага строится полином разности $\polynomial{\xi_d}$, который является аннулирущим до степени
+$k$ полиномом со степенью, которая определяется текущим полиномом $\polynomial{\xi_c}$ и сдвинутым предыдущим полиномом
+$\lambda^{k-m} \polynomial{\xi_p}$ (в зависимости от того, степень какого полинома окажется больше):
+
+	$$ \polynomialdegree{\xi_d} = max \left \{ \polynomialdegree{\xi_c} , \polynomialdegree{\lambda^{k-m}\xi_p} \right \}, $$
+	\begin{equation} \label{equation:MDAP:initial_difference_polynomial_degree_equality}
+		\polynomialdegree{\xi_d} = max \left \{ d_c , k - m + d_p \right \}.
+	\end{equation}
+
+В силу второго из условий \ref{conditions:MDAP:iteration_entrance}:
+
+	$$ d_p = m + 1 - d_c, $$
+
+откуда
+
+	$$ \polynomialdegree{\xi_d} = max \left \{ d_c , k - m + m + 1 - d_c \right \}, $$
+	\begin{equation} \label{equation:MDAP:final_difference_polynomial_degree_equality}
+		\polynomialdegree{\xi_d} = max \left \{ d_c , k + 1 - d_c \right \}.
+	\end{equation}
+
+Покажем, что степень полинома разности $\polynomialdegree{\xi_d}$, определяемая последним равенством, является минимальной.
+
+Пусть полином $\polynomial{\hat\xi}$ является любым аннулирущим до степени $k$ полиномом из множества $\gfpunitypolynomial$. Во-первых,
+степень полинома $\polynomial{\hat\xi}$ не может быть меньше степени текущего полинома $\polynomial{\xi_c}$, в противном случае полином
+$\polynomial{\hat\xi}$ также является аннулирущим до степени $k-1$ полиномом со степенью меньше, чем степень текущего полинома
+$\polynomial{\xi_c}$, а это противоречит первому из условий \ref{conditions:MDAP:iteration_entrance}, поэтому:
+
+	\begin{equation} \label{equation:MDAP:any_kth_annihilating_polynomial_monotony_threshold}
+		\polynomialdegree{\hat\xi} \ge \polynomialdegree{\xi_c}.
+	\end{equation}
+
+Во-вторых, в варианте И.2 итерационного шага текущий полином является аннулирущим до степени $k-1$, но не является аннулирущим до степени
+$k$, а полином $\polynomial{\hat\xi}$ является аннулирущим до степени $k$, поэтому в силу утверждения
+\ref{statement:MDAP:annihilating_polynomial_degrees_inequality}:
+
+	\begin{equation} \label{equation:MDAP:any_kth_annihilating_polynomial_statement_threshold}
+		\polynomialdegree{\hat\xi} \ge k + 1 - \polynomialdegree{\xi_c}.
+	\end{equation}
+
+Таким образом из неравенств \eqref{equation:MDAP:any_kth_annihilating_polynomial_monotony_threshold} и
+\eqref{equation:MDAP:any_kth_annihilating_polynomial_statement_threshold}:
+
+	$$ \polynomialdegree{\hat\xi} \ge max \left \{ \polynomialdegree{\xi_c} , k + 1 - \polynomialdegree{\xi_c} \right \}. $$
+
+Откуда с учетом равенства \eqref{equation:MDAP:final_difference_polynomial_degree_equality}:
+
+	$$ \polynomialdegree{\hat\xi} \ge max \left \{ d_c , k + 1 - d_c \right \} = \polynomialdegree{\xi_d}, $$
+
+и следовательно любой аннулирущий до степени $k$ полином из множества $\gfpunitypolynomial$ имеет степень большую или равную степени полинома
+разности $\polynomialdegree{\xi_d}$, поэтому полином $\polynomialdegree{\xi_d}$ имеет минимальную степень среди аннулирующих до степени $k$
+полиномов из множества $\gfpunitypolynomial$.
+
+Далее в варианте И.2 итерационного шага текущий полином $\polynomial{\xi_c}$ становится полиномом разности $\polynomial{\xi_d}$, поэтому
+выполняется первое из условий \ref{conditions:MDAP:iteration_entrance} перед началом следующего итерационного шага с числом $k$, увеличенным
+на 1. Затем в качестве аннулирущего полинома $\polynomial{\xi^{(k)}}$ также используется полином разности $\polynomial{\xi_d}$, поэтому
+построенный алгоритмом полином $\polynomial{\xi^{(k)}}$ оказывается аннулирущим до степени $k$ полиномом с минимальной степенью в множестве
+$\gfpunitypolynomial$.
+
+Остается лишь проверить выполнение второго из условий \ref{conditions:MDAP:iteration_entrance} по завершению варианта И.2 итерационного шага.
+
+Если до присваиваний \eqref{equation:FPAP:previous_polynomial_assignment} и \eqref{equation:FPAP:current_polynomial_assignment} выполняется
+условие $d_p + k - m \le d_c$, тогда предыдущий полином $\polynomial{\xi_p}$ не изменяется и его степень $d_p$ остается прежней, текущий
+полином $\polynomial{\xi_c}$ заменяется на полиномом разности $\polynomial{\xi_d}$, но в силу выполнения неравенства $d_p + k - m \le d_c$
+полином $\polynomial{\xi_d}$ согласно равенству \eqref{equation:MDAP:initial_difference_polynomial_degree_equality} имеет степень $d_c$,
+поэтому сам текущий полином $\polynomial{\xi_c}$ изменяется, но степень его остается прежней и, следовательно, неравенство $d_p + k - m \le d_c$
+выполняется и после присваиваний \eqref{equation:FPAP:previous_polynomial_assignment} и \eqref{equation:FPAP:current_polynomial_assignment}.
+
+Если же до присваиваний \eqref{equation:FPAP:previous_polynomial_assignment} и \eqref{equation:FPAP:current_polynomial_assignment} выполняется
+условие $d_p + k - m > d_c$, тогда предыдущий полином $\polynomial{\xi_p}$ заменяется на текущий полином $\polynomial{\xi_c}$ и степень
+$d_p$ заменяется степенью $d_c$, сам текущий полином $\polynomial{\xi_c}$ заменяется на полином разности $\polynomial{\xi_d}$,
+который теперь согласно равенству \eqref{equation:MDAP:final_difference_polynomial_degree_equality} имеет степень $k + 1 - d_c$, а число
+$m$ --- наименьшая степень, коэффициент при которой в произведении $\polynomial{\alpha} \polynomial{\xi_p}$ не является нулевым, --- становится
+равной $k$ (это та степень, коэффициент при которой в произведении $\polynomial{\alpha} \polynomial{\xi_c}$ не являлся нулевым
+до замены текущего полинома $\polynomial{\xi_c}$ на полином разности $\polynomial{\xi_d}$). Таким образом
+
+	$$
+		\begin{array}{ccc}
+			d_p & \leftarrow & d_c \\
+			d_c & \leftarrow & k + 1 - d_c \\
+			m   & \leftarrow & k \\
+		\end{array}
+	$$
+
+Откуда следует выполнение равенства:
+
+	$$ d_c = m + 1 - d_p, $$
+
+после присваиваний \eqref{equation:FPAP:previous_polynomial_assignment} и \eqref{equation:FPAP:current_polynomial_assignment}.
+
+Таким образом, после выполнения любого из вариантов И.1 либо И.2 итерационного шага выполняются условия \ref{conditions:MDAP:iteration_entrance}
+перед выполнением следующего итерационного шага при увеличенном на единицу значении $k$, поэтому следующий аннулирущий полином
+$\polynomial{\xi^{(k+1)}}$ так же будет иметь минимальную степень среди аннулирущих уже до степени $k+1$ полиномов из множества $\gfpunitypolynomial$.
+
+Отсюда по индукции следует, что и вообще любой построенный алгоритмом полином $\polynomial{\xi^{(k)}}$ при любом $k$ имеет минимальную степень
+среди всех аннулирущих до степени $k$ полиномов из множества $\gfpunitypolynomial$.
