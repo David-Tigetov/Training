@@ -1,0 +1,153 @@
+\section{Вторичная обработка информации}
+
+\subsection{Модели}
+
+Для сопровождения объектов нужно иметь представление о том:
+\begin{itemize}
+    \item как движется объект --- \term{модель движения},
+    \item что измеряет станция --- \term{модель измерений}.
+\end{itemize}
+
+Основная задача вторичной обработки --- определить движение по измерениям.
+
+Пусть состояние объекта во времени описывается функцией $\xi(t)$, широко распространены две модели движения:
+\begin{itemize}
+    \item $\xi(t)$ --- детерминированная функция,
+    \item $\xi(t)$ --- случайная функция.
+\end{itemize}
+
+Модель измерений --- набор случайных величин $\eta = (\eta_1, \dots, \eta_n)$ --- как правило, координат объекта с ошибками, полученными
+в моменты времени $\tau = (\tau_1, \dots, \tau_n)$.
+
+\subsection{Методы}
+
+\subsubsection{МП-оценка}
+
+Модель движения: $\xi(t) = \mathcal{F}(t; \theta)$, где $\mathcal{F}$ --- известная функция, $\theta$ --- неизвестный параметр.
+
+Модель измерений: условное распределение $p_\eta(y; \theta)$ величин $\eta$.
+
+Оценка \term{максимального правдоподобия}:
+\[
+    \widehat{\theta} = arg \sup \limits_\theta p_\eta(\eta; \theta) .
+\]
+
+\subsubsection{МНК-оценка}
+
+Модель движения: $\xi(t) = \mathcal{F}(t; \theta)$, где $\mathcal{F}$ --- известная функция, $\theta$ --- неизвестный параметр.
+
+Модель измерений: $\eta = \mathcal{F}(\tau; \theta) + \varepsilon$.
+
+\term{МНК-оценка}:
+\begin{gather*}
+    \widehat{\theta} = arg \sup \limits_\theta \Phi(\eta; \theta) , \\
+    \Phi(\eta; \theta) = \Anorm{\eta - \mathcal{F}(\tau, \theta)}{K_\varepsilon^{-1}}^2 ,
+\end{gather*}
+$K_\varepsilon$ --- ковариация $\varepsilon$.
+
+\subsubsection{Байесовские оценки}
+
+Модель движения: $\xi(t) = \mathcal{F}(t; \theta)$, $\mathcal{F}$ --- известная функция, $\theta$ --- параметр с распределением $p_\theta(u)$.
+
+Модель измерений: $p_\eta(y; \theta)$ --- условное распределение величин $\eta$.
+
+\term{Байесовская оценка}:
+\[
+    \widehat{\theta} = arg \inf \limits_{\widehat{u}} \int R(u, \widehat{u}) p_\eta(\eta; u) p_\theta(u) du ,
+\]
+c функцией штрафа $R(u, \widehat{u})$.
+\begin{itemize}
+    \item $R(u,\widehat{u}) = (u - \widehat{u})^2$, $\widehat{\theta}$ --- условное математическое ожидание $\theta$ относительно $\eta$,
+    \item $R(u,\widehat{u}) = \delta(u - \widehat{u})$, $\widehat{\theta}$ --- мода апостериорного распределения,
+    \item $R(u,\widehat{u}) = \modulus{u - \widehat{u}}$, $\widehat{\theta}$ --- медиана апостериорного распределения.
+\end{itemize}
+
+\subsubsection{Линейная оценка}
+
+Модель движения: $\xi(t) = \xi$.
+
+Модель измерений: $\eta$.
+
+\term{Линейная оценка}:
+\begin{gather*}
+    \widehat{\xi} = arg \min \limits_{\xi^* \sim \linearspan{\eta}} \norm{\xi - \xi^*}^2 , \\
+    \widehat{\xi} = \expectation{\xi} + K_{\xi,\eta} K_{\eta,\eta}^{-1} \left ( \eta - \expectation{\eta} \right ) , \\
+    K_{\xi,\eta} = \covariance{\xi}{\eta} , \\
+    K_{\eta,\eta} = \covariance{\eta}{\eta} .
+\end{gather*}
+
+\subsubsection{Линейный фильтр}
+
+Модель движения: $\xi_1$, $\xi_2$, \dots --- последовательность случайных величин.
+
+Модель измерений: $\eta_1$, $\eta_2$, \dots --- последовательность случайных величин.
+
+Линейный фильтр вычисляет оптимальную оценку $\widehat{\xi}_{k+1}$ по измерениям $\eta_1$, \dots, $\eta_{k+1}$.
+
+Прогноз состояния $\xi_{k+1}^*$:
+\begin{gather*}
+    \xi_{k+1}^* = \expectation{\xi_{k+1}} + R_{k+1} \overline{Q}_k^{-1} \left ( \overline{\eta}_k - \expectation{\overline{\eta}_k}\right ) , \\
+    R_{k+1} = \covariance{\xi_{k+1}}{\overline{\eta}_k} ,
+\end{gather*}
+и его ошибка $\widetilde{\xi}_{k+1}$:
+\begin{gather*}
+    \widetilde{\xi}_{k+1}^* = \xi_{k+1} - \xi_{k+1}^* , \\
+    \widetilde{P}_{k+1}^* = P_{k+1} - R_{k+1} \overline{Q}_k^{-1} R_{k+1}^T , \\
+    \widetilde{P}_{k+1}^* = \covariance{\widetilde{\xi}_{k+1}^*}{\widetilde{\xi}_{k+1}^*} , \\
+    P_{k+1} = \covariance{\xi_{k+1}}{\xi_{k+1}} .
+\end{gather*}
+
+Прогноз измерения $\eta_{k+1}^*$:
+\begin{gather*}
+    \eta_{k+1}^* = \expectation{\eta_{k+1}} + S_{k+1} \overline{Q}_k^{-1} \left ( \overline{\eta}_k - \expectation{\overline{\eta}_k} \right ) , \\
+    \overline{\eta}_k = \left ( \eta_1, \dots, \eta_k \right ) , \\
+    \overline{Q}_k = \covariance{\overline{\eta}_k}{\overline{\eta}_k} , \\
+    S_{k+1} = \covariance{\eta_{k+1}}{\overline{\eta}_k} ,
+\end{gather*}
+и его ошибка:
+\begin{gather*}
+    \widetilde{\eta}_{k+1}^* = \eta_{k+1} - \eta_{k+1}^* , \\
+    \widetilde{Q}_{k+1}^* = Q_{k+1} - S_{k+1} \overline{Q}_k^{-1} S_{k+1}^T , \\
+    \widetilde{Q}_{k+1}^* = \covariance{\widetilde{\eta}_{k+1}^*}{\widetilde{\eta}_{k+1}^*} , \\
+    Q_{k+1} = \covariance{\eta_{k+1}}{\eta_{k+1}} .
+\end{gather*}
+
+Оценка:
+\begin{gather*}
+    \widehat{\xi}_{k+1} = \xi_{k+1}^* + \widetilde{R}_{k+1}^* \widetilde{Q}_{k+1}^* \widetilde{\eta}_{k+1} , \\
+    \widetilde{R}_{k+1}^* = \covariance{\xi_{k+1}}{\widetilde{\eta}_{k+1}^*}
+\end{gather*}
+и ошибка оценки:
+\begin{gather*}
+    \widetilde{\xi}_{k+1} = \xi_{k+1} - \widehat{\xi}_{k+1} , \\
+    \widetilde{P}_{k+1} = \widetilde{P}_{k+1}^* - \widetilde{R}_{k+1}^* \widetilde{Q}_{k+1}^* \transposition{\widetilde{R}_{k+1}^*}, \\
+    \widetilde{P}_{k+1} = \covariance{\widetilde{\xi}_{k+1}}{\widetilde{\xi}_{k+1}} , \\
+\end{gather*}
+
+\subsubsection{Фильтр Калмана}
+
+Модель движения: $\xi_{k+1} = F_k \xi_k + G_k u_k + v_k$, $u_k$ --- детерминированые, $v_k$ --- случайные.
+
+Модель измерений: $\eta_{k} = H_k \xi_k + w_k$, $w_k$ --- случайные.
+
+Частный случай линейного фильтра.
+
+Прогноз состояния:
+\begin{gather*}
+    \xi_{k+1}^* = F_k \widehat{\xi}_k + G_k u_k , \\
+    \widetilde{P}_{k+1}^* = F_k \widetilde{P}_k F_k^T + V_k , \\
+    V_k = \covariance{v_k}{v_k} .
+\end{gather*}
+
+Прогноз измерения:
+\begin{gather*}
+    \eta_{k+1}^* = H_{k+1} \xi_{k+1}^* , \\
+    \widetilde{Q}_{k+1}^* = H_{k+1} \widetilde{P}_{k+1}^* H_{k+1}^T + W_{k+1} , \\
+    W_{k+1} = \covariance{w_k}{w_k} .
+\end{gather*}
+
+Оценка:
+\begin{gather*}
+    \widehat{\xi}_{k+1} = \xi_{k+1}^* + \widetilde{P}_{k+1}^* H_{k+1}^T \widetilde{Q}_{k+1}^* \widetilde{\eta}_{k+1}, \\
+    \widetilde{P}_{k+1} = \widetilde{P}_{k+1}^* - \widetilde{P}_{k+1}^* H_{k+1}^T \inversion{\widetilde{Q}_{k+1}^*} H_{k+1} \widetilde{P}_{k+1}^* .
+\end{gather*}

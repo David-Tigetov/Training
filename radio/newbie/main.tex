@@ -10,7 +10,28 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric}
 
+% термин
 \newcommand{\term}[1]{\textit{#1}}
+
+% математическое ожидание
+\newcommand{\expectation}[1]{\mathtt{E} \left[ #1 \right]}
+% ковариация
+\newcommand{\covariance}[2]{\mathtt{cov} \left( #1, #2 \right)}
+
+% модуль
+\newcommand{\modulus}[1]{\left | #1 \right |}
+% норма
+\newcommand{\norm}[1]{\left \| #1 \right \|}
+% A-норма
+\newcommand{\Anorm}[2]{\left \| #1 \right \|_{#2}}
+% линейная оболочка
+\newcommand{\linearspan}[1]{\mathcal{L} \left ( #1 \right )}
+% транспонирование
+\newcommand{\transposition}[1]{\left( #1 \right)^T}
+% обращение
+\newcommand{\inversion}[1]{\left( #1 \right)^{-1}}
+
+% обнаружения
 \newcommand{\detections}[1]{%
 \filldraw [magenta#1] (5.101, 2.211) circle (1pt);
 \filldraw [magenta#1] (4.632, 2.668) circle (1pt);
@@ -71,5 +92,6 @@
 \maketitle
 
 \include{stages}
+\include{tracking}
 
 \end{document}
