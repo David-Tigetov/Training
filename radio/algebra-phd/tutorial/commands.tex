@@ -8,8 +8,13 @@
 % определяемое понятие
 \newcommand{\definition}[1]{\textit{#1}}
 
+% создаем счетчик для определений и утверждений
+\newcounter{clausecounter}[chapter]
+% определяем формат вывода счетчика
+\renewcommand{\theclausecounter}{\thechapter.\arabic{clausecounter}}
+
 % утверждение
-\newenvironment{statement}{\par \textbf{Утверждение.} \itshape \par}{\par}
+\newenvironment{statement}{\par \refstepcounter{clausecounter} \textbf{Утверждение \theclausecounter.} \itshape \par}{\par}
 % доказательство
 \newenvironment{proof}{\textbf{Доказательство.} \par}{\par $\blacksquare$}
 % пример

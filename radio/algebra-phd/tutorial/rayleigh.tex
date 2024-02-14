@@ -71,7 +71,56 @@
     \notag.
 \end{gather}
 
-Возникает вопрос об условиях существовании сопряженного оператора $\mathcal{A}^*$. Как будет показано далее, при некоторых условиях сопряженный оператор существует,
+Если сопряженный оператор $\mathcal{A}^*$ существует, то он является единственным. Это следует непосредственно из определения
+\ref{rayleigh:conjugation:scalars_equality} и следующего утверждения.
+
+\begin{statement}~\label{rayleigh:conjugation:identity}
+    Если для операторов $\mathcal{B}_1$ и $\mathcal{B}_2$ выполняется равенство:
+    \begin{gather*}
+        \scalarproduct{u}{\mathcal{B}_1 v}_{\mathcal{U}} = \scalarproduct{u}{\mathcal{B}_2 v}_{\mathcal{U}} , \\
+        \forall u \in \mathcal{U}, \forall v \in \mathcal{V},
+    \end{gather*}
+    тогда
+    \[
+        \mathcal{B}_1 = \mathcal{B}_2 .
+    \]
+\end{statement}
+\begin{proof}
+    Преобразуем равенство к виду:
+    \begin{gather*}
+        \scalarproduct{u}{\mathcal{B}_1^* v}_{\mathcal{U}} = \scalarproduct{u}{\mathcal{B}_2^* v}_{\mathcal{U}} , \\
+        \scalarproduct{u}{\mathcal{B}_1^* v}_{\mathcal{U}} - \scalarproduct{u}{\mathcal{B}_2^* v}_{\mathcal{U}} = 0 , \\
+        \scalarproduct{u}{\mathcal{B}_1^* v - \mathcal{B}_2^* v}_{\mathcal{U}} = 0 , \\
+        \scalarproduct{u}{\left( \mathcal{B}_1^* - \mathcal{B}_2^* \right) v}_{\mathcal{U}} = 0 .
+    \end{gather*}
+    Поскольку полученное равенство выполняется для любых векторов $u$ и $v$, то возьмём в качестве вектора $u$ вектор
+    $\left( \mathcal{B}_1^* - \mathcal{B}_2^* \right) v$:
+    \[
+        \scalarproduct{\left( \mathcal{B}_1^* - \mathcal{B}_2^* \right) v}{\left( \mathcal{B}_1^* - \mathcal{B}_2^* \right) v}_{\mathcal{U}} = 0 .
+    \]
+    Из свойства 2 скалярного произведения следует:
+    \begin{gather*}
+        \left( \mathcal{B}_1^* - \mathcal{B}_2^* \right) v = 0 , \\
+        \mathcal{B}_1^* v = \mathcal{B}_2^* v .
+    \end{gather*}
+    Полученное равенство выполняется для всех векторов $v$, поэтому операторы идентичны:
+    \[
+        \mathcal{B}_1 = \mathcal{B}_2 .
+    \]
+\end{proof}
+
+Используя доказанное утверждение легко заметить, что если сопряженный оператор $\mathcal{A}$ существует, то он единственный. Действительно, представим,
+что есть два сопряжённых оператора $\mathcal{A}_1^*$ и $\mathcal{A}_2^*$, которые удовлетворяют определению \eqref{rayleigh:conjugation:scalars_equality}:
+\begin{gather*}
+    \scalarproduct{u}{\mathcal{A}_1^* v}_{\mathcal{U}} = \scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}} = \scalarproduct{u}{\mathcal{A}_2^* v}_{\mathcal{U}} , \\
+    \scalarproduct{u}{\mathcal{A}_1^* v}_{\mathcal{U}} = \scalarproduct{u}{\mathcal{A}_2^* v}_{\mathcal{U}} .
+\end{gather*}
+Поскольку равенство выполняется при всех $u$ и $v$, то в силу утверждения \ref{rayleigh:conjugation:identity} операторы идентичны:
+\[
+    \mathcal{A}_1^* = \mathcal{A}_2^* .
+\]
+
+Остался вопрос об условиях существовании сопряженного оператора $\mathcal{A}^*$. Как будет показано далее, при некоторых условиях сопряженный оператор существует,
 более того его можно построить в явном виде.
 
 Пусть оператор $\mathcal{A}$ является \definition{линейным}, то есть для любых $u_1, u_2 \in \mathcal{U}$ и любого числа $\lambda \in \mathbb{C}$ выполняются равенства:
@@ -199,55 +248,78 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 
 Выделим некоторые свойства сопряженного оператора.
 \begin{enumerate}
-    \item У сопряженного оператора $\mathcal{A}^*$ тоже есть сопряженный оператор $(\mathcal{A}^*)^*$, который совпадает с исходным оператором $\mathcal{A}$,
-    действительно:
+    \item Сопряженным к оператору $\alpha \mathcal{A}$ является оператор $\overline{\alpha} \mathcal{A}^*$. Действительно:
     \begin{align*}
-        \scalarproduct{\mathcal{A}^* v}{u}
-        & = \scalarproduct{v}{(\mathcal{A}^*)^* u} , \\
+        \scalarproduct{\alpha \mathcal{A} u}{v}_{\mathcal{V}}
+        & = \scalarproduct{u}{\left( \alpha \mathcal{A} \right)^* v}_{\mathcal{U}} , \\
         %
-        \scalarproduct{\mathcal{A}^* v}{u}
-        & = \overline{\scalarproduct{u}{\mathcal{A}^* v}}
-        = \overline{\scalarproduct{\mathcal{A} u}{v}}
-        = \scalarproduct{v}{\mathcal{A} u}.
+        \scalarproduct{\alpha \mathcal{A} u}{v}_{\mathcal{V}}
+        & = \alpha \scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}}
+        = \alpha \scalarproduct{u}{\mathcal{A}^* v}_{\mathcal{U}}
+        = \scalarproduct{u}{\overline{\alpha} \mathcal{A}^* v}_{\mathcal{U}} .
     \end{align*}
-    Таким образом, для всех $v \in \mathcal{V}$ и $u \in \mathcal{U}$:
-    \begin{align*}
-        \scalarproduct{v}{(\mathcal{A}^*)^* u} & = \scalarproduct{v}{\mathcal{A} u}, \\
-        \scalarproduct{v}{(\mathcal{A}^*)^* u} - \scalarproduct{v}{\mathcal{A} u} & = 0, \\
-        \scalarproduct{v}{((\mathcal{A}^*)^* - \mathcal{A} ) u} & = 0, \\
-        ((\mathcal{A}^*)^* - \mathcal{A} ) u & = 0 \\
-        ((\mathcal{A}^*)^* - \mathcal{A} ) & = 0 \\
-        (\mathcal{A}^*)^* & = \mathcal{A} .
-    \end{align*}
-
-    \item Сопряженным к оператору $\alpha \mathcal{A}$ является оператор $\overline{\alpha} \mathcal{A}^*$:
+    В силу утверждения \ref{rayleigh:conjugation:identity}:
     \[
-        \scalarproduct{\alpha \mathcal{A} u}{v}
-        = \alpha \scalarproduct{\mathcal{A} u}{v}
-        = \alpha \scalarproduct{u}{\mathcal{A}^* v}
-        = \scalarproduct{u}{\overline{\alpha} \mathcal{A}^* v} .
+        \scalarproduct{u}{\left( \alpha \mathcal{A} \right)^* v}_{\mathcal{U}} = \scalarproduct{u}{\overline{\alpha} \mathcal{A}^* v}_{\mathcal{U}}
+        \Rightarrow
+        \left( \alpha \mathcal{A} \right)^* = \overline{\alpha} \mathcal{A}^*.
     \]
 
-    \item Сопряженным к оператору $\mathcal{A} + \mathcal{B}$ является оператор $\mathcal{A}^* + \mathcal{B}^*$:
-    \begin{multline*}
-        \scalarproduct{(\mathcal{A} + \mathcal{B}) u}{v}
-        = \scalarproduct{\mathcal{A} u + \mathcal{B} u}{v}
-        = \scalarproduct{\mathcal{A} u}{v} + \scalarproduct{\mathcal{B} u}{v} = \\
+    \item Сопряженным к оператору $\mathcal{A} + \mathcal{B}$ является оператор $\mathcal{A}^* + \mathcal{B}^*$. Действительно
+    \begin{align*}
+        \scalarproduct{(\mathcal{A} + \mathcal{B}) u}{v}_{\mathcal{V}}
+        & = \scalarproduct{u}{( \mathcal{A} + \mathcal{B})^* v}_{\mathcal{U}} , \\
         %
-        = \scalarproduct{u}{\mathcal{A}^* v} + \scalarproduct{u}{\mathcal{B}^* v}
-        = \scalarproduct{u}{\mathcal{A}^* v + \mathcal{B}^* v}
-        = \scalarproduct{u}{(\mathcal{A}^* + \mathcal{B}^*) v} .
-    \end{multline*}
-
-    \item Сопряженным к оператору $\mathcal{A} \mathcal{B}$ является оператор $\mathcal{B}^* \mathcal{A}^*$:
+        \scalarproduct{(\mathcal{A} + \mathcal{B}) u}{v}_{\mathcal{V}}
+        & = \scalarproduct{\mathcal{A} u + \mathcal{B} u}{v}_{\mathcal{V}}
+        = \scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}} + \scalarproduct{\mathcal{B} u}{v}_{\mathcal{V}}
+        = \scalarproduct{u}{\mathcal{A}^* v}_{\mathcal{U}} + \scalarproduct{u}{\mathcal{B}^* v}_{\mathcal{U}} = \\
+        & = \scalarproduct{u}{\mathcal{A}^* v + \mathcal{B}^* v}_{\mathcal{U}}
+        = \scalarproduct{u}{(\mathcal{A}^* + \mathcal{B}^*) v}_{\mathcal{U}} .
+    \end{align*}
+    В силу утверждения \ref{rayleigh:conjugation:identity}:
     \[
-        \scalarproduct{\mathcal{A} \mathcal{B} u}{v}
-        = \scalarproduct{\mathcal{B} u}{\mathcal{A}^* v}
-        = \scalarproduct{u}{\mathcal{B}^* \mathcal{A}^* v} .
+        \scalarproduct{u}{(\mathcal{A} + \mathcal{B})^* v}_{\mathcal{U}} = \scalarproduct{u}{(\mathcal{A}^* + \mathcal{B}^*) v}_{\mathcal{U}}
+        \Rightarrow
+        ( \mathcal{A} + \mathcal{B})^* = \mathcal{A}^* + \mathcal{B}^*
+    \]
+
+    \item Сопряженным к оператору $\mathcal{A} \mathcal{B}$ является оператор $\mathcal{B}^* \mathcal{A}^*$. Действительно
+    \begin{align*}
+        \scalarproduct{\mathcal{A} \mathcal{B} u}{v}_{\mathcal{V}}
+        & = \scalarproduct{u}{(\mathcal{A} \mathcal{B})^* v}_{\mathcal{U}} , \\
+        %
+        \scalarproduct{\mathcal{A} \mathcal{B} u}{v}_{\mathcal{V}}
+        & = \scalarproduct{\mathcal{B} u}{\mathcal{A}^* v}_{\mathcal{W}}
+        = \scalarproduct{u}{\mathcal{B}^* \mathcal{A}^* v}_{\mathcal{U}} .
+    \end{align*}
+    В силу утверждения \ref{rayleigh:conjugation:identity}:
+    \[
+        \scalarproduct{u}{(\mathcal{A} \mathcal{B})^* v}_{\mathcal{U}} = \scalarproduct{u}{\mathcal{B}^* \mathcal{A}^* v}_{\mathcal{U}}
+        \Rightarrow
+        (\mathcal{A} \mathcal{B})^* = \mathcal{B}^* \mathcal{A}^* .
+    \]
+
+    \item У сопряженного оператора $\mathcal{A}^*$ тоже есть сопряженный оператор $(\mathcal{A}^*)^*$, который совпадает с исходным оператором $\mathcal{A}$.
+    Действительно:
+    \begin{align*}
+        \scalarproduct{\mathcal{A}^* v}{u}_{\mathcal{U}}
+        & = \scalarproduct{v}{(\mathcal{A}^*)^* u}_{\mathcal{V}} , \\
+        %
+        \scalarproduct{\mathcal{A}^* v}{u}_{\mathcal{U}}
+        & = \overline{\scalarproduct{u}{\mathcal{A}^* v}_{\mathcal{V}}}
+        = \overline{\scalarproduct{\mathcal{A} u}{v}_{\mathcal{V}}}
+        = \scalarproduct{v}{\mathcal{A} u}_{\mathcal{V}}.
+    \end{align*}
+    В силу утверждения \ref{rayleigh:conjugation:identity}:
+    \[
+        \scalarproduct{v}{(\mathcal{A}^*)^* u}_{\mathcal{V}} = \scalarproduct{v}{\mathcal{A} u}_{\mathcal{V}}
+        \Rightarrow
+        (\mathcal{A}^*)^* = \mathcal{A} .
     \]
 \end{enumerate}
 
-Из последнего свойства следует:
+Из свойства 3 следует:
 \[
     \left ( \mathcal{A}^n \right )^* = \left ( \mathcal{A}^* \right )^n ,
 \]
