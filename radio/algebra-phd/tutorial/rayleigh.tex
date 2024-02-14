@@ -1052,22 +1052,22 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 \begin{gather*}
     B = B^\frac{1}{2} ( B^\frac{1}{2} )^* , \\
     %
-    B^\frac{1}{2} = U_B D_B^\frac{1}{2} ,
+    B^\frac{1}{2} = U_B \Lambda_B^\frac{1}{2} ,
 \end{gather*}
 причём
 \[
     \det B^\frac{1}{2}
-    = \det ( U_B D_B^\frac{1}{2} )
-    = \det U_B \cdot \det D_B^\frac{1}{2}
-    = 1 \cdot \det D_B^\frac{1}{2}
+    = \det ( U_B \Lambda_B^\frac{1}{2} )
+    = \det U_B \cdot \det \Lambda_B^\frac{1}{2}
+    = 1 \cdot \det \Lambda_B^\frac{1}{2}
     > 0 ,
 \]
 поэтому существует обратная матрица $B^{-\frac{1}{2}}$:
 \[
     B^{-\frac{1}{2}}
-    = \left ( U_B D_B^\frac{1}{2} \right )^{-1}
-    = \left ( D_B^\frac{1}{2} \right )^{-1} U_B^{-1}
-    = \left ( D_B^\frac{1}{2} \right )^{-1} U_B^* .
+    = \left ( U_B \Lambda_B^\frac{1}{2} \right )^{-1}
+    = \left ( \Lambda_B^\frac{1}{2} \right )^{-1} U_B^{-1}
+    = \left ( \Lambda_B^\frac{1}{2} \right )^{-1} U_B^* .
 \]
 
 Отношение Релея $\rho(x)$ можно представить в виде:
@@ -1095,16 +1095,16 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 \]
 поэтому она подобна диагональной матрице:
 \[
-    C = U_C D_C U_C^* .
+    C = U_C \Lambda_C U_C^* .
 \]
 Используя это представление матрицы $C$, преобразуем отношение Релея к виду:
 \begin{gather*}
     \rho(y)
-    = \frac{y^* U_C D_C U_C^* y}{y^* y}
-    = \frac{y^* U_C D_C U_C^* y}{y^* U_C U_C^* y} , \\
+    = \frac{y^* U_C \Lambda_C U_C^* y}{y^* y}
+    = \frac{y^* U_C \Lambda_C U_C^* y}{y^* U_C U_C^* y} , \\
     %
     \rho(z)
-    = \frac{z^* D_C z}{z^* z} , \\
+    = \frac{z^* \Lambda_C z}{z^* z} , \\
     %
     z = U_C^* y
 \end{gather*}
@@ -1114,12 +1114,12 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 \begin{gather*}
     \norm{z} = 1 , \\
     %
-    \rho(z) = z^* D_C z .
+    \rho(z) = z^* \Lambda_C z .
 \end{gather*}
 
 Пусть
 \begin{gather*}
-    D_C
+    \Lambda_C
     = \begin{pmatrix}
           \lambda_1 & 0         & \dots  & 0         \\
           0         & \lambda_2 & \dots  & 0         \\
@@ -1163,10 +1163,10 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 которому соответствует вектор $x_{max}$:
 \begin{align*}
     \left ( B^\frac{1}{2} \right )^* x_{max} & = y_{max} = U_C z_{max} , \\
-    \left ( U_B D_B^\frac{1}{2} \right )^* x_{max} & = U_C z_{max} , \\
-    D_B^\frac{1}{2} U_B^* x_{max} & = U_C z_{max} , \\
-    U_B^* x_{max} & = D_B^{-\frac{1}{2}} U_C z_{max} , \\
-    x_{max} & = U_B D_B^{-\frac{1}{2}} U_C z_{max} .
+    \left ( U_B \Lambda_B^\frac{1}{2} \right )^* x_{max} & = U_C z_{max} , \\
+    \Lambda_B^\frac{1}{2} U_B^* x_{max} & = U_C z_{max} , \\
+    U_B^* x_{max} & = \Lambda_B^{-\frac{1}{2}} U_C z_{max} , \\
+    x_{max} & = U_B \Lambda_B^{-\frac{1}{2}} U_C z_{max} .
 \end{align*}
 Аналогично минимальное значение отношение Релея достигает при векторе $z_{min}$:
 \[
@@ -1180,5 +1180,5 @@ $\mathcal{A} e_i$, затем используя линейность для в�
 \]
 которому соответствует вектор $x_{min}$:
 \[
-    x_{min} = U_B D_B^{-\frac{1}{2}} U_C z_{min} .
+    x_{min} = U_B \Lambda_B^{-\frac{1}{2}} U_C z_{min} .
 \]
