@@ -1,4 +1,7 @@
-function diagram = diagram_f( ~, elevation )
-%DIAGRAM_F парциальная диаграмма первого канала
-    diagram = 0.25 * [ cos(elevation); 0 ];
+function diagram = diagram_f( azimuth, elevation )
+%DIAGRAM_F парциальная диаграмма первого излучателя
+    diagram = 0.25 * [ ...
+            cos(azimuth)*cos(elevation)*exp(1i*pi/3); ...
+            cos(elevation) ...
+        ];
 end

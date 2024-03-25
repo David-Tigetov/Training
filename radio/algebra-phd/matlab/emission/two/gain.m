@@ -1,4 +1,4 @@
-% коэффициент усиления для излучателя с четырьмя каналами
+% коэффициент усиления для двух излучателей
 % диаграмма направленности
 F = [
         0.1*exp(1i*pi/6), 0.3*exp(1i*5*pi/4);
@@ -7,39 +7,40 @@ F = [
 
 % оптимальная поляризация
 [V, D] = eig(F*F');
+[ ~, index ] = max(abs(diag(D)));
 % оптимальные огибающие
-a = F'*V(:,2);
+a = F'*V(:,index);
 a = a/norm(a);
 % оптимальная поляризация
 p = F*a;
 
 % векторы напряжённости в каналах
-[E1x, E1y] = tension(F(:,1)*a(1));
-[E2x, E2y] = tension(F(:,2)*a(2));
+[E1a, E1e] = tension(F(:,1)*a(1));
+[E2a, E2e] = tension(F(:,2)*a(2));
 
 % напряжённость оптимальной поляризации
-[Epx, Epy] = tension(p);
+[Epa, Epe] = tension(p);
 
 % рисунок векторов напряжённости
 figure
 hold on
-% первый канал
-plot(E1x, E1y, 'b')
-plot(E1x(1), E1y(1), 'dk')
-plot(E1x(2), E1y(2), 'db')
-% второй канал
-plot(E2x, E2y, 'r')
-plot(E2x(1), E2y(1), 'dk')
-plot(E2x(2), E2y(2), 'dr')
+% первый излучатель
+plot(E1a, E1e, 'b')
+plot(E1a(1), E1e(1), 'dk')
+plot(E1a(2), E1e(2), 'db')
+% второй излучатель
+plot(E2a, E2e, 'r')
+plot(E2a(1), E2e(1), 'dk')
+plot(E2a(2), E2e(2), 'dr')
 % оптимальная
-plot(Epx, Epy, 'm')
-plot(Epx(1), Epy(1), 'dk')
-plot(Epx(2), Epy(2), 'dm')
+plot(Epa, Epe, 'm')
+plot(Epa(1), Epe(1), 'dk')
+plot(Epa(2), Epe(2), 'dm')
 % векторы
-plot([0, E1x(1)], [0, E1y(1)], 'b')
-plot([0, E2x(1)], [0, E2y(1)], 'r')
-plot([E1x(1), E1x(1) + E2x(1)], [E1y(1), E1y(1) + E2y(1)], 'r')
-plot([E2x(1), E1x(1) + E2x(1)], [E2y(1), E1y(1) + E2y(1)], 'b')
+plot([0, E1a(1)], [0, E1e(1)], 'b')
+plot([0, E2a(1)], [0, E2e(1)], 'r')
+plot([E1a(1), E1a(1) + E2a(1)], [E1e(1), E1e(1) + E2e(1)], 'r')
+plot([E2a(1), E1a(1) + E2a(1)], [E2e(1), E1e(1) + E2e(1)], 'b')
 hold off
 axis equal
 grid on
