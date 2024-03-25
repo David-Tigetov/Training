@@ -11,7 +11,8 @@ F = [ diagram_f(azimuth, elevation) , diagram_s(azimuth, elevation) ];
 % вычисляем собственные числа и векторы
 [V, D] = eig(F*F');
 % оптимальные огибающие
-a = F'*V(:,2);
+[ ~, index ] = max(abs(diag(D)));
+a = F'*V(:,index);
 a = a/norm(a);
 % оптимальная поляризация
 p = F*a;
@@ -19,14 +20,14 @@ p = F*a;
 % орты
 [ua, ue] = units(azimuth, elevation);
 % напряжённость первого канала
-[E1e, E1a] = tension(F(:,1)*a(1));
-E1 = E1e .* ue + E1a .* ua;
+[E1a, E1e] = tension(F(:,1)*a(1));
+E1 = E1a .* ua + E1e .* ue;
 % напряжённость второго канала
-[E2e, E2a] = tension(F(:,2)*a(2));
-E2 = E2e .* ue + E2a .* ua;
+[E2a, E2e] = tension(F(:,2)*a(2));
+E2 = E2a .* ua + E2e .* ue;
 % оптимальная напряжённость
-[Epe, Epa] = tension(p);
-Ep = Epe .* ue + Epa .* ua;
+[Epa, Epe] = tension(p);
+Ep = Epa .* ua + Epe .* ue;
 
 figure
 hold on

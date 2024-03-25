@@ -1,6 +1,8 @@
 % диаграмма направленности излучателя
-azimuths = 0 : pi/6 : 2*pi;
-elevations = -pi/2 : pi/10 : pi/2;
+azimuths = 0 : pi/12 : 2*pi;
+elevations = -9*pi/20 : pi/20 : 9*pi/20;
+%azimuths = 0;
+%elevations = 0;
 radii = [0.1];
 
 % выделяем память
@@ -25,12 +27,12 @@ for azimuth = azimuths
     for elevation = elevations
         % вычисляем орты
         [ ua, ue ] = units(azimuth, elevation);
-        % вычисляем диаграммы каналов
+        % вычисляем диаграммы излучателей
         F = diagram_f(azimuth, elevation);
         S = diagram_s(azimuth, elevation);
         for radius = radii
-            f1(:, number) = [ue, ua] * F / radius;
-            f2(:, number) = [ue, ua] * S / radius;
+            f1(:, number) = [ua, ue] * real(F) / radius;
+            f2(:, number) = [ua, ue] * real(S) / radius;
             number = number + 1;
         end
     end
