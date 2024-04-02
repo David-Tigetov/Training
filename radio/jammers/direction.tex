@@ -1,65 +1,965 @@
 \chapter{Направление приёма}
 
-\[
-    \begin{pmatrix}
-        u_1 \\
-        u_2 \\
-        u_3 \\
-        u_4 \\
-        u_5
-    \end{pmatrix}
-    \begin{array}{l}
-        c_1 \\
-        c_2 \\
-        c_3 \\
-        \\
-        \\
-    \end{array}
-    \overbrace{
-    \begin{pmatrix}
-        a_1   & a_2   & a_3   \\
-        a_1^2 & a_2^2 & a_3^2 \\
-        a_1^3 & a_2^3 & a_3^3 \\
-        a_1^4 & a_2^4 & a_3^4 \\
-        a_1^5 & a_2^5 & a_3^5
-    \end{pmatrix}
-    }^{\begin{array}{ccc} \xi_1 & \xi_2 & \xi_3 \end{array}}
-\]
+\section{Центральноэрмитовы матрицы}
 
-\begin{align*}
-    u_1 = & a_1 \xi_1 + a_2 \xi_2 + a_3 \xi_3 , \\
-    u_2 = & a_1^2 \xi_1 + a_2^2 \xi_2 + a_3^2 \xi_3 , \\
-    u_3 = & a_1^3 \xi_1 + a_2^3 \xi_2 + a_3^3 \xi_3 
-\end{align*}
+По материалам статьи \cite{Lee}.
 
+\subsection{Определение}
+
+Комплексная матрица $A=[a_{jk}]$ порядка $n \times m$ называется центральноэрмитовой, если
 \begin{gather}
-    u_k = \sum_{j=1}^3 \xi_j e^{i \mu_j k} , \\
+    a_{n+1-j, m+1-k} = \overline{a}_{jk},
+    \label{direction:centralhermitian:elementwise} \\
+    1 \le j \le n,
+    \notag \\
+    1 \le k \le m.
+    \notag
 \end{gather}
-\begin{multline*}
-    u_n = a_1 u_{n-1} + a_2 u_{n-2} + a_3 u_{n-3} = \\
-    %
-    = a_1 \sum_{j=1}^3 \xi_j e^{i \mu_j (n-1)} + a_2 \sum_{j=1}^3 \xi_j e^{i \mu_j (n-2)} + a_3 \sum_{j=1}^3 \xi_j e^{i \mu_j (n-3)} = \\
-    %
-    \shoveleft{= \xi_1 e^{i \mu_1 n} \left ( a_1 e^{- i \mu_1} + a_2 e^{- i 2 \mu_1} + a_3 e^{- i 3 \mu_1} \right) +} \\
-    + \xi_2 e^{i \mu_2 n} \left ( a_1 e^{- i \mu_2} + a_2 e^{- i 2 \mu_2} + a_3 e^{- i 3 \mu_2} \right) + \\
-    \shoveright{+ \xi_3 e^{i \mu_3 n} \left ( a_1 e^{- i \mu_3} + a_2 e^{- i 2 \mu_3} + a_3 e^{- i 3 \mu_3} \right)} \\
-\end{multline*}
-Будет вылнено, если величины $a_1$, $a_2$, $a_3$:
+где $\overline{a}$ обозначает комплексное сопряжение $a$. У центральноэрмитовой матрицы элементы сопряжены относительно центра.
+
+Пусть $P_n$ --- матрица порядка $n$ с единицами на побочной диагонали. С помощью матрицы $P_n$ поэлементное равенство
+\eqref{direction:centralhermitian:elementwise} можно представить в виде:
+\begin{equation}~\label{direction:centralhermitian:matrix}
+    P_n A P_m = \overline{A} .
+\end{equation}
+Умножение на матрицу $P_n$ слева переставляет строки в обратном порядке, умножение на матрицу $P_m$ справа переставляет столбцы в
+обратном порядке. Центральная симметрия --- это отражение по горизонтали и вертикали, проходящих через центр матрицы.
+
+Заметим, что:
+\begin{equation}~\label{direction:V:idempotence}
+    P_n P_n = I_n ,
+\end{equation}
+где $I_n$ --- единичная матрица порядка $n$. Отсюда следует, что
+\begin{equation}~\label{direction:V:inversion}
+    P_n = P_n^{-1}
+\end{equation}
+
+\subsection{Левые $P$-действительные матрицы}
+
+Матрица $Q$ называется левой $P$--действительной, если
 \[
+    P Q = \overline{Q}.
+\]
+Такие матрицы существуют, например при чётном порядке $2n$:
+\begin{equation}~\label{direction:Q:even}
+    Q_{2n}
+    = \frac{1}{\sqrt{2}}
     \begin{pmatrix}
-        e^{- i \mu_1} & e^{- i 2 \mu_1} & e^{- i 3 \mu_1} \\
-        e^{- i \mu_2} & e^{- i 2 \mu_2} & e^{- i 3 \mu_2} \\
-        e^{- i \mu_3} & e^{- i 2 \mu_3} & e^{- i 3 \mu_3}
+        I_n & i I_n  \\
+        P_n & -i P_n
+    \end{pmatrix}
+    =  \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        1      & \dots  & 0      & i      & \dots  & 0      \\
+        \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        0      & \dots  & 1      & 0      & \dots  & i      \\
+        0      & \dots  & 1      & 0      & \dots  & -i     \\
+        \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        1      & \dots  & 0      & -i     & \dots  & 0
+    \end{pmatrix} ,
+\end{equation}
+поскольку с учётом равенства \eqref{direction:V:idempotence}:
+\begin{multline*}
+    P_{2n} Q_{2n}
+    = P_{2n}
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & i I_n  \\
+        P_n & -i P_n
+    \end{pmatrix}
+    = \frac{1}{\sqrt{2}}
+    P_{2n}
+    \begin{pmatrix}
+        I_n & i I_n  \\
+        P_n & -i P_n
+    \end{pmatrix}
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        0   & P_n \\
+        P_n & 0
     \end{pmatrix}
     \begin{pmatrix}
-        a_1 \\
-        a_2 \\
-        a_3
+        I_n & i I_n  \\
+        P_n & -i P_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        P_n P_n & - i P_n P_n \\
+        P_n I_n & i P_n I_n
+    \end{pmatrix}
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & - i I_n \\
+        P_n & i P_n
+    \end{pmatrix}
+    = \overline{
+        \frac{1}{\sqrt{2}}
+        \begin{pmatrix}
+            I_n & i I_n  \\
+            P_n & -i P_n
+        \end{pmatrix}
+    }
+    = \overline{Q}_{2n} ,
+\end{multline*}
+
+При нечётном порядке $2n + 1$, примером является матрица:
+\begin{equation}~\label{direction:Q:odd}
+    Q_{2n+1}
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & 0        & i I_n   \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & - i P_n
+    \end{pmatrix}
+    =  \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        1      & \dots  & 0      & 0        & i      & \dots  & 0      \\
+        \vdots & \ddots & \vdots & \vdots   & \vdots & \ddots & \vdots \\
+        0      & \dots  & 1      & 0        & 0      & \dots  & i      \\
+        0      & \dots  & 0      & \sqrt{2} & 0      & \dots  & 0      \\
+        0      & \dots  & 1      & 0        & 0      & \dots  & -i     \\
+        \vdots & \ddots & \vdots & \vdots   & \vdots & \ddots & \vdots \\
+        1      & \dots  & 0      & 0        & -i     & \dots  & 0
+    \end{pmatrix} ,
+\end{equation}
+поскольку
+\begin{multline*}
+    P_{2n+1} Q_{2n + 1}
+    = P_{2n+1}
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & 0        & i I_n   \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & - i P_n
+    \end{pmatrix}
+    = \frac{1}{\sqrt{2}}
+    P_{2n+1}
+    \begin{pmatrix}
+        I_n & 0        & i I_n   \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & - i P_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        0   & 0 & P_n \\
+        0   & 1 & 0   \\
+        P_n & 0 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        I_n & 0        & i I_n   \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & - i P_n
+    \end{pmatrix}
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        P_n P_n & 0        & - i P_n P_n \\
+        0       & \sqrt{2} & 0           \\
+        P_n I_n & 0        & i P_n I_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & 0        & - i I_n \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & i P_n
+    \end{pmatrix}
+    = \overline{
+        \frac{1}{\sqrt{2}}
+        \begin{pmatrix}
+            I_n & 0        & i I_n   \\
+            0   & \sqrt{2} & 0       \\
+            P_n & 0        & - i P_n
+        \end{pmatrix}
+    }
+    = \overline{Q}_{2n+1} ,
+\end{multline*}
+опять же в силу равенства \eqref{direction:V:idempotence}.
+
+Введённые матрицы являются унитарными:
+\begin{multline*}
+    Q_{2n} Q_{2n}^*
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & i I_n   \\
+        P_n & - i P_n
+    \end{pmatrix}
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n     & P_n   \\
+        - i I_n & i P_n
+    \end{pmatrix}
+    = \frac{1}{2}
+    \begin{pmatrix}
+        I_n I_n - i^2 I_n I_n & I_n P_n + i^2 I_n P_n \\
+        P_n I_n + i^2 P_n I_n & P_n P_n - i^2 P_n P_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{2}
+    \begin{pmatrix}
+        I_n + I_n & P_n - P_n  \\
+        P_n - P_n & I_n  + I_n
+    \end{pmatrix}
+    = \frac{1}{2}
+    \begin{pmatrix}
+        2 I_n & 0     \\
+        0     & 2 I_n
     \end{pmatrix}
     = \begin{pmatrix}
-        1 \\
-        1 \\
-        1
+        I_n & 0   \\
+        0   & I_n
+    \end{pmatrix} .
+\end{multline*}
+
+\begin{multline*}
+    Q_{2n+1} Q_{2n+1}^*
+    = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n & 0        & i I_n   \\
+        0   & \sqrt{2} & 0       \\
+        P_n & 0        & - i P_n
+    \end{pmatrix}
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        I_n    & 0        & P_n   \\
+        0      & \sqrt{2} & 0     \\
+        -i I_n & 0        & i P_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{2}
+    \begin{pmatrix}
+        I_n I_n - i^2 I_n I_n & 0 & I_n P_n + i^2 I_n P_n \\
+        0                     & 2 & 0                     \\
+        P_n I_n + i^2 P_n I_n & 0 & P_n P_n - i^2 P_n P_n
+    \end{pmatrix}
+    = \frac{1}{2}
+    \begin{pmatrix}
+        I_n + I_n & 0 & P_n - P_n \\
+        0         & 2 & 0         \\
+        P_n - P_n & 0 & I_n + I_n
+    \end{pmatrix} = \\
+    %
+    = \frac{1}{2}
+    \begin{pmatrix}
+        2 I_n & 0 & 0     \\
+        0     & 2 & 0     \\
+        0     & 0 & 2 I_n
+    \end{pmatrix}
+    = \begin{pmatrix}
+        I_n & 0 & 0   \\
+        0   & 1 & 0   \\
+        0   & 0 & I_n
+    \end{pmatrix} .
+\end{multline*}
+
+
+\subsection{Отражение на действительные матрицы}
+
+Пусть
+\begin{itemize}
+    \item[] $\mathbb{C}_{n \times m}$ --- множество всех комплексных матриц порядка $n \times m$,
+    \item[] $\mathbb{R}_{n \times m}$ --- множество всех действительных матриц порядка $n \times m$,
+    \item[] $CH_{n \times m}$ --- множество всех центральноэрмитовых матриц.
+\end{itemize}
+
+Пусть $T_n$ и $U_m$ --- невырожденные, левые $P$--действительные, тогда соответствие
+$\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
+\[
+    \varphi(A) = T_n^{-1} A U_m .
+\]
+является отображением на подмножестве $CH_{n \times m} \subseteq \mathbb{C}_{n \times m}$.
+
+Пусть $A \in CH_{n \times m}$ центральноэрмитовая, покажем, что матрица $\varphi(A)$ является действительной, что эквивалентно условию:
+\[
+    \overline{\varphi(A)} = \varphi(A) .
+\]
+Поскольку $A$ --- центральноэрмитовая матрица, то используя определение \eqref{direction:centralhermitian:matrix}, получим:
+\[
+    \overline{\varphi(A)}
+    = \overline{T_n^{-1} A U_m}
+    = \overline{T}_n^{-1} \cdot \overline{A} \cdot \overline{U}_m
+    = \overline{T}_n^{-1} P_n A P_m \overline{U}_m .
+\]
+Матрица $T_n$ левая $P$--действительная и невырожденная:
+\begin{gather*}
+    P_n T_n = \overline{T}_n , \\
+    P_n \overline{T_n} = T_n , \\
+    \left ( P_n \overline{T_n} \right)^{-1} = T_n^{-1} , \\
+    \overline{T}_n^{-1} P_n^{-1} = T_n^{-1} , \\
+    \overline{T}_n^{-1} P_n = T_n^{-1} ,
+\end{gather*}
+матрица $U_m$ левая $P$--действительная, согласно определению:
+\begin{gather*}
+    P_m U_m = \overline{U}_m , \\
+    P_m \overline{U_m} = U_m ,
+\end{gather*}
+тогда
+\[
+    \overline{\varphi(A)}
+    = T_n^{-1} A U_m
+    = \varphi(A) .
+\]
+
+Поскольку $T_n$ и $U_m$ невырожденные, то существует обратное соответствие:
+\[
+    \varphi^{-1}(R) = T_n R U_m^{-1} .
+\]
+
+Пусть $R \in \mathbb{R}_{n \times m}$ действительная матрица, покажем, что $\varphi^{-1}(R)$ центральноэрмитова, рассмотрим:
+\[
+    P_n \varphi^{-1}(R) P_m
+    = P_n T_n R U_m^{-1} P_m ,
+\]
+где $T_n$ левая $P$--действительная:
+\[
+    P_n T_n = \overline{T}_n ,
+\]
+а матрица $U_m$ левая $P$--действительная:
+\begin{gather*}
+    P_m U_m = \overline{U}_m , \\
+    \left( P_m U_m \right)^{-1} = \overline{U}_m^{-1} , \\
+    U_m^{-1} P_m^{-1}  = \overline{U}_m^{-1} , \\
+    U_m^{-1} P_m  = \overline{U}_m^{-1} ,
+\end{gather*}
+тогда:
+\[
+    P_n \varphi^{-1}(R) P_m
+    = \overline{T}_n R \overline{U}_m^{-1}
+    = \overline{T}_n \cdot \overline{R} \cdot \overline{U}_m^{-1}
+    = \overline{T_n R U_m^{-1}}
+    = \overline{\varphi^{-1}(R)}
+\]
+и матрица $\varphi^{-1}(R)$ является центральноэрмитовой в силу определения \eqref{direction:centralhermitian:matrix}.
+
+\subsection{Подобие}
+
+Если $n = m$, то в качестве $U_m$ можно взять $T_n$, опуская индекс $n$, получим:
+\[
+    \varphi(A) = T^{-1} A T ,
+\]
+тогда $\varphi$ --- подобие (сохраняет собственные и сингулярные числа).
+
+В качестве $T$ можно взять матрицы $Q$ \eqref{direction:Q:even}, \eqref{direction:Q:odd}:
+\[
+    \varphi(A) = Q^{-1} A Q .
+\]
+Поскольку матрицы $Q$ являются унитарными, то:
+\[
+    \varphi(A) = Q^* A Q .
+\]
+
+\subsection{SVD--разложение}
+
+Пусть вычислено SVD--разложение матрицы $\varphi(A)$:
+\begin{gather*}
+    Q^* A Q = \varphi(A) = U \Sigma V^* , \\
+    Q^* A Q = U \Sigma V^* , \\
+    A = Q U \Sigma V^* Q^* , \\
+    A = \left( Q U \right ) \Sigma \left( Q V \right)^* .
+\end{gather*}
+Получили SVD--разложение центральноэрмитовой матрицы $A$.
+
+Исходная матрица $\varphi(A) \in \mathbb{R}_{n \times m}$ действительная, поэтому для неё быстрее вычислить SVD--разложение, чем для матрицы $A$.
+
+\section{Направление приёма}
+
+По материалам статьи \cite{Cao_Liu}.
+
+Пусть $X$ --- случайный вектор огибающих в приёмниках и $R$ --- ковариационная матрица вектора $X$:
+\[
+    R = \sigma_0^2 I + \breve{X} S \breve{X}^* ,
+\]
+где $S$ --- диагональная матрица:
+\[
+    S
+    = \begin{pmatrix}
+        \sigma_1^2 & \dots  & 0          \\
+        \vdots     & \ddots & \vdots     \\
+        0          & \dots  & \sigma_m^2
+    \end{pmatrix} ,
+\]
+и $\breve{X}$ --- матрица векторов направлений:
+\begin{gather*}
+    \breve{X}
+    = \begin{pmatrix}
+        \breve{X}_1 & \breve{X}_2 & \dots & \breve{X}_m
+    \end{pmatrix} ,
+    \notag \\
+    %
+    \breve{X}_1
+    = \begin{pmatrix}
+        1                            \\
+        e^{i \Delta \varphi_1}       \\
+        e^{i 2 \Delta \varphi_1}     \\
+        \vdots                       \\
+        e^{i (n-2) \Delta \varphi_1} \\
+        e^{i (n-1) \Delta \varphi_1}
+    \end{pmatrix}
+    ,
+    \breve{X}_2
+    = \begin{pmatrix}
+        1                            \\
+        e^{i \Delta \varphi_2}       \\
+        e^{i 2 \Delta \varphi_2}     \\
+        \vdots                       \\
+        e^{i (n-2) \Delta \varphi_2} \\
+        e^{i (n-1) \Delta \varphi_2}
+    \end{pmatrix}
+    ,
+    \dots
+    ,
+    \breve{X}_m
+    = \begin{pmatrix}
+        1                            \\
+        e^{i \Delta \varphi_m}       \\
+        e^{i 2 \Delta \varphi_m}     \\
+        \vdots                       \\
+        e^{i (n-2) \Delta \varphi_m} \\
+        e^{i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    .
+\end{gather*}
+Будем считать сдвиги $\Delta \varphi_k$ различными:
+\begin{gather*}
+    \Delta \varphi_k \neq \Delta \varphi_j , \\
+    k \neq j .
+\end{gather*}
+
+\subsection{Центральноэрмитовость}
+
+Матрица $R$ является центральноэрмитовой в силу особого вида векторов направлений $\breve{X}$. Покажем справедливость определения
+\eqref{direction:centralhermitian:matrix}:
+\[
+    P R P = \overline{R} .
+\]
+Рассмотрим правую часть
+\begin{multline*}
+    P R P
+    = P \left ( \sigma_0^2 I + \breve{X} S \breve{X}^* \right ) P
+    = \sigma_0^2 P P + P \breve{X} S \breve{X}^* P
+    = \sigma_0^2 I + P \breve{X} S \left( P \breve{X} \right)^*,
+\end{multline*}
+где
+\[
+    P \breve{X}
+    = \begin{pmatrix}
+        P \breve{X}_1 & P \breve{X}_2 & \dots & P \breve{X}_m
     \end{pmatrix}
 \]
-Матрица невырождена, поскольку определитель является определителем Вандермонда.
+и каждый столбец
+\[
+    P \breve{X}_k
+    = P \begin{pmatrix}
+        1                            \\
+        e^{i \Delta \varphi_k}       \\
+        e^{i 2 \Delta \varphi_k}     \\
+        \vdots                       \\
+        e^{i (n-2) \Delta \varphi_k} \\
+        e^{i (n-1) \Delta \varphi_k}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_k} \\
+        e^{i (n-2) \Delta \varphi_k} \\
+        \vdots                       \\
+        e^{i 2 \Delta \varphi_k}     \\
+        e^{i \Delta \varphi_k}       \\
+        1
+    \end{pmatrix}
+    = e^{i (n-1) \Delta \varphi_k}
+    \begin{pmatrix}
+        1                          \\
+        e^{- i \Delta \varphi_k}   \\
+        e^{- i 2 \Delta \varphi_k} \\
+        \vdots                     \\
+        e^{- i (n-1) \Delta \varphi_k}
+    \end{pmatrix}
+    = e^{i (n-1) \Delta \varphi_k} \overline{\breve{X}}_k ,
+\]
+поэтому:
+\begin{multline*}
+    P \breve{X}
+    = \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_1} \overline{\breve{X}}_1 & e^{i (n-1) \Delta \varphi_2} \overline{\breve{X}}_2 & \dots & e^{i (n-1) \Delta \varphi_m} \overline{\breve{X}}_m
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        \overline{\breve{X}}_1 & \overline{\breve{X}}_2 & \dots & \overline{\breve{X}}_m
+    \end{pmatrix}
+    \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
+        0                            & e^{i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
+        \vdots                       & \vdots                       & \ddots & \vdots                       \\
+        0                            & 0                            & \dots  & e^{i (n-1) \Delta \varphi_m}
+    \end{pmatrix} = \\
+    %
+    = \overline{\breve{X}}
+    \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
+        0                            & e^{i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
+        \vdots                       & \vdots                       & \ddots & \vdots                       \\
+        0                            & 0                            & \dots  & e^{i (n-1) \Delta \varphi_m}
+    \end{pmatrix} .
+\end{multline*}
+Отсюда
+\[
+    \left( P \breve{X} \right)^*
+    =
+    \begin{pmatrix}
+        e^{- i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
+        0                            & e^{- i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
+        \vdots                       & \vdots                       & \ddots & \vdots                       \\
+        0                            & 0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    \overline{\breve{X}^*} .
+\]
+
+Таким образом,
+\begin{multline*}
+    P R P = \\
+    %
+    = \sigma_0^2 I
+    + \overline{\breve{X}}
+    \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_1} & \dots  & 0                              \\
+        \vdots                         & \ddots & \vdots                         \\
+        0                              & \dots  & e^{i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    S
+    \begin{pmatrix}
+        e^{- i (n-1) \Delta \varphi_1} & \dots  & 0                            \\
+        \vdots                       & \ddots & \vdots                       \\
+        0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    \overline{\breve{X}^*} = \\
+    %
+    = \sigma_0^2 I
+    + \overline{\breve{X}}
+    \begin{pmatrix}
+        e^{i (n-1) \Delta \varphi_1} & \dots  & 0                              \\
+        \vdots                         & \ddots & \vdots                         \\
+        0                              & \dots  & e^{i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        e^{- i (n-1) \Delta \varphi_1} & \dots  & 0                            \\
+        \vdots                       & \ddots & \vdots                       \\
+        0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+    \end{pmatrix}
+    S
+    \overline{\breve{X}^*} = \\
+    %
+    = \sigma_0^2 I + \overline{\breve{X}} S \overline{\breve{X}^*}
+    = \sigma_0^2 I + \overline{\breve{X}} \overline{S} \overline{\breve{X}^*}
+    = \overline{\left( \sigma_0^2 I + \breve{X} S \breve{X}^* \right)}
+    = \overline{R} ,
+\end{multline*}
+где $S$ коммутирует, поскольку $S$ --- диагональная, а также $S = \overline{S}$, поскольку $S$ --- действительная.
+
+\subsection{SVD--разложение}
+
+Образуем матрицу $C$
+\[
+    C
+    = Q^* R Q .
+\]
+Почему-то в статье \cite{Cao_Liu} матрица $C$ определяется в эквивалентном виде:
+\[
+    C
+    = \frac{1}{2} Q^* \left( R + P \overline{R} P \right) Q ,
+\]
+где $R$ --- центральноэрмитовая, поэтому:
+\begin{gather*}
+    P R P = \overline{R} , \\
+    \overline{P R P} = R , \\
+    P \overline{R} P = R ,
+\end{gather*}
+и $C$ преобразуется к первоначальному виду:
+\[
+    C
+    = \frac{1}{2} Q^* \left( R + R \right) Q
+    = \frac{1}{2} Q^* \left( 2 R \right) Q
+    = Q^* R Q .
+\]
+
+Заметим, что матрица $C$ действительная, поскольку $R$ --- центральноэрмитовая.
+
+Пусть вычислено SVD--разложение матрицы $C$:
+\[
+    C = U_s \Lambda_s V_s^* + U_n \Lambda_n V_n^* ,
+\]
+где индекс $s$ соответствует сигнальному, а $n$ --- шумовому подпространствам, тогда SVD--разложение матрицы $R$:
+\[
+    R
+    = Q C Q^*
+    = Q \left( U_s \Lambda_s V_s^* + U_n \Lambda_n V_n^* \right) Q^*
+    = Q U_s \Lambda_s V_s^* Q^* + Q U_n \Lambda_n V_n^* Q^* .
+\]
+Сигнальному подпространству соответствует матрица:
+\[
+    U_c = Q U_s .
+\]
+
+\subsection{Без шума}
+
+\subsubsection{Система}
+
+Если шума нет, $\sigma_0 = 0$, тогда в матрице $U_c$ ровно $m$ ненулевых столбцов по количеству векторов направлений $\breve{X}$:
+\begin{equation}~\label{direction:U_columns}
+    U_c
+    = \begin{pmatrix}
+        U_1 & \dots & U_m & 0 & \dots & 0
+    \end{pmatrix} ,
+\end{equation}
+при этом линейные оболочки столбцов $U_k$ и $\breve{X}_k$ совпадают:
+\[
+    \linear{U_1, \dots, U_m} = \linear{\breve{X}_1, \dots, \breve{X}_m} ,
+\]
+значит любой столбец $U_k$ является линейной комбинацией $\breve{X}_k$ при некоторых $x_k$:
+\begin{gather*}
+    U_k = \breve{X}_1 x_1 + \dots + \breve{X}_m x_m,
+    \notag \\
+    %
+    \begin{pmatrix}
+        u_1    \\
+        u_2    \\
+        \vdots \\
+        u_n
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1                      \\
+        e^{i \Delta \varphi_1} \\
+        \vdots                 \\
+        e^{i \Delta (n-1) \varphi_1}
+    \end{pmatrix}
+    x_1
+    + \dots
+    + \begin{pmatrix}
+        1                      \\
+        e^{i \Delta \varphi_m} \\
+        \vdots                 \\
+        e^{i \Delta (n-1) \varphi_m}
+    \end{pmatrix}
+    x_m
+\end{gather*}
+Рассмотрим первые $m+1$ строку системы:
+\begin{equation}~\label{direction:u_system}
+    \begin{pmatrix}
+        u_1    \\
+        u_2    \\
+        \vdots \\
+        u_{m+1}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1                        & 1                        & \dots  & 1                        \\
+        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
+        \vdots                   & \vdots                   & \vdots & \vdots                   \\
+        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} .
+\end{equation}
+
+В матрице правой части $m+1$ строка и $m$ столбцов, поэтому строки линейнозависимы, и найдутся числа $c_k$ при которых линейная комбинация строк даёт нулевую
+строку:
+\begin{equation}~\label{direction:c_zeroing}
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1                        & 1                        & \dots  & 1                        \\
+        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
+        \vdots                   & \vdots                   & \vdots & \vdots                   \\
+        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0 & 0 & \dots & 0
+    \end{pmatrix}
+    .
+\end{equation}
+Умножая левую и правую части равенства \eqref{direction:u_system} на вектор чисел $c_k$ слева, получим:
+\begin{gather*}
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        u_1    \\
+        u_2    \\
+        \vdots \\
+        u_{m+1}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1                        & 1                        & \dots  & 1                        \\
+        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
+        \vdots                   & \vdots                   & \vdots & \vdots                   \\
+        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} , \\
+    %
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        u_1    \\
+        u_2    \\
+        \vdots \\
+        u_{m+1}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0 & 0 & \dots & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} , \\
+    %
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        u_1    \\
+        u_2    \\
+        \vdots \\
+        u_{m+1}
+    \end{pmatrix}
+    = 0 .
+\end{gather*}
+
+Теперь рассмотрим $m+1$ строку системы \eqref{direction:u_system}, начиная с $u_2$ (со второй строки):
+\[
+    \begin{pmatrix}
+        u_2    \\
+        u_3    \\
+        \vdots \\
+        u_{m+2}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        e^{i \Delta \varphi_1}       & e^{i \Delta \varphi_2}       & \dots  & e^{i \Delta \varphi_m}       \\
+        e^{i 2 \Delta \varphi_1}     & e^{i 2 \Delta \varphi_2}     & \dots  & e^{i 2 \Delta \varphi_m}     \\
+        \vdots                       & \vdots                       & \vdots & \vdots                       \\
+        e^{i (m+1) \Delta \varphi_1} & e^{i (m+1) \Delta \varphi_2} & \dots  & e^{i (m+1) \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix}
+\]
+Умножим слева на тот же вектор из чисел $c_k$:
+\begin{multline*}
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        u_2    \\
+        u_3    \\
+        \vdots \\
+        u_{m+2}
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        e^{i \Delta \varphi_1}       & e^{i \Delta \varphi_2}       & \dots  & e^{i \Delta \varphi_m}       \\
+        e^{i 2 \Delta \varphi_1}     & e^{i 2 \Delta \varphi_2}     & \dots  & e^{i 2 \Delta \varphi_m}     \\
+        \vdots                       & \vdots                       & \vdots & \vdots                       \\
+        e^{i (m+1) \Delta \varphi_1} & e^{i (m+1) \Delta \varphi_2} & \dots  & e^{i (m+1) \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1                        & 1                        & \dots  & 1                        \\
+        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
+        \vdots                   & \vdots                   & \vdots & \vdots                   \\
+        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        e^{i \Delta \varphi_1} & 0                      & \dots  & 0                      \\
+        0                      & e^{i \Delta \varphi_2} & \dots  & 0                      \\
+        \vdots                 & \vdots                 & \vdots & \vdots                 \\
+        0                      & 0                      & \dots  & e^{i \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        0 & 0 & \dots & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        e^{i \Delta \varphi_1} & 0                      & \dots  & 0                      \\
+        0                      & e^{i \Delta \varphi_2} & \dots  & 0                      \\
+        \vdots                 & \vdots                 & \vdots & \vdots                 \\
+        0                      & 0                      & \dots  & e^{i \Delta \varphi_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix} = \\
+    %
+    = \begin{pmatrix}
+        0 & 0 & \dots & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1    \\
+        \vdots \\
+        x_m
+    \end{pmatrix}
+    = 0 ,
+\end{multline*}
+в силу обнуляющего свойства \eqref{direction:c_zeroing} вектора чисел $c_k$.
+
+Аналогично, для любого $p \le n-m$ получим:
+\[
+    \begin{pmatrix}
+        c_1 & c_2 & \dots & c_{m+1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        u_p     \\
+        u_{p+1} \\
+        \vdots  \\
+        u_{p+m}
+    \end{pmatrix}
+    = 0 ,
+\]
+транспонируя, получим:
+\[
+    \begin{pmatrix}
+        u_p & u_{p+1} & \dots & u_{p+m} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        c_1    \\
+        c_2    \\
+        \vdots \\
+        c_{m+1}
+    \end{pmatrix}
+    = 0 .
+\]
+Объединяя все такие равенства при $p=1, 2, \dots, n-m$ в систему, получим:
+\[
+    \underbrace{
+        \begin{pmatrix}
+            u_1     & u_2       & \dots  & u_{m+1} \\
+            u_2     & u_3       & \dots  & u_{m+2} \\
+            \vdots  & \vdots    & \vdots & \vdots  \\
+            u_{n-m} & u_{n-m+1} & \dots  & u_n
+        \end{pmatrix}
+    }_{D[U_k]}
+    \begin{pmatrix}
+        c_1    \\
+        c_2    \\
+        \vdots \\
+        c_{m+1}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0      \\
+        0      \\
+        \vdots \\
+        0
+    \end{pmatrix} .
+\]
+Такая система получается для одного столбца $U_k$ матрицы $U_c$ из равенства \eqref{direction:U_columns}. Пусть $D[U_k]$ обозначает матрицу системы,
+тогда в матричном виде система принимает вид:
+\[
+    D[U_k]
+    \begin{pmatrix}
+        c_1    \\
+        c_2    \\
+        \vdots \\
+        c_{m+1}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        0      \\
+        0      \\
+        \vdots \\
+        0
+    \end{pmatrix} .
+\]
+Объединяя системы для всех векторов $U_k$ получим систему:
+\begin{equation}~\label{direction:c_system}
+    \begin{pmatrix}
+        D[U_1] \\
+        D[U_2] \\
+        \vdots \\
+        D[U_m] \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        c_1    \\
+        c_2    \\
+        \vdots \\
+        c_{m+1}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        0      \\
+        0      \\
+        \vdots \\
+        0
+    \end{pmatrix} ,
+\end{equation}
+которой удовлетворяет вектор чисел $c_k$.
+
+\subsubsection{Уравнение}
+
+Из равенства \eqref{direction:c_zeroing} следует, что при любом $k$:
+\[
+    c_1 \cdot 1 + c_2 \cdot e^{i \Delta \varphi_k} + \dots + c_{m+1} \cdot e^{i m \Delta \varphi_k} = 0 .
+\]
+Значит, для полинома:
+\begin{equation}~\label{direction:c_polynomial}
+    P(z) = c_1 + c_2 z + \dots + c_{m+1} z^m .
+\end{equation}
+числа $e^{i \Delta \varphi_k}$ являются корнями:
+\[
+    P \left( e^{i \Delta \varphi_k} \right) = 0 ,
+\]
+причем количество чисел $e^{i \Delta \varphi_k}$ равно $m$ и полином $P(z)$ имеет степень $m$ и у него $m$ корней, поэтому каждый корень полинома $P(z)$
+соответствует некоторому числу $e^{i \Delta \varphi_k}$ и наоборот, и все корни располагаются на единичной окружности в комплексной плоскости.
+
+\subsection{С шумом}
+
+При наличии шума, $\sigma_0 \neq 0$, система \eqref{direction:c_system} может оказаться несовместной, поэтому нужно искать обобщённое решение:
+\[
+    \widehat{c} = arg \min_c \norm{D c}{W} ,
+\]
+где $W$ --- матрица весов (как выбрать неизвестно).
+
+Затем необходимо искать корни полинома $\widehat{P}(z)$, аналогичного полиному \eqref{direction:c_polynomial}:
+\[
+    \widehat{P}(z)
+    = \widehat{c}_1 + \widehat{c}_2 z + \dots \widehat{c}_m z^m ,
+\]
+каждый корень которого $\widehat{z}_k$ имеет вид:
+\[
+    \widehat{z}_k
+    = a_k e^{i \Delta \widehat{\varphi}_k} ,
+\]
+где аргумент $\widehat{z}_k$ даёт оценку смещения:
+\[
+    \Delta \widehat{\varphi}_k
+    = arg \left( \widehat{z}_k \right).
+\]
