@@ -362,21 +362,21 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
 
 Исходная матрица $\varphi(A) \in \mathbb{R}_{n \times m}$ действительная, поэтому для неё быстрее вычислить SVD--разложение, чем для матрицы $A$.
 
-\section{Направление приёма}
+\section{Направление приёма в линейной решётке}
 
 По материалам статьи \cite{Cao_Liu}.
 
 Пусть $X$ --- случайный вектор огибающих в приёмниках и $R$ --- ковариационная матрица вектора $X$:
 \[
-    R = \sigma_0^2 I + \breve{X} S \breve{X}^* ,
+    R = \sigma_0^2 I + \breve{X} \variance{S} \breve{X}^* ,
 \]
 где $S$ --- диагональная матрица:
 \[
-    S
+    \variance{S}
     = \begin{pmatrix}
-        \sigma_1^2 & \dots  & 0          \\
-        \vdots     & \ddots & \vdots     \\
-        0          & \dots  & \sigma_m^2
+        d_1^2  & \dots  & 0      \\
+        \vdots & \ddots & \vdots \\
+        0      & \dots  & d_m^2
     \end{pmatrix} ,
 \]
 и $\breve{X}$ --- матрица векторов направлений:
@@ -389,41 +389,56 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     %
     \breve{X}_1
     = \begin{pmatrix}
-        1                            \\
-        e^{i \Delta \varphi_1}       \\
-        e^{i 2 \Delta \varphi_1}     \\
-        \vdots                       \\
-        e^{i (n-2) \Delta \varphi_1} \\
-        e^{i (n-1) \Delta \varphi_1}
+        1             \\
+        \varphi_1     \\
+        \varphi^2     \\
+        \vdots        \\
+        \varphi^{n-2} \\
+        \varphi^{n-1}
     \end{pmatrix}
     ,
     \breve{X}_2
     = \begin{pmatrix}
-        1                            \\
-        e^{i \Delta \varphi_2}       \\
-        e^{i 2 \Delta \varphi_2}     \\
-        \vdots                       \\
-        e^{i (n-2) \Delta \varphi_2} \\
-        e^{i (n-1) \Delta \varphi_2}
+        1               \\
+        \varphi_2       \\
+        \varphi_2^2     \\
+        \vdots          \\
+        \varphi_2^{n-2} \\
+        \varphi_2^{n-1}
     \end{pmatrix}
     ,
     \dots
     ,
     \breve{X}_m
     = \begin{pmatrix}
-        1                            \\
-        e^{i \Delta \varphi_m}       \\
-        e^{i 2 \Delta \varphi_m}     \\
-        \vdots                       \\
-        e^{i (n-2) \Delta \varphi_m} \\
-        e^{i (n-1) \Delta \varphi_m}
-    \end{pmatrix}
-    .
+        1               \\
+        \varphi_m       \\
+        \varphi_m^2     \\
+        \vdots          \\
+        \varphi_m^{n-2} \\
+        \varphi_m^{n-1}
+    \end{pmatrix} , \\
+    %
+    \varphi_k = e^{i \Delta \varphi_k} .
 \end{gather*}
-Будем считать сдвиги $\Delta \varphi_k$ различными:
+Будем считать комплексные сдвиги $\varphi_k$ различными:
 \begin{gather*}
-    \Delta \varphi_k \neq \Delta \varphi_j , \\
+    \varphi_k \neq \varphi_j , \\
     k \neq j .
+\end{gather*}
+Для комплексных сдвигов:
+\begin{gather*}
+    \overline{\varphi_k}
+    = \overline{e^{i \Delta \varphi_k}}
+    = e^{- i \Delta \varphi_k}
+    = \left( e^{i \Delta \varphi_k} \right)^{-1}
+    = \varphi_k^{-1} , \\
+    %
+    \overline{\varphi_k^p}
+    = \overline{\varphi_k \cdot ... \cdot \varphi_k}
+    = \overline{\varphi_k} \cdot ... \cdot \overline{\varphi_k}
+    = \varphi_k^{-1} \cdot ... \cdot \varphi_k^{-1}
+    = \varphi_k^{-p} .
 \end{gather*}
 
 \subsection{Центральноэрмитовость}
@@ -451,54 +466,55 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
 \[
     P \breve{X}_k
     = P \begin{pmatrix}
-        1                            \\
-        e^{i \Delta \varphi_k}       \\
-        e^{i 2 \Delta \varphi_k}     \\
-        \vdots                       \\
-        e^{i (n-2) \Delta \varphi_k} \\
-        e^{i (n-1) \Delta \varphi_k}
+        1               \\
+        \varphi_k       \\
+        \varphi_k^2     \\
+        \vdots          \\
+        \varphi_k^{n-2} \\
+        \varphi_k^{n-1}
     \end{pmatrix}
     = \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_k} \\
-        e^{i (n-2) \Delta \varphi_k} \\
-        \vdots                       \\
-        e^{i 2 \Delta \varphi_k}     \\
-        e^{i \Delta \varphi_k}       \\
+        \varphi_k^{n-1} \\
+        \varphi_k^{n-2} \\
+        \vdots          \\
+        \varphi_k^2     \\
+        \varphi_k       \\
         1
     \end{pmatrix}
-    = e^{i (n-1) \Delta \varphi_k}
+    = \varphi_k^{n-1}
     \begin{pmatrix}
-        1                          \\
-        e^{- i \Delta \varphi_k}   \\
-        e^{- i 2 \Delta \varphi_k} \\
-        \vdots                     \\
-        e^{- i (n-1) \Delta \varphi_k}
+        1                  \\
+        \varphi_k^{-1}     \\
+        \vdots             \\
+        \varphi_k^{-(n-3)} \\
+        \varphi_k^{-(n-2)} \\
+        \varphi_k^{-(n-1)} \\
     \end{pmatrix}
-    = e^{i (n-1) \Delta \varphi_k} \overline{\breve{X}}_k ,
+    = \varphi_k^{n-1} \overline{\breve{X}}_k ,
 \]
 поэтому:
 \begin{multline*}
     P \breve{X}
     = \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_1} \overline{\breve{X}}_1 & e^{i (n-1) \Delta \varphi_2} \overline{\breve{X}}_2 & \dots & e^{i (n-1) \Delta \varphi_m} \overline{\breve{X}}_m
+        \varphi_1^{n-1} \overline{\breve{X}}_1 & \varphi_2^{n-1} \overline{\breve{X}}_2 & \dots & \varphi_m^{n-1} \overline{\breve{X}}_m
     \end{pmatrix} = \\
     %
     = \begin{pmatrix}
         \overline{\breve{X}}_1 & \overline{\breve{X}}_2 & \dots & \overline{\breve{X}}_m
     \end{pmatrix}
     \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
-        0                            & e^{i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
-        \vdots                       & \vdots                       & \ddots & \vdots                       \\
-        0                            & 0                            & \dots  & e^{i (n-1) \Delta \varphi_m}
+        \varphi_1^{n-1} & 0               & \dots  & 0               \\
+        0               & \varphi_2^{n-1} & \dots  & 0               \\
+        \vdots          & \vdots          & \ddots & \vdots          \\
+        0               & 0               & \dots  & \varphi_m^{n-1}
     \end{pmatrix} = \\
     %
     = \overline{\breve{X}}
     \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
-        0                            & e^{i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
-        \vdots                       & \vdots                       & \ddots & \vdots                       \\
-        0                            & 0                            & \dots  & e^{i (n-1) \Delta \varphi_m}
+        \varphi_1^{n-1} & 0               & \dots  & 0               \\
+        0               & \varphi_2^{n-1} & \dots  & 0               \\
+        \vdots          & \vdots          & \ddots & \vdots          \\
+        0               & 0               & \dots  & \varphi_m^{n-1}
     \end{pmatrix} .
 \end{multline*}
 Отсюда
@@ -506,10 +522,10 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     \left( P \breve{X} \right)^*
     =
     \begin{pmatrix}
-        e^{- i (n-1) \Delta \varphi_1} & 0                            & \dots  & 0                            \\
-        0                            & e^{- i (n-1) \Delta \varphi_2} & \dots  & 0                            \\
-        \vdots                       & \vdots                       & \ddots & \vdots                       \\
-        0                            & 0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+        \varphi_1^{-(n-1)} & 0                  & \dots  & 0                  \\
+        0                  & \varphi_2^{-(n-1)} & \dots  & 0                  \\
+        \vdots             & \vdots             & \ddots & \vdots             \\
+        0                  & 0                  & \dots  & \varphi_m^{-(n-1)}
     \end{pmatrix}
     \overline{\breve{X}^*} .
 \]
@@ -521,29 +537,29 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     = \sigma_0^2 I
     + \overline{\breve{X}}
     \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_1} & \dots  & 0                              \\
-        \vdots                         & \ddots & \vdots                         \\
-        0                              & \dots  & e^{i (n-1) \Delta \varphi_m}
+        \varphi_1^{n-1} & \dots  & 0               \\
+        \vdots          & \ddots & \vdots          \\
+        0               & \dots  & \varphi_m^{n-1}
     \end{pmatrix}
     S
     \begin{pmatrix}
-        e^{- i (n-1) \Delta \varphi_1} & \dots  & 0                            \\
-        \vdots                       & \ddots & \vdots                       \\
-        0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+        \varphi_1^{-(n-1)} & \dots  & 0                  \\
+        \vdots             & \ddots & \vdots             \\
+        0                  & \dots  & \varphi_m^{-(n-1)}
     \end{pmatrix}
     \overline{\breve{X}^*} = \\
     %
     = \sigma_0^2 I
     + \overline{\breve{X}}
     \begin{pmatrix}
-        e^{i (n-1) \Delta \varphi_1} & \dots  & 0                              \\
-        \vdots                         & \ddots & \vdots                         \\
-        0                              & \dots  & e^{i (n-1) \Delta \varphi_m}
+        \varphi_1^{n-1} & \dots  & 0               \\
+        \vdots          & \ddots & \vdots          \\
+        0               & \dots  & \varphi_m^{n-1}
     \end{pmatrix}
     \begin{pmatrix}
-        e^{- i (n-1) \Delta \varphi_1} & \dots  & 0                            \\
-        \vdots                       & \ddots & \vdots                       \\
-        0                            & \dots  & e^{- i (n-1) \Delta \varphi_m}
+        \varphi_1^{-(n-1)} & \dots  & 0                  \\
+        \vdots             & \ddots & \vdots             \\
+        0                  & \dots  & \varphi_m^{-(n-1)}
     \end{pmatrix}
     S
     \overline{\breve{X}^*} = \\
@@ -595,9 +611,9 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     = Q U_s \Lambda_s V_s^* Q^* + Q U_n \Lambda_n V_n^* Q^* .
 \]
 Сигнальному подпространству соответствует матрица:
-\[
+\begin{equation}~\label{direction:svd_signal_columns}
     U_c = Q U_s .
-\]
+\end{equation}
 
 \subsection{Без шума}
 
@@ -615,9 +631,8 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     \linear{U_1, \dots, U_m} = \linear{\breve{X}_1, \dots, \breve{X}_m} ,
 \]
 значит любой столбец $U_k$ является линейной комбинацией $\breve{X}_k$ при некоторых $x_k$:
-\begin{gather*}
-    U_k = \breve{X}_1 x_1 + \dots + \breve{X}_m x_m,
-    \notag \\
+\begin{gather}
+    U_k = \breve{X}_1 x_1 + \dots + \breve{X}_m x_m , \notag \\
     %
     \begin{pmatrix}
         u_1    \\
@@ -626,130 +641,114 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
         u_n
     \end{pmatrix}
     = \begin{pmatrix}
-        1                      \\
-        e^{i \Delta \varphi_1} \\
-        \vdots                 \\
-        e^{i \Delta (n-1) \varphi_1}
+        1         \\
+        \varphi_1 \\
+        \vdots    \\
+        \varphi_1^{n-1}
     \end{pmatrix}
     x_1
     + \dots
     + \begin{pmatrix}
-        1                      \\
-        e^{i \Delta \varphi_m} \\
-        \vdots                 \\
-        e^{i \Delta (n-1) \varphi_m}
+        1         \\
+        \varphi_m \\
+        \vdots    \\
+        \varphi_m^{n-1}
     \end{pmatrix}
     x_m
-\end{gather*}
-Рассмотрим первые $m+1$ строку системы:
-\begin{equation}~\label{direction:u_system}
+    \label{direction:u_system}
+\end{gather}
+В матрице правой части:
+\begin{equation}~\label{direction:shifts_powers}
     \begin{pmatrix}
-        u_1    \\
-        u_2    \\
-        \vdots \\
-        u_{m+1}
+        1               & 1               & \dots  & 1               \\
+        \varphi_1       & \varphi_2       & \dots  & \varphi_m       \\
+        \vdots          & \vdots          & \ddots & \vdots          \\
+        \varphi_1^{n-1} & \varphi_2^{n-1} & \dots  & \varphi_m^{n-1}
     \end{pmatrix}
-    =
-    \begin{pmatrix}
-        1                        & 1                        & \dots  & 1                        \\
-        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
-        \vdots                   & \vdots                   & \vdots & \vdots                   \\
-        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
-    \end{pmatrix}
-    \begin{pmatrix}
-        x_1    \\
-        \vdots \\
-        x_m
-    \end{pmatrix} .
 \end{equation}
-
-В матрице правой части $m+1$ строка и $m$ столбцов, поэтому строки линейнозависимы, и найдутся числа $c_k$ при которых линейная комбинация строк даёт нулевую
+рассмотрим первые $m+1$ строку:
+\[
+    \begin{pmatrix}
+        1           & 1           & \dots  & 1           \\
+        \varphi_1   & \varphi_2   & \dots  & \varphi_m   \\
+        \vdots      & \vdots      & \ddots & \vdots      \\
+        \varphi_1^m & \varphi_2^m & \dots  & \varphi_m^m
+    \end{pmatrix}
+\]
+В этой матрице $m+1$ строка и $m$ столбцов, поэтому строки линейнозависимы, и найдутся числа $c_k$ при которых линейная комбинация строк даёт нулевую
 строку:
-\begin{equation}~\label{direction:c_zeroing}
+\[
     \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
     \end{pmatrix}
     \begin{pmatrix}
-        1                        & 1                        & \dots  & 1                        \\
-        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
-        \vdots                   & \vdots                   & \vdots & \vdots                   \\
-        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+        1           & 1           & \dots  & 1           \\
+        \varphi_1   & \varphi_2   & \dots  & \varphi_m   \\
+        \vdots      & \vdots      & \ddots & \vdots      \\
+        \varphi_1^m & \varphi_2^m & \dots  & \varphi_m^m
     \end{pmatrix}
     = \begin{pmatrix}
         0 & 0 & \dots & 0
     \end{pmatrix}
     .
-\end{equation}
-Умножая левую и правую части равенства \eqref{direction:u_system} на вектор чисел $c_k$ слева, получим:
-\begin{gather*}
+\]
+Теперь рассмотрим $m+1$ строку матрицы \eqref{direction:shifts_powers}, начиная со строки с номером $p$ и умножим слева на тот же вектор чисел $c_k$:
+\begin{multline}~\label{direction:c_zeroing}
     \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
     \end{pmatrix}
     \begin{pmatrix}
-        u_1    \\
-        u_2    \\
-        \vdots \\
-        u_{m+1}
-    \end{pmatrix}
+        \varphi_1^{p-1}   & \varphi_2^{p-1}   & \dots  & \varphi_m^{p-1}   \\
+        \varphi_1^{p-1+1} & \varphi_2^{p-1+1} & \dots  & \varphi_m^{p-1+1} \\
+        \vdots            & \vdots            & \vdots & \vdots            \\
+        \varphi_1^{p-1+m} & \varphi_2^{p-1+m} & \dots  & \varphi_m^{p-1+m}
+    \end{pmatrix} = \\
+    %
     = \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
     \end{pmatrix}
     \begin{pmatrix}
-        1                        & 1                        & \dots  & 1                        \\
-        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
-        \vdots                   & \vdots                   & \vdots & \vdots                   \\
-        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
+        1           & 1           & \dots  & 1           \\
+        \varphi_1   & \varphi_2   & \dots  & \varphi_m   \\
+        \vdots      & \vdots      & \vdots & \vdots      \\
+        \varphi_1^m & \varphi_2^m & \dots  & \varphi_m^m
     \end{pmatrix}
     \begin{pmatrix}
-        x_1    \\
-        \vdots \\
-        x_m
-    \end{pmatrix} , \\
+        \varphi_1^{p-1} & 0               & \dots  & 0               \\
+        0               & \varphi_2^{p-1} & \dots  & 0               \\
+        \vdots          & \vdots          & \vdots & \vdots          \\
+        0               & 0               & \dots  & \varphi_m^{p-1}
+    \end{pmatrix} = \\
     %
-    \begin{pmatrix}
-        c_1 & c_2 & \dots & c_{m+1}
-    \end{pmatrix}
-    \begin{pmatrix}
-        u_1    \\
-        u_2    \\
-        \vdots \\
-        u_{m+1}
-    \end{pmatrix}
     = \begin{pmatrix}
         0 & 0 & \dots & 0
     \end{pmatrix}
     \begin{pmatrix}
-        x_1    \\
-        \vdots \\
-        x_m
-    \end{pmatrix} , \\
+        \varphi_1^{p-1} & 0               & \dots  & 0               \\
+        0               & \varphi_2^{p-1} & \dots  & 0               \\
+        \vdots          & \vdots          & \vdots & \vdots          \\
+        0               & 0               & \dots  & \varphi_m^{p-1}
+    \end{pmatrix}
     %
-    \begin{pmatrix}
-        c_1 & c_2 & \dots & c_{m+1}
-    \end{pmatrix}
-    \begin{pmatrix}
-        u_1    \\
-        u_2    \\
-        \vdots \\
-        u_{m+1}
-    \end{pmatrix}
-    = 0 .
-\end{gather*}
+    = \begin{pmatrix}
+        0 & 0 & \dots 0
+    \end{pmatrix} .
+\end{multline}
 
-Теперь рассмотрим $m+1$ строку системы \eqref{direction:u_system}, начиная с $u_2$ (со второй строки):
+Рассмотрим $m+1$ равенство системы \eqref{direction:u_system}, начиная со строки с номером $p$:
 \[
     \begin{pmatrix}
-        u_2    \\
-        u_3    \\
-        \vdots \\
-        u_{m+2}
+        u_p     \\
+        u_{p+1} \\
+        \vdots  \\
+        u_{p+m}
     \end{pmatrix}
     =
     \begin{pmatrix}
-        e^{i \Delta \varphi_1}       & e^{i \Delta \varphi_2}       & \dots  & e^{i \Delta \varphi_m}       \\
-        e^{i 2 \Delta \varphi_1}     & e^{i 2 \Delta \varphi_2}     & \dots  & e^{i 2 \Delta \varphi_m}     \\
-        \vdots                       & \vdots                       & \vdots & \vdots                       \\
-        e^{i (m+1) \Delta \varphi_1} & e^{i (m+1) \Delta \varphi_2} & \dots  & e^{i (m+1) \Delta \varphi_m}
+        \varphi_1^{p-1}   & \varphi_2^{p-1}   & \dots  & \varphi_m^{p-1}   \\
+        \varphi_1^{p-1+1} & \varphi_2^{p-1+1} & \dots  & \varphi_m^{p-1+1} \\
+        \vdots            & \vdots            & \vdots & \vdots            \\
+        \varphi_1^{p-1+m} & \varphi_2^{p-1+m} & \dots  & \varphi_m^{p-1+m}
     \end{pmatrix}
     \begin{pmatrix}
         x_1    \\
@@ -757,62 +756,26 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
         x_m
     \end{pmatrix}
 \]
-Умножим слева на тот же вектор из чисел $c_k$:
+Умножим слева на вектор чисел $c_k$:
 \begin{multline*}
     \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
     \end{pmatrix}
     \begin{pmatrix}
-        u_2    \\
-        u_3    \\
-        \vdots \\
-        u_{m+2}
+        u_p     \\
+        u_{p+1} \\
+        \vdots  \\
+        u_{p+m}
     \end{pmatrix} = \\
     %
     = \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
     \end{pmatrix}
     \begin{pmatrix}
-        e^{i \Delta \varphi_1}       & e^{i \Delta \varphi_2}       & \dots  & e^{i \Delta \varphi_m}       \\
-        e^{i 2 \Delta \varphi_1}     & e^{i 2 \Delta \varphi_2}     & \dots  & e^{i 2 \Delta \varphi_m}     \\
-        \vdots                       & \vdots                       & \vdots & \vdots                       \\
-        e^{i (m+1) \Delta \varphi_1} & e^{i (m+1) \Delta \varphi_2} & \dots  & e^{i (m+1) \Delta \varphi_m}
-    \end{pmatrix}
-    \begin{pmatrix}
-        x_1    \\
-        \vdots \\
-        x_m
-    \end{pmatrix} = \\
-    %
-    = \begin{pmatrix}
-        c_1 & c_2 & \dots & c_{m+1}
-    \end{pmatrix}
-    \begin{pmatrix}
-        1                        & 1                        & \dots  & 1                        \\
-        e^{i \Delta \varphi_1}   & e^{i \Delta \varphi_2}   & \dots  & e^{i \Delta \varphi_m}   \\
-        \vdots                   & \vdots                   & \vdots & \vdots                   \\
-        e^{i m \Delta \varphi_1} & e^{i m \Delta \varphi_2} & \dots  & e^{i m \Delta \varphi_m}
-    \end{pmatrix}
-    \begin{pmatrix}
-        e^{i \Delta \varphi_1} & 0                      & \dots  & 0                      \\
-        0                      & e^{i \Delta \varphi_2} & \dots  & 0                      \\
-        \vdots                 & \vdots                 & \vdots & \vdots                 \\
-        0                      & 0                      & \dots  & e^{i \Delta \varphi_m}
-    \end{pmatrix}
-    \begin{pmatrix}
-        x_1    \\
-        \vdots \\
-        x_m
-    \end{pmatrix} = \\
-    %
-    = \begin{pmatrix}
-        0 & 0 & \dots & 0
-    \end{pmatrix}
-    \begin{pmatrix}
-        e^{i \Delta \varphi_1} & 0                      & \dots  & 0                      \\
-        0                      & e^{i \Delta \varphi_2} & \dots  & 0                      \\
-        \vdots                 & \vdots                 & \vdots & \vdots                 \\
-        0                      & 0                      & \dots  & e^{i \Delta \varphi_m}
+        \varphi_1^{p-1}   & \varphi_2^{p-1}   & \dots  & \varphi_m^{p-1}   \\
+        \varphi_1^{p-1+1} & \varphi_2^{p-1+1} & \dots  & \varphi_m^{p-1+1} \\
+        \vdots            & \vdots            & \vdots & \vdots            \\
+        \varphi_1^{p-1+m} & \varphi_2^{p-1+m} & \dots  & \varphi_m^{p-1+m}
     \end{pmatrix}
     \begin{pmatrix}
         x_1    \\
@@ -832,7 +795,7 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
 \end{multline*}
 в силу обнуляющего свойства \eqref{direction:c_zeroing} вектора чисел $c_k$.
 
-Аналогично, для любого $p \le n-m$ получим:
+Таким образом:
 \[
     \begin{pmatrix}
         c_1 & c_2 & \dots & c_{m+1}
@@ -927,20 +890,20 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
 
 Из равенства \eqref{direction:c_zeroing} следует, что при любом $k$:
 \[
-    c_1 \cdot 1 + c_2 \cdot e^{i \Delta \varphi_k} + \dots + c_{m+1} \cdot e^{i m \Delta \varphi_k} = 0 .
+    c_1 \cdot 1 + c_2 \cdot \varphi_k + \dots + c_{m+1} \cdot \varphi_k^{m} = 0 .
 \]
 Значит, для полинома:
 \begin{equation}~\label{direction:c_polynomial}
     P(z) = c_1 + c_2 z + \dots + c_{m+1} z^m .
 \end{equation}
-числа $e^{i \Delta \varphi_k}$ являются корнями:
+числа $\varphi_k$ являются корнями:
 \[
-    P \left( e^{i \Delta \varphi_k} \right) = 0 ,
+    P \left( \varphi_k \right) = 0 ,
 \]
-причем количество чисел $e^{i \Delta \varphi_k}$ равно $m$ и полином $P(z)$ имеет степень $m$ и у него $m$ корней, поэтому каждый корень полинома $P(z)$
-соответствует некоторому числу $e^{i \Delta \varphi_k}$ и наоборот, и все корни располагаются на единичной окружности в комплексной плоскости.
+причем количество чисел $\varphi_k$ равно $m$ и полином $P(z)$ имеет степень $m$ и у него $m$ корней, поэтому каждый корень полинома $P(z)$
+соответствует некоторому числу $\varphi_k$ и наоборот, и все корни располагаются на единичной окружности в комплексной плоскости.
 
-\subsection{С шумом}
+\subsection{С шумом}~\label{direction:linear:estimation}
 
 При наличии шума, $\sigma_0 \neq 0$, система \eqref{direction:c_system} может оказаться несовместной, поэтому нужно искать обобщённое решение:
 \[
@@ -953,13 +916,407 @@ $\varphi : \mathbb{C}_{n \times m} \rightarrow \mathbb{R}_{n \times m} $:
     \widehat{P}(z)
     = \widehat{c}_1 + \widehat{c}_2 z + \dots \widehat{c}_m z^m ,
 \]
-каждый корень которого $\widehat{z}_k$ имеет вид:
+каждый корень которого $\widehat{\varphi}_k$ имеет вид:
 \[
-    \widehat{z}_k
+    \widehat{\varphi}_k
     = a_k e^{i \Delta \widehat{\varphi}_k} ,
 \]
 где аргумент $\widehat{z}_k$ даёт оценку смещения:
 \[
     \Delta \widehat{\varphi}_k
-    = arg \left( \widehat{z}_k \right).
+    = arg \left( \widehat{\varphi}_k \right).
 \]
+
+\section{Направление приёма в прямоугольной решётке}
+
+Пусть $Z$ --- случайный вектор огибающих в приёмниках и $R$ --- ковариационная матрица вектора $Z$:
+\[
+    R = \sigma_0^2 I + \breve{Z} \variance{S} \breve{Z}^* ,
+\]
+где $\variance{S}$ --- диагональная матрица:
+\[
+    \variance{S}
+    = \begin{pmatrix}
+        d_1^2  & \dots  & 0      \\
+        \vdots & \ddots & \vdots \\
+        0      & \dots  & d_m^2
+    \end{pmatrix} ,
+\]
+и $\breve{Z}$ --- матрица векторов направлений:
+\[
+    \breve{Z}
+    = \begin{pmatrix}
+        \breve{Z}_1 & \breve{Z}_2 & \dots & \breve{Z}_m
+    \end{pmatrix} , \\
+\]
+Векторы $\breve{Z}_k$ можно формировать в направлении строк и в направлении столбцов прямоугольной решётки. Пусть в каждой строке решётки $n_x$ приёмников, и в каждом
+столбце решётки $n_y$ приёмников. Пусть для $k$-го источника $\breve{X}_k$ обозначает вектор направления для одной строки решётки и $\breve{Y}_k$ --- вектор
+направления для одного столбца решётки:
+\begin{gather*}
+    \breve{X}_k
+    = \begin{pmatrix}
+        1           \\
+        \varphi_k   \\
+        \varphi_k^2 \\
+        \vdots      \\
+        \varphi_k^{n_x-1}
+    \end{pmatrix} ,
+    %
+    \breve{Y}_k
+    = \begin{pmatrix}
+        1          \\
+        \theta_k   \\
+        \theta_k^2 \\
+        \vdots     \\
+        \theta_k^{n_y - 1}
+    \end{pmatrix} , \\
+    %
+    \varphi_k = e^{i \Delta \varphi_k} ,
+    \theta_k = e^{i \Delta \theta_k} ,
+\end{gather*}
+где $\varphi_k$ и $\theta_k$ --- горизонтальные и вертикальные комплексные сдвиги $k$-го источника, которые считаются различными:
+\begin{gather*}
+    \theta_k \neq \theta_j , \varphi_k \neq \varphi_j , \\
+    k \neq j .
+\end{gather*}
+
+\subsection{По строкам решётки}
+
+Пусть векторы $\breve{Z}_k$ формируются в направлении строк решётки, сперва огибающие первой строки, затем огибающие второй строки и так далее,
+\[
+    \breve{Z}_k
+    = \breve{Y}_k \otimes \breve{X}_k
+    = \begin{pmatrix}
+        \breve{X}_k            \\
+        \theta_k \breve{X}_k   \\
+        \theta_k^2 \breve{X}_k \\
+        \vdots                 \\
+        \theta_k^{n_y - 1} \breve{X}_k
+    \end{pmatrix} .
+\]
+В матрице
+\[
+    \breve{Z} \variance{S} \breve{Z}^*
+    = \breve{Z}_1 d_1^2 \breve{Z}_1^* + \dots + \breve{Z}_m d_m^2 \breve{Z}_m^* ,
+\]
+каждое слагаемое:
+\begin{multline*}
+    \breve{Z}_k d_k^2 \breve{Z}_k^*
+    = \begin{pmatrix}
+        \breve{X}_k                    \\
+        \theta_k \breve{X}_k           \\
+        \theta_k^2 \breve{X}_k         \\
+        \vdots                         \\
+        \theta_k^{n_y - 1} \breve{X}_k \\
+    \end{pmatrix}
+    d_k^2
+    \begin{pmatrix}
+        \breve{X}_k^* & \theta_k^{-1} \breve{X}_k^* & \theta_k^{-2} \breve{X}_k^* & \dots & \theta_k^{-(n_y - 1)} \breve{X}_k^*
+    \end{pmatrix} = \\
+    %
+    = d_k^2
+    \begin{pmatrix}
+        1                & \theta_k^{-1}    & \theta_k^{-2}    & \dots  & \theta_k^{-(n_y-1)} \\
+        \theta_k         & 1                & \theta_k^{-1}    & \dots  & \theta_k^{-(n_y-2)} \\
+        \theta_k^2       & \theta_k^1       & 1                & \dots  & \theta_k^{-(n_y-3)} \\
+        \vdots           & \vdots           & \vdots           & \ddots & \vdots              \\
+        \theta_k^{n_y-1} & \theta_k^{n_y-2} & \theta_k^{n_y-3} & \dots  & 1
+    \end{pmatrix}
+    \otimes
+    \breve{X}_k \breve{X}_k^*
+    =
+    d_k^2
+    \cdot
+    \breve{Y}_k \breve{Y}_k^*
+    \otimes
+    \breve{X}_k \breve{X}_k^*
+    .
+\end{multline*}
+
+Матрица $R$ по-прежнему центральноэрмитовая. Рассмотрим:
+\[
+    P R P
+    = P \left ( \sigma_0^2 I + \breve{Z} S \breve{Z}^* \right ) P
+    = \sigma_0^2 P P + P \breve{Z} S \breve{Z}^* P
+    = \sigma_0^2 I + P \breve{Z} S \left( P \breve{Z} \right)^* ,
+\]
+где
+\[
+    P \breve{Z}
+    = \begin{pmatrix}
+        P \breve{Z}_1 & P \breve{Z}_2 & \dots & P \breve{Z}_m
+    \end{pmatrix}
+\]
+и каждый столбец
+\begin{multline*}
+    P \breve{Z}_k
+    = \begin{pmatrix}
+        0      & \dots & 0      & P      \\
+        0      & \dots & P      & 0      \\
+        \vdots & \dots & \vdots & \vdots \\
+        P      & \dots & 0      & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 \cdot \breve{X}_k                \\
+        \theta_k \cdot \breve{X}_k         \\
+        \vdots                             \\
+        \theta_k^{n_y-1} \cdot \breve{X}_k \\
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \theta_k^{n_y-1} \cdot P \breve{X}_k \\
+        \vdots                               \\
+        \theta_k \cdot P \breve{X}_k         \\
+        1 \cdot P \breve{X}_k                \\
+    \end{pmatrix} =    \\
+    %
+    = \theta_k^{n_y - 1}
+    \begin{pmatrix}
+        1 \cdot P \breve{X}_k                     \\
+        \vdots                                    \\
+        \theta_k^{-(n_y - 2)} \cdot P \breve{X}_k \\
+        \theta_k^{-(n_y - 1)} \cdot P \breve{X}_k \\
+    \end{pmatrix}
+    = \theta_k^{n_y - 1}
+    \begin{pmatrix}
+        1 \cdot \varphi_k^{n_x - 1} \overline{\breve{X}}_k                     \\
+        \vdots                                                                 \\
+        \theta_k^{-(n_y - 2)} \cdot \varphi_k^{n_x - 1} \overline{\breve{X}}_k \\
+        \theta_k^{-(n_y - 1)} \cdot \varphi_k^{n_x - 1} \overline{\breve{X}}_k \\
+    \end{pmatrix} = \\
+    %
+    = \theta_k^{n_y - 1} \varphi_k^{n_x - 1}
+    \begin{pmatrix}
+        1 \cdot \overline{\breve{X}}_k                     \\
+        \vdots                                             \\
+        \theta_k^{-(n_y - 2)} \cdot \overline{\breve{X}}_k \\
+        \theta_k^{-(n_y - 1)} \cdot \overline{\breve{X}}_k \\
+    \end{pmatrix}
+    = \theta_k^{n_y - 1} \varphi_k^{n_x - 1}
+    \begin{pmatrix}
+        \overline{1 \cdot \breve{X}}_k                    \\
+        \vdots                                            \\
+        \overline{\theta_k^{(n_y - 2)} \cdot \breve{X}}_k \\
+        \overline{\theta_k^{(n_y - 1)} \cdot \breve{X}}_k \\
+    \end{pmatrix}
+    = \theta_k^{n_y - 1} \varphi_k^{n_x - 1} \overline{\breve{Z}}_k .
+\end{multline*}
+Для всех столбцов,
+\begin{multline*}
+    P \breve{Z}
+    =
+    \begin{pmatrix}
+        \theta_1^{n_y - 1} \varphi_1^{n_x - 1} \overline{\breve{Z}}_1 & \dots & \theta_m^{n_y - 1} \varphi_m^{n_x - 1} \overline{\breve{Z}}_m
+    \end{pmatrix} = \\
+    %
+    =
+    \begin{pmatrix}
+        \overline{\breve{Z}}_1 & \dots & \overline{\breve{Z}}_m
+    \end{pmatrix}
+    \underbrace{
+        \begin{pmatrix}
+            \theta_1^{n_y - 1} \varphi_1^{n_x - 1} & \dots  & 0                                      \\
+            \vdots                                 & \ddots & \vdots                                 \\
+            0                                      & \dots  & \theta_m^{n_y - 1} \varphi_m^{n_x - 1}
+        \end{pmatrix}
+    }_N
+    =
+    \overline{\breve{Z}} N .
+\end{multline*}
+Отсюда
+\[
+    \left( P \breve{Z} \right)^*
+    = \left( \overline{\breve{Z}} N \right)^*
+    = N^* \overline{\breve{Z}^*}
+\]
+Таким образом,
+\[
+    P R P
+    = \sigma_0^2 I + \overline{\breve{Z}} N S N^* \overline{\breve{Z}^*}
+    = \sigma_0^2 I + \overline{\breve{Z}} N N^* S \overline{\breve{Z}^*}
+    = \sigma_0^2 I + \overline{\breve{Z}} S \overline{\breve{Z}^*}
+    = \overline{\sigma_0^2 I + \breve{Z} S \breve{Z}^*}
+    = \overline{R} ,
+\]
+где $S$ коммутирует c $N^*$, поскольку $S$ и $N^*$ диагональные, а из определения $N$:
+\[
+    N N^*
+    =
+    \begin{pmatrix}
+        \theta_1^{n_y - 1} \varphi_1^{n_x - 1} & \dots  & 0                                      \\
+        \vdots                                 & \ddots & \vdots                                 \\
+        0                                      & \dots  & \theta_m^{n_y - 1} \varphi_m^{n_x - 1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \theta_1^{-(n_y - 1)} \varphi_1^{-(n_x - 1)} & \dots  & 0                                            \\
+        \vdots                                       & \ddots & \vdots                                       \\
+        0                                            & \dots  & \theta_m^{-(n_y - 1)} \varphi_m^{-(n_x - 1)}
+    \end{pmatrix}
+    = I .
+\]
+
+Поскольку $R$ --- центральноэрмитовая матрица, то матрица:
+\[
+    C = Q^* R Q
+\]
+действительная и SVD--разложение вычисляется для действительной матрицы $C$ как и в случае линейной решётки.
+
+Как и ранее, любой столбец $U_k$ из равенства \eqref{direction:U_columns} может быть получен линейной комбинацией столбцов $\breve{Z}_k$, поэтому
+существуют числа $z_k$, при которых справедливо равенство аналогичное \eqref{direction:u_system}:
+\begin{gather*}
+    U_k = \breve{Z}_1 z_1 + \dots + \breve{Z}_m z_m , \notag \\
+    %
+    \begin{pmatrix}
+        U_k^{(1)} \\
+        U_k^{(2)} \\
+        \vdots    \\
+        U_k^{(n_y)}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \breve{X}_1                \\
+        \theta_1 \cdot \breve{X}_1 \\
+        \vdots                     \\
+        \theta_1^{n_y-1} \cdot \breve{X}_1
+    \end{pmatrix}
+    z_1
+    + \dots
+    + \begin{pmatrix}
+        \breve{X}_m                \\
+        \theta_m \cdot \breve{X}_m \\
+        \vdots                     \\
+        \theta_m^{n_y-1} \cdot \breve{X}_m
+    \end{pmatrix}
+    z_m ,
+\end{gather*}
+откуда
+\[
+    U_k^{(p)}
+    = \theta_1^{p-1} \breve{X}_1 z_1 + \dots + \theta_m^{p-1} \breve{X}_m z_m
+    .
+\]
+При $p=1$ получается равенство
+\[
+    U_k^{(1)}
+    = \breve{X}_1 z_1 + \dots + \breve{X}_m z_m
+    ,
+\]
+из которого следует существование вектора чисел $c_k$ с анулирующим свойством \eqref{direction:c_zeroing}. Вектор чисел $c_k$ обладает таким же свойством
+для блоков с $p=\overline{2,n_y}$, поскольку блоки представляются в виде:
+\[
+    U_k^{(p)}
+    = \begin{pmatrix}
+        \theta_1^{p-1} \breve{X}_1 & \dots & \theta_m^{p-1} \breve{X}_m
+    \end{pmatrix}
+    \begin{pmatrix}
+        z_1    \\
+        z_2    \\
+        \vdots \\
+        z_m
+    \end{pmatrix}
+    = \begin{pmatrix}
+        \breve{X}_1 & \dots & \breve{X}_m
+    \end{pmatrix}
+    \begin{pmatrix}
+        \theta_1^{p-1} & \dots  & 0              \\
+        \vdots         & \ddots & \vdots         \\
+        0              & \dots  & \theta_m^{p-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        z_1    \\
+        z_2    \\
+        \vdots \\
+        z_m
+    \end{pmatrix}
+    ,
+\]
+так что при умножении на вектор чисел $c_k$ слева будет происходить обнуление строк в самом левом множителе.
+
+Из обнуляющего свойства вектора чисел $c_k$ для каждого блока будет следовать система равенств вида \eqref{direction:c_system}, поэтому для всех блоков
+получим систему вида:
+\[
+    \begin{pmatrix}
+        D[U_1^{(1)}] \\
+        \vdots       \\
+        D[U_m^{(1)}] \\
+        D[U_1^{(2)}] \\
+        \vdots       \\
+        D[U_m^{(2)}] \\
+        \vdots       \\
+        D[U_1^{(m)}] \\
+        \vdots       \\
+        D[U_m^{(m)}] \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        c_1    \\
+        c_2    \\
+        \vdots \\
+        c_{m+1}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        0      \\
+        \vdots \\
+        0      \\
+        0      \\
+        \vdots \\
+        0      \\
+        \vdots \\
+        0      \\
+        \vdots \\
+        0
+    \end{pmatrix} ,
+\]
+Далее следует проводить оценку способом, аналогичным изложенному в разделе \ref{direction:linear:estimation}, в результате будут получены оценки комплексных
+сдвигов $\widehat{\varphi}_k$.
+
+\subsection{По столбцам решётки}
+
+Для получения оценок вертикальных комплексных сдвигов $\theta_k$ необходимо формировать векторы направлений по столбцам:
+\[
+    \begin{pmatrix}
+        \breve{Y}_k           \\
+        \varphi_k \breve{Y}_k \\
+        \vdots                \\
+        \varphi_k^{n_x-1} \breve{Y}_k
+    \end{pmatrix}
+    = \breve{X}_k \otimes \breve{Y}_k
+    = \Pi \breve{Z}_k ,
+\]
+что может быть выполнено путём перестановки $\Pi$ вектора $\breve{Z}_k$. В блок $\varphi_k^p \cdot \breve{Y}_k$ необходимо сгруппировать строки вектора
+$\breve{Z}_k$, в которых есть $\varphi_k^p$, то есть необходимо в векторе $\breve{Z}_k$ взять строку с номером $p+1$ и от неё двигаться в шагом $n_y$ до
+конца вектора $\breve{Z}_k$.
+
+При формировании векторов направлений по стролбцам решётки матрица направлений будет иметь вид:
+\[
+    \begin{pmatrix}
+        \Pi \breve{Z}_1 & \dots & \Pi \breve{Z}_m
+    \end{pmatrix}
+    = \Pi \begin{pmatrix}
+        \breve{Z}_1 & \dots & \breve{Z}_m
+    \end{pmatrix}
+    = \Pi \breve{Z} .
+\]
+Ковариационная матрица будет иметь вид:
+\[
+    \sigma_0^2 I + \Pi \breve{Z} \variance{S} \breve{Z}^* \Pi^*
+    = \sigma_0^2 \Pi \Pi^* + \Pi \breve{Z} \variance{S} \breve{Z}^* \Pi^*
+    = \Pi \left( \sigma_0^2 I + \breve{Z} \variance{S} \breve{Z}^* \right) \Pi^*
+    = \Pi R \Pi^*
+\]
+Пусть SVD--разложение матрицы $R$ имеет вид:
+\[
+    R = U_R \Sigma_R V_R^* ,
+\]
+тогда
+\[
+    \Pi R \Pi^*
+    = \left( \Pi U_R \right) \Sigma_R \left(V_R^* \Pi^* \right) .
+\]
+Таким образом, после вычисления столбцов, образующих сигнальное подпространство \eqref{direction:svd_signal_columns}, необходимо переставить в них строки,
+в соответствии с перестановкой $\Pi$:
+\[
+    \Pi U_c = \Pi Q U_s .
+\]
+Далее для столбцов в левой части повторить метод оценивания: вычислить оценки $\widehat{c}_k$ и корни полинома с коэффициентами $\widehat{c}_k$, по которым
+построить оценки $\widehat{\theta}_k$.
