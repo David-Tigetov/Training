@@ -17,6 +17,7 @@ function  adaptation( receivers, jammers, volume, echo )
     end
     % оптимальный весовой вектор
     weights = covariance \ receivers . directions ( echo );
+    weights = weights / norm(weights);
 
     angles = -90 : 0.01 : 90;
     % мощности с разных направлений
@@ -37,4 +38,5 @@ function  adaptation( receivers, jammers, volume, echo )
     plot ( [ echo, echo ], [ 0, echo_projection ], 'm' )
     hold off
     grid on
+    xticks(-90:10:90)
 end
