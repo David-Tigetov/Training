@@ -1516,37 +1516,59 @@ $H$ --- спектр сигнала $h$:
     = n + 2 S_\pm \left( \frac{n}{2} \right)
 \end{gather*}
 Таким образом, при редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений и $n$ сложений-вычитаний и решить две задачи размера $\frac{n}{2}$.
+В задаче порядке 2 нет умножений, есть одно сложение и одно вычитание:
+\begin{gather*}
+    S_*(2) = 0, \\
+    S_\pm(2) = 2 .
+\end{gather*}
 
 Пусть теперь $n = 2^L$, тогда $L = \log_2 n$, тогда можно продолжить цепочку равенств:
-\begin{gather*}
+\begin{align*}
     %
     S_*(n)
-    = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-1} \frac{n}{2^{L-1} \cdot 2}
-    = \frac{n}{2} + \frac{n}{2} + \frac{n}{2} + \dots + \frac{n}{2}
-    = \frac{n}{2} \cdot L
-    = \frac{1}{2} n \log_2 n , \\
-\end{gather*}
+    & = \frac{n}{2} + 2 S_*\left( \frac{n}{2} \right) = \\
+    & = \frac{n}{2} + 2 \left( \frac{n}{2 \cdot 2} + 2 S_*\left( \frac{n}{4} \right) \right)
+        = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 S_*\left( \frac{n}{4} \right) = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \left( \frac{n}{4 \cdot 2} + 2 S_*\left( \frac{n}{8} \right) \right )
+        = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + 8 S_*\left( \frac{n}{8} \right) = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-2} S_*\left( \frac{n}{2^{L-2}} \right ) = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-2} \frac{n}{2^{L-2} \cdot 2} + 2^{L-2} \cdot 2 S_*\left( \frac{n}{2^{L-1}} \right ) = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-2} \frac{n}{2^{L-2} \cdot 2} + 2^{L-2} \cdot 2 S_*(2) = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-2} \frac{n}{2^{L-2} \cdot 2} + 2^{L-2} \cdot 2 \cdot 0 = \\
+    & = \frac{n}{2} + 2 \frac{n}{2 \cdot 2} + 4 \frac{n}{4 \cdot 2} + \dots + 2^{L-2} \frac{n}{2^{L-2} \cdot 2} = \\
+    & = \frac{n}{2} + \frac{n}{2} + \frac{n}{2} + \dots + \frac{n}{2}
+        = \frac{n}{2} \cdot (L-1)
+        = \frac{1}{2} n \left( \log_2 n - 1 \right).
+\end{align*}
 
 Выражение для $S_*(n)$ получается следующим образом: для редукции задачи размера $n$ нужно сделать $\frac{n}{2}$ умножений,
 в результате получатся 2 задачи размера $\frac{n}{2}$, каждая из которых при редукции потребует
 $\frac{\frac{n}{2}}{2}$ умножений, поэтому для редукции двух задач размера $\frac{n}{2}$ потребуется $2 \frac{n}{2 \cdot 2}$ умножений,
 далее образуется уже 4 задачи размера $\frac{n}{4}$, редукция которых требует $4 \frac{n}{4 \cdot 2}$ умножений и так далее пока не достигнем размера
-задачи 2, таких задач будет $2^{L-1}$ и в каждой будет $\frac{n}{2^{L-1} \cdot 2} = \frac{2^L}{2^{L-1} \cdot 2} = 1$ умножение. 
+задачи 2, в которых нет умножения. 
 
 Аналогично для $S_\pm(n)$: редукция задачи размера $n$ требует $n$ сложений-вычитаний, получаются 2 задачи, редукция каждой из которых требует
 $\frac{n}{2}$ сложений-вычитаний, далее получаются 4 задачи, редукция каждой из которых требует $\frac{n}{4}$ сложений-вычитаний, и так далее пока не будет
 достигнут размер задачи 4, таких задач $2^{L-2}$ и каждая потребует для редукции $\frac{n}{2^{L-2}} = 2$ сложения-вычитания и решения двух задач
 размера 2, каждая из которых потребует $2$ сложения-вычитания.
 
-\begin{multline*}
-    S_\pm(n)
-    = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-2} \left ( \frac{n}{2^{L-2}} + 2 \cdot 2 \right ) = \\
+\begin{align*}
     %
-    = \underbrace{n + n + n + \dots + n}_{L-1} + 2^{L-2+1+1}
-    = \underbrace{n + n + n + \dots + n}_{L-1} + n
-    = n \cdot L
-    = n \log_2 n .
-\end{multline*}
+    S_\pm(n)
+    & = n + 2 S_\pm\left( \frac{n}{2} \right)  = \\
+    & = n + 2 \left( \frac{n}{2} + 2 S_\pm\left( \frac{n}{4} \right) \right)
+        = n + 2 \frac{n}{2} + 4 S_\pm\left( \frac{n}{4} \right) \\
+    & = n + 2 \frac{n}{2} + 4 \left( \frac{n}{4} + 2 S_\pm\left( \frac{n}{8} \right) \right )
+        = n + 2 \frac{n}{2} + 4 \frac{n}{4} + 8 S_\pm\left( \frac{n}{8} \right) \\
+    & = \underbrace{n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-1} S_\pm \left( \frac{n}{2^{L-1}} \right)}_{L} \\
+    & = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-1} S_\pm(2) \\
+    & = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^{L-1} \cdot 2 \\
+    & = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + 2^L \\
+    & = n + 2 \frac{n}{2} + 4 \frac{n}{4} + \dots + n \\
+    & = \underbrace{n + n + n + \dots + n}_L
+        = n \cdot L
+        = n \log_2 n
+\end{align*}
 
 \subsection{6 и 3, факторизация}
 

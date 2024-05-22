@@ -20,7 +20,6 @@ classdef Receivers < handle
 
         % установка количества приёмников
         function set . count ( receivers, count )
-            
             receivers . count = count;
         end
 
