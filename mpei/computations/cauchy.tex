@@ -1,0 +1,199 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Задача Коши}
+\author{Тигетов Давид}
+\maketitle
+
+\section{Задача Коши}
+
+Задача Коши
+\begin{align}
+    y^\prime(t) & = f(t, y(t)) ,
+    \label{cauchy:equation}      \\
+    y(t_0)      & = y_0 .
+    \notag
+\end{align}
+
+Если функция $f(t,y(t))$ дифференцируема по $t$, тогда дифференцируя левую и правую части уравнения \eqref{cauchy:equation}, получим:
+\begin{equation}~\label{cauchy:section_derivative}
+    y^{\prime\prime}
+    = f_t^\prime(t,y(t)) + f_y^\prime(t,y(t)) y^\prime(t)
+    = f_t^\prime(t,y(t)) + f_y^\prime(t,y(t)) f(t,y(t))
+\end{equation}
+
+Дискретная задача Коши для сеточной функции $y_k$:
+\[
+    \frac{y_{k+1} - y_k}{h} = \Phi(t_k, y_k, y_{k+1}; h).
+\]
+
+\section{Методы Рунге-Кутты 2-го порядка}
+
+Пусть
+\[
+    \Phi(t_k, y_k, y_{k+1}; h) = \sum_{k=1}^2 \alpha_k f(t_k + \beta_k h, y_k + \gamma_k h f(t_k,y_k)).
+\]
+Как выбрать $\alpha_k$, $\beta_k$ и $\gamma_k$?
+
+Порядок аппроксимации, с использованием равенства \eqref{cauchy:section_derivative}:
+\begin{multline*}
+    \psi_k = \frac{y(t_{k+1}) - y(t_k)}{h} - \sum_{k=1}^2 \alpha_k f(t_k + \beta_k h, y(t_k) + \gamma_k h f(t_k,y(t_k))) = \\
+    %
+    \shoveleft{= \frac{y(t_k) + y^\prime(t_k) h + \frac{1}{2} y^{\prime\prime}(t_k) h^2 + A h^3 - y(t_k)}{h} -} \\
+    \shoveright{ - \sum_{k=1}^2 \alpha_k \left( f(t_k, y(t_k)) + f_t^\prime(t_k, y(t_k)) \beta_k h + f_y^\prime(t_k, y(t_k)) \gamma_k h f(t_k,y(t_k)) + B_k h^2 \right) = } \\
+    %
+    \shoveleft{= y^\prime(t_k) + \frac{1}{2} y^{\prime\prime}(t_k) h + A h^2 -} \\
+    \shoveright{ - \sum_{k=1}^2 \alpha_k \left( f(t_k, y(t_k)) + f_t^\prime(t_k, y(t_k)) \beta_k h + f_y^\prime(t_k, y(t_k)) \gamma_k h f(t_k,y(t_k)) + B_k h^2 \right) = } \\
+    %
+    \shoveleft{= f(t_k, y(t_k)) + \frac{1}{2} \left( f_t^\prime(t_k, y(t_k)) + f_y^\prime(t_k, y(t_k)) f^(t_k, y(t_k)) \right) h + C_1 h^2 -} \\
+    \shoveright{ - \sum_{k=1}^2 \alpha_k \left( f(t_k, y(t_k)) + f_t^\prime(t_k, y(t_k)) \beta_k h + f_y^\prime(t_k, y(t_k)) \gamma_k h f(t_k,y(t_k)) + B_k h^2 \right) = } \\
+    %
+    \shoveleft{= f(t_k, y(t_k)) \left( 1 - \sum_{k=1}^2 \alpha_k \right ) + } \\
+    + f_t^\prime(t_k, y(t_k)) \left( \frac{1}{2} - \sum_{k=1}^2 \alpha_k \beta_k \right) + \\
+    + f_y^\prime(t_k, y(t_k)) f(t_k,y(t_k)) \left( \frac{1}{2} - \sum_{k=1}^2 \alpha_k \gamma_k \right)
+    + ( A + B_1 + B_2 ) h^2
+\end{multline*}
+Для получения наибольшего порядка аппроксимации:
+\begin{align*}
+\end{align*}
+
+\[
+    \left \{
+    \begin{array}{rcl}
+        \alpha_1 + \alpha_2                   & = & 1 ,           \\
+        \alpha_1 \beta_1 + \alpha_2 \beta_2   & = & \frac{1}{2} , \\
+        \alpha_1 \gamma_1 + \alpha_2 \gamma_2 & = & \frac{1}{2} .
+    \end{array}
+    \right .
+    \Leftrightarrow
+    \left \{
+    \begin{array}{rcl}
+        \alpha_2                                    & = & 1 - \alpha_1 , \\
+        \alpha_1 \beta_1 + (1 - \alpha_1) \beta_2   & = & \frac{1}{2} ,  \\
+        \alpha_1 \gamma_1 + (1 - \alpha_1) \gamma_2 & = & \frac{1}{2} .
+    \end{array}
+    \right .
+    \Leftrightarrow
+    \left \{
+    \begin{array}{rcc}
+        \alpha_1 & = & \alpha ,                                  \\
+        \alpha_2 & = & 1 - \alpha ,                              \\
+        \beta_1  & = & \frac{1}{2} \frac{\beta}{\alpha} ,        \\
+        \beta_2  & = & \frac{1}{2} \frac{1 - \beta}{1-\alpha} ,  \\
+        \gamma_1 & = & \frac{1}{2} \frac{\gamma}{\alpha} ,       \\
+        \gamma_2 & = & \frac{1}{2} \frac{1 - \gamma}{1-\alpha} , \\
+    \end{array}
+    \right .
+\]
+Таким образом,
+\begin{align*}
+    \Phi(t_k, y_k, y_{k+1}; h) & = \alpha f(t_k + \frac{1}{2} \frac{\beta}{\alpha} h, y_k + \frac{1}{2} \frac{\gamma}{\alpha} h f(t_k,y_k)) +                                      \\
+                               & + (1 - \alpha) f \left( t_k + \frac{1}{2} \frac{1 - \beta}{1 - \alpha} h, y_k + \frac{1}{2} \frac{1 - \gamma}{1 - \alpha} h f(t_k, y_k) \right) .
+\end{align*}
+
+Какие значение может принимать $\beta$? Наверное,
+\begin{gather*}
+    \left \{
+    \begin{array}{ccccc}
+        t_k & \le & t_k + \frac{1}{2} \frac{\beta}{\alpha} h         & \le & t_k + h \\
+        t_k & \le & t_k + \frac{1}{2} \frac{1 - \beta}{1 - \alpha} h & \le & t_k + h
+    \end{array}
+    \right .
+    \Leftrightarrow
+    \left \{
+    \begin{array}{ccccc}
+        0 & \le & \frac{1}{2} \frac{\beta}{\alpha} h         & \le & h \\
+        0 & \le & \frac{1}{2} \frac{1 - \beta}{1 - \alpha} h & \le & h
+    \end{array}
+    \right .
+    \Leftrightarrow \\
+    %
+    \Leftrightarrow
+    \left \{
+    \begin{array}{ccccc}
+        0 & \le & \frac{\beta}{\alpha}         & \le & 2 \\
+        0 & \le & \frac{1 - \beta}{1 - \alpha} & \le & 2
+    \end{array}
+    \right .
+    \Leftrightarrow
+    \left \{
+    \begin{array}{ccccc}
+        0 & \le & \beta     & \le & 2 \alpha     \\
+        0 & \le & 1 - \beta & \le & 2 - 2 \alpha
+    \end{array}
+    \right .
+    \Leftrightarrow \\
+    %
+    \Leftrightarrow
+    \left \{
+    \begin{array}{ccccc}
+        0             & \le & \beta & \le & 2 \alpha \\
+        -1 + 2 \alpha & \le & \beta & \le & 1
+    \end{array}
+    \right .
+\end{gather*}
+
+\begin{itemize}
+    \item усовершенствованный метод Эйлера при $\alpha = 1$, $\beta = 1$, $\gamma = 1$.
+    \item метод Эйлера-Коши при $\alpha = \frac{1}{2}$, $\beta = 0$, $\gamma = 0$.
+\end{itemize}
+
+\section{Метод трапеций}
+
+Пусть
+\[
+    \Phi(t_k, y_k, y_{k+1}; h) = \alpha_1 f(t_k,y_k) + \alpha_2 f(t_{k+1}, y_{k+1}).
+\]
+Как выбрать $\alpha_1$ и $\alpha_2$?
+
+Порядок аппроксимации
+\begin{multline*}
+    \psi_k = \frac{y(t_{k+1}) - y(t_k)}{h} - \Phi(t_k, y(t_k), y(t_{k+1}); h) = \\
+    %
+    = \frac{y(t_{k+1}) - y(t_k)}{h} - \alpha_1 f(t_k,y(t_k)) - \alpha_2 f(t_{k+1}, y(t_{k+1})) = \\
+    %
+    \shoveleft{
+        = \frac{y(t_k) + y^\prime(t_k) h + \frac{1}{2} y^{\prime\prime}(t_k) h^2 + \overline{o}(h^3) - y(t_k)}{h}
+        - \alpha_1 f(t_k,y(t_k)) - } \\
+    \shoveright{
+        - \alpha_2 \left( f(t_k, y(t_k)) + \left ( f_t^\prime(t_k, y(t_k)) + f_y^\prime(t_k, y(t_k)) \right) h + \overline{o}(h^2) \right ) =} \\
+    %
+    \shoveleft{
+        = y^\prime(t_k) + \frac{1}{2} y^{\prime\prime}(t_k) h + \overline{o}(h^2)
+        - \alpha_1 f(t_k,y(t_k)) - } \\
+    \shoveright{
+        - \alpha_2 f(t_k, y(t_k) - \alpha_2 \left ( f_t^\prime(t_k, y(t_k)) + f_y^\prime(t_k, y(t_k))  y^\prime(t_k) \right) h + \overline{o}(h^2) =} \\
+    %
+    = y^\prime(t_k) - \left ( \alpha_1 f(t_k,y(t_k)) + \alpha_2 f(t_k, y(t_k) \right )
+    + \frac{1}{2} y^{\prime\prime}(t_k) h - \alpha_2 y^{\prime\prime}(t_k) h + \overline{o}(h^2) ,
+\end{multline*}
+поскольку, дифференцируя левую и правую части уравнения \eqref{cauchy:equation}, получим:
+\[
+    y^{\prime\prime}(t) = f_t^\prime(t, y(t)) + f_y^\prime(t, y(t))  y^\prime(t) .
+\]
+Для $\alpha_1$ и $\alpha_2$ получим систему:
+\[
+    \left \{
+    \begin{array}{lcll}
+        \alpha_1 & + & \alpha_2 & = 1           \\
+                 &   & \alpha_2 & = \frac{1}{2}
+    \end{array}
+    \right .
+\]
+Откуда
+\begin{align*}
+    \alpha_1 & = \frac{1}{2} , \\
+    \alpha_2 & = \frac{1}{2} ,
+\end{align*}
+и метод имеет вид:
+\[
+    \frac{y_{k+1} - y_k}{h} = \frac{f(t_k,y_k) + f(t_{k+1}, y_{k+1})}{2}.
+\]
+
+\end{document}
