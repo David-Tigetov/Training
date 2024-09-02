@@ -1,0 +1,48 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+
+\newcommand{\variance}[1]{\mathtt{D} \left[ #1 \right]}
+
+\begin{document}
+
+\title{Математическая статистика: домашние задания}
+\author{Тигетов Давид Георгиевич}
+\maketitle
+
+\section*{Домашнее задание 1}
+
+\subsection*{Задача 1 \cite[108]{Efimov}}
+
+Докажите, что выборочное среднее, вычисленное по выборке из распределения Пуассона $\mathcal{P}(\lambda)$, будет несмещённой и состоятельной оценкой
+параметра $\lambda$.
+
+\subsection*{Задача 2 \cite[103]{Efimov}}
+
+Рассмотрим две выборки объёмов $n_1$ и $n_2$ из одной генеральной совокупности со средним $\mu$ и дисперсией $\sigma^2$.
+Пусть $m_1$ и $m_2$, $s_1^2$ и $s_2^2$ --- несмещенный оценки математических ожиданий и дисперсий, определённые по выборкам. Докажите, что
+объединённые оценки, вычисляемые по формулам:
+\begin{gather*}
+    \overline{m} = \frac{n_1 m_1 + n_2 m_2}{n_1 + n_2} , \\
+    s^2 = \frac{(n_1 - 1) s_1^2 + (n_2 - 1) s_2^2}{n_1 + n_2 - 2} .
+\end{gather*}
+будут несмещёнными и состоятельными оценками $\mu$ и $\sigma^2$.
+
+\subsection*{Задача 3 \cite[107]{Efimov}}
+
+Пусть $\widetilde{\theta}$ --- несмещенная оценка параметра $\theta$, $\variance{\widetilde{\theta}} < \infty$. Докажите, что
+$\widetilde{\theta}^2$ является смещенной оценкой $\theta^2$, и вычислите смещение.
+
+\subsection*{Задача 4 \cite[110]{Efimov}}
+
+Пусть $\widetilde{\theta}$ --- состоятельная оценка параметра $\theta$, a $\psi(x)$ --- непрерывная функция в области изменения $\widetilde{\theta}$.
+Докажите, что $\psi(\widetilde{\theta})$ является состоятельной оценкой $\psi(\theta)$.
+
+\begin{thebibliography}{1}
+    \bibitem{Efimov} Сборник задач по математике, часть 4 // Под редакцией Ефимова А.В. и Поспелова А.С. - М.: Издательство Физико-математической
+    литературы, 2003. - 432 с.
+\end{thebibliography}
+\end{document}
