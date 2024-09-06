@@ -1,0 +1,66 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+
+\newcommand{\expectation}[1]{\mathtt{M} \left[ #1 \right]}
+\newcommand{\variance}[1]{\mathtt{D} \left[ #1 \right]}
+
+\begin{document}
+
+\title{Вопросы и задачи к защитам лабораторных работ}
+\author{Тигетов Давид Георгиевич}
+\maketitle
+
+\section*{Лабораторная работа 2}
+
+\subsection*{Теория}
+
+\begin{enumerate}
+    \item Сформулируйте определения выборки, вариационного ряда, эмпирической функции распределения.
+    \item Объясните принцип вычисления частот, относительных частот и построения гистрограмм.
+    \item Приведите выражения начальных и центральных выборочных моментов.
+\end{enumerate}
+
+\subsection*{Практика}
+
+Задача 1 обязательная, из задач 2 -- 5 одна задача по выбору.
+
+\begin{enumerate}
+    \item В результате эксперимента получена реализация выборки $x_1 = 0.5$, $x_2 = -1.5$, $x_3 = -0.2$, $x_4 = 1.1$, $x_5 = 0.6$.
+          \begin{enumerate}
+              \item Постройте реализацию вариационного ряда.
+              \item Нарисуйте график реализации эмпирической функции распределения.
+              \item Вычислите реализации выборочного среднего и исправленной выборочной дисперсии.
+          \end{enumerate}
+
+    \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из нормального распределения $\mathcal{N}\left(m, \sigma^2 \right)$, где $m$ --- известная
+          величина, а $\sigma^2$ --- неизвестная величина. Является ли статистика
+          \[
+              \varphi(\xi_1, \dots, \xi_n) = \frac{1}{n} \sum_{k=1}^n \left( \xi_k - m \right)^2 + \left( \frac{1}{n} \sum_{k=1}^n \xi_k \right)^2.
+          \]
+          несмещенной и состоятельной оценкой второго начального момента $m_2$ распределения $\mathcal{N}\left(m, \sigma^2 \right)$?
+
+    \item $\left( \xi_1, \xi_2, \xi_3 \right)$ --- выборка, $\expectation{\xi_k} = m$, $\variance{\xi_k} = \sigma^2$. Является ли статистика:
+          \[
+              \varphi(\xi_1, \xi_2, \xi_3) = \frac{\left( \xi_1 - \xi_2 \right)^2 + \left( \xi_2 - \xi_3 \right)^2 + \left( \xi_3 - \xi_1 \right)^2}{6}
+          \]
+          несмещенной оценкой $\sigma^2$?
+
+    \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из распределения Пуассона $\mathcal{P}(\lambda)$. Является ли статистика:
+          \[
+              \varphi(\xi_1, \dots, \xi_n) = \frac{1}{2 n} \sum_{k=1}^n \xi_k^2.
+          \]
+          несмещенной и состоятельной оценкой параметра $\lambda$. Примечание: если $\xi \sim \mathcal{P}(\lambda)$, то $\expectation{\xi} = \lambda$
+          и $\variance{\xi} = \lambda$.
+
+    \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из равномерного распределения $\mathcal{R}\left[a, b \right]$, где $a$ --- известная величина,
+          а $b$ --- неизвестная. Является ли статистика:
+          \[
+              \varphi \left(\xi_1, \dots, \xi_n \right) = \frac{2}{n} \sum_{k=1}^n \xi_k - a
+          \]
+          несмещённой и состоятельной оценкой $b$?
+\end{enumerate}
+
+\end{document}
