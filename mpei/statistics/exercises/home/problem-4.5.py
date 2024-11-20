@@ -7,9 +7,12 @@ print('Задача 5')
 sigma = 2
 # 1)
 m_0 = 40
-n = 36
-h = m_0 + sigma/numpy.sqrt(n)*stats.norm.ppf(1-0.05)
-print(f'1) h: {h:.5f}')
+n = 64
+alpha = 0.01
+q = stats.norm.ppf(1-alpha)
+h = m_0 + sigma/numpy.sqrt(n)*q
+z = (40.2 - m_0)/(sigma/numpy.sqrt(n))
+print(f'1) q: {q:.5f}, h: {h:.5f}, z: {z:.5f}')
 # 2)
 m_0 = 40
 m_1 = 39.2
@@ -32,6 +35,7 @@ print(f'3) h_0: {h_0:.5f}, h_1: {h_1:.5f}, beta: {beta:.5f}')
 # 4)
 print('4)')
 h = 40.2
+n = 36
 columns = 4
 rows = 10
 expectation = numpy.linspace(39, 41, columns * rows + 1)

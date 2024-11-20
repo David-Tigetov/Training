@@ -23,11 +23,16 @@ def report(name, statistic, lower, upper):
 statistic = s_1/s_2
 lower = stats.f.ppf(alpha/2, dfn=n-1, dfd=n-1)
 upper = stats.f.ppf(1 - alpha/2, dfn=n-1, dfd=n-1)
-report('Fisher', statistic, lower, upper)
+print('*** Fisher ***')
+print(f'{"Statistic:":12}{statistic:.5f}')
+print(f'{"Lower:":12}{lower:.5f}')
+print(f'{"Upper:":12}{upper:.5f}')
 
 # критерий Стьюдента
 statistic = numpy.sqrt(n*n/(n+n)) * (m_1 - m_2) / \
     numpy.sqrt(((n-1)*s_1 + (n-1)*s_2)/(n+n-2))
-lower = stats.t.ppf(alpha/2, df=n+n-1)
-upper = stats.t.ppf(1 - alpha/2, df=n+n-1)
-report('Student', statistic, lower, upper)
+
+upper = stats.t.ppf(1 - alpha, df=n+n-1)
+print('*** Student ***')
+print(f'{"Statistic:":12}{statistic:.5f}')
+print(f'{"Upper:":12}{upper:.5f}')

@@ -1,11 +1,16 @@
 import numpy
 from scipy import stats
 
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/..')
+import dg
+
 print('Домашнее задание 4')
 print('Задача 2')
 
 # данные
-sample = numpy.array(
+observed = numpy.array(
     [
         [13, 2, 6, 3],
         [0, 1, 13, 11],
@@ -15,19 +20,4 @@ sample = numpy.array(
     ]
 )
 
-# оценки
-count = numpy.sum(numpy.sum(sample))
-estimates = numpy.sum(sample, axis=0) / count
-# статистика
-X = 0.0
-for row in range(sample.shape[0]):
-    for column in range(sample.shape[1]):
-        X += (sample[row][column] - estimates[column]
-              * count)**2 / estimates[column]*count
-# уровень значимости
-alpha = 1 - stats.chi2.cdf(X, df=(sample.shape[0]-1)*(sample.shape[1]-1))
-
-print(f'{"Count:":12}{count}')
-print(f'{"Estimates:":12}' + str(estimates))
-print(f'{"Statistic:":12}{X:.3f}')
-print(f'{"P-value:":12}{alpha:.3f}')
+print(dg.Chi_homogeneity(observed))
