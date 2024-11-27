@@ -3,6 +3,7 @@ import math
 from scipy import stats
 from functools import reduce
 
+
 class Chi_squared:
     def __init__(self, observed, probabilities, parameter=0):
         # наблюдаемые количества
@@ -34,6 +35,7 @@ class Chi_squared:
         output += f'{"P-value:":12}{self.p_value:.5f}'
         return output
 
+
 class Chi_homogeneity:
     def __init__(self, observed):
         self.observed = observed
@@ -50,12 +52,14 @@ class Chi_homogeneity:
         # статистика
         self.statistic = numpy.sum(numpy.sum(self.deviations))
         # уровень значимости
-        self.p_value = 1 - stats.chi2.cdf(self.statistic, df=(observed.shape[0]-1)*(observed.shape[1]-1))
+        self.p_value = 1 - \
+            stats.chi2.cdf(self.statistic, df=(
+                observed.shape[0]-1)*(observed.shape[1]-1))
 
     def __str__(self):
         # ожидаемое количество
         output = f'{"Volume:":12}{self.volume}\n'
-        output = f'{"Estimates:":12}' + str(self.estimates) + '\n'
+        output = f'{"Estimates:":12}' + unroll(self.estimates) + '\n'
         # таблица ожидаемых количеств и отклонений
         for row in range(self.expected.shape[0]):
             line = ''
@@ -66,8 +70,50 @@ class Chi_homogeneity:
             line += ' \\\\'
             output += line + '\n'
         # статистика
-        output += f'{"Statictic:":12}{self.statistic}\n'
-        output += f'{"P-value:":12}{self.p_value}'
+        output += f'{"Statictic:":12}{self.statistic:.5f}\n'
+        output += f'{"P-value:":12}{self.p_value:.5f}'
+        return output
+
+
+class Chi_independence:
+    def __init__(self, observed):
+        self.observed = observed
+        # количество
+        self.volume = numpy.sum(numpy.sum(self.observed))
+        # оценки вероятностей
+        self.row_probabilities = numpy.sum(observed, axis=1) / self.volume
+        self.column_probabilities = numpy.sum(observed, axis=0) / self.volume
+
+        # ожидаемые количества
+        self.expected = self.volume * \
+            numpy.outer(self.row_probabilities, self.column_probabilities)
+        # отклонения
+        self.deviations = (self.observed - self.expected)**2 / self.expected
+        # статистика
+        self.statistic = numpy.sum(numpy.sum(self.deviations))
+        # уровень значимости
+        self.p_value = 1 - \
+            stats.chi2.cdf(self.statistic,
+                           df=(observed.shape[0]-1)*(observed.shape[1]-1))
+
+    def __str__(self):
+        # объём
+        output = f'{"Volume:":15}{self.volume}\n'
+        # оценки вероятностей
+        output += f'{"Row probs.:":15}' + unroll(self.row_probabilities, ', ') + '\n'
+        output += f'{"Column probs.:":15}' + unroll(self.column_probabilities, ', ') + '\n'
+        # таблица ожидаемых количеств и отклонений
+        for row in range(self.expected.shape[0]):
+            line = ''
+            for column in range(self.expected.shape[1]):
+                if column > 0:
+                    line += ' & '
+                line += f'{self.observed[row, column]:5g}{self.expected[row, column]:10.3f}{self.deviations[row, column]:10.3f}'
+            line += ' \\\\'
+            output += line + '\n'
+        # статистика
+        output += f'{"Statictic:":12}{self.statistic:.5f}\n'
+        output += f'{"P-value:":12}{self.p_value:.5f}'
         return output
 
 
@@ -103,14 +149,16 @@ class Kolmogorov:
             # значение слева эмпирической функции распределения
             self.left_ecdfs[number] = count/sample.shape[0]
             # предел справа эмпирической функции распределения
-            count = advance(sample, count, lambda x: x <= self.locations[number])
+            count = advance(sample, count, lambda x: x <=
+                            self.locations[number])
             self.right_ecdfs[number] = count/sample.shape[0]
 
         # отклонения
         self.left_deviations = self.left_ecdfs - self.cdfs
         self.right_deviations = self.right_ecdfs - self.cdfs
         # определяем наибольшее отклонение
-        maxima = numpy.maximum(numpy.abs(self.left_deviations), numpy.abs(self.right_deviations))
+        maxima = numpy.maximum(
+            numpy.abs(self.left_deviations), numpy.abs(self.right_deviations))
         position = numpy.argmax(maxima)
         self.deviation = maxima[position]
         self.location = self.locations[position]
@@ -135,6 +183,7 @@ class Kolmogorov:
         output += f'{"P-value (limit):":20}{self.p_value_limit:12.10f}'
         return output
 
+
 class Kolmogorov_Smirnov:
     def __init__(self, f_sample, g_sample):
         # реализации вариационных рядов
@@ -143,8 +192,8 @@ class Kolmogorov_Smirnov:
         # эмпирические функции в промежутках
         f_ecdfs = numpy.linspace(0, 1, f_sample.shape[0]+1)
         g_ecdfs = numpy.linspace(0, 1, g_sample.shape[0]+1)
-        g_number= 0
-        f_number= 0
+        g_number = 0
+        f_number = 0
         # объединённый набор
         self.locations = numpy.hstack((f_sample, g_sample))
         self.locations = numpy.unique(self.locations)
@@ -153,10 +202,12 @@ class Kolmogorov_Smirnov:
         self.g_ecdfs = numpy.array([float(0.0)]*self.locations.shape[0])
         for number in range(self.locations.shape[0]):
             # смещаемся по первой реализации
-            f_count = advance(f_sample, f_number, lambda x: x < self.locations[number])
+            f_count = advance(f_sample, f_number,
+                              lambda x: x < self.locations[number])
             self.f_ecdfs[number] = f_ecdfs[f_count]
             # смещаемся по второй реализации
-            g_count = advance(g_sample, g_number, lambda x: x < self.locations[number])
+            g_count = advance(g_sample, g_number,
+                              lambda x: x < self.locations[number])
             self.g_ecdfs[number] = g_ecdfs[g_count]
         # отклонение слева - разность значений
         self.deviations = self.f_ecdfs - self.g_ecdfs
@@ -167,7 +218,7 @@ class Kolmogorov_Smirnov:
         # значение статистики
         self.statistic = \
             numpy.sqrt(f_sample.shape[0]*g_sample.shape[0] /
-                    (f_sample.shape[0] + g_sample.shape[0])) * self.deviation
+                       (f_sample.shape[0] + g_sample.shape[0])) * self.deviation
         # уровень значимости - предельное распределение
         self.p_value_limit = 1 - stats.kstwobign.cdf(self.statistic)
 
@@ -181,8 +232,10 @@ class Kolmogorov_Smirnov:
         output += f'{"P-value (limit):":20}{self.p_value_limit:12.10f}'
         return output
 
+
 def unroll(values, separator='', ending=''):
     return reduce(lambda s, e: s + separator + f'{e:.5f}', values[1:], f'{values[0]:.5f}') + ending
+
 
 class Regression:
     def __init__(self, e, Z, W):
@@ -203,23 +256,28 @@ class Regression:
 
         # регрессия с константой
         U = numpy.ones((self.n, 1))
-        self.U_mean = (Regression.dot(U, e, W) / Regression.squared_norm(U, W))[0, 0]
+        self.U_mean = (Regression.dot(U, e, W) /
+                       Regression.squared_norm(U, W))[0, 0]
         self.e_Up = e - U * self.U_mean
         self.e_Up_norm = math.sqrt(Regression.squared_norm(self.e_Up, W)[0, 0])
         # коэффициент детерминации
         self.R = 1 - self.e_Zp_norm**2 / self.e_Up_norm**2
         # скорректированный коэффициент детерминации
-        self.R_adjusted = 1 - (self.n - 1)/(self.n - self.m) * self.e_Zp_norm**2 / self.e_Up_norm**2
+        self.R_adjusted = 1 - (self.n - 1)/(self.n - self.m) * \
+            self.e_Zp_norm**2 / self.e_Up_norm**2
 
         # ковариационная матрица оценок
         self.G_inv = numpy.linalg.inv(self.G)
         # отступы доверительных интервалов
-        self.estimate_spreads = numpy.transpose(numpy.array([[*numpy.sqrt(numpy.diagonal(self.G_inv) * self.e_Zp_norm**2 / ( self.n - self.m ))]]))
+        self.estimate_spreads = numpy.transpose(numpy.array(
+            [[*numpy.sqrt(numpy.diagonal(self.G_inv) * self.e_Zp_norm**2 / (self.n - self.m))]]))
 
         # статистика критерия об отсутствии зависимости
-        self.F = (self.n - self.m)/self.m * self.e_Z_norm**2 / self.e_Zp_norm**2
+        self.F = (self.n - self.m)/self.m * \
+            self.e_Z_norm**2 / self.e_Zp_norm**2
         # наименьший уровень значимости принятия гипотезы об отсутствии зависимости
-        self.F_pvalue = 1 - stats.f.cdf(self.F, dfn = self.m, dfd = self.n - self.m)
+        self.F_pvalue = 1 - \
+            stats.f.cdf(self.F, dfn=self.m, dfd=self.n - self.m)
 
     def dot(x, y, W):
         return numpy.matmul(numpy.transpose(x), numpy.matmul(W, y))
@@ -228,19 +286,22 @@ class Regression:
         return Regression.dot(x, x, W)
 
     def estimate_confidence(self, alpha):
-        quantile = stats.t.ppf((1+alpha)/2, df = self.n - self.m)
+        quantile = stats.t.ppf((1+alpha)/2, df=self.n - self.m)
         spreads = quantile * self.estimate_spreads
         return quantile, spreads, numpy.hstack([self.estimate - spreads, self.estimate + spreads])
 
     def error_confidence(self, alpha):
-        quantiles = stats.chi2.ppf([(1+alpha)/2, (1-alpha)/2], df = self.n - self.m)
+        quantiles = stats.chi2.ppf(
+            [(1+alpha)/2, (1-alpha)/2], df=self.n - self.m)
         return quantiles, numpy.sqrt(numpy.array(self.e_Zp_norm**2 / quantiles))
 
     def __str__(self):
         output = "Normal system:\n"
         for row in range(self.m):
-            output += unroll(self.G[row], ' ') + ' = ' + f'{self.s[row,0]:.5f}' + '\n'
-        output += f'{"Estimates":15}' + '(' + unroll(*numpy.transpose(self.estimate), ', ') + ')\n'
+            output += unroll(self.G[row], ' ') + ' = ' + \
+                f'{self.s[row,0]:.5f}' + '\n'
+        output += f'{"Estimates":15}' + \
+            '(' + unroll(*numpy.transpose(self.estimate), ', ') + ')\n'
         output += '***\n'
         output += f'{"e_Z norm:":15}{self.e_Z_norm:.5f}\n'
         output += f'{"e_Zp norm:":15}{self.e_Zp_norm:.5f}\n'
