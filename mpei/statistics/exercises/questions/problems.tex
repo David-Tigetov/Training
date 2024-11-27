@@ -12,6 +12,9 @@
 \newcommand{\probability}[1]{P \left\{ #1 \right\}}
 \newcommand{\modulus}[1]{\left | #1 \right |}
 \newcommand{\fpd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\norm}[1]{\left \| #1 \right \|}
+\newcommand{\pr}[2]{#1_\mathcal{#2}}
+\newcommand{\pro}[2]{#1_{\mathcal{#2}^\perp}}
 
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 
@@ -533,6 +536,74 @@
             полученного критерия.
 \end{enumerate}
 
+\section*{Лабораторная работа 8}
+
+\subsection*{Теория}
+
+Рекомендуемые наборы вопросов:
+\begin{itemize}
+    \item 1(a) и один из 1(b) -- 1(f);
+    \item 2(a) и один из 2(b) -- 2(e).
+\end{itemize}
+
+\begin{enumerate}
+    \item Линейная регрессия.
+        \begin{enumerate}
+            \item Постановка задачи.
+            \item Вывод нормальной системы метода наименьших квадратов.
+            \item Свойства оценки по методу наименьших квадратов с доказательством.
+            \item Операторы проецирования. Средние значения квадратов норм возмущения $\norm{\varepsilon}_W^2$ и проекций
+                $\norm{\pr{\varepsilon}{L}}_W^2$, $\norm{\pro{\varepsilon}{L}}_W^2$.
+            \item Некоррелированность векторов оценки $\widehat{\theta}$ и проекции $\pro{\varepsilon}{L}$, проекций $\pr{\varepsilon}{L}$
+                и $\pro{\varepsilon}{L}$.
+            \item Коэффициенты детерминации $R^2$ и $R_{adj}^2$. Значения $R^2$ при наличии постоянной в базисных функциях.
+        \end{enumerate}
+    \item Нормальная линейная регрессия.
+        \begin{enumerate}
+            \item Постановка задачи.
+            \item Распределения оценки $\widehat{\theta}$ и квадратов норм $\norm{\varepsilon}_W^2$, $\norm{\pr{\varepsilon}{L}}_W^2$,
+               $\norm{\pro{\varepsilon}{L}}_W^2$.
+            \item Доверительный интервал для компонент параметра $\widetilde{\theta}_i$, проверка гипотезы $H_0: \widetilde{\theta}_i = 0$,
+                против $H_1: \widetilde{\theta}_i \neq 0$.
+            \item Доверительная область для $\widetilde{\theta}$, проверка гипотезы $H_0: \widetilde{\theta} = 0$ против
+                $H_1: \widetilde{\theta} \neq 0$.
+            \item Оценка остаточной дисперсии $\sigma^2$, доверительный интервал для $\sigma^2$.
+        \end{enumerate}
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+    \item Получены значения величины $\eta$ при различных значениях $x$:
+    
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        $x$   & -1 & 0.5 & 1 \\
+        \hline
+        $\eta$ & -1 & 5 & 2 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+    Для регрессии вида
+    \begin{gather*}
+        \eta = x \cdot \widetilde{\theta}_1 + \frac{1}{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
+        \varepsilon \sim \mathcal{N} ( 0, K ), \\
+        K = \begin{pmatrix}
+            0.5 & 0   & 0 \\
+            0   & 0.5 & 0 \\
+            0   & 0   & 1
+        \end{pmatrix}
+    \end{gather*}
+    вычислите:
+    \begin{enumerate}
+        \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+        \item ковариационную матрицу оценки $\widehat{\theta}$,
+        \item коэффициенты детерминации $R^2$ и $R_{adj}^2$.
+    \end{enumerate}
+    
+\end{enumerate}
 
 \begin{thebibliography}{2}
       \bibitem{Efimov} Сборник задач по математике, часть 4 // Под редакцией Ефимова А.В. и Поспелова А.С. - М.: Издательство Физико-математической
