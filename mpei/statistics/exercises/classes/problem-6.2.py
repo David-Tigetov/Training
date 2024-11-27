@@ -1,34 +1,26 @@
 import numpy
-from scipy import stats
-from matplotlib import pyplot
 
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/..')
 import dg
 
-actual_power = 3.75
-# аргументы
-x = numpy.linspace(0.1, 1, 99)
-# веса
-W = 1 + 3*numpy.diag(1/(x**2))
-# измерения
-e = numpy.vstack(1.5 + x**actual_power + stats.norm.rvs(size=x.shape[0], loc=0, scale=1) * 1/W.diagonal())
+print('Практическое занятие 6')
+print('Задача 1')
+e = numpy.array([[2.5], [3.2], [3.6]])
+Z = numpy.array([[1, 1], [1, 2], [1, 3]])
+W = numpy.diag([1, 1/4, 1/9])
+regression = dg.Regression(e, Z, W)
+print(regression)
+quantile, spreads, bounds = regression.estimate_confidence(0.95)
+print(f'Quantile: {quantile}')
+print('Spreads:')
+print(spreads)
+print('Bounds:')
+print(bounds)
 
-# базисные функции
-def fill_Z(x, power):
-    return numpy.transpose(numpy.vstack([numpy.ones(x.shape[0]), x**power]))
-
-pyplot.figure()
-pyplot.scatter(x, e)
-
-for power in numpy.linspace(1, 5, 17):
-    # базисные функции
-    Z = fill_Z(x, power)
-    # регрессия
-    regression = dg.Regression(e, Z, W)
-    print(f'{power:10.3f}{regression.e_Zp_norm:10.3f}')
-    prediction = regression.estimate[0] + regression.estimate[1] * x**power
-    pyplot.scatter(x, prediction)
-
-pyplot.show()
+quantiles, bounds = regression.error_confidence(0.9)
+print('Quantiles')
+print(quantiles)
+print('Bounds')
+print(bounds)
