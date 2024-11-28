@@ -243,8 +243,10 @@ class Regression:
         # нормальная система
         self.G = Regression.dot(Z, Z, W)
         self.s = Regression.dot(Z, e, W)
+        # ковариационная матрица оценок
+        self.G_inv = numpy.linalg.inv(self.G)
         # оценка по методу наименьших квадратов
-        self.estimate = numpy.linalg.solve(self.G, self.s)
+        self.estimate = numpy.matmul(self.G_inv, self.s)
         # проекция на линейную оболочку
         self.e_Z = numpy.matmul(Z, self.estimate)
         self.e_Z_norm = math.sqrt(Regression.squared_norm(self.e_Z, W)[0, 0])
@@ -266,8 +268,6 @@ class Regression:
         self.R_adjusted = 1 - (self.n - 1)/(self.n - self.m) * \
             self.e_Zp_norm**2 / self.e_Up_norm**2
 
-        # ковариационная матрица оценок
-        self.G_inv = numpy.linalg.inv(self.G)
         # отступы доверительных интервалов
         self.estimate_spreads = numpy.transpose(numpy.array(
             [[*numpy.sqrt(numpy.diagonal(self.G_inv) * self.e_Zp_norm**2 / (self.n - self.m))]]))
@@ -288,31 +288,43 @@ class Regression:
     def estimate_confidence(self, alpha):
         quantile = stats.t.ppf((1+alpha)/2, df=self.n - self.m)
         spreads = quantile * self.estimate_spreads
-        return quantile, spreads, numpy.hstack([self.estimate - spreads, self.estimate + spreads])
+        print('*** Estimates confidence intervals ***')
+        print(f'{"Confidence:":15}{alpha:.3f}')
+        print(f'{"Quantiles:":15}{-quantile:.3f}, {quantile:.3f}')
+        for row in range(self.estimate.shape[0]):
+            interval = f'Interval {row}:'
+            print(f'{interval:15}({self.estimate[row, 0]:.5f} - {spreads[row, 0]:.5f}, {self.estimate[row, 0]:.5f} + {spreads[row, 0]:.5f}) = ({self.estimate[row, 0] - spreads[row, 0]:.5f}, {self.estimate[row, 0] + spreads[row, 0]:.5f})')
 
     def error_confidence(self, alpha):
         quantiles = stats.chi2.ppf(
-            [(1+alpha)/2, (1-alpha)/2], df=self.n - self.m)
-        return quantiles, numpy.sqrt(numpy.array(self.e_Zp_norm**2 / quantiles))
+            [(1-alpha)/2, (1+alpha)/2], df=self.n - self.m)
+        print('*** Error confidence interval ***')
+        print(f'{"Confidence:":15}{alpha:.3f}')
+        print(f'{"Quantiles:":15}{quantiles[0]:.6f}, {quantiles[1]:.6f}')
+        print(f'{"Interval:":15}({self.e_Zp_norm**2/quantiles[1]:.5f}, {self.e_Zp_norm**2/quantiles[0]:.5f})')
 
     def __str__(self):
-        output = "Normal system:\n"
+        output = "*** Regression ***\n"
+        output += "Normal system:\n"
         for row in range(self.m):
             output += unroll(self.G[row], ' ') + ' = ' + \
                 f'{self.s[row,0]:.5f}' + '\n'
         output += f'{"Estimates":15}' + \
             '(' + unroll(*numpy.transpose(self.estimate), ', ') + ')\n'
+        output += 'Covariance\n'
+        for row in range(self.G_inv.shape[0]):
+            output += unroll(self.G_inv[row], ' ') + '\n'
         output += '***\n'
-        output += f'{"e_Z norm:":15}{self.e_Z_norm:.5f}\n'
-        output += f'{"e_Zp norm:":15}{self.e_Zp_norm:.5f}\n'
+        output += f'{"e_Z:":15}' + '(' + unroll(*numpy.transpose(self.e_Z), ', ') + ')' + f', norm: {self.e_Z_norm:.5f}, squared norm: ({self.e_Z_norm**2:.5f})\n'
+        output += f'{"e_Zp:":15}' + '(' + unroll(*numpy.transpose(self.e_Zp), ', ') + ')' + f', norm: {self.e_Zp_norm:.5f}, squared norm: ({self.e_Zp_norm**2:.5f})\n'
         output += f'{"n - m:":15}{self.n} - {self.m} = {self.n - self.m}\n'
-        output += f'{"Error:":15}{self.error:.5f}\n'
+        output += f'{"Error:":15}{self.error:.5f} (squared {self.error**2:.5f})\n'
         output += '***\n'
         output += f'{"U mean:":15}{self.U_mean:.5f}\n'
-        output += f'{"e_Up norm:":15}{self.e_Up_norm:.5f}\n'
+        output += f'{"e_Up:":15}' + '(' + unroll(*numpy.transpose(self.e_Up), ', ') + ')' + f', norm: {self.e_Up_norm:.5f}, squared norm: ({self.e_Up_norm**2:.5f})\n'
         output += f'{"R:":15}{self.R:.5f}\n'
         output += f'{"R adj.:":15}{self.R_adjusted:.5f}\n'
         output += '***\n'
         output += f'{"F stat.:":15}{self.F:.5f}\n'
-        output += f'{"F p-value.:":15}{self.F_pvalue:.5f}\n'
+        output += f'{"F p-value.:":15}{self.F_pvalue:.5f}'
         return output

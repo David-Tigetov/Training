@@ -8,6 +8,7 @@
 \usepackage{xcolor}
 
 \newcommand{\expectation}[1]{\mathtt{M} \left[ #1 \right]}
+\newcommand{\cexpectation}[2]{\texttt{M} \left[ #1 | #2 \right]}
 \newcommand{\variance}[1]{\mathtt{D} \left[ #1 \right]}
 \newcommand{\probability}[1]{P \left\{ #1 \right\}}
 \newcommand{\modulus}[1]{\left | #1 \right |}
@@ -490,11 +491,63 @@
             где $\sigma_0 = 2$, $\sigma_1 = 1$. Постройте критерий Неймана--Пирсона для вероятности ошибки первого рода $\alpha = 0.01$ и вероятности
             ошибки второго рода $\beta = 0.05$.
 
+            Решение:
+
+            \begin{gather*}
+                  Z
+                  = \frac{\left( \frac{\sigma_1}{2} \right)^{n} e^{-\sigma_1 \sum_{k=1}^n \modulus{\xi_k}}}{\left( \frac{\sigma_0}{2} \right)^n e^{-\sigma_0 \sum_{k=1}^n \modulus{\xi_k}}}
+                  = \left(  \frac{\sigma_1}{\sigma_0} \right)^n e^{(\sigma_0-\sigma_1) \sum_{k=1}^n \modulus{\xi_k}} , \\
+                  %
+                  \ln Z = n \ln \left( \frac{\sigma_1}{\sigma_0} \right) + (\sigma_0 - \sigma_1) \sum_{k=1}^n \modulus{\xi_k} , \\
+                  %
+                  X_0 : \sum_{k=1}^n \modulus{\xi_k} < \frac{h - n \ln \left( \frac{\sigma_1}{\sigma_0} \right)}{\sigma_0 - \sigma_1} = \widetilde{h} , \\
+                  %
+                  \modulus{\xi_k} \sim E(\sigma) :
+                  \expectation{\modulus{\xi_k}} = \frac{1}{\sigma},
+                  \variance{\modulus{\xi_k}} = \frac{1}{\sigma^2} , \\
+                  %
+                  \sum_{k=1}^n \modulus{\xi_k} \sim \mathcal{N} \left( \frac{n}{\sigma}, \frac{n}{\sigma^2} \right) .
+            \end{gather*}
+            Система
+            \begin{gather*}
+                  \left \{
+                  \begin{array}{l}
+                        1 - \Phi \left( \frac{\widetilde{h} - \frac{n}{\sigma_0}}{\sqrt{\frac{n}{\sigma_0^2}}} \right ) = \alpha , \\
+                        \Phi \left( \frac{\widetilde{h} - \frac{n}{\sigma_1}}{\sqrt{\frac{n}{\sigma_1^2}}} \right ) = \beta
+                  \end{array}
+                  \right .
+                  \left \{
+                  \begin{array}{l}
+                        \frac{\sigma_0 \widetilde{h} - n}{\sqrt{n}} = \Phi^{-1} (1 - \alpha) , \\
+                        \frac{\sigma_1 \widetilde{h} - n}{\sqrt{n}} = \Phi^{-1}(\beta)
+                  \end{array}
+                  \right .
+                  \left \{
+                  \begin{array}{l}
+                        \sigma_0 \widetilde{h} = n + \sqrt{n} \Phi^{-1} (1 - \alpha) , \\
+                        \sigma_1 \widetilde{h} = n + \sqrt{n} \Phi^{-1}(\beta)
+                  \end{array}
+                  \right . \\
+                  %
+                  \sigma_1 n + \sigma_1 \sqrt{n} \Phi^{-1} (1 - \alpha) = \sigma_0 n + \sigma_0 \sqrt{n} \Phi^{-1}(\beta) , \\
+                  \sigma_1 \sqrt{n} + \sigma_1 \Phi^{-1} (1 - \alpha) = \sigma_0 \sqrt{n} + \sigma_0 \Phi^{-1}(\beta) , \\
+                  \sqrt{n}
+                  = \frac{\sigma_1 \Phi^{-1} (1 - \alpha) - \sigma_0 \Phi^{-1}(\beta)}{\sigma_0 - \sigma_1}
+                  \approx \frac{1 \cdot 2.326 - 2 \cdot (-1.645)}{2 - 1}
+                  = 5.616, \\
+                  n \approx 31.53 < 32, \\
+                  %
+                  \widetilde{h}
+                  = \frac{\sqrt{n} \left( \Phi^{-1} (1 - \alpha) - \Phi^{-1}(\beta) \right)}{\sigma_0 - \sigma_1}
+                  \approx \frac{5.616 (2.326 - (-1.645))}{2 - 1}
+                  \approx 22.3 .
+            \end{gather*}
+
       \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из геометрического распределения $Geom(p)$ с распределением:
             \begin{gather*}
                   \probability{\xi_i = k} = (1-p)^{k-1} p, \\
                   k = 1, 2, \dots \\
-                  \expectation{\xi_i} = \frac{1}{p} , \variance{\xi_i} = \frac{1-p}{p^2} .
+                  \expectation{\xi_i} = \frac{1}{p} .
             \end{gather*}
             Вероятность $p$ неизвестна. Рассматриваются гипотезы:
             \begin{gather*}
@@ -504,6 +557,40 @@
             где $p_0 = 0.6$ и $p_1 = 0.5$. Постройте последовательный критерий отношения вероятностей для вероятностей ошибок $\alpha = 0.03$
             и $\beta = 0.01$. Определите средние количества наблюдений до остановки критерия.
 
+            Решение:
+
+            Критерий:
+            \begin{gather*}
+                  \frac{\beta}{1 - \alpha} < \frac{(1-p_1)^{\sum_{k=1}^n \xi_k - n} p_1^n}{(1-p_0)^{\sum_{k=1}^n \xi_k - n} p_0^n} < \frac{1 - \beta}{\alpha} , \\
+                  \frac{\beta}{1 - \alpha} < \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)^n \left( \frac{1-p_1}{1-p_0} \right)^{\sum_{k=1}^n \xi_k} < \frac{1 - \beta}{\alpha} , \\
+                  \ln \frac{\beta}{1 - \alpha} < n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right) + \sum_{k=1}^n \xi_k \ln \left( \frac{1-p_1}{1-p_0} \right) < \ln \frac{1 - \beta}{\alpha} , \\
+                  \frac{\ln \frac{\beta}{1 - \alpha} - n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)}{\ln \left( \frac{1-p_1}{1-p_0} \right)} <  \sum_{k=1}^n \xi_k < \frac{\ln \frac{1 - \beta}{\alpha} - n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)}{\ln \left( \frac{1-p_1}{1-p_0} \right)} .
+            \end{gather*}
+
+            Средние количества:
+            \begin{multline*}
+                  \zeta
+                  = \ln \left( \frac{(1-p_1)^{\xi-1} p_1}{(1-p_0)^{\xi-1} p_0} \right)
+                  = \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) + \xi \ln \left( \frac{1-p_1}{1-p_0} \right) \approx \\
+                  %
+                  \approx \ln \left( \frac{0.5}{1-0.5} \frac{1-0.6}{0.6} \right) + \xi \ln \left( \frac{1-0.5}{1-0.6} \right)
+                  = \ln \left( \frac{0.4}{0.6} \right) + \xi \ln \left( \frac{0.5}{0.4} \right)
+                  \approx -0.405 + 0.223 \cdot \xi
+            \end{multline*}
+            \begin{gather*}
+                  \ln \frac{\beta}{1-\alpha} = \ln \frac{0.01}{1-0.03} = -4.575 , \\
+                  \ln \frac{1-\beta}{\alpha} = \ln \frac{1-0.01}{0.03} = 3.497 , \\
+                  %
+                  \cexpectation{\nu}{p_0}
+                  \approx \frac{-4.575 \cdot (1-0.03) + 3.497 \cdot 0.03}{-0.405 + 0.223 \cdot \frac{1}{0.6}}
+                  \approx \frac{-4.33}{-0.0(3)}
+                  \approx 130 , \\
+                  %
+                  \cexpectation{\nu}{p_1}
+                  \approx \frac{-4.575 \cdot 0.01 + 3.497 \cdot (1-0.01)}{-0.405 + 0.223 \cdot \frac{1}{0.5}}
+                  \approx \frac{3.416}{0.041}
+                  \approx 83.3 .
+            \end{gather*}
 
       \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ бинарных величин с распределением:
             \begin{gather*}
@@ -517,6 +604,39 @@
             \end{gather*}
             где $p_0 = 0.5$ и $p_1 = 0.3$. Постройте последовательный критерий отношения вероятностей с вероятностями ошибок $\alpha = 0.02$ и
             $\beta = 0.05$. Определите средние количества наблюдений до остановки критерия.
+
+            Решение:
+
+            \begin{gather*}
+                  \frac{\beta}{1-\alpha} < \frac{p_1^{\sum_{k=1}^n \xi_k}(1-p_1)^{n - \sum_{k=1}^n \xi_k}}{p_0^{\sum_{k=1}^n \xi_k}(1-p_0)^{n - \sum_{k=1}^n \xi_k}} < \frac{1-\beta}{\alpha} , \\
+                  \frac{\beta}{1-\alpha} < \left( \frac{1-p_1}{1-p_0} \right)^n \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)^{\sum_{k=1}^n \xi_k} < \frac{1-\beta}{\alpha} , \\
+                  \ln \frac{\beta}{1-\alpha} < n \ln \left( \frac{1-p_1}{1-p_0} \right) + \sum_{k=1}^n \xi_k \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) < \frac{1-\beta}{\alpha} , \\
+                  \frac{\ln \frac{\beta}{1-\alpha} - n \ln \left( \frac{1-p_1}{1-p_0} \right)}{\ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)} >  \sum_{k=1}^n \xi_k > \frac{\frac{1-\beta}{\alpha} - n \ln \left( \frac{1-p_1}{1-p_0} \right)}{\ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)} .
+            \end{gather*}
+
+            \begin{multline*}
+                  \zeta
+                  = \ln \left( \frac{p_1^\xi (1-p_1)^{1-\xi}}{p_0^\xi (1-p_0)^{1-\xi}} \right)
+                  = \ln \left( \frac{1-p_1}{1-p_0} \right) + \xi \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) = \\
+                  %
+                  = \ln \frac{0.7}{0.5} + \xi \ln \frac{0.3}{0.7}
+                  \approx 0.336 - 0.847 \xi
+            \end{multline*}
+
+            \begin{gather*}
+                  \ln \frac{\beta}{1-\alpha} = \ln \frac{0.05}{0.98} \approx -2.98 , \\
+                  \ln \frac{1-\beta}{\alpha} = \ln \frac{0.95}{0.02} \approx 3.86 , \\
+                  %
+                  \cexpectation{\nu}{p_0}
+                  \approx \frac{-2.98 \cdot (1-0.02) + 3.86 \cdot 0.02}{0.336 - 0.847 \cdot 0.5}
+                  \approx \frac{-2.843}{-0.0875}
+                  \approx 32.49 , \\
+                  %
+                  \cexpectation{\nu}{p_1}
+                  \approx \frac{-2.98 \cdot 0.05 + 3.86 \cdot (1-0.05)}{0.336 - 0.847 \cdot 0.3}
+                  \approx \frac{3.518}{0.0819}
+                  \approx 42.955 .
+            \end{gather*}
 
       \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из распределения с плотностью вероятности $p_\xi(x | \sigma)$:
             \[
@@ -542,67 +662,294 @@
 
 Рекомендуемые наборы вопросов:
 \begin{itemize}
-    \item 1(a) и один из 1(b) -- 1(f);
-    \item 2(a) и один из 2(b) -- 2(e).
+      \item 1(a) и один из 1(b) -- 1(f);
+      \item 2(a) и один из 2(b) -- 2(e).
 \end{itemize}
 
 \begin{enumerate}
-    \item Линейная регрессия.
-        \begin{enumerate}
-            \item Постановка задачи.
-            \item Вывод нормальной системы метода наименьших квадратов.
-            \item Свойства оценки по методу наименьших квадратов с доказательством.
-            \item Операторы проецирования. Средние значения квадратов норм возмущения $\norm{\varepsilon}_W^2$ и проекций
-                $\norm{\pr{\varepsilon}{L}}_W^2$, $\norm{\pro{\varepsilon}{L}}_W^2$.
-            \item Некоррелированность векторов оценки $\widehat{\theta}$ и проекции $\pro{\varepsilon}{L}$, проекций $\pr{\varepsilon}{L}$
-                и $\pro{\varepsilon}{L}$.
-            \item Коэффициенты детерминации $R^2$ и $R_{adj}^2$. Значения $R^2$ при наличии постоянной в базисных функциях.
-        \end{enumerate}
-    \item Нормальная линейная регрессия.
-        \begin{enumerate}
-            \item Постановка задачи.
-            \item Распределения оценки $\widehat{\theta}$ и квадратов норм $\norm{\varepsilon}_W^2$, $\norm{\pr{\varepsilon}{L}}_W^2$,
-               $\norm{\pro{\varepsilon}{L}}_W^2$.
-            \item Доверительный интервал для компонент параметра $\widetilde{\theta}_i$, проверка гипотезы $H_0: \widetilde{\theta}_i = 0$,
-                против $H_1: \widetilde{\theta}_i \neq 0$.
-            \item Доверительная область для $\widetilde{\theta}$, проверка гипотезы $H_0: \widetilde{\theta} = 0$ против
-                $H_1: \widetilde{\theta} \neq 0$.
-            \item Оценка остаточной дисперсии $\sigma^2$, доверительный интервал для $\sigma^2$.
-        \end{enumerate}
+      \item Линейная регрессия.
+            \begin{enumerate}
+                  \item Постановка задачи.
+                  \item Вывод нормальной системы метода наименьших квадратов.
+                  \item Свойства оценки по методу наименьших квадратов с доказательством.
+                  \item Операторы проецирования. Средние значения квадратов норм возмущения $\norm{\varepsilon}_W^2$ и проекций
+                        $\norm{\pr{\varepsilon}{L}}_W^2$, $\norm{\pro{\varepsilon}{L}}_W^2$.
+                  \item Некоррелированность векторов оценки $\widehat{\theta}$ и проекции $\pro{\varepsilon}{L}$, проекций $\pr{\varepsilon}{L}$
+                        и $\pro{\varepsilon}{L}$.
+                  \item Коэффициенты детерминации $R^2$ и $R_{adj}^2$. Значения $R^2$ при наличии постоянной в базисных функциях.
+            \end{enumerate}
+      \item Нормальная линейная регрессия.
+            \begin{enumerate}
+                  \item Постановка задачи.
+                  \item Распределения оценки $\widehat{\theta}$ и квадратов норм $\norm{\varepsilon}_W^2$, $\norm{\pr{\varepsilon}{L}}_W^2$,
+                        $\norm{\pro{\varepsilon}{L}}_W^2$.
+                  \item Доверительный интервал для компонент параметра $\widetilde{\theta}_i$, проверка гипотезы $H_0: \widetilde{\theta}_i = 0$,
+                        против $H_1: \widetilde{\theta}_i \neq 0$.
+                  \item Доверительная область для $\widetilde{\theta}$, проверка гипотезы $H_0: \widetilde{\theta} = 0$ против
+                        $H_1: \widetilde{\theta} \neq 0$.
+                  \item Оценка остаточной дисперсии $\sigma^2$, доверительный интервал для $\sigma^2$.
+            \end{enumerate}
 \end{enumerate}
 
 \subsection*{Практика}
 
 \begin{enumerate}
-    \item Получены значения величины $\eta$ при различных значениях $x$:
-    
-    \begin{center}
-        \begin{tabular}{|c|c|c|c|}
-        \hline
-        $x$   & -1 & 0.5 & 1 \\
-        \hline
-        $\eta$ & -1 & 5 & 2 \\
-        \hline
-        \end{tabular}
-    \end{center}
+      \item Получены значения величины $\eta$ при различных значениях $x$:
 
-    Для регрессии вида
-    \begin{gather*}
-        \eta = x \cdot \widetilde{\theta}_1 + \frac{1}{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
-        \varepsilon \sim \mathcal{N} ( 0, K ), \\
-        K = \begin{pmatrix}
-            0.5 & 0   & 0 \\
-            0   & 0.5 & 0 \\
-            0   & 0   & 1
-        \end{pmatrix}
-    \end{gather*}
-    вычислите:
-    \begin{enumerate}
-        \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
-        \item ковариационную матрицу оценки $\widehat{\theta}$,
-        \item коэффициенты детерминации $R^2$ и $R_{adj}^2$.
-    \end{enumerate}
-    
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & -1 & 0.5 & 1 \\
+                        \hline
+                        $\eta$ & -1 & 5   & 2 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + \frac{1}{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        2 & 0 & 0 \\
+                        0 & 2 & 0 \\
+                        0 & 0 & 1
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item коэффициенты детерминации $R^2$ и $R_{adj}^2$.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    1.625 & 2   \\
+                                    2     & 3.5
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    -1.(1) \\
+                                    2.(7)
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    3.75 \\
+                                    7.5
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    2.07407  & -1.18519 \\
+                                    -1.18519 & 0.96296  \\
+                              \end{pmatrix}
+                        $
+
+                  \item
+                        \begin{gather*}
+                              \pr{\eta}{L} =
+                              \begin{pmatrix}
+                                    -1.(6) \\
+                                    5      \\
+                                    1.(6)
+                              \end{pmatrix},
+                              \norm{\pr{\eta}{L}}_W = \frac{16.(6)}{\sigma} ,
+                              \norm{\pr{\eta}{L}}_W^2 = \frac{4.08}{\sigma^2} , \\
+                              %
+                              \pro{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.(6) \\
+                                    0     \\
+                                    0.(3)
+                              \end{pmatrix} ,
+                              \norm{\pro{\eta}{L}}_W = \frac{0.(3)}{\sigma} ,
+                              \norm{\pro{\eta}{L}}_W^2 = \frac{0.57}{\sigma^2} , \\
+                              %
+                              \widehat{c} = 2,
+                              U \widehat{c} =
+                              \begin{pmatrix}
+                                    -3 \\
+                                    3  \\
+                                    0
+                              \end{pmatrix},
+                              \norm{U \widehat{c}}_W = \frac{3}{\sigma},
+                              \norm{U \widehat{c}}_W^2 = \frac{9}{\sigma^2}, \\
+                              %
+                              R^2 = 0.96296, R_{adj}^2 = 0.92593 .
+                        \end{gather*}
+            \end{enumerate}
+
+      \item Получены значения величины $\eta$ при различных значениях $x$:
+
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & -1 & 1   & 2 \\
+                        \hline
+                        $\eta$ & 2  & 0.5 & 2 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + x^2 \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        1 & 0   & 0 \\
+                        0 & 0.5 & 0 \\
+                        0 & 0   & 1
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item доверительные интервалы для $\widetilde{\theta}_1$ и $\widetilde{\theta}_2$ с уровнем доверия $P_g = 0.95$
+                  \item проверьте гипотезы $\widetilde{\theta}_1 = 0$ или $\widetilde{\theta}_2 = 0$ при уровне значимости $\alpha = 0.2$.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    7 & 9  \\
+                                    9 & 19
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    -0.80769 \\
+                                    0.96154
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    3 \\
+                                    11
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    0.36538  & -0.17308 \\
+                                    -0.17308 & 0.13462  \\
+                              \end{pmatrix}
+                        $
+
+                  \item Доверительные интервалы:
+                        \begin{gather*}
+                              T^{-1}(P_g) = 12.706 , \\
+                              \widetilde{\theta_1} \in (-0.80769 - 4.51883, -0.80769 + 4.51883) = (-5.32652, 3.71113) , \\
+                              \widetilde{\theta_2} \in (0.96154 - 2.74282, 0.96154 + 2.74282) = (-1.78128, 3.70436) , \\
+                        \end{gather*}
+
+                  \item Проверка гипотез --- интервалы с уровнем доверия $1 - 0.2 = 0.8$.
+                        \begin{gather*}
+                              T^{-1}(P_g) = 31.821 , \\
+                              \widetilde{\theta_1} \in (-0.80769 - 1.09455, -0.80769 + 1.09455) = (-1.90224, 0.28685) , \\
+                              \widetilde{\theta_2} \in (0.96154 - 0.66436, 0.96154 + 0.66436) = (0.29717, 1.62590) ,
+                        \end{gather*}
+                        $\widetilde{\theta}_1 = 0$ принимается, $\widetilde{\theta}_2 = 0$ отклоняется.
+            \end{enumerate}
+
+      \item Получены значения величины $\eta$ при различных значениях $x$:
+
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & 1 & 4 & 9  \\
+                        \hline
+                        $\eta$ & 2 & 6 & 16 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + \sqrt{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        2 & 0 & 0  \\
+                        0 & 2 & 0  \\
+                        0 & 0 & 10
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item проверьте гипотезу $(\widetilde{\theta}_1, \widetilde{\theta}_2) = (0, 0)$ при уровне значимости $\alpha = 0.05$,
+                  \item оцените $\sigma^2$,
+                  \item постройте доверительный интервал для $\sigma^2$ с уровнем доверия 0.8.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    16.6 & 7.2 \\
+                                    7.2  & 3.4
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    2.19565 \\
+                                    -1.32609
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    29.9 \\
+                                    11.3
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    0.73913  & -1.56522 \\
+                                    -1.56522 & 3.60870
+                              \end{pmatrix}
+                        $
+
+                  \item
+                        \begin{gather*}
+                              \pr{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.86957 \\
+                                    6.13043 \\
+                                    15.78261
+                              \end{pmatrix},
+                              \norm{\pr{\eta}{L}}_W = \frac{6.63915}{\sigma} ,
+                              \norm{\pr{\eta}{L}}_W^2 = \frac{44.07826}{\sigma^2} , \\
+                              %
+                              \pro{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.13043  \\
+                                    -0.13043 \\
+                                    0.21739
+                              \end{pmatrix} ,
+                              \norm{\pro{\eta}{L}}_W = \frac{0.14744}{\sigma} ,
+                              \norm{\pro{\eta}{L}}_W^2 = \frac{0.02174}{\sigma^2} , \\
+                              %
+                              F = 1013.8, \alpha^* = 0.02220,
+                        \end{gather*}
+                        гипотеза принимается.
+                  \item $\widehat{\sigma}^2 = 0.02174$
+                  \item $\left( \frac{0.02174}{2.705543}, \frac{0.02174}{0.015791} \right) = \left( 0.00804, 1.37670 \right)$
+            \end{enumerate}
 \end{enumerate}
 
 \begin{thebibliography}{2}
