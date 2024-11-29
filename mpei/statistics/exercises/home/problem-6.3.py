@@ -3,6 +3,9 @@ from scipy import stats
 from matplotlib import pyplot
 from functools import reduce
 
+print(stats.norm.ppf(0.975))
+exit()
+
 # аргумент
 x = numpy.linspace(0, 10, 41)
 # точные значения

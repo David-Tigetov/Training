@@ -952,6 +952,181 @@
             \end{enumerate}
 \end{enumerate}
 
+\section*{Лабораторная работа 9}
+
+\subsection*{Теория}
+
+Рекомендуется давать два вопроса:
+\begin{itemize}
+      \item вопрос 1,
+      \item один из вопросов 2--4, тот который не совпадает с вопросом задачи.
+\end{itemize}
+
+Вопросы:
+\begin{enumerate}
+      \item Общий принцип методов статистических испытаний.
+      \item Метод статистических испытаний для вычисления значений функций распределений.
+      \item Метод статистических испытаний для вычисления математического ожидания функции случайных величин.
+      \item Метод статистических испытаний для вычисления определённых интегралов.
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item Случайная величина $\eta = \sin \xi \cdot \cos \varphi$, где величина $\xi \sim \mathcal{N} (2, 4)$ и
+            величина $\varphi \sim \mathcal{N} (5, 1)$. Постройте метод статистических испытаний для оценки значения функции распределения
+            $F_\eta(y)$ величины $\eta$ в заданной точке $y_0$ с отклонением менее $\delta = 10^{-4}$ с вероятностью более $P_\delta = 0.95$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $\xi \sim \mathcal{N} \left( 2, 4 \right)$, $(\varphi_1, \dots, \varphi_n)$ --- выборка из $\mathcal{N} (2, 5)$,
+            оценка:
+            \begin{gather*}
+                  \eta_k = \sin \xi_k \cos \varphi_k , \\
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < y_0 \\
+                        0, \eta_k \ge y_0
+                  \end{array}
+                  \right . , \\
+                  F_\eta(y_0) \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+            Требуемый объём выборок:
+            \begin{gather*}
+                  n \ge \widehat{n}_\delta
+                  = \left( K^{-1} ( P_\delta ) \right)^2 \frac{1}{\delta^2}
+                  \approx 1.3581^2 \frac{1}{10^{-8}}
+                  \approx 1,84443561 \cdot 10^8
+                  = 184 443 561 .
+            \end{gather*}
+
+      \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{\sqrt{e}}^{e^2} \ln x^2 dx
+            \]
+            с точностью менее $\delta = 0.001$ с вероятностью $P_\delta = 0.95$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [\sqrt{e}, e^2]: 1 \le \ln x^2 \le 4 , \\
+                  %
+                  J
+                  = (4 - 1) (e^2 - \sqrt{e}) \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - \sqrt{e}}{4 - 1} dx + \sqrt{e} (4 - 1).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - \sqrt{e}}{4 - 1} dx
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборок:
+            \begin{multline*}
+                  n
+                  \ge \overline{n}_\delta
+                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{\left( e^2 - \sqrt{e} \right) (4 - 1)} \right)}
+                  = \left( \Phi^{-1} ( 0.975 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-6}}{\left( e^2 - \sqrt{e} \right) 3} \right)} \approx \\
+                  \approx 1.96^2 \frac{0.25}{\left( \frac{10^{-6}}{5.74 \cdot 3} \right)}
+                  \approx 3.8416 \cdot 4.305 \cdot 10^6
+                  \approx 16.538088 \cdot 10^6
+                  = 16 538 088 .
+            \end{multline*}
+
+      \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{-1}^{1} \cos \arctg x dx
+            \]
+            с точностью менее $\delta = 0.01$ с вероятностью $P_\delta = 0.99$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [-1, 1]: \frac{1}{\sqrt{2}} \le \cos \arctg x \le 1 , \\
+                  %
+                  J
+                  = \left( 1 - \frac{1}{\sqrt{2}} \right) (1 - (-1)) \int \limits_{0}^{1} \frac{\cos \arctg (-1 + 2 x) - \frac{1}{\sqrt{2}}}{1 - \frac{1}{\sqrt{2}}} dx + \frac{1}{\sqrt{2}} \cdot (1 - (-1)).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\cos \arctg (-1 + 2 x) - \frac{1}{\sqrt{2}}}{1 - \frac{1}{\sqrt{2}}} dx
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборок:
+            \begin{multline*}
+                  n
+                  \ge \overline{n}_\delta
+                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{\left( 1 - \frac{1}{\sqrt{2}} \right) (1-(-1))} \right)}
+                  = \left( \Phi^{-1} ( 0.995 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{0.0001}{\left( 1 - \frac{1}{\sqrt{2}} \right) 2} \right)} \approx \\
+                  \approx 2.5759^2 \frac{0.25}{\left( \frac{0.0001}{0.2929 \cdot 2} \right)}
+                  \approx 6.6352 \cdot 0.14645 \cdot 10^4
+                  \approx 0.9718 \cdot 10^4
+                  = 9 718 .
+            \end{multline*}
+
+      \item Случайная величина $\eta = e^{\sin \xi}$, где величина $\xi \sim E(1)$. Постройте метод статистических испытаний для оценки
+            $\expectation{\eta}$ с отклонением менее $\delta = 10^{-3}$ с вероятностью более $P_\delta = 0.9$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $E(1)$, оценка:
+            \begin{gather*}
+                  \eta_k = e^{\sin \xi_k} , \\
+                  \expectation{\eta} \approx \frac{1}{n} \sum_{k=1}^n \eta_k .
+            \end{gather*}
+            Требуемый объём выборок:
+            \[
+                  n
+                  \ge \overline{n}_\delta
+                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\delta^2} ,
+            \]
+            где
+            \begin{gather*}
+                  \frac{1}{e} \le e^{\sin \xi_k} \le e, \\
+                  %
+                  \variance{\eta_k}
+                  \le \left( \frac{e - \frac{1}{e}}{2} \right)^2
+                  \approx \left( \frac{2.71828 - \frac{1}{2.71828}}{2} \right)^2
+                  \approx \left( \frac{2.3504}{2} \right)^2
+                  \approx 1.175^2
+                  \approx 1.3811
+                  = \overline{D} ,
+            \end{gather*}
+            тогда
+            \[
+                  \overline{n}
+                  = \left( \Phi^{-1} \left( 0.95 \right) \right)^2 \frac{1.3811}{10^{-6}}
+                  \approx 1.6449^2 \cdot 1.3811 \cdot 10^6
+                  \approx 3.736837 \cdot 10^6
+                  = 3 736 837 .
+            \]
+
+\end{enumerate}
+
 \begin{thebibliography}{2}
       \bibitem{Efimov} Сборник задач по математике, часть 4 // Под редакцией Ефимова А.В. и Поспелова А.С. - М.: Издательство Физико-математической
       литературы, 2003. - 432 с.
