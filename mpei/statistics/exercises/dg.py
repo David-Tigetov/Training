@@ -272,7 +272,10 @@ class Regression:
         self.estimate_spreads = numpy.transpose(numpy.array(
             [[*numpy.sqrt(numpy.diagonal(self.G_inv) * self.e_Zp_norm**2 / (self.n - self.m))]]))
 
-        # статистика критерия об отсутствии зависимости
+        # статистики критериев о равенстве нулю компонент параметра по отдельности
+        self.T = self.estimate.reshape(1,self.estimate.shape[0])/(numpy.sqrt(numpy.diagonal(self.G_inv) * self.e_Zp_norm**2 / (self.n - self.m)))
+
+        # статистика критерия о равенству нулю компонент параметра одновременно
         self.F = (self.n - self.m)/self.m * \
             self.e_Z_norm**2 / self.e_Zp_norm**2
         # наименьший уровень значимости принятия гипотезы об отсутствии зависимости
@@ -325,6 +328,7 @@ class Regression:
         output += f'{"R:":15}{self.R:.5f}\n'
         output += f'{"R adj.:":15}{self.R_adjusted:.5f}\n'
         output += '***\n'
+        output += f'{"T stats.:":15}' + '(' + unroll(*self.T, ', ') + ')\n'
         output += f'{"F stat.:":15}{self.F:.5f}\n'
         output += f'{"F p-value.:":15}{self.F_pvalue:.5f}'
         return output
