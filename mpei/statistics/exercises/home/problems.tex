@@ -16,6 +16,7 @@
 \newcommand{\norm}[1]{\left \| #1 \right \|}
 \newcommand{\pr}[2]{#1_\mathcal{#2}}
 \newcommand{\pro}[2]{#1_{\mathcal{#2}^\perp}}
+\newcommand{\element}[1]{\left \{ #1 \right \}}
 
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 
@@ -726,13 +727,22 @@ $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из нормально�
               \end{gather*}
 
         \item
+              Содержится ли $t_k$ в $\Gamma_\alpha$:
+              \begin{gather*}
+                  t_k = \frac{\widehat{\theta}_k}{\sqrt{\element{G^{-1}}_{kk} \frac{\norm{\pro{\eta}{L}}_W^2}{n-m}}} , \\
+                  t_1 = 1.11040, t_2 = -0.18159, t_3 = 0.84353 , \\
+                  \Gamma_\alpha = (-\infty, -1.895) \cup (1.895, \infty) .
+              \end{gather*}
+              Все гипотезы о равенстве нулю принимаются.
+
+              Содержится ли ноль в интервале:
               \begin{gather*}
                   T^{-1}(0.05) = -1.895, \\
-                  \widetilde{\theta}_1 \in (0.65848 - 1.12351, 0.65848 + 1.12351) = (-0.46503, 1.78199) , \\
-                  \widetilde{\theta}_2 \in (-0.06106 - 0.63704, -0.06106 + 0.63704) = (-0.69810, 0.57598) , \\
-                  \widetilde{\theta}_3 \in (0.02902 - 0.06518, 0.02902 + 0.06518) = (-0.03616, 0.09421) .
+                  (0.65848 - 1.12351, 0.65848 + 1.12351) = (-0.46503, 1.78199) , \\
+                  (-0.06106 - 0.63704, -0.06106 + 0.63704) = (-0.69810, 0.57598) , \\
+                  (0.02902 - 0.06518, 0.02902 + 0.06518) = (-0.03616, 0.09421) .
               \end{gather*}
-              Все гипотезы принимаются.
+              Все гипотезы о равенстве нулю принимаются.
 
         \item $F = 8.74238, \alpha^* = 0.00913$.
 
@@ -870,43 +880,63 @@ $\delta = 10^{-3}$ с вероятностью более $P_\delta = 0.98$.
     \[
         x \in [-2, 1]: 1 \le e^{\modulus{\cos x}} \le e .
     \]
-\begin{multline*}
-    J
-    = (e-1) \int \limits_{-2}^{1} \frac{e^{\modulus{\cos x}} - 1}{e-1} dx + 1 \cdot (1 - (-2))
-    = (e-1) \int \limits_{0}^{1} \frac{e^{\modulus{\cos (-2 + 3 y)}} - 1}{e-1} 3 dy + 3 = \\
-    %
-    = 3 (e-1) \widetilde{J} + 3 ,
-\end{multline*}
-где
-\[
-    \widetilde{J}
-    = \int \limits_{0}^{1} \frac{e^{\modulus{\cos (-2 + 3 y)}} - 1}{e-1} dy
-    = \int \limits_{0}^{1} \widetilde{f}(y) dy .
-\]
-$(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
-\begin{gather*}
-    \varepsilon_k = \left \{
+    \begin{multline*}
+        J
+        = (e-1) \int \limits_{-2}^{1} \frac{e^{\modulus{\cos x}} - 1}{e-1} dx + 1 \cdot (1 - (-2))
+        = (e-1) \int \limits_{0}^{1} \frac{e^{\modulus{\cos (-2 + 3 y)}} - 1}{e-1} 3 dy + 3 = \\
+        %
+        = 3 (e-1) \widetilde{J} + 3 ,
+    \end{multline*}
+    где
+    \[
+        \widetilde{J}
+        = \int \limits_{0}^{1} \frac{e^{\modulus{\cos (-2 + 3 y)}} - 1}{e-1} dy
+        = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+    \]
+    $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+    \begin{gather*}
+        \varepsilon_k = \left \{
         \begin{array}{ll}
             1, \eta_k < \widetilde{f}(\xi_k) \\
             0, \eta_k \ge \widetilde{f}(\xi_k)
         \end{array}
         \right . , \\
-    %
-    \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
-\end{gather*}
+        %
+        \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+    \end{gather*}
 
-Требуемый объём выборок:
-\begin{multline*}
-    n
-    \ge \overline{n}_\delta
-    = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{(e-1)(1-(-2))} \right)}
-    = \left( \Phi^{-1} ( 0.99 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{0.0025}{(e-1) 3} \right)} \approx \\
-    \approx 2.3263^2 \frac{1}{\left( \frac{0.0001}{1.7182 \cdot 3} \right)}
-    \approx 27.8950 \cdot 10^4
-    = 278 950 .
-\end{multline*}
-
+    Требуемый объём выборок:
+    \begin{multline*}
+        n
+        \ge \overline{n}_\delta
+        = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{(e-1)(1-(-2))} \right)}
+        = \left( \Phi^{-1} ( 0.99 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{0.0025}{(e-1) 3} \right)} \approx \\
+        \approx 2.3263^2 \frac{1}{\left( \frac{0.01}{1.7182 \cdot 3} \right)}
+        \approx 27.9 \cdot 10^2
+        = 2 900 .
+    \end{multline*}
 \fi
+
+\section*{Домашнее задание 8}
+
+\subsection*{Задача 1}
+
+Случайные величины $\xi_1, \dots, \xi_n$ независимы в совокупности. Для указанных распределений величин:
+\begin{enumerate}
+    \item $\xi_i \sim \mathcal{N}(m, \sigma^2)$, где $m$ --- параметр, $\sigma$ --- известное значение,
+    \item $\xi_i \sim \mathcal{N}(m, \sigma^2)$, где $m$ --- известное значение, $\sigma$ --- параметр,
+    \item $\xi_i \sim E(\theta)$, где $\theta$ --- параметр,
+    \item $\xi_i \sim Po(\lambda)$, где $\lambda$ --- параметр,
+    \item $\xi_i \sim Bi(n_i, p)$, где $n_i$ --- известные (различные) числа, $p$ --- параметр,
+\end{enumerate}
+необходимо:
+\begin{enumerate}
+    \item найти достаточные статистики,
+    \item найти $R$--эффективные оценки, вычислить их смещения и дисперсии,
+    \item вычислить информацию Фишера,
+    \item вычислить нижнюю границу дисперсии Крамера--Рао,
+    \item сравнить дисперсии найденных $R$-эффективных оценок и нижних границ Крамера--Рао.
+\end{enumerate}
 
 \begin{thebibliography}{1}
     \bibitem{Efimov} Сборник задач по математике, часть 4 // Под редакцией Ефимова А.В. и Поспелова А.С. - М.: Издательство Физико-математической
