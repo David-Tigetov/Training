@@ -52,10 +52,10 @@ $\eta$ нужно оценить константой $\widehat{c}$ оптима
 
 Заметим, что равенству для оптимальной постоянной $\widehat{c}$ можно придать вид:
 \begin{gather*}
-    \widehat c = \expectation{\eta}, \\ 
+    \widehat c = \expectation{\eta}, \\
     \mu(\Omega) \cdot \widehat c = \int \limits_\Omega \eta(\omega) d \mu(\omega) ,
 \end{gather*}
-то есть $\widehat{c}$ сохраняет среднее значение $\eta(\omega)$ на $\Omega$. 
+то есть $\widehat{c}$ сохраняет среднее значение $\eta(\omega)$ на $\Omega$.
 
 Пусть теперь события $A_1$, $A_2$, $A_3$ образуют разбиение множества $\Omega$ и пусть известно, что произошло событие $A_k$.
 Задача прежняя --- нужно найти оптимальную оценку $\eta$ постоянной $\widehat{c}_k$. Оптимальная постоянная $\widehat{c}_k$
@@ -227,19 +227,19 @@ $A_k$ с помощью операций объединения и дополн�
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
         \hline
-        $\omega$                                & 000                         & 001                         & 010                         & 011     & 100     & 101     & 110     & 111     \\
+        $\omega$                    & 000                                                                                                                           & 001                                                                                                  & 010                                                                                                   & 011       & 100       & 101       & 110         & 111         \\
         \hline
-        $\eta(\omega)$                          & 1                           & 2                           & 3                           & 4       & 5       & 6       & 7       & 8       \\
+        $\eta(\omega)$              & 1                                                                                                                             & 2                                                                                                    & 3                                                                                                     & 4         & 5         & 6         & 7           & 8           \\
         \hline
-        $\mu(\omega)$                           & $0.216$                     & $0.144$                     & $0.144$                     & $0.096$ & $0.144$ & $0.096$ & $0.096$ & $0.064$ \\
+        $\mu(\omega)$               & $0.216$                                                                                                                       & $0.144$                                                                                              & $0.144$                                                                                               & $0.096$   & $0.144$   & $0.096$   & $0.096$     & $0.064$     \\
         \hline
-        $\widehat{\eta}(\omega)$                & \multicolumn{3}{|c|}{1.86}  & \multicolumn{3}{|c|}{5}     & \multicolumn{2}{|c|}{7.4}                                                     \\
+        $\widehat{\eta}(\omega)$    & \multicolumn{3}{|c|}{1.86}                                                                                                    & \multicolumn{3}{|c|}{5}                                                                              & \multicolumn{2}{|c|}{7.4}                                                                                                                                             \\
         \hline
-        $(\eta - \widehat{\eta})^2$             & $(1-1.86)^2$                    & $(2-1.86)^2$                    & $(3-1.86)^2$                    & $(4-5)^2$     & $(5-5)^2$     & $(6-5)^2$     & $(7-7.4)^2$   & $(8-7.4)^2$     \\
+        $(\eta - \widehat{\eta})^2$ & $(1-1.86)^2$                                                                                                                  & $(2-1.86)^2$                                                                                         & $(3-1.86)^2$                                                                                          & $(4-5)^2$ & $(5-5)^2$ & $(6-5)^2$ & $(7-7.4)^2$ & $(8-7.4)^2$ \\
         \hline
-        $\mu(A_k)$                              & \multicolumn{3}{|c|}{0.504} & \multicolumn{3}{|c|}{0.336} & \multicolumn{2}{|c|}{0.160}                                                   \\
+        $\mu(A_k)$                  & \multicolumn{3}{|c|}{0.504}                                                                                                   & \multicolumn{3}{|c|}{0.336}                                                                          & \multicolumn{2}{|c|}{0.160}                                                                                                                                           \\
         \hline
-        $\widehat{d}(\omega)$                   & \multicolumn{3}{|c|}{$\frac{0.86^2 \cdot 0.216 + 0.14^2 \cdot 0.144 + 1.14^2 \cdot 0.144}{0.504} \approx \frac{0.35}{0.504}$}  & \multicolumn{3}{|c|}{$\frac{(-1)^2 \cdot 0.096 + 1^2 \cdot 0.096}{0.336} \approx \frac{0.2}{0.336}$}     & \multicolumn{2}{|c|}{$\frac{0.4^2 \cdot 0.096 + 0.6^2 \cdot 0.064}{0.16} \approx \frac{0.04}{0.016}$}                                                     \\
+        $\widehat{d}(\omega)$       & \multicolumn{3}{|c|}{$\frac{0.86^2 \cdot 0.216 + 0.14^2 \cdot 0.144 + 1.14^2 \cdot 0.144}{0.504} \approx \frac{0.35}{0.504}$} & \multicolumn{3}{|c|}{$\frac{(-1)^2 \cdot 0.096 + 1^2 \cdot 0.096}{0.336} \approx \frac{0.2}{0.336}$} & \multicolumn{2}{|c|}{$\frac{0.4^2 \cdot 0.096 + 0.6^2 \cdot 0.064}{0.16} \approx \frac{0.04}{0.016}$}                                                                 \\
         \hline
     \end{tabular}
 \end{center}
@@ -822,7 +822,124 @@ $A_k$ с помощью операций объединения и дополн�
               \approx 0.02 ,
           \]
           где $F(x)$ --- функция распределения для распределения Фишера $F(m,n-m)$.
-
 \end{enumerate}
+
+\section*{Методы статистических испытаний}
+
+\subsection*{Задача 1}
+
+Случайные величины $\xi \sim \mathcal{R}[-1, 2]$ и $\varphi \sim E(3)$ являются независимыми, случайная величина $\eta = \xi \sin \varepsilon$.
+Оцените $\expectation{e^\eta}$ с отклонением менее $\delta = 0.01$ и вероятностью более $P_\delta = 0.98$.
+
+Решение:
+
+Необходимо сформировать выборку, состоящую из пар $(\xi_i, \varphi_i)$, где величины $\xi_i \sim \mathcal{R}[-1, 2]$,
+$\varphi_i \sim E(3)$ и являются независимыми, вычислить величины $\eta_i = \xi_i \sin \varphi_i$, затем $\varepsilon_i = e^{\eta_i}$ и оценку:
+\[
+    \expectation{e^\eta} \approx \frac{1}{n} \sum_{i=1}^n \varepsilon_i.
+\]
+
+Требуемое количество величин с помощью центральной предельной теоремы:
+\[
+    n
+    \ge \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\delta^2},
+\]
+где
+\[
+    \forall i: \variance{\varepsilon_i} \le \overline{D} .
+\]
+
+Величина $\overline{D}$ ограничивает дисперсию величин $\varepsilon_i$:
+\begin{gather*}
+    -1 \le \xi_i \le 2, -1 \le \sin \varepsilon_i \le 1, \\
+    -2 \le \xi_i \sin \varepsilon_i \le 2, \\
+    -2 \le \eta_i \le 2, \\
+    e^{-2} \le e^{\eta_i} \le e^2, \\
+    e^{-2} \le \varepsilon_i \le e^2, \\
+    \variance{\varepsilon_i} \le \left( \frac{e^2 - e^{-2}}{2} \right)^2 = \overline{D} ,
+\end{gather*}
+тогда
+\begin{multline*}
+    \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + 0.98}{2} \right) \right)^2 \frac{\left( \frac{e^2 - e^{-2}}{2} \right)^2}{0.01^2}
+    = \left( \Phi^{-1} ( 0.99 ) \left( \frac{e^2 - e^{-2}}{2} \right) \right)^2 \cdot 10^4 = \\
+    %
+    = \left( 2.326 \cdot 3.6268 \right)^2 \cdot 10^4
+    = 71.1651 \cdot 10^4
+    = 711 651 .
+\end{multline*}
+
+\subsection*{Задача 2}
+
+Оценить интеграл
+\[
+    J = \int \limits_0^{\frac{\pi}{2}} \sqrt{4 - \sin^2 \varphi} d \varphi
+\]
+с отклонением менее $\delta = 10^{-3}$ и вероятностью более $P_\delta = 0.95$.
+
+Решение:
+
+Постоянные, ограничивающие функцию при $\varphi \in \left[ 0, \frac{\pi}{2} \right]$:
+\begin{gather*}
+    0 \le \sin \varphi \le 1 , \\
+    0 \le \sin^2 \varphi \le 1 , \\
+    \sqrt{3} \le \sqrt{4 - \sin^2 \varphi} \le \sqrt{4} = 2 .
+\end{gather*}
+
+Преобразуем интеграл:
+
+\begin{multline*}
+    J
+    = \int \limits_0^{\frac{\pi}{2}} \sqrt{4 - \sin^2 \varphi} d \varphi
+    = \left( 2 - \sqrt{3} \right) \int \limits_0^{\frac{\pi}{2}} \frac{\sqrt{4 - \sin^2 \varphi}}{2 - \sqrt{3}} d \varphi = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \int \limits_0^{\frac{\pi}{2}} \frac{\sqrt{4 - \sin^2 \varphi} - \sqrt{3}}{2 - \sqrt{3}} d \varphi + \left( 2 - \sqrt{3} \right) \sqrt{3} = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \int \limits_0^1 \frac{\sqrt{4 - \sin^2 \left( \frac{\pi}{2} x \right)} - \sqrt{3}}{2 - \sqrt{3}} d x + \left( 2 - \sqrt{3} \right) \sqrt{3} = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \widetilde{J} + \left( 2 - \sqrt{3} \right) \sqrt{3} ,
+\end{multline*}
+где
+\begin{gather*}
+    \widetilde{J} = \int \limits_0^1 \widetilde{f}(x) d x , \\
+    \widetilde{f}(x) = \frac{\sqrt{4 - \sin^2 \left( \frac{\pi}{2} x \right)} - \sqrt{3}}{2 - \sqrt{3}}
+\end{gather*}
+и
+\[
+    x \in [0, 1]: 0 \le \widetilde{f}(x) \le 1 .
+\]
+
+Необходимо сформировать выборку, состоящую из пар $(\xi_i, \eta_i)$, в которых $\xi_i \sim \mathcal{R}[0, 1]$, $\eta_i \sim \mathcal{R}[0, 1]$ и
+$\xi_i$ и $\eta_i$ независимы, вычислить величины $\varepsilon_i$:
+\[
+    \varepsilon_i
+    = \left \{
+    \begin{array}{ll}
+        1, & \eta_i < \widetilde{f}(\xi_i) , \\
+        0, & \eta_i \ge \widetilde{f}(\xi_i) .
+    \end{array}
+    \right .
+\]
+оценить интегралы:
+\begin{gather*}
+    \widetilde{J} \approx \widetilde{J}_\varepsilon = \frac{1}{n} \sum_{i=1}^n \varepsilon , \\
+    J \approx J_\varepsilon = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \widetilde{J}_\varepsilon + \left( 2 - \sqrt{3} \right) \sqrt{3} .
+\end{gather*}
+
+Требуемый объём выборки из центральной предельной теоремы:
+\begin{multline*}
+    n
+    \ge \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{\delta}{\left( 2 - \sqrt{3} \right) \frac{\pi}{2}} \right)^2}
+    = \left( \Phi^{-1} \left( \frac{1 + 0.95}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( 2 - \sqrt{3} \right) \frac{\pi}{2}} \right)^2} = \\
+    %
+    = \left( \Phi^{-1} ( 0.975 ) \frac{1}{2} \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \right)^2 10^6
+    = \left( 1.96 \cdot 0.5 \cdot 0.26795 \cdot 1.5708 \right)^2 10^6 = \\
+    %
+    = \left( 0.412477 \right)^2 10^6
+    = 0.170139 \cdot 10^6
+    = 170 139 .
+\end{multline*}
 
 \end{document}
