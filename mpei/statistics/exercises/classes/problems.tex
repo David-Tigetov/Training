@@ -4,12 +4,14 @@
 \usepackage[english,russian]{babel}
 \usepackage[margin=2cm]{geometry}
 \usepackage{amsmath}
+\usepackage{xcolor}
 
 \newcommand{\solution}{Решение:\par}
 \newcommand{\expectation}[1]{\texttt{M} \left[ #1 \right]}
 \newcommand{\cexpectation}[2]{\texttt{M} \left[ #1 | #2 \right]}
 \newcommand{\variance}[1]{\texttt{D} \left[ #1 \right]}
 \newcommand{\cvariance}[2]{\texttt{D} \left[ #1 | #2 \right]}
+\newcommand{\probability}[1]{\texttt{P} \left \{ #1 \right\} }
 \newcommand{\modulus}[1]{\left | #1 \right |}
 \newcommand{\norm}[1]{\left \| #1 \right \|}
 \newcommand{\pr}[2]{#1_{#2}}
@@ -916,7 +918,7 @@ $\xi_i$ и $\eta_i$ независимы, вычислить величины $\
     \varepsilon_i
     = \left \{
     \begin{array}{ll}
-        1, & \eta_i < \widetilde{f}(\xi_i) , \\
+        1, & \eta_i < \widetilde{f}(\xi_i) ,   \\
         0, & \eta_i \ge \widetilde{f}(\xi_i) .
     \end{array}
     \right .
@@ -942,4 +944,198 @@ $\xi_i$ и $\eta_i$ независимы, вычислить величины $\
     = 170 139 .
 \end{multline*}
 
+\section*{Эффективные оценки}
+
+\subsection*{Задача 1}
+
+$\xi = (\xi_1, \dots, \xi_n)$ --- выборка из равномерного распределения $\mathcal{R}[0, \theta]$, где $\theta \in (0, + \infty)$ --- неизвестный параметр.
+Постройте оценку $\theta$.
+
+Решение:
+
+\begin{enumerate}
+    \item Плотность вероятности одной величины выборки $\xi_i$:
+          \[
+              p_i(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  \frac{1}{\theta}, & 0 \le x \le \theta , \\
+                  0,                & \text{иначе}
+              \end{array}
+              \right .
+              = \frac{1}{\theta} \cdot I(0 \le x \le \theta) ,
+          \]
+          где $I$ --- индикаторная функция.
+          Совместная плотность вероятности всех величин выборки:
+          \begin{multline*}
+              p_\xi(x_1, \dots, x_n; \theta)
+              = \prod_{i=1}^n p_i(x_i; \theta)
+              = \prod_{i=1}^n \frac{1}{\theta} \cdot I(0 \le x_i \le \theta)
+              = \frac{1}{\theta^n} \prod_{i=1}^n I(0 \le x_i \le \theta) = \\
+              %
+              = \frac{1}{\theta^n} \cdot I(0 \le \min \{ x_1, \dots, x_n \}) \cdot I(\max \{ x_1, \dots, x_n \} \le \theta) .
+          \end{multline*}
+
+          Функция правдоподобия:
+          \[
+              L(\xi_1, \dots, \xi_n; \theta)
+              = \frac{1}{\theta^n} \cdot I(0 \le \min \{ \xi_1, \dots, \xi_n \}) \cdot I(\max \{ \xi_1, \dots, \xi_n \} \le \theta)
+              = \frac{1}{\theta^n} \cdot I(\xi_{(n)} \le \theta)
+          \]
+          По критерию факторизации порядковая статистика $\xi_{(n)}$ является достаточной статистикой.
+
+    \item Рассмотрим произвольную функцию $g(t)$, для которой:
+          \begin{gather*}
+              \expectation{g(\xi_{(n)})} = 0 , \\
+              \int \limits_{-\infty}^{\infty} g(t) p_{(n)}(x; \theta) dx = 0 ,
+          \end{gather*}
+          где $p_{(n)}(x; \theta)$ --- плотность вероятности порядковой статистики $\xi_{(n)}$. Известно, что функция распределения
+          $F_{(n)}(x; \theta)$ порядковой статистики $\xi_{(n)}$ имеет вид:
+          \begin{multline*}
+              F_{(n)}(x; \theta)
+              = \probability{\xi_{(n)} < x}
+              = \probability{\max \{ \xi_1, \dots, \xi_n \} < x}
+              = \probability{\xi_1 < x, \dots, \xi_n < x} = \\
+              %
+              = \prod_{i=1}^n \probability{x_i < x}
+              = \prod_{i=1}^n F_i(x; \theta) ,
+          \end{multline*}
+          где
+          \[
+              F_i(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                & x < 0,              \\
+                  \frac{x}{\theta}, & 0 \le x \le \theta, \\
+                  1,                & 1 < x .
+              \end{array}
+              \right .
+          \]
+          --- функция распределения величин $\xi_i$ выборки, тогда:
+          \[
+              F_{(n)}(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                                 & x < 0,              \\
+                  \left( \frac{x}{\theta} \right)^n, & 0 \le x \le \theta, \\
+                  1,                                 & 1 < x .
+              \end{array}
+              \right .
+          \]
+          Дифференцируя $F_{(n)}(x; \theta)$ получим плотность $p_{(n)}(x; \theta)$:
+          \[
+              p_{(n)}(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                          & x < 0,              \\
+                  \frac{n x^{n-1}}{\theta^n}, & 0 \le x \le \theta, \\
+                  0,                          & 1 < x .
+              \end{array}
+              \right .
+          \]
+          Подставляя плотность $p_{(n)}(x; \theta)$ в интеграл математического ожидания, получим:
+          \[
+              \int \limits_0^\theta g(t) \frac{n x^{n-1}}{\theta^n} dx = 0 .
+          \]
+          Дифференцируя по $\theta$, получим:
+          \begin{gather*}
+              g(\theta) \frac{n \theta^{n-1}}{\theta^n} = 0 , \\
+              g(\theta)  = 0 .
+          \end{gather*}
+          Таким образом, для функции $g(t)$:
+          \[
+              \forall \theta \in \Theta: \expectation{g(\xi_{(n)})} = 0 \Rightarrow g(t) = 0.
+          \]
+          поэтому статистика $\xi_{(n)}$ является полной.
+
+    \item Известно, что эффективная оценка является условным математическим ожиданием относительно достаточной и полной статистики $\xi_{(n)}$,
+          поэтому найти оценку можно двумя способами.
+          \begin{enumerate}
+              \item Условное математическое ожидание относительно $\xi_{(n)}$ является некоторой функцией $\varphi(y)$ величины $\xi_{(n)}$.
+                    Осталось подобрать функцию $\varphi(y)$ так, чтобы оценка $\varphi(\xi_{(n)}$ была несмещённой:
+                    \begin{gather*}
+                        \expectation{\varphi(\xi_{(n)})} = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) p_{(n)}(y; \theta) dy = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) \frac{n y^{n-1}}{\theta^n} dy = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) y^{n-1} dy = \frac{\theta^{n+1}}{n} .
+                    \end{gather*}
+                    Дифференцируя левую и правую части по параметру, получим:
+                    \begin{gather*}
+                        \varphi(\theta) \theta^{n-1} = \frac{n+1}{n} \theta^n , \\
+                        \varphi(\theta) = \frac{n+1}{n} \theta .
+                    \end{gather*}
+                    Значит функция $\varphi(y)$ имеет вид:
+                    \[
+                        \varphi(y) = \frac{n+1}{n} y
+                    \]
+                    и оценка
+                    \[
+                        \widehat{\theta} = \frac{n+1}{n} \xi_{(n)} .
+                    \]
+              \item \textcolor{red}{Не получилось.}
+
+                    Можно взять любую несмещённую оценку $\theta$, например, $2 \xi_1$:
+                    \[
+                        \expectation{2 \xi_1} = 2 \frac{\theta}{2} = \theta,
+                    \]
+                    тогда эффективная оценка:
+                    \[
+                        \widehat{\theta} = \cexpectation{2 \xi_1}{\xi_{(n)}}
+                    \]
+                    Вычислить условное математическое ожидание можно с помощью условного распределения $\xi_1$ относительно $\xi_{(n)}$.
+                    Совместное распределение величин $\xi_1$ и $\xi_{(n)}$ описывается функцией распределения:
+                    \begin{multline*}
+                        F_{1,n}(x,y; \theta)
+                        = \probability{\xi_1 < x, \xi_{(n)} < y}
+                        = \probability{\xi_1 < x, \max \{ \xi_1, \dots, \xi_n \} < y} = \\
+                        %
+                        = \probability{\xi_1 < x, \xi_1 < y, \xi_2 < y, \dots, \xi_n < y}
+                        = \probability{\xi_1 < \min \{ x, y \}, \xi_2 < y, \dots, \xi_n < y} = \\
+                        %
+                        = F_1(\min \{ x, y \}; \theta) \cdot \prod_{i=2}^n F_i(y; \theta) = \\
+                        %
+                        = \left \{
+                        \begin{array}{ll}
+                            0,                              & \min \{ x, y \} < 0,              \\
+                            \frac{\min \{ x, y \}}{\theta}, & 0 \le \min \{ x, y \} \le \theta, \\
+                            1,                              & 1 < \min \{ x, y \} .
+                        \end{array}
+                        \right .
+                        \cdot
+                        \left \{
+                        \begin{array}{ll}
+                            0,                                     & y < 0,              \\
+                            \left( \frac{y}{\theta} \right)^{n-1}, & 0 \le y \le \theta, \\
+                            1,                                     & 1 < y .
+                        \end{array}
+                        \right .
+                    \end{multline*}
+                    Выделим квадрат $\left \{ (x,y): 0 \le x \le \theta, 0 \le y \le \theta \right \}$. За пределами квадрата совместная
+                    плотность вероятности $\xi_1$, $\xi_{(n)}$ равна нулю, внутри квадрата выделим два треугольника, в которых
+                    \begin{enumerate}
+                        \item $x \le y$:
+                              \[
+                                  F_{1,n}(x,y; \theta)
+                                  = \frac{x}{\theta} \cdot \left( \frac{y}{\theta} \right)^{n-1},
+                              \]
+                        \item $x > y$:
+                              \[
+                                  F_{1,n}(x,y; \theta)
+                                  = \frac{y}{\theta} \cdot \left( \frac{y}{\theta} \right)^{n-1}
+                                  = \left( \frac{y}{\theta} \right)^n .
+                              \]
+                    \end{enumerate}
+                    Нужно найти совместную плотность вероятности $p_{1,n}(x,y; \theta)$ и условную плотность вероятности $p_{1|n}(x, y; \theta)$
+                    случайной величины $\xi_1$ относительно $\xi_{(n)}$:
+                    \[
+                        p_{1|n}(x, y; \theta)
+                        = \frac{p_{1,n}(x,y; \theta)}{p_{(n)}(y; \theta)} ,
+                    \]
+                    затем найти условное математическое ожидание:
+                    \[
+                        \cexpectation{\xi_1}{\xi_{(n)}}
+                        = \int \limits_{-\infty}^{\infty} x p_{1|n}(x, \xi_{(n)}; \theta) dx .
+                    \]
+          \end{enumerate}
+\end{enumerate}
 \end{document}
