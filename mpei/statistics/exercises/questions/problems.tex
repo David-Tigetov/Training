@@ -993,11 +993,16 @@
             \end{gather*}
             Требуемый объём выборок:
             \begin{gather*}
-                  n \ge \widehat{n}_\delta
-                  = \left( K^{-1} ( P_\delta ) \right)^2 \frac{1}{\delta^2}
+                  n
+                  \ge \left( K^{-1} ( P_\delta ) \right)^2 \frac{1}{\delta^2}
                   \approx 1.3581^2 \frac{1}{10^{-8}}
                   \approx 1,84443561 \cdot 10^8
-                  = 184 443 561 .
+                  = 184 443 561 , \\
+                  %
+                  n \ge  \left( \Phi^{-1} \left( 0.975 \right) \right)^2 \frac{\frac{1}{4}}{\left(10^{-4}\right)^2}
+                  \approx 1.96^2 \cdot 0.25 \cdot 10^8
+                  = 0.9604 10^8
+                  = 96 040 000.
             \end{gather*}
 
       \item Постройте метод статистических испытаний для вычисления интеграла
@@ -1012,12 +1017,12 @@
                   x \in [\sqrt{e}, e^2]: 1 \le \ln x^2 \le 4 , \\
                   %
                   J
-                  = (4 - 1) (e^2 - \sqrt{e}) \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - \sqrt{e}}{4 - 1} dx + \sqrt{e} (4 - 1).
+                  = (4 - 1) (e^2 - \sqrt{e}) \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - 1}{4 - 1} dx + 1 (e^2 - \sqrt{e}).
             \end{gather*}
             Вычисляется
             \[
                   \widetilde{J}
-                  = \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - \sqrt{e}}{4 - 1} dx
+                  = \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - 1}{4 - 1} dx
                   = \int \limits_{0}^{1} \widetilde{f}(y) dy .
             \]
             $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
@@ -1032,16 +1037,17 @@
                   \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
             \end{gather*}
 
-            Требуемый объём выборок:
+            Требуемый объём выборки:
             \begin{multline*}
                   n
-                  \ge \overline{n}_\delta
-                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{\left( e^2 - \sqrt{e} \right) (4 - 1)} \right)}
-                  = \left( \Phi^{-1} ( 0.975 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-6}}{\left( e^2 - \sqrt{e} \right) 3} \right)} \approx \\
-                  \approx 1.96^2 \frac{0.25}{\left( \frac{10^{-6}}{5.74 \cdot 3} \right)}
-                  \approx 3.8416 \cdot 4.305 \cdot 10^6
-                  \approx 16.538088 \cdot 10^6
-                  = 16 538 088 .
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.95}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( e^2 - \sqrt{e} \right) (4 - 1)} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.975 ) \cdot 0.5 \cdot \left( e^2 - \sqrt{e} \right) 3 \right)^2 10^6
+                  \approx \left( 1.96 \cdot 0.5 \cdot 5.7403 \cdot 3 \right)^2 10^6 \approx \\
+                  %
+                  \approx 16.876482^2 \cdot 10^6
+                  \approx 284.815644696 \cdot 10^6
+                  \le 284 815 645.
             \end{multline*}
 
       \item Постройте метод статистических испытаний для вычисления интеграла
@@ -1079,13 +1085,14 @@
             Требуемый объём выборок:
             \begin{multline*}
                   n
-                  \ge \overline{n}_\delta
-                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\left( \frac{\delta^2}{\left( 1 - \frac{1}{\sqrt{2}} \right) (1-(-1))} \right)}
-                  = \left( \Phi^{-1} ( 0.995 ) \right)^2 \frac{\frac{1}{4}}{\left( \frac{0.0001}{\left( 1 - \frac{1}{\sqrt{2}} \right) 2} \right)} \approx \\
-                  \approx 2.5759^2 \frac{0.25}{\left( \frac{0.0001}{0.2929 \cdot 2} \right)}
-                  \approx 6.6352 \cdot 0.14645 \cdot 10^4
-                  \approx 0.9718 \cdot 10^4
-                  = 9 718 .
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.99}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-2}}{\left( 1 - \frac{1}{\sqrt{2}} \right) (1 - (- 1))} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.995 ) \cdot 0.5 \cdot \left( 1 - \frac{1}{\sqrt{2}} \right) 2 \right)^2 10^4
+                  \approx \left( 2.576 \cdot 0.5 \cdot 0.2929 \cdot 2 \right)^2 10^6 \approx \\
+                  %
+                  \approx 0.7545104^2 \cdot 10^4
+                  \approx 0.569285944 \cdot 10^4
+                  \approx 5693.
             \end{multline*}
 
       \item Случайная величина $\eta = e^{\sin \xi}$, где величина $\xi \sim E(1)$. Постройте метод статистических испытаний для оценки
@@ -1098,33 +1105,96 @@
                   \eta_k = e^{\sin \xi_k} , \\
                   \expectation{\eta} \approx \frac{1}{n} \sum_{k=1}^n \eta_k .
             \end{gather*}
-            Требуемый объём выборок:
+            Ограничение дисперсии:
+            \[
+                  \variance{\eta_k}
+                  = \left( \frac{e - \frac{1}{e}}{2} \right)^2
+                  \approx \left( \frac{2.7182 - 0.3678}{2} \right)^2
+                  = \left( \frac{2.3504}{2} \right)^2
+                  = \left( 1.1752 \right)^2
+                  \approx 1.3811.
+            \]
+            Требуемый объём выборки:
             \[
                   n
-                  \ge \overline{n}_\delta
-                  = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\delta^2} ,
-            \]
-            где
-            \begin{gather*}
-                  \frac{1}{e} \le e^{\sin \xi_k} \le e, \\
-                  %
-                  \variance{\eta_k}
-                  \le \left( \frac{e - \frac{1}{e}}{2} \right)^2
-                  \approx \left( \frac{2.71828 - \frac{1}{2.71828}}{2} \right)^2
-                  \approx \left( \frac{2.3504}{2} \right)^2
-                  \approx 1.175^2
-                  \approx 1.3811
-                  = \overline{D} ,
-            \end{gather*}
-            тогда
-            \[
-                  \overline{n}
-                  = \left( \Phi^{-1} \left( 0.95 \right) \right)^2 \frac{1.3811}{10^{-6}}
-                  \approx 1.6449^2 \cdot 1.3811 \cdot 10^6
-                  \approx 3.736837 \cdot 10^6
-                  = 3 736 837 .
+                  \ge \left( \Phi^{-1} \left( 0.95 \right) \right)^2 \frac{1.3811}{10^{-6}}
+                  \approx 1.645^2 \cdot 1.3811 \cdot 10^6
+                  \approx 3.737292 \cdot 10^6
+                  = 3 737 292 .
             \]
 
+            \item Случайная величина $\eta = \ln^2 \xi$, где величина $\xi \sim \mathcal{R}[2, 3]$. Постройте метод статистических испытаний для оценки
+            $\expectation{\eta}$ с отклонением менее $\delta = 10^{-2}$ с вероятностью более $P_\delta = 0.95$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $\mathcal{R}[2, 3]$, оценка:
+            \begin{gather*}
+                  \eta_k = \ln^2 \xi_k , \\
+                  \expectation{\eta} \approx \frac{1}{n} \sum_{k=1}^n \eta_k .
+            \end{gather*}
+            Ограничение дисперсии:
+            \[
+                  \variance{\eta_k}
+                  \le \left( \frac{\ln^2 3 - \ln^2 2}{2} \right)^2
+                  = \left( \frac{1.2069 - 0.4805}{2} \right)^2
+                  = \left( \frac{0.7264}{2} \right)^2
+                  = \left( 0.3632 \right)^2
+                  \approx 0.1319 .
+            \]
+            Требуемый объём выборки:
+            \[
+                  n
+                  \ge \left( \Phi^{-1} \left( 0.975 \right) \right)^2 \frac{0.1319}{\left( 10^{-2} \right)^2}
+                  \approx 1.96^2 \cdot 0.1319 \cdot 10^4
+                  \approx 0.5067 \cdot 10^4
+                  = 5067 .
+            \]
+
+            \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{1}^{3} \cos \sqrt{x} dx
+            \]
+            с точностью менее $\delta = 0.001$ с вероятностью $P_\delta = 0.98$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [1, 3]: \cos \sqrt{3} \le \cos x \le \cos 1 , \\
+                  %
+                  J
+                  = \left( \cos 1 - \cos \sqrt{3} \right) (3 - 1) \int \limits_{0}^{1} \frac{\cos \sqrt{1 + 2 x} - \cos \sqrt{3}}{\cos 1 - \cos \sqrt{3}} dx + \cos \sqrt{3} (3 - 1).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\cos \sqrt{1 + 2 y} - \cos \sqrt{3}}{\cos 1 - \cos \sqrt{3}} dy
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборок:
+            \begin{multline*}
+                  n
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.98}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( \cos 1 - \cos \sqrt{3} \right) (3 - 1)} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.99 ) \cdot 0.5 \cdot \left( \cos 1 - \cos \sqrt{3} \right) 2 \right)^2 10^6
+                  \approx \left( 2.326 \cdot 0.5 \cdot 0.7 \cdot 2 \right)^2 10^6 \approx \\
+                  %
+                  \approx 1.6282^2 \cdot 10^6
+                  \approx 2.65103524 \cdot 10^6
+                  \approx 2 651 035 .
+            \end{multline*}
 \end{enumerate}
 
 \begin{thebibliography}{2}
