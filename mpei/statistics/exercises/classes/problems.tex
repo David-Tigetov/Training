@@ -1,0 +1,1141 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\newcommand{\solution}{Решение:\par}
+\newcommand{\expectation}[1]{\texttt{M} \left[ #1 \right]}
+\newcommand{\cexpectation}[2]{\texttt{M} \left[ #1 | #2 \right]}
+\newcommand{\variance}[1]{\texttt{D} \left[ #1 \right]}
+\newcommand{\cvariance}[2]{\texttt{D} \left[ #1 | #2 \right]}
+\newcommand{\probability}[1]{\texttt{P} \left \{ #1 \right\} }
+\newcommand{\modulus}[1]{\left | #1 \right |}
+\newcommand{\norm}[1]{\left \| #1 \right \|}
+\newcommand{\pr}[2]{#1_{#2}}
+\newcommand{\pro}[2]{#1_{#2^\perp}}
+\newcommand{\element}[2]{\left \{ #1 \right \}_{#2}}
+\newcommand{\set}[1]{\left \{ #1 \right \}}
+
+\begin{document}
+
+\title{Практические занятия}
+\author{Тигетов Давид Георгиевич}
+\maketitle
+
+\setcounter{section}{5}
+
+\section{Линейный регрессионный анализ}
+
+\subsection*{Условное математическое ожидание}
+
+Пусть $(\Omega, \mathcal{F}, \mu)$ --- вероятностное пространство и $\eta(\omega)$ --- случайная величина. Представим, что величину
+$\eta$ нужно оценить константой $\widehat{c}$ оптимальным образом, то есть с минимальным отклонением $\expectation{(\eta - c)^2}$:
+\[
+    \expectation{(\eta - c)^2}
+    = \expectation{\eta^2 - 2 \eta c + c^2}
+    = \expectation{\eta^2} - 2 c \expectation{\eta} + c^2
+\]
+Дифференцируем по $c$ и по необходимому условию экстремума для оптимальной постоянной $\widehat{c}$:
+\begin{gather*}
+    - 2 \expectation{\eta} + 2 \widehat{c} = 0 , \\
+    \widehat{c} = \expectation{\eta}.
+\end{gather*}
+Таким образом, оптимальная оценка величины $\eta$ постоянной --- это математическое ожидание $\expectation{\eta}$. Отклонение при
+этом:
+\[
+    \expectation{(\eta - c)^2}
+    = \expectation{(\eta - \expectation{\eta})^2}
+    = \variance{\eta}
+\]
+равно дисперсии.
+
+Заметим, что равенству для оптимальной постоянной $\widehat{c}$ можно придать вид:
+\begin{gather*}
+    \widehat c = \expectation{\eta}, \\
+    \mu(\Omega) \cdot \widehat c = \int \limits_\Omega \eta(\omega) d \mu(\omega) ,
+\end{gather*}
+то есть $\widehat{c}$ сохраняет среднее значение $\eta(\omega)$ на $\Omega$.
+
+Пусть теперь события $A_1$, $A_2$, $A_3$ образуют разбиение множества $\Omega$ и пусть известно, что произошло событие $A_k$.
+Задача прежняя --- нужно найти оптимальную оценку $\eta$ постоянной $\widehat{c}_k$. Оптимальная постоянная $\widehat{c}_k$
+получается усреднением значений $\eta$, но только не по всему множеству $\Omega$, а только по $A_k$:
+\begin{gather*}
+    \mu(A_k) \cdot \widehat{c}_k = \int \limits_{A_k} \eta(\omega) d \mu(\omega) , \\
+    \widehat{c}_k = \frac{1}{\mu(A_k)} \int \limits_{A_k} \eta(\omega) d \mu(\omega) .
+\end{gather*}
+Таким образом, оценка должна принимать три разных значения $\widehat{c}_1$, $\widehat{c}_2$, $\widehat{c}_3$, которые
+используются при условии появления событий $A_1$, $A_2$, $A_3$:
+\[
+    \widehat{\eta}(\omega)
+    = \left \{
+    \begin{array}{ll}
+        \widehat{c}_1 & \omega \in A_1 , \\
+        \widehat{c}_2 & \omega \in A_2 , \\
+        \widehat{c}_3 & \omega \in A_3 .
+    \end{array}
+    \right .
+\]
+Такая случайная величина $\widehat{\eta}$ является условным математическим ожиданием.
+
+Условное математическое ожидание $\eta$ относительно алгебры $\mathcal{A}$ --- это случайная величина
+\[
+    \widehat{\eta}(\omega) = \cexpectation{\eta}{\mathcal{A}}(\omega) ,
+\]
+которая является функцией:
+\begin{enumerate}
+    \item измеримой относительно $(\Omega, \mathcal{A})$,
+    \item и равной величине $\eta$ в среднем для всех $A \in \mathcal{A}$:
+          \[
+              \int \limits_{A} \eta(\omega) d \mu = \int \limits_{A} \widehat{\eta}(\omega) d \mu
+          \]
+\end{enumerate}
+
+Наиболее просто условное математическое ожидание определяется в случае, когда алгебра $\mathcal{A}$ порождается замыканием
+разбиения $A_1$, \dots, $A_m$ относительно операций объединения и дополнения. В этом случае, требование измеримости означает,
+что события вида $\widehat{\eta} = c$ являются наблюдаемыми:
+\[
+    \set{\omega: \widehat{\eta}(\omega) = c} \in \mathcal{A} ,
+\]
+отсюда следует, что на множествах $A_k$ величина $\widehat{\eta}(\omega)$ не может изменять своё значение:
+\[
+    \omega \in A_k : \widehat{\eta}(\omega) = c_k , \\
+\]
+в противном случае $\widehat{\eta}(\omega)$ перестаёт быть измеримой, а величины постоянных $c_k$ определяются из условий равенства средних:
+\begin{gather*}
+    \int \limits_{A_k} \eta(\omega) d \mu
+    = \int \limits_{A_k} \widehat{\eta}(\omega) d \mu
+    = \int \limits_{A_k} c_k d \mu
+    = c_k \int \limits_{A_k} d \mu
+    = c_k \mu(A_k) , \\
+    %
+    c_k
+    = \frac{1}{\mu(A_k)} \int \limits_{A_k} \eta(\omega) d \mu
+    = \int \limits_{A_k} \eta(\omega) \frac{d \mu}{\mu(A_k)} ,
+\end{gather*}
+где $\mu_k = \frac{d \mu}{\mu(A_k)}$ --- индуцированная условная мера, для которой выполняется нормировка $\mu_k(A_k) = 1$,
+которая определяет условное распределение величины $\eta$ на множестве $A_k$.
+
+
+\subsection*{Задача 1}
+
+Монета с вероятностью выпадения герба $p$ подбрасывается три раза, при выпадения герба записывается "1"{}, при выпадении решки --- "0"{}, получается всего
+восемь элементарных исходов, для которых определены две случайные величины $\eta(\omega)$ и $\xi(\omega)$.
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $\omega$       & 000                     & 001                     & 010                     & 011 & 100 & 101 & 110 & 111 \\
+        \hline
+        $\eta(\omega)$ & 1                       & 2                       & 3                       & 4   & 5   & 6   & 7   & 8   \\
+        \hline
+        $\xi(\omega)$  & \multicolumn{3}{|c|}{1} & \multicolumn{3}{|c|}{2} & \multicolumn{2}{|c|}{3}                               \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Величина $\eta(\omega)$ не наблюдаема, величина $\xi(\omega)$ наблюдаемая. Используя $\xi(\omega)$, необходимо для $\eta(\omega)$ построить
+регрессионную оценку $\widehat{\eta}$, которая минимизирует средний квадрат отклонения $\expectation{\modulus{\eta - \widehat{\eta}}^2}$.
+
+\solution
+
+В вероятностном пространстве $(\Omega, \mathcal{A}, \mu)$:
+\begin{enumerate}
+    \item $\Omega$ --- множество всех элементарных исходов:
+          \[
+              \Omega = \set{000, \dots, 111}
+          \]
+
+    \item $\mathcal{A}$ --- алгебра событий, состоящая из всех возможных подмножеств $\Omega$,
+    \item $\mu$ --- вероятностная мера:
+          \[
+              A \in \mathcal{A}: \mu \left(A \right) = \sum_{\omega \in A} \mu \left( \set{\omega} \right) ,
+          \]
+          которая для каждого события $A$ из алгебры $\mathcal{A}$ суммирует вероятности элементарных исходов.
+\end{enumerate}
+
+На множестве $\Omega$ определены величины $\eta(\omega)$ и $\xi(\omega)$, но величина $\xi(\omega)$ позволяет наблюдать только три события:
+\begin{align*}
+    A_1 = & \set{\omega: \xi(\omega) = 1} = \set{000, 001, 010} , \\
+    A_2 = & \set{\omega: \xi(\omega) = 2} = \set{011, 100, 101} , \\
+    A_3 = & \set{\omega: \xi(\omega) = 3} = \set{110, 111} .
+\end{align*}
+Алгебра событий $\mathcal{A}_\xi = \mathcal{A}(A_1, A_2, A_3)$, которая состоит из всех событий $A_k$ и всех событий, которые можно получить из
+$A_k$ с помощью операций объединения и дополнения, содержит все события, которые можно наблюдать с помощью случайной величины $\xi$. Заметим, что
+алгебра $\mathcal{A}$ оказывается не такой "богатой"{} как исходная алгебра $\mathcal{A}$:
+\[
+    \mathcal{A}_\xi \subset \mathcal{A}.
+\]
+Например, в алгебре $\mathcal{A}$ есть событие выпадения трех решек $\set{000}$, которого нет в алгебре $\mathcal{A}_\xi$, поэтому выпадение трех решек
+нельзя наблюдать с помощью величины $\xi$.
+
+Найдём условное математическое ожидание $\eta$ относительно $\mathcal{A}_\xi$.
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $\omega$                                & 000                         & 001                         & 010                         & 011     & 100     & 101     & 110     & 111     \\
+        \hline
+        $\eta(\omega)$                          & 1                           & 2                           & 3                           & 4       & 5       & 6       & 7       & 8       \\
+        \hline
+        $\mu(\omega)$                           & $0.216$                     & $0.144$                     & $0.144$                     & $0.096$ & $0.144$ & $0.096$ & $0.096$ & $0.064$ \\
+        \hline
+        $k$                                     & \multicolumn{3}{|c|}{1}     & \multicolumn{3}{|c|}{2}     & \multicolumn{2}{|c|}{3}                                                       \\
+        \hline
+        $\int \limits_{A_k} \eta(\omega) d \mu$ & \multicolumn{3}{|c|}{0.936} & \multicolumn{3}{|c|}{1.68}  & \multicolumn{2}{|c|}{1.184}                                                   \\
+        \hline
+        $\mu(A_k)$                              & \multicolumn{3}{|c|}{0.504} & \multicolumn{3}{|c|}{0.336} & \multicolumn{2}{|c|}{0.160}                                                   \\
+        \hline
+        $\widehat{\eta}(\omega) = c_k$          & \multicolumn{3}{|c|}{1.86}  & \multicolumn{3}{|c|}{5}     & \multicolumn{2}{|c|}{7.4}                                                     \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Для оценки качества оценки $\widehat{\eta}$ используется коэффициент детерминации:
+\[
+    R^2 = 1 - \frac{\expectation{\cvariance{\eta}{\mathcal{A}_\xi}}}{\variance{\eta}} .
+\]
+
+Вычислим дисперсию $\variance{\eta}$ с помощью второго момента:
+\begin{multline*}
+    \expectation{\eta^2}
+    = 1^2 \cdot 0.216 + 2^2 \cdot 0.144 + 3^2 \cdot 0.144 + 4^2 \cdot 0.096 + \\
+    + 5^2 \cdot 0.144 + 6^2 \cdot 0.096 + 7^2 \cdot 0.096 + 8^2 \cdot 0.064
+    \approx 19.5
+\end{multline*}
+и математического ожидания
+\begin{multline*}
+    \expectation{\eta}
+    = 1 \cdot 0.216 + 2 \cdot 0.144 + 3 \cdot 0.144 + 4 \cdot 0.096 + \\
+    + 5 \cdot 0.144 + 6 \cdot 0.096 + 7 \cdot 0.096 + 8 \cdot 0.064
+    = 3.8
+\end{multline*}
+тогда дисперсия
+\[
+    \variance{\eta}
+    = \expectation{\eta^2} + \left( \expectation{\eta} \right)^2
+    \approx 19.5 - 3.8^2
+    \approx 5.1 .
+\]
+
+Для получения условного математического ожидания $\widehat{\eta}$ усреднялась величина $\eta$, но можно усреднять и другие
+выражения, так например, условная дисперсия $\widehat{d}(\omega)$ получается усреднением величины квадрата отклонения $(\eta - \widehat{\eta})^2$:
+\[
+    \widehat{d}(\omega) = \cexpectation{(\eta - \widehat{\eta})^2}{\mathcal{A}_\xi}
+\]
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $\omega$                    & 000                                                                                                                           & 001                                                                                                  & 010                                                                                                   & 011       & 100       & 101       & 110         & 111         \\
+        \hline
+        $\eta(\omega)$              & 1                                                                                                                             & 2                                                                                                    & 3                                                                                                     & 4         & 5         & 6         & 7           & 8           \\
+        \hline
+        $\mu(\omega)$               & $0.216$                                                                                                                       & $0.144$                                                                                              & $0.144$                                                                                               & $0.096$   & $0.144$   & $0.096$   & $0.096$     & $0.064$     \\
+        \hline
+        $\widehat{\eta}(\omega)$    & \multicolumn{3}{|c|}{1.86}                                                                                                    & \multicolumn{3}{|c|}{5}                                                                              & \multicolumn{2}{|c|}{7.4}                                                                                                                                             \\
+        \hline
+        $(\eta - \widehat{\eta})^2$ & $(1-1.86)^2$                                                                                                                  & $(2-1.86)^2$                                                                                         & $(3-1.86)^2$                                                                                          & $(4-5)^2$ & $(5-5)^2$ & $(6-5)^2$ & $(7-7.4)^2$ & $(8-7.4)^2$ \\
+        \hline
+        $\mu(A_k)$                  & \multicolumn{3}{|c|}{0.504}                                                                                                   & \multicolumn{3}{|c|}{0.336}                                                                          & \multicolumn{2}{|c|}{0.160}                                                                                                                                           \\
+        \hline
+        $\widehat{d}(\omega)$       & \multicolumn{3}{|c|}{$\frac{0.86^2 \cdot 0.216 + 0.14^2 \cdot 0.144 + 1.14^2 \cdot 0.144}{0.504} \approx \frac{0.35}{0.504}$} & \multicolumn{3}{|c|}{$\frac{(-1)^2 \cdot 0.096 + 1^2 \cdot 0.096}{0.336} \approx \frac{0.2}{0.336}$} & \multicolumn{2}{|c|}{$\frac{0.4^2 \cdot 0.096 + 0.6^2 \cdot 0.064}{0.16} \approx \frac{0.04}{0.016}$}                                                                 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Математическое ожидание условной дисперсии:
+\[
+    \expectation{\cvariance{\eta}{\mathcal{A}_\xi}}
+    \approx \frac{0.35}{0.504} \cdot 0.504 + \frac{0.2}{0.336} \cdot 0.336 + \frac{0.04}{0.016} \cdot 0.016
+    = 0.59
+    \approx 0.6
+\]
+и коэффициент детерминации:
+\[
+    R^2
+    = 1 - \frac{0.6}{5.1}
+    \approx 1 - 0.12
+    = 0.88 .
+\]
+
+\subsection*{Задача 2}
+
+В результате эксперимента получены значения величины $\eta$ в зависимости от значений $x$:
+
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    $x$    & 1   & 2   & 3   \\
+    \hline
+    $\eta$ & 2.5 & 3.2 & 3.6 \\
+    \hline
+\end{tabular}
+
+Для регрессии вида
+\begin{gather*}
+    \eta = 1 \cdot \widetilde{\theta_1} + x \cdot \widetilde{\theta_2} + \varepsilon , \\
+    \varepsilon \sim \mathcal{N}(0, K), \\
+    K
+    = \sigma^2
+    \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 4 & 0 \\
+        0 & 0 & 9
+    \end{pmatrix}
+\end{gather*}
+вычислить
+\begin{enumerate}
+    \item оценку $\widetilde{\theta} = (\widetilde{\theta_1}, \widetilde{\theta_2})$ по методу наименьших квадратов,
+    \item оценку уровня ошибок $\sigma$,
+    \item коэффициенты детерминации $R^2$, $R_{adj}^2$,
+    \item доверительные интервалы для $\widetilde{\theta}_1$, $\widetilde{\theta}_2$ с уровнем доверия $P_g = 0.95$
+    \item доверительный интервал для $\sigma$ с уровнем доверия $P_g = 0.9$.
+\end{enumerate}
+
+Проверить гипотезы:
+\begin{enumerate}
+    \item $\widetilde{\theta}_1 = 0$ и $\widetilde{\theta}_2 = 0$ при уровне значимости $\alpha = 0.05$.
+    \item $\widetilde{\theta}_1 = \widetilde{\theta}_2 = 0$.
+\end{enumerate}
+
+\solution
+
+\begin{enumerate}
+    \item
+          Наборы значений переменных:
+          \begin{gather*}
+              x^{(1)} = ( x_1^{(1)}) = ( 1 ) , \\
+              x^{(2)} = ( x_1^{(2)}) = ( 2 ) , \\
+              x^{(3)} = ( x_1^{(3)}) = ( 3 )
+          \end{gather*}
+          В соответствии с видом регрессии базисные функции
+          \begin{gather*}
+              \varphi_1(x^{(i)}) = 1 , \\
+              \varphi_2(x^{(i)}) = x_1^{(i)} ,
+          \end{gather*}
+          поэтому матрица $Z$:
+          \[
+              Z
+              = \begin{pmatrix}
+                  1 & 1 \\
+                  1 & 2 \\
+                  1 & 3 \\
+              \end{pmatrix} .
+          \]
+          Из условия задачи матрица $W$:
+          \[
+              W
+              = K^{-1}
+              = \left(
+              \sigma^2
+              \begin{pmatrix}
+                  1 & 0 & 0 \\
+                  0 & 4 & 0 \\
+                  0 & 0 & 9
+              \end{pmatrix}
+              \right)^{-1}
+              = \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix} .
+          \]
+
+          Оценка $\widehat{\theta} = (\widehat{\theta}_1, \widehat{\theta}_2)$ по методу наименьших квадратов является решением нормальной системы:
+          \[
+              G \widehat{\theta} = Z^T W \eta ,
+          \]
+          где
+          \begin{multline*}
+              G
+              = Z^T W Z
+              =
+              \begin{pmatrix}
+                  1 & 1 & 1 \\
+                  1 & 2 & 3
+              \end{pmatrix}
+              \sigma^2
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  1 & 1 \\
+                  1 & 2 \\
+                  1 & 3
+              \end{pmatrix} = \\
+              %
+              = \sigma^2
+              \begin{pmatrix}
+                  1 & 1 & 1 \\
+                  1 & 2 & 3
+              \end{pmatrix}
+              \begin{pmatrix}
+                  1           & 1           \\
+                  \frac{1}{4} & \frac{1}{2} \\
+                  \frac{1}{9} & \frac{1}{3}
+              \end{pmatrix}
+              = \sigma^2
+              \begin{pmatrix}
+                  \frac{49}{36} & \frac{11}{6} \\
+                  \frac{11}{6}  & 3
+              \end{pmatrix}
+              \approx \sigma^2
+              \begin{pmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{pmatrix}
+          \end{multline*}
+          \[
+              Z^T W
+              = \begin{pmatrix}
+                  1 & 1 & 1 \\
+                  1 & 2 & 3
+              \end{pmatrix}
+              \sigma^2
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  2.5 \\
+                  3.2 \\
+                  3.6
+              \end{pmatrix}
+              = \sigma^2
+              \begin{pmatrix}
+                  1 & 1 & 1 \\
+                  1 & 2 & 3
+              \end{pmatrix}
+              \begin{pmatrix}
+                  2.5 \\
+                  0.8 \\
+                  0.4
+              \end{pmatrix}
+              = \sigma^2
+              \begin{pmatrix}
+                  3.7 \\
+                  5.3
+              \end{pmatrix} ,
+          \]
+          тогда нормальная система:
+          \begin{gather*}
+              \sigma^2
+              \begin{pmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{pmatrix}
+              \widehat{\theta}
+              =
+              \sigma^2
+              \begin{pmatrix}
+                  3.7 \\
+                  5.3
+              \end{pmatrix} .
+          \end{gather*}
+          Вычисляем обратную матрицу:
+          \begin{gather*}
+              \begin{vmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{vmatrix}
+              = 1.36 \cdot 3 - 1.83 \cdot 1.83
+              \approx 0.73, \\
+              %
+              \begin{pmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{pmatrix}^{-1}
+              =
+              \frac{1}{
+                  \begin{vmatrix}
+                      1.36 & 1.83 \\
+                      1.83 & 3
+                  \end{vmatrix}
+              }
+              \begin{pmatrix}
+                  3     & -1.83 \\
+                  -1.83 & 1.36
+              \end{pmatrix}
+              \approx
+              \begin{pmatrix}
+                  4.1  & -2.5 \\
+                  -2.5 & 1.86
+              \end{pmatrix} ,
+          \end{gather*}
+
+          находим решение системы:
+          \[
+              \widehat{\theta}
+              =
+              \begin{pmatrix}
+                  4.1  & -2.5 \\
+                  -2.5 & 1.86
+              \end{pmatrix}
+              \begin{pmatrix}
+                  3.7 \\
+                  5.3
+              \end{pmatrix}
+              %
+              \approx
+              \begin{pmatrix}
+                  1.9 \\
+                  0.6
+              \end{pmatrix} .
+          \]
+
+    \item
+          Оценка измерений $\eta$ --- проекция $\pr{\eta}{Z}$:
+          \[
+              \pr{\eta}{Z}
+              = Z \widehat{\theta}
+              =  \begin{pmatrix}
+                  1 & 1 \\
+                  1 & 2 \\
+                  1 & 3
+              \end{pmatrix}
+              \begin{pmatrix}
+                  1.9 \\
+                  0.6
+              \end{pmatrix}
+              = \begin{pmatrix}
+                  2.5 \\
+                  3.1 \\
+                  3.7
+              \end{pmatrix} .
+          \]
+          Вычислим вектор перпендикуляра $\pro{\eta}{Z}$:
+          \begin{gather*}
+              \pro{\eta}{Z}
+              = \eta - \pr{\eta}{Z}
+              =
+              \begin{pmatrix}
+                  2.5 \\
+                  3.2 \\
+                  3.6
+              \end{pmatrix}
+              -
+              \begin{pmatrix}
+                  2.5 \\
+                  3.1 \\
+                  3.7
+              \end{pmatrix}
+              = \begin{pmatrix}
+                  0   \\
+                  0.1 \\
+                  - 0.1
+              \end{pmatrix}
+          \end{gather*}
+
+          Величина проекции $\pro{\eta}{Z}$ связана с остаточной дисперсией. С одной стороны квадрат $W$-нормы проекции
+          $\pro{\eta}{Z}$:
+          \begin{multline*}
+              \norm{\pro{\eta}{Z}}_W^2
+              = \norm{
+                  \begin{pmatrix}
+                      0   \\
+                      0.1 \\
+                      -0.1
+                  \end{pmatrix}
+              }_W^2
+              =
+              \begin{pmatrix}
+                  0 & 0.1 & -0.1
+              \end{pmatrix}
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  0   \\
+                  0.1 \\
+                  -0.1
+              \end{pmatrix} = \\
+              %
+              = \frac{1 \cdot 0^2 + \frac{1}{4} \cdot 0.1^2 + \frac{1}{9} \cdot (-0.1)^2}{\sigma^2}
+              = \frac{\frac{13}{36} \cdot 0.01}{\sigma^2}
+              \approx \frac{0.36 \cdot 0.01}{\sigma^2},
+          \end{multline*}
+          а с другой стороны математическое ожидание
+          \[
+              \expectation{\norm{\pro{\eta}{Z}}_W^2} = n - m = 3 - 2 = 1
+          \]
+          тогда
+          \begin{gather*}
+              1 = \expectation{\norm{\pro{\eta}{Z}}_W^2} \approx \norm{\pr{\eta}{Z}}_W^2 = \frac{0.36 \cdot 0.01}{\sigma^2} , \\
+              \sigma^2 \approx 0.36 \cdot 0.01 , \\
+              \sigma \approx \sqrt{0.36 \cdot 0.01} = 0.6 \cdot 0.1 = 0.06
+          \end{gather*}
+
+    \item
+          Для вычисление коэффициента детерминации вычислим регрессию с постоянной:
+          \[
+              \eta_i = \widetilde{c} + \varphi_i ,
+          \]
+          в которой матрица в правой части:
+          \[
+              U
+              = \begin{pmatrix}
+                  1 \\
+                  1 \\
+                  1
+              \end{pmatrix}
+          \]
+          и оценкой $\widehat{c}$ постоянной $\widetilde{c}$ по методу наименьших квадратов является величина:
+          \begin{multline*}
+              \widehat{c}
+              = (U^T W U)^{-1} U^T W \eta = \\
+              %
+              = \left(
+              \begin{pmatrix}
+                  1 & 1 & 1
+              \end{pmatrix}
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  1 \\
+                  1 \\
+                  1
+              \end{pmatrix}
+              \right )^{-1}
+              \begin{pmatrix}
+                  1 & 1 & 1
+              \end{pmatrix}
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  2.5 \\
+                  3.2 \\
+                  3.6
+              \end{pmatrix} = \\
+              %
+              = \left( \frac{1}{\sigma^2} \left ( 1 + \frac{1}{4} + \frac{1}{9} \right) \right)^{-1} \frac{1}{\sigma^2} \left( 2.5 + 0.8 + 0.4 \right)
+              = \sigma^2 \frac{36}{49} \frac{1}{\sigma^2} 3.7
+              \approx \frac{36}{50} \cdot 3.7
+              = 0.72 \cdot 3.7
+              \approx 2.7
+          \end{multline*}
+          Вычислим проекции:
+          \begin{gather*}
+              \eta_U
+              = U \widehat{c}
+              = \begin{pmatrix}
+                  1 \\
+                  1 \\
+                  1
+              \end{pmatrix}
+              2.7
+              = \begin{pmatrix}
+                  2.7 \\
+                  2.7 \\
+                  2.7
+              \end{pmatrix} , \\
+              %
+              \eta_{U^\perp}
+              = \eta - \eta_U
+              = \begin{pmatrix}
+                  2.5 \\
+                  3.2 \\
+                  3.6
+              \end{pmatrix}
+              - \begin{pmatrix}
+                  2.7 \\
+                  2.7 \\
+                  2.7
+              \end{pmatrix}
+              = \begin{pmatrix}
+                  -0.2 \\
+                  0.5  \\
+                  0.9
+              \end{pmatrix}
+          \end{gather*}
+          и отклонение
+          \begin{multline*}
+              \norm{\pro{\eta}{U}}_W^2
+              = \pro{\eta}{U}^T W \pro{\eta}{U}
+              = \begin{pmatrix}
+                  -0.2 & 0.5 & 0.9
+              \end{pmatrix}
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9} \\
+              \end{pmatrix}
+              \begin{pmatrix}
+                  -0.2 \\
+                  0.5  \\
+                  0.9
+              \end{pmatrix} = \\
+              %
+              = \frac{1 \cdot (-0.2)^2 + \frac{1}{4} \cdot 0.5^2 + \frac{1}{9} \cdot 0.9^2}{\sigma^2}
+              = \frac{0.04 + \frac{1}{4} \cdot 0.25 + 0.1 \cdot 0.9}{\sigma^2} = \\
+              %
+              = \frac{0.04 + 0.0625 + 0.09}{\sigma^2}
+              \approx \frac{0.2}{\sigma^2} ,
+          \end{multline*}
+          тогда коэффициент детерминации
+          \[
+              R^2
+              = 1 - \frac{\norm{\pro{\eta}{Z}}_W^2}{\norm{\pro{\eta}{U}}_W^2}
+              \approx 1 - \frac{0.0036}{0.2}
+              = 1 - 0.018
+              \approx 0.982 ,
+          \]
+          а скорректированный коэффициент детерминации
+          \begin{multline*}
+              R_{adj}^2
+              = 1 - \frac{\frac{1}{n-m}\norm{\pro{\eta}{Z}}_W^2}{\frac{1}{n-1}\norm{\pro{\eta}{U}}_W^2}
+              = 1 - \frac{n-1}{n-m} \frac{\norm{\pro{\eta}{Z}}_W^2}{\norm{\pro{\eta}{U}}_W^2}
+              = 1 - \frac{3-1}{3-2} \frac{0.0036}{0.2} = \\
+              %
+              = 1 - 2 \cdot \frac{0.0036}{0.2}
+              = 1 - 0.036
+              = 0.964 .
+          \end{multline*}
+
+    \item
+          Ранее была вычислена матрица Грамма --- матрица правой части нормальной системы:
+          \[
+              G
+              = Z^T W Z
+              \approx \sigma^2
+              \begin{pmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{pmatrix}
+          \]
+          и обратная к ней матрица:
+          \[
+              G^{-1}
+              = \left( Z^T W Z \right)^{-1}
+              = \left(
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1.36 & 1.83 \\
+                  1.83 & 3
+              \end{pmatrix}
+              \right)^{-1}
+              = \sigma^2
+              \begin{pmatrix}
+                  4.1  & -2.5 \\
+                  -2.5 & 1.86
+              \end{pmatrix}
+          \]
+
+          Границы доверительного интервала для величины $\theta_1$ определяются смещением:
+          \[
+              y \sqrt{\element{G^{-1}}{11} \frac{\norm{\pro{\eta}{Z}}_W^2}{n-m}}
+              \approx y \sqrt{\sigma^2 4.1 \frac{0.0036}{\sigma^2} \frac{1}{3 - 2}}
+              \approx 12.7 \cdot 2 \cdot 0.06
+              \approx 1.5
+          \]
+          где $y$ --- распределения Стьюдента $T(n-m)$ уровня $\frac{1+P_g}{2}$, и доверительный интервал:
+          \[
+              \left( 1.9 - 1.5; 1.9 + 1.5 \right)
+              = \left( 0.4; 3.4 \right) .
+          \]
+          Ноль не попадает в реализацию доверительного интервала, поэтому гипотеза $\widetilde{\theta_1} = 0$ отклоняется.
+
+          Аналогично для величины $\theta_2$:
+          \[
+              y \sqrt{\element{G^{-1}}{22} \frac{\norm{\pro{\eta}{Z}}_W^2}{n-m}}
+              = y \sqrt{\sigma^2 1.86 \frac{0.0036}{\sigma^2} \frac{1}{3 - 2}}
+              = 12.7 \cdot 1.36 \sqrt{0.06}
+              \approx 1
+          \]
+          и доверительный интервал:
+          \[
+              \left( 0.6 - 1; 0.6 + 1 \right)
+              = \left( -0.4; 1.6 \right) .
+          \]
+          Ноль попадает в реализацию доверительного интервала, поэтому гипотеза $\widetilde{\theta_2} = 0$ принимается.
+
+    \item Доверительный интервал для $\sigma$ получается из неравенства для квадрата нормы перпендикуляра:
+
+          \begin{gather*}
+              y_1 < \norm{\pro{\eta}{Z}}_W^2 < y_2 , \\
+              y_1 < \frac{0.0036}{\sigma^2} < y_2 , \\
+              \frac{1}{y_2} < \frac{\sigma^2}{0.0036} < \frac{1}{y_1} , \\
+              \frac{0.0036}{y_2} < \sigma^2 < \frac{0.0036}{y_1} , \\
+              \sqrt{\frac{0.0036}{y_2}} < \sigma < \sqrt{\frac{0.0036}{y_1}} ,
+          \end{gather*}
+          где $y_1$ и $y_2$ --- квантили распределения $\chi^2(n-m)$ уровней $\frac{1-P_g}{2}$ и $\frac{1+P_g}{2}$:
+          \begin{gather*}
+              \sqrt{\frac{0.0036}{3.84}} < \sigma < \sqrt{\frac{0.0036}{0.004}} , \\
+              0.03 < \sigma < 0.94 .
+          \end{gather*}
+
+    \item Для проверки гипотезы об отсутствии зависимости необходимо вычислить статистику
+          \[
+              T = \frac{n-m}{m} \frac{\norm{\pr{\eta}{Z}}_W^2}{\norm{\pro{\eta}{Z}}_W^2} ,
+          \]
+          где
+          \begin{multline*}
+              \norm{\pr{\eta}{Z}}_W^2
+              = \pr{\eta}{Z}^T W \pr{\eta}{Z}
+              = \begin{pmatrix}
+                  2.5 & 3.1 & 3.7
+              \end{pmatrix}
+              \frac{1}{\sigma^2}
+              \begin{pmatrix}
+                  1 & 0           & 0           \\
+                  0 & \frac{1}{4} & 0           \\
+                  0 & 0           & \frac{1}{9}
+              \end{pmatrix}
+              \begin{pmatrix}
+                  2.5 \\
+                  3.1 \\
+                  3.7
+              \end{pmatrix} = \\
+              %
+              = \frac{2.5^2 + \frac{1}{4} \cdot 3.1^2 + \frac{1}{9} 3.7^2}{\sigma^2}
+              = \frac{2.5^2 + \frac{1}{4} \cdot 9.61 + \frac{1}{9} \cdot 13.69}{\sigma^2} = \\
+              %
+              = \frac{2.5^2 + \frac{1}{4} \cdot 9.61 + \frac{1}{9} \cdot 13.69}{\sigma^2}
+              \approx \frac{10.2}{\sigma^2} ,
+          \end{multline*}
+          тогда
+          \[
+              T
+              = \frac{3-2}{2} \frac{\frac{10.2}{\sigma^2}}{\frac{0.0036}{\sigma^2}}
+              = \frac{10.2}{0.0072}
+              \approx 1417,
+          \]
+          Наименьший уровень значимости отклонения гипотезы о независимости:
+          \[
+              \alpha^*
+              = 1 - F(T)
+              \approx 0.02 ,
+          \]
+          где $F(x)$ --- функция распределения для распределения Фишера $F(m,n-m)$.
+\end{enumerate}
+
+\section*{Методы статистических испытаний}
+
+\subsection*{Задача 1}
+
+Случайные величины $\xi \sim \mathcal{R}[-1, 2]$ и $\varphi \sim E(3)$ являются независимыми, случайная величина $\eta = \xi \sin \varepsilon$.
+Оцените $\expectation{e^\eta}$ с отклонением менее $\delta = 0.01$ и вероятностью более $P_\delta = 0.98$.
+
+Решение:
+
+Необходимо сформировать выборку, состоящую из пар $(\xi_i, \varphi_i)$, где величины $\xi_i \sim \mathcal{R}[-1, 2]$,
+$\varphi_i \sim E(3)$ и являются независимыми, вычислить величины $\eta_i = \xi_i \sin \varphi_i$, затем $\varepsilon_i = e^{\eta_i}$ и оценку:
+\[
+    \expectation{e^\eta} \approx \frac{1}{n} \sum_{i=1}^n \varepsilon_i.
+\]
+
+Требуемое количество величин с помощью центральной предельной теоремы:
+\[
+    n
+    \ge \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\overline{D}}{\delta^2},
+\]
+где
+\[
+    \forall i: \variance{\varepsilon_i} \le \overline{D} .
+\]
+
+Величина $\overline{D}$ ограничивает дисперсию величин $\varepsilon_i$:
+\begin{gather*}
+    -1 \le \xi_i \le 2, -1 \le \sin \varepsilon_i \le 1, \\
+    -2 \le \xi_i \sin \varepsilon_i \le 2, \\
+    -2 \le \eta_i \le 2, \\
+    e^{-2} \le e^{\eta_i} \le e^2, \\
+    e^{-2} \le \varepsilon_i \le e^2, \\
+    \variance{\varepsilon_i} \le \left( \frac{e^2 - e^{-2}}{2} \right)^2 = \overline{D} ,
+\end{gather*}
+тогда
+\begin{multline*}
+    \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + 0.98}{2} \right) \right)^2 \frac{\left( \frac{e^2 - e^{-2}}{2} \right)^2}{0.01^2}
+    = \left( \Phi^{-1} ( 0.99 ) \left( \frac{e^2 - e^{-2}}{2} \right) \right)^2 \cdot 10^4 = \\
+    %
+    = \left( 2.326 \cdot 3.6268 \right)^2 \cdot 10^4
+    = 71.1651 \cdot 10^4
+    = 711 651 .
+\end{multline*}
+
+\subsection*{Задача 2}
+
+Оценить интеграл
+\[
+    J = \int \limits_0^{\frac{\pi}{2}} \sqrt{4 - \sin^2 \varphi} d \varphi
+\]
+с отклонением менее $\delta = 10^{-3}$ и вероятностью более $P_\delta = 0.95$.
+
+Решение:
+
+Постоянные, ограничивающие функцию при $\varphi \in \left[ 0, \frac{\pi}{2} \right]$:
+\begin{gather*}
+    0 \le \sin \varphi \le 1 , \\
+    0 \le \sin^2 \varphi \le 1 , \\
+    \sqrt{3} \le \sqrt{4 - \sin^2 \varphi} \le \sqrt{4} = 2 .
+\end{gather*}
+
+Преобразуем интеграл:
+
+\begin{multline*}
+    J
+    = \int \limits_0^{\frac{\pi}{2}} \sqrt{4 - \sin^2 \varphi} d \varphi
+    = \left( 2 - \sqrt{3} \right) \int \limits_0^{\frac{\pi}{2}} \frac{\sqrt{4 - \sin^2 \varphi}}{2 - \sqrt{3}} d \varphi = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \int \limits_0^{\frac{\pi}{2}} \frac{\sqrt{4 - \sin^2 \varphi} - \sqrt{3}}{2 - \sqrt{3}} d \varphi + \left( 2 - \sqrt{3} \right) \sqrt{3} = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \int \limits_0^1 \frac{\sqrt{4 - \sin^2 \left( \frac{\pi}{2} x \right)} - \sqrt{3}}{2 - \sqrt{3}} d x + \left( 2 - \sqrt{3} \right) \sqrt{3} = \\
+    %
+    = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \widetilde{J} + \left( 2 - \sqrt{3} \right) \sqrt{3} ,
+\end{multline*}
+где
+\begin{gather*}
+    \widetilde{J} = \int \limits_0^1 \widetilde{f}(x) d x , \\
+    \widetilde{f}(x) = \frac{\sqrt{4 - \sin^2 \left( \frac{\pi}{2} x \right)} - \sqrt{3}}{2 - \sqrt{3}}
+\end{gather*}
+и
+\[
+    x \in [0, 1]: 0 \le \widetilde{f}(x) \le 1 .
+\]
+
+Необходимо сформировать выборку, состоящую из пар $(\xi_i, \eta_i)$, в которых $\xi_i \sim \mathcal{R}[0, 1]$, $\eta_i \sim \mathcal{R}[0, 1]$ и
+$\xi_i$ и $\eta_i$ независимы, вычислить величины $\varepsilon_i$:
+\[
+    \varepsilon_i
+    = \left \{
+    \begin{array}{ll}
+        1, & \eta_i < \widetilde{f}(\xi_i) ,   \\
+        0, & \eta_i \ge \widetilde{f}(\xi_i) .
+    \end{array}
+    \right .
+\]
+оценить интегралы:
+\begin{gather*}
+    \widetilde{J} \approx \widetilde{J}_\varepsilon = \frac{1}{n} \sum_{i=1}^n \varepsilon , \\
+    J \approx J_\varepsilon = \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \widetilde{J}_\varepsilon + \left( 2 - \sqrt{3} \right) \sqrt{3} .
+\end{gather*}
+
+Требуемый объём выборки из центральной предельной теоремы:
+\begin{multline*}
+    n
+    \ge \overline{n}
+    = \left( \Phi^{-1} \left( \frac{1 + P_\delta}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{\delta}{\left( 2 - \sqrt{3} \right) \frac{\pi}{2}} \right)^2}
+    = \left( \Phi^{-1} \left( \frac{1 + 0.95}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( 2 - \sqrt{3} \right) \frac{\pi}{2}} \right)^2} = \\
+    %
+    = \left( \Phi^{-1} ( 0.975 ) \frac{1}{2} \left( 2 - \sqrt{3} \right) \frac{\pi}{2} \right)^2 10^6
+    = \left( 1.96 \cdot 0.5 \cdot 0.26795 \cdot 1.5708 \right)^2 10^6 = \\
+    %
+    = \left( 0.412477 \right)^2 10^6
+    = 0.170139 \cdot 10^6
+    = 170 139 .
+\end{multline*}
+
+\section*{Эффективные оценки}
+
+\subsection*{Задача 1}
+
+$\xi = (\xi_1, \dots, \xi_n)$ --- выборка из равномерного распределения $\mathcal{R}[0, \theta]$, где $\theta \in (0, + \infty)$ --- неизвестный параметр.
+Постройте оценку $\theta$.
+
+Решение:
+
+\begin{enumerate}
+    \item Плотность вероятности одной величины выборки $\xi_i$:
+          \[
+              p_i(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  \frac{1}{\theta}, & 0 \le x \le \theta , \\
+                  0,                & \text{иначе}
+              \end{array}
+              \right .
+              = \frac{1}{\theta} \cdot I(0 \le x \le \theta) ,
+          \]
+          где $I$ --- индикаторная функция.
+          Совместная плотность вероятности всех величин выборки:
+          \begin{multline*}
+              p_\xi(x_1, \dots, x_n; \theta)
+              = \prod_{i=1}^n p_i(x_i; \theta)
+              = \prod_{i=1}^n \frac{1}{\theta} \cdot I(0 \le x_i \le \theta)
+              = \frac{1}{\theta^n} \prod_{i=1}^n I(0 \le x_i \le \theta) = \\
+              %
+              = \frac{1}{\theta^n} \cdot I(0 \le \min \{ x_1, \dots, x_n \}) \cdot I(\max \{ x_1, \dots, x_n \} \le \theta) .
+          \end{multline*}
+
+          Функция правдоподобия:
+          \[
+              L(\xi_1, \dots, \xi_n; \theta)
+              = \frac{1}{\theta^n} \cdot I(0 \le \min \{ \xi_1, \dots, \xi_n \}) \cdot I(\max \{ \xi_1, \dots, \xi_n \} \le \theta)
+              = \frac{1}{\theta^n} \cdot I(\xi_{(n)} \le \theta)
+          \]
+          По критерию факторизации порядковая статистика $\xi_{(n)}$ является достаточной статистикой.
+
+    \item Рассмотрим произвольную функцию $g(t)$, для которой:
+          \begin{gather*}
+              \expectation{g(\xi_{(n)})} = 0 , \\
+              \int \limits_{-\infty}^{\infty} g(t) p_{(n)}(x; \theta) dx = 0 ,
+          \end{gather*}
+          где $p_{(n)}(x; \theta)$ --- плотность вероятности порядковой статистики $\xi_{(n)}$. Известно, что функция распределения
+          $F_{(n)}(x; \theta)$ порядковой статистики $\xi_{(n)}$ имеет вид:
+          \begin{multline*}
+              F_{(n)}(x; \theta)
+              = \probability{\xi_{(n)} < x}
+              = \probability{\max \{ \xi_1, \dots, \xi_n \} < x}
+              = \probability{\xi_1 < x, \dots, \xi_n < x} = \\
+              %
+              = \prod_{i=1}^n \probability{x_i < x}
+              = \prod_{i=1}^n F_i(x; \theta) ,
+          \end{multline*}
+          где
+          \[
+              F_i(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                & x < 0,              \\
+                  \frac{x}{\theta}, & 0 \le x \le \theta, \\
+                  1,                & 1 < x .
+              \end{array}
+              \right .
+          \]
+          --- функция распределения величин $\xi_i$ выборки, тогда:
+          \[
+              F_{(n)}(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                                 & x < 0,              \\
+                  \left( \frac{x}{\theta} \right)^n, & 0 \le x \le \theta, \\
+                  1,                                 & 1 < x .
+              \end{array}
+              \right .
+          \]
+          Дифференцируя $F_{(n)}(x; \theta)$ получим плотность $p_{(n)}(x; \theta)$:
+          \[
+              p_{(n)}(x; \theta)
+              = \left \{
+              \begin{array}{ll}
+                  0,                          & x < 0,              \\
+                  \frac{n x^{n-1}}{\theta^n}, & 0 \le x \le \theta, \\
+                  0,                          & 1 < x .
+              \end{array}
+              \right .
+          \]
+          Подставляя плотность $p_{(n)}(x; \theta)$ в интеграл математического ожидания, получим:
+          \[
+              \int \limits_0^\theta g(t) \frac{n x^{n-1}}{\theta^n} dx = 0 .
+          \]
+          Дифференцируя по $\theta$, получим:
+          \begin{gather*}
+              g(\theta) \frac{n \theta^{n-1}}{\theta^n} = 0 , \\
+              g(\theta)  = 0 .
+          \end{gather*}
+          Таким образом, для функции $g(t)$:
+          \[
+              \forall \theta \in \Theta: \expectation{g(\xi_{(n)})} = 0 \Rightarrow g(t) = 0.
+          \]
+          поэтому статистика $\xi_{(n)}$ является полной.
+
+    \item Известно, что эффективная оценка является условным математическим ожиданием относительно достаточной и полной статистики $\xi_{(n)}$,
+          поэтому найти оценку можно двумя способами.
+          \begin{enumerate}
+              \item Условное математическое ожидание относительно $\xi_{(n)}$ является некоторой функцией $\varphi(y)$ величины $\xi_{(n)}$.
+                    Осталось подобрать функцию $\varphi(y)$ так, чтобы оценка $\varphi(\xi_{(n)}$ была несмещённой:
+                    \begin{gather*}
+                        \expectation{\varphi(\xi_{(n)})} = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) p_{(n)}(y; \theta) dy = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) \frac{n y^{n-1}}{\theta^n} dy = \theta , \\
+                        \int \limits_0^{\theta} \varphi(y) y^{n-1} dy = \frac{\theta^{n+1}}{n} .
+                    \end{gather*}
+                    Дифференцируя левую и правую части по параметру, получим:
+                    \begin{gather*}
+                        \varphi(\theta) \theta^{n-1} = \frac{n+1}{n} \theta^n , \\
+                        \varphi(\theta) = \frac{n+1}{n} \theta .
+                    \end{gather*}
+                    Значит функция $\varphi(y)$ имеет вид:
+                    \[
+                        \varphi(y) = \frac{n+1}{n} y
+                    \]
+                    и оценка
+                    \[
+                        \widehat{\theta} = \frac{n+1}{n} \xi_{(n)} .
+                    \]
+              \item \textcolor{red}{Не получилось.}
+
+                    Можно взять любую несмещённую оценку $\theta$, например, $2 \xi_1$:
+                    \[
+                        \expectation{2 \xi_1} = 2 \frac{\theta}{2} = \theta,
+                    \]
+                    тогда эффективная оценка:
+                    \[
+                        \widehat{\theta} = \cexpectation{2 \xi_1}{\xi_{(n)}}
+                    \]
+                    Вычислить условное математическое ожидание можно с помощью условного распределения $\xi_1$ относительно $\xi_{(n)}$.
+                    Совместное распределение величин $\xi_1$ и $\xi_{(n)}$ описывается функцией распределения:
+                    \begin{multline*}
+                        F_{1,n}(x,y; \theta)
+                        = \probability{\xi_1 < x, \xi_{(n)} < y}
+                        = \probability{\xi_1 < x, \max \{ \xi_1, \dots, \xi_n \} < y} = \\
+                        %
+                        = \probability{\xi_1 < x, \xi_1 < y, \xi_2 < y, \dots, \xi_n < y}
+                        = \probability{\xi_1 < \min \{ x, y \}, \xi_2 < y, \dots, \xi_n < y} = \\
+                        %
+                        = F_1(\min \{ x, y \}; \theta) \cdot \prod_{i=2}^n F_i(y; \theta) = \\
+                        %
+                        = \left \{
+                        \begin{array}{ll}
+                            0,                              & \min \{ x, y \} < 0,              \\
+                            \frac{\min \{ x, y \}}{\theta}, & 0 \le \min \{ x, y \} \le \theta, \\
+                            1,                              & 1 < \min \{ x, y \} .
+                        \end{array}
+                        \right .
+                        \cdot
+                        \left \{
+                        \begin{array}{ll}
+                            0,                                     & y < 0,              \\
+                            \left( \frac{y}{\theta} \right)^{n-1}, & 0 \le y \le \theta, \\
+                            1,                                     & 1 < y .
+                        \end{array}
+                        \right .
+                    \end{multline*}
+                    Выделим квадрат $\left \{ (x,y): 0 \le x \le \theta, 0 \le y \le \theta \right \}$. За пределами квадрата совместная
+                    плотность вероятности $\xi_1$, $\xi_{(n)}$ равна нулю, внутри квадрата выделим два треугольника, в которых
+                    \begin{enumerate}
+                        \item $x \le y$:
+                              \[
+                                  F_{1,n}(x,y; \theta)
+                                  = \frac{x}{\theta} \cdot \left( \frac{y}{\theta} \right)^{n-1},
+                              \]
+                        \item $x > y$:
+                              \[
+                                  F_{1,n}(x,y; \theta)
+                                  = \frac{y}{\theta} \cdot \left( \frac{y}{\theta} \right)^{n-1}
+                                  = \left( \frac{y}{\theta} \right)^n .
+                              \]
+                    \end{enumerate}
+                    Нужно найти совместную плотность вероятности $p_{1,n}(x,y; \theta)$ и условную плотность вероятности $p_{1|n}(x, y; \theta)$
+                    случайной величины $\xi_1$ относительно $\xi_{(n)}$:
+                    \[
+                        p_{1|n}(x, y; \theta)
+                        = \frac{p_{1,n}(x,y; \theta)}{p_{(n)}(y; \theta)} ,
+                    \]
+                    затем найти условное математическое ожидание:
+                    \[
+                        \cexpectation{\xi_1}{\xi_{(n)}}
+                        = \int \limits_{-\infty}^{\infty} x p_{1|n}(x, \xi_{(n)}; \theta) dx .
+                    \]
+          \end{enumerate}
+\end{enumerate}
+\end{document}

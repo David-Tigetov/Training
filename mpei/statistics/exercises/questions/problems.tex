@@ -1,0 +1,1206 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\newcommand{\expectation}[1]{\mathtt{M} \left[ #1 \right]}
+\newcommand{\cexpectation}[2]{\texttt{M} \left[ #1 | #2 \right]}
+\newcommand{\variance}[1]{\mathtt{D} \left[ #1 \right]}
+\newcommand{\probability}[1]{P \left\{ #1 \right\}}
+\newcommand{\modulus}[1]{\left | #1 \right |}
+\newcommand{\fpd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\norm}[1]{\left \| #1 \right \|}
+\newcommand{\pr}[2]{#1_\mathcal{#2}}
+\newcommand{\pro}[2]{#1_{\mathcal{#2}^\perp}}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\title{Математическая статистика: вопросы и задачи к защитам лабораторных работ}
+\author{Тигетов Давид Георгиевич}
+\maketitle
+
+\section*{Лабораторная работа 2}
+
+\subsection*{Теория}
+
+\begin{enumerate}
+      \item Сформулируйте определения выборки, вариационного ряда, эмпирической функции распределения.
+      \item Объясните принцип вычисления частот, относительных частот и построения гистрограмм.
+      \item Приведите выражения начальных и центральных выборочных моментов.
+\end{enumerate}
+
+\subsection*{Практика}
+
+Задача 1 обязательная, из задач 2 -- 5 одна задача по выбору.
+
+\begin{enumerate}
+      \item В результате эксперимента получена реализация выборки $x_1 = 0.5$, $x_2 = -1.5$, $x_3 = -0.2$, $x_4 = 1.1$, $x_5 = 0.6$.
+            \begin{enumerate}
+                  \item Постройте реализацию вариационного ряда.
+                  \item Нарисуйте график реализации эмпирической функции распределения.
+                  \item Вычислите реализации выборочного среднего и исправленной выборочной дисперсии.
+            \end{enumerate}
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из нормального распределения $\mathcal{N}\left(m, \sigma^2 \right)$, где $m$ --- известная
+            величина, а $\sigma^2$ --- неизвестная величина. Является ли статистика
+            \[
+                  \varphi(\xi_1, \dots, \xi_n) = \frac{1}{n} \sum_{k=1}^n \left( \xi_k - m \right)^2 + \left( \frac{1}{n} \sum_{k=1}^n \xi_k \right)^2.
+            \]
+            несмещенной и состоятельной оценкой второго начального момента $m_2$ распределения $\mathcal{N}\left(m, \sigma^2 \right)$?
+
+      \item $\left( \xi_1, \xi_2, \xi_3 \right)$ --- выборка, $\expectation{\xi_k} = m$, $\variance{\xi_k} = \sigma^2$. Является ли статистика:
+            \[
+                  \varphi(\xi_1, \xi_2, \xi_3) = \frac{\left( \xi_1 - \xi_2 \right)^2 + \left( \xi_2 - \xi_3 \right)^2 + \left( \xi_3 - \xi_1 \right)^2}{6}
+            \]
+            несмещенной оценкой $\sigma^2$?
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из распределения Пуассона $\mathcal{P}(\lambda)$. Является ли статистика:
+            \[
+                  \varphi(\xi_1, \dots, \xi_n) = \frac{1}{2 n} \sum_{k=1}^n \xi_k^2.
+            \]
+            несмещенной и состоятельной оценкой параметра $\lambda$. Примечание: если $\xi \sim \mathcal{P}(\lambda)$, то $\expectation{\xi} = \lambda$
+            и $\variance{\xi} = \lambda$.
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из равномерного распределения $\mathcal{R}\left[a, b \right]$, где $a$ --- известная величина,
+            а $b$ --- неизвестная. Является ли статистика:
+            \[
+                  \varphi \left(\xi_1, \dots, \xi_n \right) = \frac{2}{n} \sum_{k=1}^n \xi_k - a
+            \]
+            несмещённой и состоятельной оценкой $b$?
+\end{enumerate}
+
+\section*{Лабораторная работа 3}
+
+\subsection*{Теория}
+
+Вопрос 1 обязательный, из вопросов 2 -- 4 один по выбору.
+\begin{enumerate}
+      \item Сформулируйте задачу точечного оценивания.
+      \item Опишите метод моментов построения точечных оценок.
+      \item Опишите метод максимального правдоподобия построения точечных оценок.
+      \item Опишите метод порядковых статистик построения точечных оценок.
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item Случайные величины $\xi_1 \sim \mathcal{N} \left( m, \sigma_1^2 \right)$ и $\xi_2 \sim \mathcal{N} \left( m, \sigma_2^2 \right)$,
+            $m$ --- неизвестный параметр, $\sigma_1$ и $\sigma_2$ --- известные величины. Постройте оценку $m$ методом максимального правдоподобия.
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из распределения Пуассона $\mathcal{P}(\lambda)$. Постройте оценку
+            параметра $\lambda$ методом максимального правдоподобия.
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из равномерного распределения $\mathcal{R} \left[ 0, \theta \right]$.
+            Оцените вероятность $\probability{\xi > 1}$, если $\xi \sim \mathcal{R} \left[ 0, \theta \right]$, используя метод
+            порядковых статистик.
+
+      \item $\left( \xi_1, \dots, \xi_n \right)$ --- выборка из равномерного распределения $\mathcal{R} \left[ a, b \right]$.
+            Постройте оценку $\expectation{\xi^2}$, если $\xi \sim \mathcal{R} \left[ a, b \right]$.
+
+      \item Случайная величина $\xi$ имеет биномиальное распределение $Bi \left(n, p \right)$, $n$ --- известно, найдите оценку
+            параметра $p$ методом максимального правдоподобия.
+
+\end{enumerate}
+
+\section*{Лабораторная работа 4}
+
+\subsection*{Теория}
+
+\begin{enumerate}
+      \item Сформулируйте определения доверительного интервала, нижней и верхней доверительной границы.
+      \item Опишите метод построения доверительных интервалов с помощью центральной статистики.
+\end{enumerate}
+В следующих вопросах достаточно выписать центральную статистику, указать её распределение, выписать неравенство с центральной статистикой с указанием
+порядков квантилей и преобразовать неравенство в интервал.
+\begin{enumerate}
+      \item Постройте доверительный интервал для математического ожидания по выборке из нормального распределения с известной дисперсией.
+      \item Постройте доверительный интервал для математического ожидания по выборке из нормального распределения с неизвестной дисперсией.
+      \item Постройте доверительный интервал для дисперсии по выборке из нормального распределения с известным математическим ожиданием.
+      \item Постройте доверительный интервал для дисперсии по выборке из нормального распределения с неизвестным математическим ожиданием.
+      \item Постройте приближённый доверительный интервал для вероятности события по выборке из распределения Бернулли.
+\end{enumerate}
+Укажите как изменяются границы построенных интервалов в случаях:
+\begin{enumerate}
+      \item увеличения уровня доверия,
+      \item увеличения объёма выборки.
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item \cite[157]{Efimov} Измерены ёмкости $n = 16$ конденсаторов с известным среднеквадратическим отклонением ёмкости $\sigma = 4$ мкФ, среднее
+            значение ёмкости конденсаторов составило $m = 20$ мкФ. Вычислите нижнюю доверительную границу ёмкости одного конденсатора.
+
+      \item Ошибки прибора имеет известное математическое ожидание равное нулю, а в результате измерений получены следующие значения ошибки:
+            -1, -0.2, 0.8, -0.4. Укажите доверительный интервал для дисперсии и среднеквадратического отклонения ошибки с уровнем доверия 0.95.
+
+      \item \cite[160]{Efimov} Вычислите доверительный интервал с уровнем доверия 0.9 для среднего содержания углерода, если в результате
+            обработки измерений содержания углерода среди $n = 25$ образцов получены значения выборочного среднего $m = 18$ граммов и исправленной
+            выборочной дисперсии $s^2 = 16$ граммов$^2$.
+
+      \item Считая количество машин проезжающих по автостраде потоком Пуассона, вычислите нижнюю доверительную границу с уровнем доверия 0.95
+            для параметра потока $\lambda$, если за $T = 5$ минут проехало $m = 150$ машин.
+\end{enumerate}
+
+\section*{Лабораторная работа 5}
+
+\subsection*{Теория}
+
+Основной вопрос:
+
+\begin{itemize}
+      \item формулировка задачи проверки гипотез и общий принцип её решения.
+\end{itemize}
+
+Для следующих задач (одной или нескольких, по вариантам)
+\begin{enumerate}
+      \item критерий хи-квадрат проверки простой гипотезы о вероятностях,
+      \item критерий хи-квадрат проверки сложной гипотезы о вероятностях,
+      \item проверка гипотезы о независимости признаков,
+      \item проверка гипотезы об однородности,
+      \item критерий согласия Колмогорова,
+      \item критерий Колмогорова -- Смирнова,
+      \item критерий Фишера,
+      \item критерий Стьюдента
+\end{enumerate}
+укажите
+\begin{enumerate}
+      \item cовокупность наблюдений,
+      \item основную и альтернативную гипотезы,
+      \item статистику критерия, её распределение при основной гипотезе, её значения при альтернативной гипотезе,
+      \item критическую область.
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item \cite[306]{Efimov} Во время эпидемии гриппа изучалась эффективность прививок. Получены следующие результаты:
+
+            \begin{center}
+                  \begin{tabular}{|P{3cm}|P{3cm}|P{3cm}|}
+                        \hline
+                                          & Заболели & Не заболели \\
+                        \hline
+                        Без \par прививки & 34       & 111         \\
+                        \hline
+                        С \par прививкой  & 4        & 192         \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Проверить гипотезу о независимости заболеваемости и привики для уровня значимости $\alpha = 0.05$.
+
+            Решение: \par
+            Количество $n=341$.
+
+            \begin{tabular}{|c|c|c|}
+                  \hline
+                  Вероятности & 0.11144          & 0.8888            \\
+                  \hline
+                  0.42522     & 34 16.158 19.700 & 111 128.842 2.471 \\
+                  \hline
+                  0.57478     & 4 21.842 14.574  & 192 174.158 1.828 \\
+                  \hline
+            \end{tabular}
+
+            Статистика $X^2 = 38.57292$, cтепени свободы $(2-1) \cdot (2-1) = 1$, порог $\approx 3.84146$, гипотеза о независимости отклоняется.
+
+      \item \cite[285]{Efimov} Объём сбыта в пяти районах:
+
+            \begin{center}
+                  \begin{tabular}{|P{1.5cm}|P{1cm}|P{1cm}|P{1cm}|P{1cm}|P{1cm}|}
+                        \hline
+                        Район & 1   & 2   & 3  & 4  & 5   \\
+                        \hline
+                        Объём & 110 & 130 & 70 & 90 & 100 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            При каких уровнях значимости принимается гипотеза о равномерности объёма сбыта?
+
+            Решение: \par
+            \begin{tabular}{|c|c|c|c|}
+                  \hline
+                  $\nu_i$   & $\widehat{p}_i$ & $n \widehat{p}_i$ & $\frac{(\nu_i - n \widehat{p}_i)^2}{n \widehat{p}_i}$ \\
+                  \hline
+                  110       & 0.200           & 100.000           & 1.000                                                 \\
+                  130       & 0.200           & 100.000           & 9.000                                                 \\
+                  70        & 0.200           & 100.000           & 9.000                                                 \\
+                  90        & 0.200           & 100.000           & 1.000                                                 \\
+                  100       & 0.200           & 100.000           & 0.000                                                 \\
+                  \hline
+                  $n = 500$ & 1.000           &                   & $X^2 = 20$                                            \\
+                  \hline
+            \end{tabular}
+
+            Степень свободы $5 - 1 = 4$, принимается при уровнях значимости менее $\probability{\chi_2^4 \ge 20} \approx 0.0005$.
+
+      \item \cite[3.17]{Ivchenko} Среди 2020 семей, имеющих двух детей, 527 семей, в которых два мальчика, и 476 --- две девочки, а в остальных
+            1017 семьях дети разного пола. Проверьте гипотезу о том, что количество мальчиков в семьях имеет биномиальное распределение,
+            по критерию согласия Колмогорова при уровне значимости $\alpha = 0.1$.
+
+            Решение: \par
+            Оценка вероятности $p$ рождения мальчика по методу максимального правдоподобия:
+            \begin{gather*}
+                  \Pi(\nu_0, \nu_1, \nu_2) = \frac{2020!}{\nu_0! \nu_1! \nu_2!} (1-p)^{2 \nu_0} (2p(1-p))^{\nu_1} p^{2\nu_2} , \\
+                  \ln \Pi(\nu_0, \nu_1, \nu_2) = \ln 2020! - \ln \left( \nu_0! \nu_1! \nu_2! \right) + 2 \nu_0 \ln (1-p) + \nu_1 \ln (2p - 2 p^2) + 2 \nu_2 \ln p , \\
+                  \fpd{p} \ln \Pi(\nu_0, \nu_1, \nu_2) = - 2 \nu_0 \frac{1}{1-\widehat{p}} + \nu_1 \frac{2 - 4\widehat{p}}{2\widehat{p}(1-\widehat{p})} + 2 \nu_2 \frac{1}{\widehat{p}} = 0, \\
+                  - 2 \nu_0 \widehat{p} + \nu_1 (1 - 2\widehat{p}) + 2 \nu_2 (1-\widehat{p}) = 0, \\
+                  \nu_1 + 2 \nu_2 = (2 \nu_0 + 2 \nu_1 + 2 \nu_2) \widehat{p}, \\
+                  \widehat{p} = \frac{ \frac{1}{2} \nu_1 + \nu_2}{\nu_0 + \nu_1 + \nu_2} = \frac{ \frac{1}{2} 1017 + 527}{476 + 1017 + 527} = \frac{1035.5}{2020} \approx 0.51262.
+            \end{gather*}
+
+            \begin{tabular}{|c|c|c|c|}
+                  \hline
+                  x                                 & 0          & 1          & 2 \\
+                  \hline
+                  Эмпирическая, $F_n^*(x)$          & 0.23564356 & 0.73910891 & 1 \\
+                  \hline
+                  Теоретическая, $F(x;\widehat{p})$ & 0.23753926 & 0.73722074 & 1 \\
+                  \hline
+                  Разность                          & -0.0018957 & 0.00188818 & 0 \\
+                  \hline
+            \end{tabular}
+
+            Статистика $D = \sqrt{n} sup \modulus{F_n^*(x) - F(x;\widehat{p})} \approx 0.085201$, порог $h_\alpha \approx 1.22385$.
+            Гипотеза принимается.
+
+      \item \cite[246]{Efimov}
+
+            При $n = 600$ подбрасываниях игральной кости шестёрка выпала $m = 75$ раз. Можно ли утверждать, что вероятность выпадения шестёрки равна
+            $\frac{1}{6}$ при уровне значимости $\alpha = 0.05$?
+
+            Решение: \par
+            \begin{tabular}{|c|c|c|c|}
+                  \hline
+                  $\nu_i$   & $\widehat{p}_i$ & $n \widehat{p}_i$ & $\frac{(\nu_i - n \widehat{p}_i)^2}{n \widehat{p}_i}$ \\
+                  \hline
+                  75        & 0.167           & 100.000           & 6.250                                                 \\
+                  525       & 0.833           & 500.000           & 1.250                                                 \\
+                  600       & 1.000           &                   & 7.500                                                 \\
+                  \hline
+                  $n = 600$ & 1.000           &                   & $X^2 = 7.5$                                           \\
+                  \hline
+            \end{tabular}
+
+            Степень свободы $2 - 1 = 1$, порог $\probability{\chi_1^2 \ge 7.5} \approx 3.84$.
+
+      \item По $n_1 = 15$ измерениям одного прибора и $n_2 = 20$ измерениям второго прибора вычислены исправленные выборочные дисперсии:
+            $\widetilde{\mu}_2^{(1)} = 1.3$ и $\widetilde{\mu}_2^{(2)} = 1.4$. Считая измерения реализациями независимых выборок из нормального
+            распределения проверьте гипотезу одинаковой точности измерений приборов против альтернативной гипотезы, утверждающей что ошибка второго
+            прибора больше, для уровня значимости $\alpha = 0.1$.
+
+            Решение: \par
+            Статистика $f = \frac{\widetilde{\mu}_2^{(1)}}{\widetilde{\mu}_2^{(2)}} \approx 0.92857$, правосторонняя критическая область
+            $\Gamma_\alpha = (1.87847, \infty)$.
+
+      \item \cite[281]{Efimov} При 50 подбрасываниях монеты герб появился 20 раз. При каких уровнях значимости монету можно считать симметричной?
+            Решение: \par
+            \begin{tabular}{|c|c|c|c|}
+                  \hline
+                  $\nu_i$  & $\widehat{p}_i$ & $n \widehat{p}_i$ & $\frac{(\nu_i - n \widehat{p}_i)^2}{n \widehat{p}_i}$ \\
+                  \hline
+                  20       & 0.500           & 25.000            & 1.000                                                 \\
+                  30       & 0.500           & 25.000            & 1.000                                                 \\
+                  \hline
+                  $n = 50$ & 1.000           &                   & $X^2 = 2.0$                                           \\
+                  \hline
+            \end{tabular}
+
+            Степень свободы $2 - 1 = 1$, гипотеза о симметричности принимается при уровнях значимости менее
+            $\probability{\chi_1^2 \ge 2.0} \approx 0.15730$.
+
+\end{enumerate}
+
+\section*{Лабораторная работа 6}
+
+\subsection*{Теория}
+
+Однофакторный дисперсионный анализ:
+\begin{enumerate}
+      \item постановка задачи: наблюдения, основная и альтернативная гипотезы,
+      \item основное дисперсионное соотношение, внутригрупповая и межгрупповая дисперсии,
+      \item статистика критерия: её распределение при основной гипотезе, её значения при альтернативной гипотезе,
+      \item гритическая область: порог по уровню значимости.
+\end{enumerate}
+
+\subsection*{Практика}
+
+Для полученных выборок проверьте гипотезу о равенстве математических ожиданий при уровне доверия $\alpha = 0.1$.
+
+Правая часть таблицы после двойной линии является решением.
+
+\begin{enumerate}
+      \item
+            \begin{tabular}{|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{1cm}||P{2cm}|P{1.5cm}|P{0.5cm}|P{2cm}|P{2.5cm}|}
+                  \hline
+                     &    &   &   &                & $\sum_{i=1}^{n_j} \left( \xi_i^{(j)} \right)^2$  & $\sum_{i=1}^{n_j} \xi_i^{(j)}$ & $n_j$ & $\left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ & $\frac{1}{n_j} \left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ \\
+                  \hline
+                  8  & 5  & 3 & 9 & -              & 179                                              & 25                             & 4     & 625                                             & 156.25                                                        \\
+                  \hline
+                  10 & 18 & 6 & 5 & 8              & 549                                              & 47                             & 5     & 2209                                            & 441.8                                                         \\
+                  \hline
+                  \hline
+                     &    &   &   & $\sum_{j=1}^k$ & 728                                              & 72                             & 9     &                                                 & 598.05                                                        \\
+                  \hline
+                     &    &   &   &                & $n \widehat{\mu}_2 = 728 - \frac{72^2}{9} = 152$ & $\frac{72^2}{9} = 576$         &       &                                                 & $n \widetilde{s}^2 = 598.05 - \frac{72^2}{9} = 22.05$         \\
+                  \hline
+            \end{tabular}
+            $n \widehat{s}^2(\xi) = n \widehat{\mu}_2 - n \widetilde{s}^2 = 152 - 22.05 = 129.95$,
+            $T = \frac{n \widetilde{s}^2}{2 - 1} \frac{9 - 2}{n \widehat{s}^2} = \frac{22.05}{2-1} \frac{9 - 2}{129.95} \approx 1.188$,
+            $h_\alpha = Q_{F(2-1,7)}(1 - \alpha) \approx 3.589$,
+            $T < h_\alpha$ : гипотеза принимается.
+
+      \item
+            \begin{tabular}{|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{1cm}||P{2cm}|P{1.5cm}|P{0.5cm}|P{2cm}|P{2.5cm}|}
+                  \hline
+                     &    &    &   &                & $\sum_{i=1}^{n_j} \left( \xi_i^{(j)} \right)^2$ & $\sum_{i=1}^{n_j} \xi_i^{(j)}$ & $n_j$ & $\left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ & $\frac{1}{n_j} \left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ \\
+                  \hline
+                  12 & 13 & 10 & 1 & 14             & 610                                             & 50                             & 5     & 2500                                            & 500                                                           \\
+                  \hline
+                  -1 & 1  & 6  & - & -              & 38                                              & 6                              & 3     & 36                                              & 12                                                            \\
+                  \hline
+                  \hline
+                     &    &    &   & $\sum_{j=1}^k$ & 648                                             & 56                             & 8     &                                                 & 512                                                           \\
+                  \hline
+                     &    &    &   &                & $648 - \frac{56^2}{8} = 256$                    & $\frac{56^2}{8} = 392$         &       &                                                 & $512 - \frac{56^2}{8} = 120$                                  \\
+                  \hline
+            \end{tabular}
+            $n \widehat{s}^2(\xi) = 256 - 120 = 136$,
+            $T = \frac{120}{2-1} \frac{8 - 2}{136} \approx 5.294$,
+            $h_\alpha = Q_{F(2-1,8-2)}(1 - \alpha) \approx 3.776$,
+            $T > h_\alpha$ : гипотеза отклоняется.
+
+      \item
+            \begin{tabular}{|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{1cm}||P{2cm}|P{1.5cm}|P{0.5cm}|P{2cm}|P{2.5cm}|}
+                  \hline
+                     &   &   &    &                & $\sum_{i=1}^{n_j} \left( \xi_i^{(j)} \right)^2$ & $\sum_{i=1}^{n_j} \xi_i^{(j)}$ & $n_j$ & $\left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ & $\frac{1}{n_j} \left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ \\
+                  \hline
+                  13 & 8 & 8 & 5  & -              & 322                                             & 34                             & 4     & 1156                                            & 289                                                           \\
+                  \hline
+                  2  & 6 & 0 & 13 & -              & 209                                             & 21                             & 4     & 441                                             & 110.25                                                        \\
+                  \hline
+                  \hline
+                     &   &   &    & $\sum_{j=1}^k$ & 531                                             & 55                             & 8     &                                                 & 399.25                                                        \\
+                  \hline
+                     &   &   &    &                & $531 - \frac{55^2}{8} = 152.875$                & $\frac{55^2}{8} = 378.125$     &       &                                                 & $399.25 - \frac{55^2}{8} = 21.125$                            \\
+                  \hline
+            \end{tabular}
+            $n \widehat{s}^2(\xi) = 152.875 - 21.125 = 131.75$,
+            $T = \frac{21.125}{2-1} \frac{8 - 2}{131.75} \approx 0.962$,
+            $h_\alpha = Q_{F(2-1,8-2)}(1 - \alpha) \approx 3.776$,
+            $T < h_\alpha$ : гипотеза принимается.
+
+      \item
+            \begin{tabular}{|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{1cm}||P{2cm}|P{1.5cm}|P{0.5cm}|P{2cm}|P{2.5cm}|}
+                  \hline
+                     &    &    &   &                & $\sum_{i=1}^{n_j} \left( \xi_i^{(j)} \right)^2$ & $\sum_{i=1}^{n_j} \xi_i^{(j)}$ & $n_j$ & $\left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ & $\frac{1}{n_j} \left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ \\
+                  \hline
+                  11 & 15 & 10 & - & -              & 446                                             & 36                             & 3     & 1296                                            & 432                                                           \\
+                  \hline
+                  9  & 8  & 4  & 8 & -              & 225                                             & 29                             & 4     & 841                                             & 210.25                                                        \\
+                  \hline
+                  \hline
+                     &    &    &   & $\sum_{j=1}^k$ & 671                                             & 65                             & 7     &                                                 & 642.25                                                        \\
+                  \hline
+                     &    &    &   &                & $671 - \frac{65^2}{7} = 67.429$                 & $\frac{65^2}{7} = 603.57$      &       &                                                 & $642.25 - \frac{65^2}{7} = 38.679$                            \\
+                  \hline
+            \end{tabular}
+            $n \widehat{s}^2(\xi) = 67.429 - 38.679 = 28.75$,
+            $T = \frac{38.679}{2-1} \frac{7 - 2}{28.75} \approx 6.727$,
+            $h_\alpha = Q_{F(2-1,7-2)}(1 - \alpha) \approx 4.06$,
+            $T > h_\alpha$ : гипотеза отклоняется.
+
+      \item
+            \begin{tabular}{|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{0.8cm}|P{1cm}||P{2cm}|P{1.5cm}|P{0.5cm}|P{2cm}|P{2.5cm}|}
+                  \hline
+                     &   &   &   &                & $\sum_{i=1}^{n_j} \left( \xi_i^{(j)} \right)^2$ & $\sum_{i=1}^{n_j} \xi_i^{(j)}$ & $n_j$ & $\left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ & $\frac{1}{n_j} \left( \sum_{i=1}^{n_j} \xi_i^{(j)} \right)^2$ \\
+                  \hline
+                  16 & 9 & 7 & - & -              & 386                                             & 32                             & 3     & 1024                                            & 341.(3)                                                       \\
+                  \hline
+                  -2 & 6 & 3 & - & -              & 49                                              & 7                              & 3     & 49                                              & 16.(3)                                                        \\
+                  \hline
+                  \hline
+                     &   &   &   & $\sum_{j=1}^k$ & 435                                             & 39                             & 6     &                                                 & 357.(6)                                                       \\
+                  \hline
+                     &   &   &   &                & $435 - \frac{39^2}{6} = 181.5$                  & $\frac{39^2}{6} = 253.5$       &       &                                                 & $357.(6) - \frac{39^2}{6} = 104.167$                          \\
+                  \hline
+            \end{tabular}
+            $n \widehat{s}^2(\xi) = 181.5 - 104.167 = 77.333$,
+            $T = \frac{104.167}{2-1} \frac{6 - 2}{77.333} \approx 5.388$,
+            $h_\alpha = Q_{F(2-1,6-2)}(1 - \alpha) \approx 4.545$,
+            $T > h_\alpha$ : гипотеза отклоняется.
+\end{enumerate}
+
+\section*{Лабораторная работа 7}
+
+\subsection*{Теория}
+
+Вопросы по двум вариантам.
+
+В группах, где задача 1, 2 или 5 (с фиксированным количеством величин), можно дать вопросы из второго варианта (с нефиксированным количеством величин),
+и наоборот, где задача 3 или 4, можно дать вопросы из первого варианта.
+
+\begin{enumerate}
+      \item Первый вариант --- задача различения гипотез при фиксированном количестве величин $n$:
+            \begin{enumerate}
+                  \item постановка задачи,
+                  \item критерий проверки, вероятности ошибок первого и второго рода,
+                  \item минимаксный, байесовский, наиболее мощный критерии,
+                  \item критерий отношения вероятностей,
+                  \item минимаксный, байесовский, наиболее мощный критерии как критерии отношения вероятностей.
+            \end{enumerate}
+      \item Второй вариант --- задача различения гипотез при нефиксированном количестве величин $n$:
+            \begin{enumerate}
+                  \item постановка задачи,
+                  \item принцип проверки последовательными критериями,
+                  \item последовательный критерий отношения вероятностей,
+                  \item количества величин до остановки, их средние значения.
+            \end{enumerate}
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из нормального распределения $\mathcal{N}(0, \sigma^2)$, где $\sigma$ --- неизвестный
+            параметр. Рассматриваются две гипотезы:
+            \begin{gather*}
+                  H_0: \sigma = \sigma_0 , \\
+                  H_1: \sigma = \sigma_1 ,
+            \end{gather*}
+            где $\sigma_0 = 1.5$ и $\sigma_1 = 1$. Постройте критерий Неймана--Пирсона для $n = 100$ и вероятности ошибки первого рода $\alpha = 0.05$.
+            Вычислите вероятность ошибки второго рода.
+
+      \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из распределения Лапласа с плотностью $p_\xi(x | \sigma)$:
+            \[
+                  p_\xi(x | \sigma)
+                  = \frac{\sigma}{2} e^{- \sigma \modulus{x}} .
+            \]
+            Параметр $\sigma$ неизвестен. Рассматриваются гипотезы:
+            \begin{gather*}
+                  H_0: \sigma = \sigma_0 , \\
+                  H_1: \sigma = \sigma_1 ,
+            \end{gather*}
+            где $\sigma_0 = 2$, $\sigma_1 = 1$. Постройте критерий Неймана--Пирсона для вероятности ошибки первого рода $\alpha = 0.01$ и вероятности
+            ошибки второго рода $\beta = 0.05$.
+
+            Решение:
+
+            \begin{gather*}
+                  Z
+                  = \frac{\left( \frac{\sigma_1}{2} \right)^{n} e^{-\sigma_1 \sum_{k=1}^n \modulus{\xi_k}}}{\left( \frac{\sigma_0}{2} \right)^n e^{-\sigma_0 \sum_{k=1}^n \modulus{\xi_k}}}
+                  = \left(  \frac{\sigma_1}{\sigma_0} \right)^n e^{(\sigma_0-\sigma_1) \sum_{k=1}^n \modulus{\xi_k}} , \\
+                  %
+                  \ln Z = n \ln \left( \frac{\sigma_1}{\sigma_0} \right) + (\sigma_0 - \sigma_1) \sum_{k=1}^n \modulus{\xi_k} , \\
+                  %
+                  X_0 : \sum_{k=1}^n \modulus{\xi_k} < \frac{h - n \ln \left( \frac{\sigma_1}{\sigma_0} \right)}{\sigma_0 - \sigma_1} = \widetilde{h} , \\
+                  %
+                  \modulus{\xi_k} \sim E(\sigma) :
+                  \expectation{\modulus{\xi_k}} = \frac{1}{\sigma},
+                  \variance{\modulus{\xi_k}} = \frac{1}{\sigma^2} , \\
+                  %
+                  \sum_{k=1}^n \modulus{\xi_k} \sim \mathcal{N} \left( \frac{n}{\sigma}, \frac{n}{\sigma^2} \right) .
+            \end{gather*}
+            Система
+            \begin{gather*}
+                  \left \{
+                  \begin{array}{l}
+                        1 - \Phi \left( \frac{\widetilde{h} - \frac{n}{\sigma_0}}{\sqrt{\frac{n}{\sigma_0^2}}} \right ) = \alpha , \\
+                        \Phi \left( \frac{\widetilde{h} - \frac{n}{\sigma_1}}{\sqrt{\frac{n}{\sigma_1^2}}} \right ) = \beta
+                  \end{array}
+                  \right .
+                  \left \{
+                  \begin{array}{l}
+                        \frac{\sigma_0 \widetilde{h} - n}{\sqrt{n}} = \Phi^{-1} (1 - \alpha) , \\
+                        \frac{\sigma_1 \widetilde{h} - n}{\sqrt{n}} = \Phi^{-1}(\beta)
+                  \end{array}
+                  \right .
+                  \left \{
+                  \begin{array}{l}
+                        \sigma_0 \widetilde{h} = n + \sqrt{n} \Phi^{-1} (1 - \alpha) , \\
+                        \sigma_1 \widetilde{h} = n + \sqrt{n} \Phi^{-1}(\beta)
+                  \end{array}
+                  \right . \\
+                  %
+                  \sigma_1 n + \sigma_1 \sqrt{n} \Phi^{-1} (1 - \alpha) = \sigma_0 n + \sigma_0 \sqrt{n} \Phi^{-1}(\beta) , \\
+                  \sigma_1 \sqrt{n} + \sigma_1 \Phi^{-1} (1 - \alpha) = \sigma_0 \sqrt{n} + \sigma_0 \Phi^{-1}(\beta) , \\
+                  \sqrt{n}
+                  = \frac{\sigma_1 \Phi^{-1} (1 - \alpha) - \sigma_0 \Phi^{-1}(\beta)}{\sigma_0 - \sigma_1}
+                  \approx \frac{1 \cdot 2.326 - 2 \cdot (-1.645)}{2 - 1}
+                  = 5.616, \\
+                  n \approx 31.53 < 32, \\
+                  %
+                  \widetilde{h}
+                  = \frac{\sqrt{n} \left( \Phi^{-1} (1 - \alpha) - \Phi^{-1}(\beta) \right)}{\sigma_0 - \sigma_1}
+                  \approx \frac{5.616 (2.326 - (-1.645))}{2 - 1}
+                  \approx 22.3 .
+            \end{gather*}
+
+      \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из геометрического распределения $Geom(p)$ с распределением:
+            \begin{gather*}
+                  \probability{\xi_i = k} = (1-p)^{k-1} p, \\
+                  k = 1, 2, \dots \\
+                  \expectation{\xi_i} = \frac{1}{p} .
+            \end{gather*}
+            Вероятность $p$ неизвестна. Рассматриваются гипотезы:
+            \begin{gather*}
+                  H_0: p = p_0 , \\
+                  H_1: p = p_1 ,
+            \end{gather*}
+            где $p_0 = 0.6$ и $p_1 = 0.5$. Постройте последовательный критерий отношения вероятностей для вероятностей ошибок $\alpha = 0.03$
+            и $\beta = 0.01$. Определите средние количества наблюдений до остановки критерия.
+
+            Решение:
+
+            Критерий:
+            \begin{gather*}
+                  \frac{\beta}{1 - \alpha} < \frac{(1-p_1)^{\sum_{k=1}^n \xi_k - n} p_1^n}{(1-p_0)^{\sum_{k=1}^n \xi_k - n} p_0^n} < \frac{1 - \beta}{\alpha} , \\
+                  \frac{\beta}{1 - \alpha} < \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)^n \left( \frac{1-p_1}{1-p_0} \right)^{\sum_{k=1}^n \xi_k} < \frac{1 - \beta}{\alpha} , \\
+                  \ln \frac{\beta}{1 - \alpha} < n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right) + \sum_{k=1}^n \xi_k \ln \left( \frac{1-p_1}{1-p_0} \right) < \ln \frac{1 - \beta}{\alpha} , \\
+                  \frac{\ln \frac{\beta}{1 - \alpha} - n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)}{\ln \left( \frac{1-p_1}{1-p_0} \right)} <  \sum_{k=1}^n \xi_k < \frac{\ln \frac{1 - \beta}{\alpha} - n \ln \left( \frac{p_1}{p_0} \frac{1-p_0}{1-p_1} \right)}{\ln \left( \frac{1-p_1}{1-p_0} \right)} .
+            \end{gather*}
+
+            Средние количества:
+            \begin{multline*}
+                  \zeta
+                  = \ln \left( \frac{(1-p_1)^{\xi-1} p_1}{(1-p_0)^{\xi-1} p_0} \right)
+                  = \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) + \xi \ln \left( \frac{1-p_1}{1-p_0} \right) \approx \\
+                  %
+                  \approx \ln \left( \frac{0.5}{1-0.5} \frac{1-0.6}{0.6} \right) + \xi \ln \left( \frac{1-0.5}{1-0.6} \right)
+                  = \ln \left( \frac{0.4}{0.6} \right) + \xi \ln \left( \frac{0.5}{0.4} \right)
+                  \approx -0.405 + 0.223 \cdot \xi
+            \end{multline*}
+            \begin{gather*}
+                  \ln \frac{\beta}{1-\alpha} = \ln \frac{0.01}{1-0.03} = -4.575 , \\
+                  \ln \frac{1-\beta}{\alpha} = \ln \frac{1-0.01}{0.03} = 3.497 , \\
+                  %
+                  \cexpectation{\nu}{p_0}
+                  \approx \frac{-4.575 \cdot (1-0.03) + 3.497 \cdot 0.03}{-0.405 + 0.223 \cdot \frac{1}{0.6}}
+                  \approx \frac{-4.33}{-0.0(3)}
+                  \approx 130 , \\
+                  %
+                  \cexpectation{\nu}{p_1}
+                  \approx \frac{-4.575 \cdot 0.01 + 3.497 \cdot (1-0.01)}{-0.405 + 0.223 \cdot \frac{1}{0.5}}
+                  \approx \frac{3.416}{0.041}
+                  \approx 83.3 .
+            \end{gather*}
+
+      \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ бинарных величин с распределением:
+            \begin{gather*}
+                  \probability{\xi_i = k} = p^k (1-p)^{1-k}, \\
+                  k = 0,1.
+            \end{gather*}
+            Вероятность $p$ неизвестна. Рассматриваются гипотезы:
+            \begin{gather*}
+                  H_0: p = p_0 , \\
+                  H_1: p = p_1 ,
+            \end{gather*}
+            где $p_0 = 0.5$ и $p_1 = 0.3$. Постройте последовательный критерий отношения вероятностей с вероятностями ошибок $\alpha = 0.02$ и
+            $\beta = 0.05$. Определите средние количества наблюдений до остановки критерия.
+
+            Решение:
+
+            \begin{gather*}
+                  \frac{\beta}{1-\alpha} < \frac{p_1^{\sum_{k=1}^n \xi_k}(1-p_1)^{n - \sum_{k=1}^n \xi_k}}{p_0^{\sum_{k=1}^n \xi_k}(1-p_0)^{n - \sum_{k=1}^n \xi_k}} < \frac{1-\beta}{\alpha} , \\
+                  \frac{\beta}{1-\alpha} < \left( \frac{1-p_1}{1-p_0} \right)^n \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)^{\sum_{k=1}^n \xi_k} < \frac{1-\beta}{\alpha} , \\
+                  \ln \frac{\beta}{1-\alpha} < n \ln \left( \frac{1-p_1}{1-p_0} \right) + \sum_{k=1}^n \xi_k \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) < \frac{1-\beta}{\alpha} , \\
+                  \frac{\ln \frac{\beta}{1-\alpha} - n \ln \left( \frac{1-p_1}{1-p_0} \right)}{\ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)} >  \sum_{k=1}^n \xi_k > \frac{\frac{1-\beta}{\alpha} - n \ln \left( \frac{1-p_1}{1-p_0} \right)}{\ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right)} .
+            \end{gather*}
+
+            \begin{multline*}
+                  \zeta
+                  = \ln \left( \frac{p_1^\xi (1-p_1)^{1-\xi}}{p_0^\xi (1-p_0)^{1-\xi}} \right)
+                  = \ln \left( \frac{1-p_1}{1-p_0} \right) + \xi \ln \left( \frac{p_1}{1-p_1} \frac{1-p_0}{p_0} \right) = \\
+                  %
+                  = \ln \frac{0.7}{0.5} + \xi \ln \frac{0.3}{0.7}
+                  \approx 0.336 - 0.847 \xi
+            \end{multline*}
+
+            \begin{gather*}
+                  \ln \frac{\beta}{1-\alpha} = \ln \frac{0.05}{0.98} \approx -2.98 , \\
+                  \ln \frac{1-\beta}{\alpha} = \ln \frac{0.95}{0.02} \approx 3.86 , \\
+                  %
+                  \cexpectation{\nu}{p_0}
+                  \approx \frac{-2.98 \cdot (1-0.02) + 3.86 \cdot 0.02}{0.336 - 0.847 \cdot 0.5}
+                  \approx \frac{-2.843}{-0.0875}
+                  \approx 32.49 , \\
+                  %
+                  \cexpectation{\nu}{p_1}
+                  \approx \frac{-2.98 \cdot 0.05 + 3.86 \cdot (1-0.05)}{0.336 - 0.847 \cdot 0.3}
+                  \approx \frac{3.518}{0.0819}
+                  \approx 42.955 .
+            \end{gather*}
+
+      \item Задана выборка $\left( \xi_1, \dots, \xi_n \right)$ из распределения с плотностью вероятности $p_\xi(x | \sigma)$:
+            \[
+                  p_\xi(x) = \left \{
+                  \begin{array}{ll}
+                        0,                                                         & x < 0   \\
+                        \sqrt{\frac{2}{\pi \sigma^2}} e^{-\frac{x^2}{2 \sigma^2}}, & x \ge 0
+                  \end{array}
+                  \right .
+            \]
+            Параметр $\sigma$ неизвестен. Рассматриваются гипотезы:
+            \begin{gather*}
+                  H_0: \sigma = \sigma_0 , \\
+                  H_1: \sigma = \sigma_1 ,
+            \end{gather*}
+            где $\sigma_0 = 3$, $\sigma_1 = 2$. Постройте минимаксный критерий при $n = 100$. Определите вероятности ошибок первого и второго рода
+            полученного критерия.
+\end{enumerate}
+
+\section*{Лабораторная работа 8}
+
+\subsection*{Теория}
+
+Рекомендуемые наборы вопросов:
+\begin{itemize}
+      \item 1(a) и один из 1(b) -- 1(f);
+      \item 2(a) и один из 2(b) -- 2(e).
+\end{itemize}
+
+\begin{enumerate}
+      \item Линейная регрессия.
+            \begin{enumerate}
+                  \item Постановка задачи.
+                  \item Вывод нормальной системы метода наименьших квадратов.
+                  \item Свойства оценки по методу наименьших квадратов с доказательством.
+                  \item Операторы проецирования. Средние значения квадратов норм возмущения $\norm{\varepsilon}_W^2$ и проекций
+                        $\norm{\pr{\varepsilon}{L}}_W^2$, $\norm{\pro{\varepsilon}{L}}_W^2$.
+                  \item Некоррелированность векторов оценки $\widehat{\theta}$ и проекции $\pro{\varepsilon}{L}$, проекций $\pr{\varepsilon}{L}$
+                        и $\pro{\varepsilon}{L}$.
+                  \item Коэффициенты детерминации $R^2$ и $R_{adj}^2$. Значения $R^2$ при наличии постоянной в базисных функциях.
+            \end{enumerate}
+      \item Нормальная линейная регрессия.
+            \begin{enumerate}
+                  \item Постановка задачи.
+                  \item Распределения оценки $\widehat{\theta}$ и квадратов норм $\norm{\varepsilon}_W^2$, $\norm{\pr{\varepsilon}{L}}_W^2$,
+                        $\norm{\pro{\varepsilon}{L}}_W^2$.
+                  \item Доверительный интервал для компонент параметра $\widetilde{\theta}_i$, проверка гипотезы $H_0: \widetilde{\theta}_i = 0$,
+                        против $H_1: \widetilde{\theta}_i \neq 0$.
+                  \item Доверительная область для $\widetilde{\theta}$, проверка гипотезы $H_0: \widetilde{\theta} = 0$ против
+                        $H_1: \widetilde{\theta} \neq 0$.
+                  \item Оценка остаточной дисперсии $\sigma^2$, доверительный интервал для $\sigma^2$.
+            \end{enumerate}
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item Получены значения величины $\eta$ при различных значениях $x$:
+
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & -1 & 0.5 & 1 \\
+                        \hline
+                        $\eta$ & -1 & 5   & 2 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + \frac{1}{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        2 & 0 & 0 \\
+                        0 & 2 & 0 \\
+                        0 & 0 & 1
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item коэффициенты детерминации $R^2$ и $R_{adj}^2$.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    1.625 & 2   \\
+                                    2     & 3.5
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    -1.(1) \\
+                                    2.(7)
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    3.75 \\
+                                    7.5
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    2.07407  & -1.18519 \\
+                                    -1.18519 & 0.96296  \\
+                              \end{pmatrix}
+                        $
+
+                  \item
+                        \begin{gather*}
+                              \pr{\eta}{L} =
+                              \begin{pmatrix}
+                                    -1.(6) \\
+                                    5      \\
+                                    1.(6)
+                              \end{pmatrix},
+                              \norm{\pr{\eta}{L}}_W = \frac{16.(6)}{\sigma} ,
+                              \norm{\pr{\eta}{L}}_W^2 = \frac{4.08}{\sigma^2} , \\
+                              %
+                              \pro{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.(6) \\
+                                    0     \\
+                                    0.(3)
+                              \end{pmatrix} ,
+                              \norm{\pro{\eta}{L}}_W = \frac{0.(3)}{\sigma} ,
+                              \norm{\pro{\eta}{L}}_W^2 = \frac{0.57}{\sigma^2} , \\
+                              %
+                              \widehat{c} = 2,
+                              U \widehat{c} =
+                              \begin{pmatrix}
+                                    -3 \\
+                                    3  \\
+                                    0
+                              \end{pmatrix},
+                              \norm{U \widehat{c}}_W = \frac{3}{\sigma},
+                              \norm{U \widehat{c}}_W^2 = \frac{9}{\sigma^2}, \\
+                              %
+                              R^2 = 0.96296, R_{adj}^2 = 0.92593 .
+                        \end{gather*}
+            \end{enumerate}
+
+      \item Получены значения величины $\eta$ при различных значениях $x$:
+
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & -1 & 1   & 2 \\
+                        \hline
+                        $\eta$ & 2  & 0.5 & 2 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + x^2 \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        1 & 0   & 0 \\
+                        0 & 0.5 & 0 \\
+                        0 & 0   & 1
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item доверительные интервалы для $\widetilde{\theta}_1$ и $\widetilde{\theta}_2$ с уровнем доверия $P_g = 0.95$
+                  \item проверьте гипотезы $\widetilde{\theta}_1 = 0$ или $\widetilde{\theta}_2 = 0$ при уровне значимости $\alpha = 0.2$.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    7 & 9  \\
+                                    9 & 19
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    -0.80769 \\
+                                    0.96154
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    3 \\
+                                    11
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    0.36538  & -0.17308 \\
+                                    -0.17308 & 0.13462  \\
+                              \end{pmatrix}
+                        $
+
+                  \item Доверительные интервалы:
+                        \begin{gather*}
+                              T^{-1}(P_g) = 12.706 , \\
+                              \widetilde{\theta_1} \in (-0.80769 - 4.51883, -0.80769 + 4.51883) = (-5.32652, 3.71113) , \\
+                              \widetilde{\theta_2} \in (0.96154 - 2.74282, 0.96154 + 2.74282) = (-1.78128, 3.70436) , \\
+                        \end{gather*}
+
+                  \item Проверка гипотез --- интервалы с уровнем доверия $1 - 0.2 = 0.8$.
+                        \begin{gather*}
+                              T^{-1}(P_g) = 31.821 , \\
+                              \widetilde{\theta_1} \in (-0.80769 - 1.09455, -0.80769 + 1.09455) = (-1.90224, 0.28685) , \\
+                              \widetilde{\theta_2} \in (0.96154 - 0.66436, 0.96154 + 0.66436) = (0.29717, 1.62590) ,
+                        \end{gather*}
+                        $\widetilde{\theta}_1 = 0$ принимается, $\widetilde{\theta}_2 = 0$ отклоняется.
+            \end{enumerate}
+
+      \item Получены значения величины $\eta$ при различных значениях $x$:
+
+            \begin{center}
+                  \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        $x$    & 1 & 4 & 9  \\
+                        \hline
+                        $\eta$ & 2 & 6 & 16 \\
+                        \hline
+                  \end{tabular}
+            \end{center}
+
+            Для регрессии вида
+            \begin{gather*}
+                  \eta = x \cdot \widetilde{\theta}_1 + \sqrt{x} \cdot \widetilde{\theta}_2 + \varepsilon , \\
+                  \varepsilon \sim \mathcal{N} ( 0, K ), \\
+                  K =
+                  \sigma^2
+                  \begin{pmatrix}
+                        2 & 0 & 0  \\
+                        0 & 2 & 0  \\
+                        0 & 0 & 10
+                  \end{pmatrix}
+            \end{gather*}
+            вычислите:
+            \begin{enumerate}
+                  \item оценку $\widehat{\theta}$ по методу наименьших квадратов,
+                  \item ковариационную матрицу оценки $\widehat{\theta}$,
+                  \item проверьте гипотезу $(\widetilde{\theta}_1, \widetilde{\theta}_2) = (0, 0)$ при уровне значимости $\alpha = 0.05$,
+                  \item оцените $\sigma^2$,
+                  \item постройте доверительный интервал для $\sigma^2$ с уровнем доверия 0.8.
+            \end{enumerate}
+
+            Решение:
+            \begin{enumerate}
+                  \item Нормальная система:
+                        $
+                              \begin{pmatrix}
+                                    16.6 & 7.2 \\
+                                    7.2  & 3.4
+                              \end{pmatrix}
+                              \begin{pmatrix}
+                                    2.19565 \\
+                                    -1.32609
+                              \end{pmatrix}
+                              =
+                              \begin{pmatrix}
+                                    29.9 \\
+                                    11.3
+                              \end{pmatrix}
+                        $
+
+                  \item Ковариационная матрица оценки:
+                        $
+                              \sigma^2
+                              \begin{pmatrix}
+                                    0.73913  & -1.56522 \\
+                                    -1.56522 & 3.60870
+                              \end{pmatrix}
+                        $
+
+                  \item
+                        \begin{gather*}
+                              \pr{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.86957 \\
+                                    6.13043 \\
+                                    15.78261
+                              \end{pmatrix},
+                              \norm{\pr{\eta}{L}}_W = \frac{6.63915}{\sigma} ,
+                              \norm{\pr{\eta}{L}}_W^2 = \frac{44.07826}{\sigma^2} , \\
+                              %
+                              \pro{\eta}{L} =
+                              \begin{pmatrix}
+                                    0.13043  \\
+                                    -0.13043 \\
+                                    0.21739
+                              \end{pmatrix} ,
+                              \norm{\pro{\eta}{L}}_W = \frac{0.14744}{\sigma} ,
+                              \norm{\pro{\eta}{L}}_W^2 = \frac{0.02174}{\sigma^2} , \\
+                              %
+                              F = 1013.8, \alpha^* = 0.02220,
+                        \end{gather*}
+                        гипотеза принимается.
+                  \item $\widehat{\sigma}^2 = 0.02174$
+                  \item $\left( \frac{0.02174}{2.705543}, \frac{0.02174}{0.015791} \right) = \left( 0.00804, 1.37670 \right)$
+            \end{enumerate}
+\end{enumerate}
+
+\section*{Лабораторная работа 9}
+
+\subsection*{Теория}
+
+Рекомендуется давать два вопроса:
+\begin{itemize}
+      \item вопрос 1,
+      \item один из вопросов 2--4, тот который не совпадает с вопросом задачи.
+\end{itemize}
+
+Вопросы:
+\begin{enumerate}
+      \item Общий принцип методов статистических испытаний.
+      \item Метод статистических испытаний для вычисления значений функций распределений.
+      \item Метод статистических испытаний для вычисления математического ожидания функции случайных величин.
+      \item Метод статистических испытаний для вычисления определённых интегралов.
+\end{enumerate}
+
+\subsection*{Практика}
+
+\begin{enumerate}
+      \item Случайная величина $\eta = \sin \xi \cdot \cos \varphi$, где величина $\xi \sim \mathcal{N} (2, 4)$ и
+            величина $\varphi \sim \mathcal{N} (5, 1)$. Постройте метод статистических испытаний для оценки значения функции распределения
+            $F_\eta(y)$ величины $\eta$ в заданной точке $y_0$ с отклонением менее $\delta = 10^{-4}$ с вероятностью более $P_\delta = 0.95$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $\xi \sim \mathcal{N} \left( 2, 4 \right)$, $(\varphi_1, \dots, \varphi_n)$ --- выборка из $\mathcal{N} (2, 5)$,
+            оценка:
+            \begin{gather*}
+                  \eta_k = \sin \xi_k \cos \varphi_k , \\
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < y_0 \\
+                        0, \eta_k \ge y_0
+                  \end{array}
+                  \right . , \\
+                  F_\eta(y_0) \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+            Требуемый объём выборок:
+            \begin{gather*}
+                  n
+                  \ge \left( K^{-1} ( P_\delta ) \right)^2 \frac{1}{\delta^2}
+                  \approx 1.3581^2 \frac{1}{10^{-8}}
+                  \approx 1,84443561 \cdot 10^8
+                  = 184 443 561 , \\
+                  %
+                  n \ge  \left( \Phi^{-1} \left( 0.975 \right) \right)^2 \frac{\frac{1}{4}}{\left(10^{-4}\right)^2}
+                  \approx 1.96^2 \cdot 0.25 \cdot 10^8
+                  = 0.9604 10^8
+                  = 96 040 000.
+            \end{gather*}
+
+      \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{\sqrt{e}}^{e^2} \ln x^2 dx
+            \]
+            с точностью менее $\delta = 0.001$ с вероятностью $P_\delta = 0.95$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [\sqrt{e}, e^2]: 1 \le \ln x^2 \le 4 , \\
+                  %
+                  J
+                  = (4 - 1) (e^2 - \sqrt{e}) \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - 1}{4 - 1} dx + 1 (e^2 - \sqrt{e}).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\ln (\sqrt{e} + (e^2 - \sqrt{e}) x)^2 - 1}{4 - 1} dx
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборки:
+            \begin{multline*}
+                  n
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.95}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( e^2 - \sqrt{e} \right) (4 - 1)} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.975 ) \cdot 0.5 \cdot \left( e^2 - \sqrt{e} \right) 3 \right)^2 10^6
+                  \approx \left( 1.96 \cdot 0.5 \cdot 5.7403 \cdot 3 \right)^2 10^6 \approx \\
+                  %
+                  \approx 16.876482^2 \cdot 10^6
+                  \approx 284.815644696 \cdot 10^6
+                  \le 284 815 645.
+            \end{multline*}
+
+      \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{-1}^{1} \cos \arctg x dx
+            \]
+            с точностью менее $\delta = 0.01$ с вероятностью $P_\delta = 0.99$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [-1, 1]: \frac{1}{\sqrt{2}} \le \cos \arctg x \le 1 , \\
+                  %
+                  J
+                  = \left( 1 - \frac{1}{\sqrt{2}} \right) (1 - (-1)) \int \limits_{0}^{1} \frac{\cos \arctg (-1 + 2 x) - \frac{1}{\sqrt{2}}}{1 - \frac{1}{\sqrt{2}}} dx + \frac{1}{\sqrt{2}} \cdot (1 - (-1)).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\cos \arctg (-1 + 2 x) - \frac{1}{\sqrt{2}}}{1 - \frac{1}{\sqrt{2}}} dx
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборок:
+            \begin{multline*}
+                  n
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.99}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-2}}{\left( 1 - \frac{1}{\sqrt{2}} \right) (1 - (- 1))} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.995 ) \cdot 0.5 \cdot \left( 1 - \frac{1}{\sqrt{2}} \right) 2 \right)^2 10^4
+                  \approx \left( 2.576 \cdot 0.5 \cdot 0.2929 \cdot 2 \right)^2 10^6 \approx \\
+                  %
+                  \approx 0.7545104^2 \cdot 10^4
+                  \approx 0.569285944 \cdot 10^4
+                  \approx 5693.
+            \end{multline*}
+
+      \item Случайная величина $\eta = e^{\sin \xi}$, где величина $\xi \sim E(1)$. Постройте метод статистических испытаний для оценки
+            $\expectation{\eta}$ с отклонением менее $\delta = 10^{-3}$ с вероятностью более $P_\delta = 0.9$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $E(1)$, оценка:
+            \begin{gather*}
+                  \eta_k = e^{\sin \xi_k} , \\
+                  \expectation{\eta} \approx \frac{1}{n} \sum_{k=1}^n \eta_k .
+            \end{gather*}
+            Ограничение дисперсии:
+            \[
+                  \variance{\eta_k}
+                  = \left( \frac{e - \frac{1}{e}}{2} \right)^2
+                  \approx \left( \frac{2.7182 - 0.3678}{2} \right)^2
+                  = \left( \frac{2.3504}{2} \right)^2
+                  = \left( 1.1752 \right)^2
+                  \approx 1.3811.
+            \]
+            Требуемый объём выборки:
+            \[
+                  n
+                  \ge \left( \Phi^{-1} \left( 0.95 \right) \right)^2 \frac{1.3811}{10^{-6}}
+                  \approx 1.645^2 \cdot 1.3811 \cdot 10^6
+                  \approx 3.737292 \cdot 10^6
+                  = 3 737 292 .
+            \]
+
+            \item Случайная величина $\eta = \ln^2 \xi$, где величина $\xi \sim \mathcal{R}[2, 3]$. Постройте метод статистических испытаний для оценки
+            $\expectation{\eta}$ с отклонением менее $\delta = 10^{-2}$ с вероятностью более $P_\delta = 0.95$.
+
+            Решение:
+
+            $(\xi_1, \dots, \xi_n)$ --- выборка из $\mathcal{R}[2, 3]$, оценка:
+            \begin{gather*}
+                  \eta_k = \ln^2 \xi_k , \\
+                  \expectation{\eta} \approx \frac{1}{n} \sum_{k=1}^n \eta_k .
+            \end{gather*}
+            Ограничение дисперсии:
+            \[
+                  \variance{\eta_k}
+                  \le \left( \frac{\ln^2 3 - \ln^2 2}{2} \right)^2
+                  = \left( \frac{1.2069 - 0.4805}{2} \right)^2
+                  = \left( \frac{0.7264}{2} \right)^2
+                  = \left( 0.3632 \right)^2
+                  \approx 0.1319 .
+            \]
+            Требуемый объём выборки:
+            \[
+                  n
+                  \ge \left( \Phi^{-1} \left( 0.975 \right) \right)^2 \frac{0.1319}{\left( 10^{-2} \right)^2}
+                  \approx 1.96^2 \cdot 0.1319 \cdot 10^4
+                  \approx 0.5067 \cdot 10^4
+                  = 5067 .
+            \]
+
+            \item Постройте метод статистических испытаний для вычисления интеграла
+            \[
+                  J = \int \limits_{1}^{3} \cos \sqrt{x} dx
+            \]
+            с точностью менее $\delta = 0.001$ с вероятностью $P_\delta = 0.98$.
+
+            Решение:
+
+            \begin{gather*}
+                  x \in [1, 3]: \cos \sqrt{3} \le \cos x \le \cos 1 , \\
+                  %
+                  J
+                  = \left( \cos 1 - \cos \sqrt{3} \right) (3 - 1) \int \limits_{0}^{1} \frac{\cos \sqrt{1 + 2 x} - \cos \sqrt{3}}{\cos 1 - \cos \sqrt{3}} dx + \cos \sqrt{3} (3 - 1).
+            \end{gather*}
+            Вычисляется
+            \[
+                  \widetilde{J}
+                  = \int \limits_{0}^{1} \frac{\cos \sqrt{1 + 2 y} - \cos \sqrt{3}}{\cos 1 - \cos \sqrt{3}} dy
+                  = \int \limits_{0}^{1} \widetilde{f}(y) dy .
+            \]
+            $(\xi_1, \dots, \xi_n)$ и $(\eta_1, \dots, \eta_n)$ --- независимые выборки из $\mathcal{R} [0, 1]$:
+            \begin{gather*}
+                  \varepsilon_k = \left \{
+                  \begin{array}{ll}
+                        1, \eta_k < \widetilde{f}(\xi_k) \\
+                        0, \eta_k \ge \widetilde{f}(\xi_k)
+                  \end{array}
+                  \right . , \\
+                  %
+                  \widetilde{J} \approx \frac{1}{n} \sum_{k=1}^n \varepsilon_k .
+            \end{gather*}
+
+            Требуемый объём выборок:
+            \begin{multline*}
+                  n
+                  \ge \left( \Phi^{-1} \left( \frac{1 + 0.98}{2} \right) \right)^2 \frac{\frac{1}{4}}{\left( \frac{10^{-3}}{\left( \cos 1 - \cos \sqrt{3} \right) (3 - 1)} \right)^2} = \\
+                  %
+                  = \left( \Phi^{-1} ( 0.99 ) \cdot 0.5 \cdot \left( \cos 1 - \cos \sqrt{3} \right) 2 \right)^2 10^6
+                  \approx \left( 2.326 \cdot 0.5 \cdot 0.7 \cdot 2 \right)^2 10^6 \approx \\
+                  %
+                  \approx 1.6282^2 \cdot 10^6
+                  \approx 2.65103524 \cdot 10^6
+                  \approx 2 651 035 .
+            \end{multline*}
+\end{enumerate}
+
+\begin{thebibliography}{2}
+      \bibitem{Efimov} Сборник задач по математике, часть 4 // Под редакцией Ефимова А.В. и Поспелова А.С. - М.: Издательство Физико-математической
+      литературы, 2003. - 432 с.
+      \bibitem{Ivchenko} Сборник задач по математической статистике // Г.И. Ивченко, Ю.И. Медведев, А.В. Чистяков - М.: Высшая школа, 1989. - 255 с.
+\end{thebibliography}
+
+\end{document}

@@ -1,69 +1,103 @@
 import numpy
 from scipy import stats
-
-generator = numpy.random.default_rng()
-sample = generator.normal(loc=2.5, scale=3.0, size=10000)
-print(f'Mean: {sample.mean()}, Std: {sample.std()}')
-
-deviation = numpy.sqrt(stats.moment(sample, 2))
-skewness = stats.moment(sample, 3)/numpy.power(deviation, 3)
-kurtosis = stats.moment(sample, 4)/numpy.power(deviation, 4)
-print(f'Skewness: {skewness}, kurtosis: {kurtosis}')
-
-print(numpy.histogram(sample, bins=20, density=True))
-
-import pandas
-series = pandas.Series(sample)
-print(series.agg(['min', 'max', 'mean', 'std']))
-
 from matplotlib import pyplot
 
-# диаграмма размаха
-pyplot.figure()
-pyplot.boxplot(sample, vert=False)
-pyplot.grid()
+distributions = (
+    {'name': 'Равномерное',
+        'cdf': lambda x: stats.uniform.cdf(x, -1, 3),
+        'cdf arguments': numpy.array([-1, 2]),
+        'sample': lambda volume: stats.uniform.rvs(-1, 3, size=volume),
+        'bins': numpy.linspace(-1, 2, 30),
+        'moments' : stats.uniform.stats(-1, 3, 'mvs')},
+    {'name': 'Нормальное',
+        'cdf': lambda x: stats.norm.cdf(x, 1, 2),
+        'cdf arguments': numpy.linspace(-5, 6, 20),
+        'sample': lambda volume: stats.norm.rvs(1, 2, size=volume),
+        'bins': numpy.linspace(-5, 6, 40),
+        'moments' : stats.norm.stats(1, 2, 'mvs')},
+    {'name': 'Показательное',
+        'cdf': lambda x: stats.expon.cdf(x, 0, 1/2),
+        'cdf arguments': numpy.linspace(0, 4, 20),
+        'sample': lambda volume: stats.expon.rvs(0, 1/2, size=volume),
+        'bins': numpy.linspace(0, 3, 30),
+        'moments' : stats.expon.stats(0, 1/2, 'mvs')},
+    {'name': 'Биномиальное',
+        'cdf': lambda x: stats.binom.cdf(x, 8, 0.3),
+        'cdf arguments': range(9),
+        'sample': lambda volume: stats.binom.rvs(8, 0.3, size=volume),
+        'bins': numpy.array(range(9)),
+        'moments' : [8*0.3, 8*0.3*0.7, 0]}
+)
+
+# Задача 1
+sizes = [10]*3
+for distribution in distributions:
+    # наименование распределения
+    print(distribution['name'])
+    for size in sizes:
+        # реализация выборки
+        sample = distribution['sample'](size)
+        # реализация вариационного ряда
+        print(numpy.sort(sample))
+
+
+# Задачи 2 и 3
+# графики реализаций эмпирической функции распределения
+def plot_empirical_functions(sizes):
+    for distribution in distributions:
+        pyplot.figure()
+        for size in sizes:
+            # реализация выборки
+            sample = distribution['sample'](size)
+            # реализация эмпирической функции распределения
+            ecdf = stats.ecdf(sample)
+            ecdf.cdf.plot(pyplot, label=size)
+        # функция распределения
+        if distribution['name'] == 'Биномиальное':
+            pyplot.step(distribution['cdf arguments'],
+                        distribution['cdf'](distribution['cdf arguments']),
+                        where='pre',
+                        label='cdf')
+        else:
+            pyplot.plot(distribution['cdf arguments'],
+                        distribution['cdf'](distribution['cdf arguments']),
+                        label='cdf')
+        pyplot.title(distribution['name'])
+        pyplot.legend()
+        pyplot.grid()
+
+
+plot_empirical_functions([10, 10, 10])
+pyplot.show()
+plot_empirical_functions([10, 100, 1000])
 pyplot.show()
 
-# гистограмма
-pyplot.figure()
-pyplot.hist(sample, bins=20, density=True, cumulative=True)
-pyplot.grid()
+# Задача 4
+volume = 100
+for distribution in distributions:
+    # выборка
+    sample = distribution['sample'](volume)
+    # количества
+    counts, _ = numpy.histogram(sample, bins=distribution['bins'])
+    # частоты
+    counts = counts / sample.size
+    # середины и размеры отрезков разбиения
+    center = (distribution['bins'][:-1] + distribution['bins'][1:])/2
+    width = distribution['bins'][:-1] - distribution['bins'][1:]
+    # рисунок
+    pyplot.figure()
+    pyplot.bar(center, counts, width)
+    pyplot.title(distribution['name'])
+    pyplot.grid()
 pyplot.show()
 
-
-# # гистограмма
-# pyplot.figure()
-# #series.plot.kde()
-# series.plot.hist(density=True, bins=20)
-# #pyplot.grid()
-# pyplot.show()
-
-# ЭФР
-sorted = sample
-sorted.sort()
-sorted = numpy.append(sorted, sorted[-1]+1)
-print(sorted)
-increments = numpy.array(range(0,sorted.size))
-increments = increments / (sorted.size-1)
-pyplot.figure()
-pyplot.step(sorted, increments)
-pyplot.grid()
-pyplot.show()
-
-# Отрезки, ступеньки, маркеры
-x = [1, 2.2, 3]
-y = [0, 0.3, 1]
-pyplot.figure()
-pyplot.subplot(311)
-pyplot.plot(x, y, color='red')
-pyplot.title('Line')
-pyplot.grid()
-pyplot.subplot(312)
-pyplot.step(x, y)
-pyplot.title('Steps')
-pyplot.grid()
-pyplot.subplot(313)
-pyplot.scatter(x, y, color='green', s=100, marker='^')
-pyplot.title('Markers')
-pyplot.grid()
-pyplot.show()
+# Задача 5
+volume = 10000
+for distribution in distributions:
+    sample = distribution['sample'](volume)
+    print(distribution['name'])
+    moments = distribution['moments']
+    print(f'1 начальный: {stats.moment(sample, order=1, center=0):.3f} - {moments[0]:.3f}')
+    print(f'2 начальный: {stats.moment(sample, order=2, center=0):.3f} - {moments[1]+moments[0]**2:.3f}')
+    print(f'2 центральный: {stats.moment(sample, order=2):.3f} - {moments[1]:.3f}')
+    print(f'3 центральный: {stats.moment(sample, order=3):.3f} - {moments[2]*moments[1]:.3f}')
